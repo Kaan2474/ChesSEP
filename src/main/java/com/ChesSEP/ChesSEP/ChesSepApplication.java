@@ -1,4 +1,4 @@
-package com.SEP_Gruppe_I.backend.ChesSEP;
+package com.ChesSEP.ChesSEP;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
