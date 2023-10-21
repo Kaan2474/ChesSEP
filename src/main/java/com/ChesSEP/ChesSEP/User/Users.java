@@ -17,7 +17,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class User{
+public class Users{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role Role;
     
-    public User (String vorname,String nachname, String email, String password, Role Role){
+    public Users (String vorname,String nachname, String email, String password, Role Role){
         this.vorname=vorname;
         this.nachname=nachname;
         this.email=email;

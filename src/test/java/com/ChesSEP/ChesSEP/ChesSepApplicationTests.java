@@ -1,29 +1,41 @@
 package com.ChesSEP.ChesSEP;
 
-import java.util.List;
-
+import org.h2.engine.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import com.ChesSEP.ChesSEP.User.Role;
-import com.ChesSEP.ChesSEP.User.User;
+import com.ChesSEP.ChesSEP.User.UserRepository;
+import com.ChesSEP.ChesSEP.User.Users;
 import com.ChesSEP.ChesSEP.User.UserService;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@TestPropertySource(properties = {
+	"spring.jpa.defer-database-initialization=true",
+	"spring.jpa.hibernate.ddl.auto=create-drop"
+})
 class ChesSepApplicationTests {
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private UserService userService;
 
 	@Test
-	public void UserRepository_getAllUsers(){
+	public void UserRepository_saveUser_returnsUser(){
 		//Arrange
-		userService.createUser("Jonas", "Giesen", "jonas@gmail.com", "1234", Role.USER);
+		Users users =new Users("Jonas","Giesen","jonas@gmail.com","1234",Role.USER);
+		userRepository.save(users);
 
 		//Act
-		User result=userService.getAllUsers().get(0);
+		Users result=userService.getAllUsers().get(0);
 
 
 		//Assert
