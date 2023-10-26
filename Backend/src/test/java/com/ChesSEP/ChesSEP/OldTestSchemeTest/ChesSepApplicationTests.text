@@ -1,6 +1,5 @@
-package com.ChesSEP.ChesSEP;
+package com.ChesSEP.ChesSEP.OldTestSchemeTest;
 
-import org.h2.engine.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import com.ChesSEP.ChesSEP.User.Role;
-import com.ChesSEP.ChesSEP.User.UserRepository;
-import com.ChesSEP.ChesSEP.User.Users;
-import com.ChesSEP.ChesSEP.User.UserService;
+import com.ChesSEP.ChesSEP.OldTestScheme.User.Role;
+import com.ChesSEP.ChesSEP.OldTestScheme.User.UserRepository;
+import com.ChesSEP.ChesSEP.OldTestScheme.User.UserService;
+import com.ChesSEP.ChesSEP.OldTestScheme.User.Users;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)

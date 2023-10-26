@@ -1,11 +1,15 @@
 package com.ChesSEP.ChesSEP.User;
 
-import org.springframework.data.annotation.QueryAnnotation;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users,Long> {
-   
-}
+public interface UserRepository extends JpaRepository<User,Long>{
+
+    @Query("FROM User WHERE email = ?1")
+    List<User> findByEmail(String email);
+    
+} 
