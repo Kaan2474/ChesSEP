@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './PreLogin/login/login.component';
 
 import { HomepageComponent } from './PostLogin/homepage/homepage.component';
+import { RegistrationComponent } from './PreLogin/registration/registration.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { HomepageComponent } from './PostLogin/homepage/homepage.component';
     LoginComponent,
 
     HomepageComponent,
+      RegistrationComponent,
 
   ],
   imports: [
