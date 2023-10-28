@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Frontend">
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_10_2023_14_11__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_10_2023_14_11__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,29 +32,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/admin/Desktop/gruppe-i/Frontend/src/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;0ba5b4564c11c6f40134185705efe2ca&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\admin\\Desktop\\gruppe-i\\Frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/admin/Desktop/gruppe-i/Frontend/src/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "0ba5b4564c11c6f40134185705efe2ca",
+    "ts.external.directory.path": "C:\\Users\\Seher\\OneDrive\\Desktop\\SEP Projekt\\Frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend\src\app" />
@@ -105,6 +100,8 @@
       <workItem from="1698410664045" duration="2092000" />
       <workItem from="1698501098114" duration="1160000" />
       <workItem from="1698528141415" duration="893000" />
+      <workItem from="1698532380228" duration="1313000" />
+      <workItem from="1698533780909" duration="3063000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend">
       <created>1698006516048</created>
