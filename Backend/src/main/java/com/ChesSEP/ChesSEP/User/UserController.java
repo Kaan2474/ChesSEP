@@ -1,5 +1,7 @@
 package com.ChesSEP.ChesSEP.User;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserWrapper;
-import com.ChesSEP.ChesSEP.Security.RequestHolder.UserWrapper;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,12 +22,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> resgisterUser(@RequestBody UserWrapper  user){
+    public ResponseEntity<String> resgisterUser(@RequestBody UserRequestHolder  user){
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> loginUser(@RequestBody AuthUserWrapper user){
+    public ResponseEntity<String> loginUser(@RequestBody AuthUserRequestHolder user){
         return ResponseEntity.ok(userService.authenticate(user));
     }
 
