@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserWrapper;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.UserWrapper;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ public class UserService {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
 
-    public String registerUser(@NonNull User user){
+    public String registerUser(@NonNull UserWrapper user){
         User assembledUser=User.builder()
             .vorname(user.getVorname())
             .nachname(user.getNachname())
@@ -29,7 +31,7 @@ public class UserService {
             .passwort(passwordEncoder.encode(user.getPasswort()))
             .geburtsdatum(user.getGeburtsdatum())
             .elo(500)
-            .role(Role.BENUTZER)
+            .role(Role.USER)
             .build();
 
         userRepository.save(assembledUser);
@@ -39,9 +41,9 @@ public class UserService {
         return authToken;
     }
 
-    public String authenticate(User user){
+    public String authenticate(AuthUserWrapper user){
         try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPasswort()));
             List<User> foundUser = userRepository.findByEmail(user.getEmail());
             String authToken=tokenService.GenerateToken(foundUser.get(0));
 
@@ -49,5 +51,13 @@ public class UserService {
         }catch(Exception e){
             return "Fehler beim Authentifizieren: "+e;
         }
+    }
+
+    public List<User> findUserbyEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public List<User> findAllUsers(){
+        return userRepository.findAll();
     }
 }

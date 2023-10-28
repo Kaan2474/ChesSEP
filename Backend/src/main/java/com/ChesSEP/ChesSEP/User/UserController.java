@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserWrapper;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.UserWrapper;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -17,16 +20,16 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> resgisterUser(@RequestBody User user){
+    public ResponseEntity<String> resgisterUser(@RequestBody UserWrapper  user){
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> loginUser(@RequestBody User user){
+    public ResponseEntity<String> loginUser(@RequestBody AuthUserWrapper user){
         return ResponseEntity.ok(userService.authenticate(user));
     }
 
-    @GetMapping
+    @GetMapping("/hello")
     public ResponseEntity<String> HelloWorld(){
         return ResponseEntity.ok("Hello World!");
     }
