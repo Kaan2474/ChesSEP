@@ -48,12 +48,7 @@ public class TokenService {
             .getPayload();      
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
-        Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
     public String extractEmail(String token){
-        return extractClaim(token, Claims::getSubject);
+        return extractAllClaims(token).getSubject();
     }  
 }
