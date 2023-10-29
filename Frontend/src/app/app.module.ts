@@ -6,13 +6,17 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './PreLogin/login/login.component';
 import { HomepageComponent } from './PostLogin/homepage/homepage.component';
 import {RouterOutlet} from "@angular/router";
+import { RegisterComponent } from './PreLogin/register/register.component';
+import { PreHeaderComponent } from './PreLogin/pre-header/pre-header.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomepageComponent
+    HomepageComponent,
+    RegisterComponent,
+    PreHeaderComponent
   ],
   imports: [
     BrowserModule,
