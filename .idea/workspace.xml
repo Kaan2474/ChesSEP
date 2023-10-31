@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Routing Modul ergänzt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +53,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "spring.configuration.checksum": "0ba5b4564c11c6f40134185705efe2ca",
-    "ts.external.directory.path": "/Users/kaanhisi/Desktop/IdeaProjects/gruppe-i/Frontend/node_modules/typescript/lib",
+    "ts.external.directory.path": "C:\\Users\\Seher\\OneDrive\\Desktop\\SEP Projekt\\Frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -161,6 +157,17 @@
       <list>
         <option value="$PROJECT_DIR$/Frontend/node_modules/karma/config.tpl.js" />
       </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
