@@ -10,6 +10,8 @@ import { RegisterComponent } from './PreLogin/register/register.component';
 import { PreHeaderComponent } from './PreLogin/pre-header/pre-header.component';
 import { HeaderComponent } from "./PostLogin/header/header.component";
 import { AddfriendComponent } from "./PostLogin/addfriend/addfriend.component";
+import { UserProfilViewComponent } from './PostLogin/user-profil-view/user-profil-view.component';
+import { FriendProfilViewComponent } from './PostLogin/friend-profil-view/friend-profil-view.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { AddfriendComponent } from "./PostLogin/addfriend/addfriend.component";
     RegisterComponent,
     PreHeaderComponent,
     HeaderComponent,
-    AddfriendComponent
+    AddfriendComponent,
+    UserProfilViewComponent,
+    FriendProfilViewComponent
   ],
   imports: [
     BrowserModule,
