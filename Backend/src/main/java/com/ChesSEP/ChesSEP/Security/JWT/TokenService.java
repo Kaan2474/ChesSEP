@@ -19,20 +19,6 @@ public class TokenService {
     
     private final String KEY="qyYuBp3B6PUttQoE6ywZQc2R2lYQDeQ37aNg01GBF0iAQgSf/9/9QelRS+KVnkfW";
 
-    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver){
-        Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token){
-        return Jwts
-            .parser()
-            .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY)))
-            .build()
-            .parseSignedClaims(token)
-            .getPayload();      
-    }
-
     //leere map weil keine extra claims gemacht werden müssen
     public String GenerateToken(UserDetails userDetails){
         return GenerateToken(new HashMap<>(),userDetails);
@@ -44,13 +30,22 @@ public class TokenService {
             .claims(extraclaims)
             .subject(userDetails.getUsername())
             .issuedAt(new Date(System.currentTimeMillis()))
-            .expiration(new Date(System.currentTimeMillis()+ 1000*60*24))
+            .expiration(new Date(System.currentTimeMillis()+ 1000*60*60*24))
             .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY)),Jwts.SIG.HS256)
             .compact();
     }
 
     public boolean isTokenValid(UserDetails userDetails,String token){
         return extractEmail(token).equals(userDetails.getUsername())||extractAllClaims(token).getExpiration().before(new Date(System.currentTimeMillis()));
+    }
+
+    private Claims extractAllClaims(String token){
+        return Jwts
+            .parser()
+            .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY)))
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();      
     }
 
     public String extractEmail(String token){

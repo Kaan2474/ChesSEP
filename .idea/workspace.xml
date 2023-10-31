@@ -4,34 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Frontend">
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/assets/images/chess-board.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/assets/images/new-email.png" afterDir="false" />
+    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Routing Modul ergänzt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,13 +21,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2X8MN2IZ9QZrZeIkiimP3ZgPCKj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -54,38 +32,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/kaanhisi/Desktop/IdeaProjects/gruppe-i",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "spring.configuration.checksum": "0ba5b4564c11c6f40134185705efe2ca",
-    "ts.external.directory.path": "/Users/kaanhisi/Desktop/IdeaProjects/gruppe-i/Frontend/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/admin/Desktop/gruppe-i/Frontend/src/app&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;0ba5b4564c11c6f40134185705efe2ca&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Seher\\OneDrive\\Desktop\\SEP Projekt\\Frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend\src\app" />
       <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend" />
       <recent name="C:\Users\admin\Desktop\gruppe-i" />
       <recent name="C:\Users\admin\Desktop\gruppe-i\Backend" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Frontend/src/assets/images" />
     </key>
   </component>
   <component name="RunManager">
@@ -122,8 +97,15 @@
       <workItem from="1698340520875" duration="1278000" />
       <workItem from="1698349377910" duration="1783000" />
       <workItem from="1698408610093" duration="661000" />
-      <workItem from="1698410477823" duration="3537000" />
-      <workItem from="1698422310396" duration="20428000" />
+      <workItem from="1698410664045" duration="2092000" />
+      <workItem from="1698501098114" duration="1160000" />
+      <workItem from="1698528141415" duration="893000" />
+      <workItem from="1698532380228" duration="1313000" />
+      <workItem from="1698533780909" duration="6831000" />
+      <workItem from="1698573565341" duration="21323000" />
+      <workItem from="1698599945683" duration="29000" />
+      <workItem from="1698697294033" duration="5125000" />
+      <workItem from="1698757348817" duration="673000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend">
       <created>1698006516048</created>
@@ -132,7 +114,39 @@
       <option name="project" value="LOCAL" />
       <updated>1698006516048</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Frontend">
+      <option name="closed" value="true" />
+      <created>1698411536353</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698411536354</updated>
+    </task>
+    <task id="LOCAL-00003" summary="register und preHeader">
+      <option name="closed" value="true" />
+      <created>1698537143178</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1698537143178</updated>
+    </task>
+    <task id="LOCAL-00004" summary="register und preHeader">
+      <option name="closed" value="true" />
+      <created>1698537173476</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1698537173476</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Routing Modul ergänzt">
+      <option name="closed" value="true" />
+      <created>1698574414944</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1698574414944</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +160,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="Frontend" />
+    <MESSAGE value="register und preHeader" />
+    <MESSAGE value="Routing Modul ergänzt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Routing Modul ergänzt" />
   </component>
 </project>
