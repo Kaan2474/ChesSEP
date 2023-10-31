@@ -1,3 +1,9 @@
+/*Abstand zum Header*/
+body {
+  margin-top: 200px;
+}
+
+
 /*Der ,,Freund hinzufügen'' Knopf*/
 button {
   color: #FFFFFF;

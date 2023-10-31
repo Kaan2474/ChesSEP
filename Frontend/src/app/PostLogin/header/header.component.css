@@ -1,3 +1,8 @@
+/*Abstand des Headers zum oberen Bildschirm*/
+body {
+  margin-top: 30px;
+}
+
 /*Das Brief-Bild neben Nachrichten*/
 #message {
   height: 30px;
@@ -22,6 +27,11 @@ h1{
   padding: 10px;
   font-size: 25px;
   color: #1E1E1E;
+}
+
+/*Default-Werte der Links werden entfernt*/
+a:link, a:visited {
+  text-decoration: none;
 }
 
 /*Sorgt dafür, dass die Links mehr nach links verschoben sind*/
