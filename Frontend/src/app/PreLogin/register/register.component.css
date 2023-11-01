@@ -1,0 +1,45 @@
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 110px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
+}
+
+h1 {
+  text-align: center;
+}
+input {
+  margin: 0.80em 0em 1em 0em;
+  outline: none;
+  padding: 0.5em;
+  border: none;
+  border-radius: 0.25em;
+  color: black;
+}
+
+button {
+  padding: 0.75em;
+  border: none;
+  outline: none;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 0.25em;
+}
+
+img {
+  max-width:30%;
+  height: auto;
+  margin-left: 33%;
+}
+
+
+
+

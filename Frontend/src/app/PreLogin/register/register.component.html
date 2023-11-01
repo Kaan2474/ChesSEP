@@ -1,1 +1,63 @@
-<p>register works!</p>
+
+<form>
+  <div class="container">
+    <h1>Registrierung</h1>
+    <a href="/"><img id="profilicon" src="assets/images/profil-picture-icon.png"></a>
+
+    <label for="vorname"><b>Vorname</b></label>
+    <input
+      type="text"
+      name="vorname"
+      id="vorname"
+      required
+    />
+
+    <label for="nachname"><b>Nachname</b></label>
+    <input
+      type="text"
+      name="nachname"
+      id="nachname"
+      required
+    />
+
+    <label for="e-mail"><b>E-Mail</b></label>
+    <input
+      type="text"
+      name="e-mail"
+      id="e-mail"
+      required
+    />
+
+    <label for="geburtsdatum"><b>Geburtsdatum</b></label>
+    <input
+      type="date"
+      name="geburtsdatum"
+      id="geburtsdatum"
+      required
+    />
+
+
+    <label for="pwd"><b>Passwort</b></label>
+    <input
+      type="password"
+      name="pwd"
+      id="pwd"
+      required
+    />
+
+    <label for="pwd-repeat"><b>Passwort erneut eingeben</b></label>
+    <input
+      type="password"
+      name="pwd-repeat"
+      id="pwd-repeat"
+      required
+    />
+
+    <button type="submit">Registrieren</button> <br>
+    <button type="submit">Zurück</button>
+  </div>
+
+  <div>
+    <p>Du hast bereits ein Konto? <a href="/login">Login</a>.</p>
+  </div>
+</form>

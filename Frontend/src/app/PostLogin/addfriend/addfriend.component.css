@@ -1,0 +1,38 @@
+/*Abstand zum Header*/
+body {
+  margin-top: 200px;
+}
+
+
+/*Der ,,Freund hinzufügen'' Knopf*/
+button {
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  margin-left: 5px;
+  padding: 8px;
+  border: 2px solid #1E1E1E;
+  border-radius: 10px;
+}
+
+/*Der Text über dem Formular*/
+h3 {
+  text-align: center;
+  color: #1E1E1E;
+}
+
+/*Sorgt dafür, dass das Formular mittig ist*/
+form {
+  margin-left: 30.5%;
+}
+
+label, input {
+  color: #1E1E1E;
+}
+
+/*Das gesamte Textfeld*/
+input {
+  padding: 5px;
+  width: 200px;
+  border: 2px solid #1E1E1E;
+  border-radius: 10px;
+}
