@@ -13,6 +13,10 @@ import { AddfriendComponent } from "./PostLogin/addfriend/addfriend.component";
 import { UserProfilViewComponent } from './PostLogin/user-profil-view/user-profil-view.component';
 import { FriendProfilViewComponent } from './PostLogin/friend-profil-view/friend-profil-view.component';
 import { CreatePlayAgainstUserComponent } from './PostLogin/create-play-against-user/create-play-against-user.component';
+import { AuthenticateComponent } from './PreLogin/authenticate/authenticate.component';
+import { InvitationComponent } from './PostLogin/invitation/invitation.component';
+import { CreatePlayAgainstComputerComponent } from './PostLogin/create-play-against-computer/create-play-against-computer.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -26,12 +30,16 @@ import { CreatePlayAgainstUserComponent } from './PostLogin/create-play-against-
     AddfriendComponent,
     UserProfilViewComponent,
     FriendProfilViewComponent,
-    CreatePlayAgainstUserComponent
+    CreatePlayAgainstUserComponent,
+    AuthenticateComponent,
+    InvitationComponent,
+    CreatePlayAgainstComputerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterOutlet,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
