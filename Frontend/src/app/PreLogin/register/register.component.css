@@ -3,7 +3,6 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 110px;
 }
 
@@ -32,6 +31,15 @@ button {
   background-color: dodgerblue;
   color: white;
   border-radius: 0.25em;
+  cursor:pointer;
+}
+
+.registerButton:hover{
+  background-color: royalblue;
+}
+
+.Zurück:hover{
+  background-color: royalblue;
 }
 
 img {
@@ -39,6 +47,7 @@ img {
   height: auto;
   margin-left: 33%;
 }
+
 
 
 
