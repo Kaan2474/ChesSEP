@@ -6,6 +6,7 @@ import {RegisterComponent} from "./PreLogin/register/register.component";
 import {AddfriendComponent} from "./PostLogin/addfriend/addfriend.component";
 import {UserProfilViewComponent} from "./PostLogin/user-profil-view/user-profil-view.component";
 import {FriendProfilViewComponent} from "./PostLogin/friend-profil-view/friend-profil-view.component";
+import {CreatePlayAgainstUserComponent} from "./PostLogin/create-play-against-user/create-play-against-user.component";
 
 const routes: Routes = [
   {path: "login", title:"ChesSSEP", component: LoginComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: "register", title:"ChesSEP", component: RegisterComponent},
   {path: "addfriend", title: "ChesSEP", component: AddfriendComponent},
   {path: "user-profil-view", title: "ChesSEP", component: UserProfilViewComponent},
-  {path: "friend-profil-view", title: "ChesSEP", component:FriendProfilViewComponent}
+  {path: "friend-profil-view", title: "ChesSEP", component:FriendProfilViewComponent},
+  {path: "create-play-against-user", title: "ChesSEP", component:CreatePlayAgainstUserComponent}
 ];
 
 

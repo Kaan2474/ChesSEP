@@ -12,6 +12,7 @@ import { HeaderComponent } from "./PostLogin/header/header.component";
 import { AddfriendComponent } from "./PostLogin/addfriend/addfriend.component";
 import { UserProfilViewComponent } from './PostLogin/user-profil-view/user-profil-view.component';
 import { FriendProfilViewComponent } from './PostLogin/friend-profil-view/friend-profil-view.component';
+import { CreatePlayAgainstUserComponent } from './PostLogin/create-play-against-user/create-play-against-user.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { FriendProfilViewComponent } from './PostLogin/friend-profil-view/friend
     HeaderComponent,
     AddfriendComponent,
     UserProfilViewComponent,
-    FriendProfilViewComponent
+    FriendProfilViewComponent,
+    CreatePlayAgainstUserComponent
   ],
   imports: [
     BrowserModule,
