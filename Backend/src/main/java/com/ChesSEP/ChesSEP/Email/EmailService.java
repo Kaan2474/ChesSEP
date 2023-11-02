@@ -17,6 +17,7 @@ public class EmailService implements EmailSender { // "EmailService" im Klassend
 
     @Autowired
     private final JavaMailSender mailSender; //API to send an Email
+    @Autowired
     private final UserService userService;
 
     @Override

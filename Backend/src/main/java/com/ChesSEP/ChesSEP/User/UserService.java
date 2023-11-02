@@ -1,9 +1,7 @@
 package com.ChesSEP.ChesSEP.User;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +13,7 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +23,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
 
     public String registerUser(@NonNull UserRequestHolder user){
 
@@ -75,12 +71,5 @@ public class UserService {
         return userRepository.findUserById(id);
     }
 
-    /*
-    Beim Run der App wird ein Fehler erzeugt, "Logging Failure" - darf also nur auf abfrage laufen, sonst fehler
-    @GetMapping("/whoAmI")
-    public ResponseEntity<Long> whoAmI(@RequestHeader(value = "Authorization") String token) {
-        return ResponseEntity.ok(userService.findUserbyEmail(tokenService.extractEmail(token.substring(7))).getId());
-    }
 
-     */
 }
