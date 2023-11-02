@@ -40,7 +40,7 @@ public class User implements UserDetails {
     private String nachname;
 
     @Column
-    private Long twoFactor;
+    private int twoFactor; //OTP
 
     @Column
     private String email;
@@ -60,6 +60,7 @@ public class User implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     //Friendlist friendlist
 
@@ -95,4 +96,6 @@ public class User implements UserDetails {
     public Role getRole(){
         return role;
     }
+
+
 }
