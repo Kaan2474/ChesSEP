@@ -16,6 +16,7 @@ import { CreatePlayAgainstUserComponent } from './PostLogin/create-play-against-
 import { AuthenticateComponent } from './PreLogin/authenticate/authenticate.component';
 import { InvitationComponent } from './PostLogin/invitation/invitation.component';
 import { CreatePlayAgainstComputerComponent } from './PostLogin/create-play-against-computer/create-play-against-computer.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { CreatePlayAgainstComputerComponent } from './PostLogin/create-play-agai
     BrowserModule,
     AppRoutingModule,
     RouterOutlet,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Komponenten hinzugefügt + &#10;User Service und User Klasse erstellt">
+    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="app component module fehler behoben">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +116,7 @@
       <workItem from="1698757348817" duration="673000" />
       <workItem from="1698774970856" duration="11773000" />
       <workItem from="1698913795921" duration="7857000" />
-      <workItem from="1698927609315" duration="958000" />
+      <workItem from="1698927609315" duration="3803000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend">
       <created>1698006516048</created>
@@ -184,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698927944388</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="app component module fehler behoben">
+      <created>1698928670779</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1698928670780</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +226,7 @@
     <MESSAGE value="Komponente hinzugefügt+Routing ergänzt" />
     <MESSAGE value="Profilübersicht Freunde + Registrierung bearbeitet" />
     <MESSAGE value="Komponenten hinzugefügt + &#10;User Service und User Klasse erstellt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Komponenten hinzugefügt + &#10;User Service und User Klasse erstellt" />
+    <MESSAGE value="app component module fehler behoben" />
+    <option name="LAST_COMMIT_MESSAGE" value="app component module fehler behoben" />
   </component>
 </project>
