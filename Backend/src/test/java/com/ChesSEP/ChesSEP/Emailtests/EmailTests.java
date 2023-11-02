@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-
+//Methode funktioniert nur bei mir <3 :D lol
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -57,7 +57,7 @@ public class EmailTests{
 
 
         //Act - Was wird getestet
-        emailService.send(1L, 2L, "Freundschaftsanfrage", " FU");
+        emailService.send(1L, 2L, "Freundschaftsanfrage", " hiii");
 
         //Assert - Was wollen wir bekommen
         //   - Eine Email im Postfach :)
