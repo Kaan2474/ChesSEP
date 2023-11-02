@@ -42,7 +42,7 @@ public class TwoFactorTests {
         otpService.generateOTP(testUser);
 
         //Assert
-        Assertions.assertEquals(otpService.getLastOTP(), testUser.getTwoFactor());
+        Assertions.assertEquals(Integer.parseInt(otpService.getLastOTP().split("_")[0]), testUser.getTwoFactor());
 
 
 

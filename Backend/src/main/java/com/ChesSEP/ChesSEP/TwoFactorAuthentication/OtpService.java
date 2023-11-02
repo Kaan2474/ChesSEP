@@ -21,13 +21,13 @@ public class OtpService {
         try {
             SecureRandom random = new SecureRandom(); // PRNG - pseudo-random generated number
             int randomOTP = Math.abs(random.nextInt(100000)); // muss eine natürliche Zahl sein
-            String otpString = String.valueOf(randomOTP) +"_"+ user.getId(); //muss zum String gecastet werden, da .setText in SimpleMailMessage String sein muss
+            String otpString = randomOTP +"_"+ user.getId(); // ID mit anhängen, damit UNIQUE Zuweisung der 2FA möglich ist
             user.setTwoFactor(randomOTP);
-            userRepository.save(user); //damit OTP in DB -> muss OTP also als Column deklariert werden???
-            emailService.sendOTP(user.getId(), "Ihr 2FA-Code: " + otpString
-                    );
+            userRepository.save(user);
+            emailService.sendOTP(user.getId(), "Ihr 2FA-Code: " + otpString);
+
             //Test
-            lastOTP = Integer.parseInt(otpString);
+            lastOTP = otpString;
             return "Erfolgreich erstellt";
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,8 +37,8 @@ public class OtpService {
 
 
     // Testing Methode
-    private int lastOTP;
-    public int getLastOTP(){
+    private String lastOTP;
+    public String getLastOTP(){
         return lastOTP;
     }
 
