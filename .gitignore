@@ -20,6 +20,9 @@ Backend/target/
 *.iws
 *.iml
 *.ipr
+# Default ignored files
+/shelf/
+/workspace.xml
 
 ### NetBeans ###
 /nbproject/private/
