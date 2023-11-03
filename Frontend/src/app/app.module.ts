@@ -17,6 +17,8 @@ import { AuthenticateComponent } from './PreLogin/authenticate/authenticate.comp
 import { InvitationComponent } from './PostLogin/invitation/invitation.component';
 import { CreatePlayAgainstComputerComponent } from './PostLogin/create-play-against-computer/create-play-against-computer.component';
 import {FormsModule} from "@angular/forms";
+import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
+import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import {FormsModule} from "@angular/forms";
     CreatePlayAgainstUserComponent,
     AuthenticateComponent,
     InvitationComponent,
-    CreatePlayAgainstComputerComponent
+    CreatePlayAgainstComputerComponent,
+    FriendslistComponent,
+    JoingameComponent
   ],
   imports: [
     BrowserModule,

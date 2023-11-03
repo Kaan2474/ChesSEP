@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-addfriend',
@@ -7,5 +7,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./addfriend.component.css']
 })
 export class AddfriendComponent {
+
 
 }
