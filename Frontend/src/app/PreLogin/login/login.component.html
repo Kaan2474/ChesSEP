@@ -3,30 +3,25 @@
     <h1> Login</h1>
   </div>
 
-  <form>
+  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
     <div class = "center">
-      <input type = "email"
+      <input type = "email" [(ngModel)]="user.email"
              id = "email"
              name = "email"
              placeholder="  E-mail">
     </div>
 
     <div class = "center">
-      <input type = "password"
+      <input type = "password" [(ngModel)]="user.password"
              id = "password"
              name = "password"
              placeholder="  Passwort">
     </div>
 
     <div class="center">
-      <button type="submit"
+      <button type="submit" [disabled]="!userForm.form.valid"
               class="loginButton">Login</button>
     </div>
-
-    <div class="center">
-      <button routerLink="/" class="zurückButton">Zurück</button>
-    </div>
-
   </form>
 
   <div class="center"><p class="register">Du hast noch kein Nutzer-Konto? Hier <a routerLink="/register">registrieren!</a></p></div>

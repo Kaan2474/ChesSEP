@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './PreLogin/login/login.component';
@@ -44,6 +45,7 @@ import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
     AppRoutingModule,
     RouterOutlet,
     FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
