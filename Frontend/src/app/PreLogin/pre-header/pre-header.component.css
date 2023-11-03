@@ -1,0 +1,31 @@
+/*Abstand des Headers zum oberen Bildschirm*/
+body {
+  margin-top: 30px;
+}
+
+/*Das Schach-Bild neben der Überschrift*/
+#chessboard{
+  height: 40px;
+  margin-left: 10px;
+  margin-top: 15px;
+}
+
+/*ChesSEP Überschrift*/
+h1 {
+  display: inline;
+  font-size: 60px;
+  color: #1E1E1E;
+}
+
+button {
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  margin-left: 80%;
+  padding: 0.75em;
+  border: 2px solid #1E1E1E;
+  border-radius: 10px;
+}
+
+
+
+

@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Routing Modul ergänzt">
+    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="HomePage bearbeitet">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/create-play-against-computer/create-play-against-computer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/create-play-against-computer/create-play-against-computer.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,23 +49,27 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/admin/Desktop/gruppe-i/Frontend/src/app&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/admin/Desktop/gruppe-i/Frontend/src/app/Service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;0ba5b4564c11c6f40134185705efe2ca&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Seher\\OneDrive\\Desktop\\SEP Projekt\\Frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\admin\\Desktop\\gruppe-i\\Frontend\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend\src\app\Service" />
+      <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend\src\app\Modules" />
       <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend\src\app" />
       <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend" />
       <recent name="C:\Users\admin\Desktop\gruppe-i" />
-      <recent name="C:\Users\admin\Desktop\gruppe-i\Backend" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Seher\OneDrive\Desktop\SEP Projekt\Frontend\src\assets\images" />
     </key>
   </component>
   <component name="RunManager">
@@ -106,6 +115,9 @@
       <workItem from="1698599945683" duration="29000" />
       <workItem from="1698697294033" duration="5125000" />
       <workItem from="1698757348817" duration="673000" />
+      <workItem from="1698774970856" duration="11773000" />
+      <workItem from="1698913795921" duration="7857000" />
+      <workItem from="1698927609315" duration="6097000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend">
       <created>1698006516048</created>
@@ -146,7 +158,52 @@
       <option name="project" value="LOCAL" />
       <updated>1698574414944</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="PreHeader angepasst">
+      <option name="closed" value="true" />
+      <created>1698762639012</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1698762639012</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Komponente hinzugefügt+Routing ergänzt">
+      <option name="closed" value="true" />
+      <created>1698777421111</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1698777421111</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Profilübersicht Freunde + Registrierung bearbeitet">
+      <option name="closed" value="true" />
+      <created>1698788275997</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1698788275997</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Komponenten hinzugefügt + &#10;User Service und User Klasse erstellt">
+      <created>1698927944388</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1698927944388</updated>
+    </task>
+    <task id="LOCAL-00010" summary="app component module fehler behoben">
+      <created>1698928670779</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1698928670780</updated>
+    </task>
+    <task id="LOCAL-00011" summary="HomePage bearbeitet">
+      <created>1698931622199</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1698931622199</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,11 +214,28 @@
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Frontend" />
     <MESSAGE value="register und preHeader" />
     <MESSAGE value="Routing Modul ergänzt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Routing Modul ergänzt" />
+    <MESSAGE value="PreHeader angepasst" />
+    <MESSAGE value="Komponente hinzugefügt+Routing ergänzt" />
+    <MESSAGE value="Profilübersicht Freunde + Registrierung bearbeitet" />
+    <MESSAGE value="Komponenten hinzugefügt + &#10;User Service und User Klasse erstellt" />
+    <MESSAGE value="app component module fehler behoben" />
+    <MESSAGE value="HomePage bearbeitet" />
+    <option name="LAST_COMMIT_MESSAGE" value="HomePage bearbeitet" />
   </component>
 </project>

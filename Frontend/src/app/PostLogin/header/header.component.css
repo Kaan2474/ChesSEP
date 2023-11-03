@@ -1,0 +1,49 @@
+/*Abstand des Headers zum oberen Bildschirm*/
+body {
+  margin-top: 30px;
+}
+
+/*Das Brief-Bild neben Nachrichten*/
+#message {
+  height: 30px;
+}
+
+/*Das Schach-Bild neben der Überschrift*/
+#chessboard{
+  height: 40px;
+  margin-left: 10px;
+  margin-top: 15px;
+}
+
+/*ChesSEP Überschrift*/
+h1{
+  display: inline;
+  font-size: 60px;
+  color: #1E1E1E;
+}
+
+/*Alle Links im Header*/
+.links{
+  padding: 10px;
+  font-size: 25px;
+  color: #1E1E1E;
+}
+
+/*Default-Werte der Links werden entfernt*/
+a:link, a:visited {
+  text-decoration: none;
+}
+
+/*Sorgt dafür, dass die Links mehr nach links verschoben sind*/
+#link-container {
+  display: inline;
+  margin-left: 8%;
+}
+
+/*Hover-Effekte für die Links*/
+.links:hover {
+  color: #E6E6E6;
+  background-color: #1E1E1E;
+}
+
+
