@@ -10,6 +10,8 @@ import {CreatePlayAgainstUserComponent} from "./PostLogin/create-play-against-us
 import {AuthenticateComponent} from "./PreLogin/authenticate/authenticate.component";
 import {InvitationComponent} from "./PostLogin/invitation/invitation.component";
 import {CreatePlayAgainstComputerComponent} from "./PostLogin/create-play-against-computer/create-play-against-computer.component";
+import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
+import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 
 const routes: Routes = [
   {path: "login", title:"ChesSSEP", component: LoginComponent},
@@ -22,7 +24,8 @@ const routes: Routes = [
   {path: "authenticate", title: "ChesSEP", component:AuthenticateComponent},
   {path: "invitation", title: "ChesSEP", component:InvitationComponent},
   {path: "create-play-against-computer", title: "ChesSEP", component:CreatePlayAgainstComputerComponent},
-
+  {path: "friendslist", title: "ChesSEP", component: FriendslistComponent},
+  {path: "joingame", title: "ChesSEP", component: JoingameComponent},
 ];
 
 
