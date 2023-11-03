@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  margin-left: 550px;
+  margin-top: 150px;
+  font-size: 22pt;
+}
+
+img {
+  max-width:20%;
+  height: auto;
+  margin-left: 0%;
+}

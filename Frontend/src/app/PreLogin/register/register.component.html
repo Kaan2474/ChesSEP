@@ -1,7 +1,18 @@
+
 <form>
-  <!-- class named "container" is assigned to div -->
   <div class="container">
     <h1>Registrierung</h1>
+
+    <img [src]="url" title="Profilbild" />
+    <input
+      type="file"
+      id="img"
+      style="display:none"
+      accept="image/*"
+      (change)="onSelect($event)"
+    />
+    <u><label for="img">Bild hochladen</label></u>
+
 
     <label for="vorname"><b>Vorname</b></label>
     <input
@@ -52,13 +63,12 @@
       required
     />
 
-    <button type="submit">Registrieren</button> <br>
-    <button type="submit">Zurück</button>
+
+    <button type="submit" class="registerButton">Registrieren</button> <br>
+    <button routerLink="/" class="Zurück">Zurück</button>
   </div>
 
-
-
   <div>
-    <p>Du hast bereits ein Konto? <a href="#">Login</a>.</p>
+    <p>Du hast bereits ein Konto? <a href="/login">Login</a>.</p>
   </div>
 </form>

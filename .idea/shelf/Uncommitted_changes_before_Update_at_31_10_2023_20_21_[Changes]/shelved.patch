@@ -1,0 +1,170 @@
+Index: Frontend/src/app/PostLogin/homepage/homepage.component.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Frontend/src/app/PostLogin/homepage/homepage.component.css b/Frontend/src/app/PostLogin/homepage/homepage.component.css
+--- a/Frontend/src/app/PostLogin/homepage/homepage.component.css	(revision f911703ff768cc28cc92fb5541e4d7555b6772cf)
++++ b/Frontend/src/app/PostLogin/homepage/homepage.component.css	(date 1698763029113)
+@@ -1,1 +1,30 @@
++.card {
++  min-height: 550px;
++  width: 700px;
++  border: 1px solid rgba(0, 0, 0, 0.3);
++  border-radius: 4px;
++  overflow: hidden;
++  position: relative;
++}
++  img{
++    width: 100%;
++    height: 380px;
++  }
++  .a{
++    top:380px;
++    height: 20px;
++  }
++  .BenutzerButton{
++    width:700px;
++    position: absolute;
++    bottom: 70px;
++    height: 70px;
++  }
++  .ComputerButton{
++    width:700px;
++    position: absolute;
++    bottom: 0;
++    height: 70px;
++  }
++
+ 
+Index: Frontend/src/app/PostLogin/homepage/homepage.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><app-header></app-header>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Frontend/src/app/PostLogin/homepage/homepage.component.html b/Frontend/src/app/PostLogin/homepage/homepage.component.html
+--- a/Frontend/src/app/PostLogin/homepage/homepage.component.html	(revision f911703ff768cc28cc92fb5541e4d7555b6772cf)
++++ b/Frontend/src/app/PostLogin/homepage/homepage.component.html	(date 1698762811586)
+@@ -1,1 +1,7 @@
+-<app-header></app-header>
++<app-pre-header></app-pre-header>
++<div class = "card">
++  <img class ="Schachbrett" src="assets/images/Schachbrett.jpg">
++  <button class="BenutzerButton">Spiel gegen Benutzer</button>
++  <button class="OnlineButton">Spiel Online</button>
++
++</div>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"73c575e3-4343-43a5-94f6-51051cc27b1d\" name=\"Changes\" comment=\"Routing Modul ergänzt\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Frontend/src/app/app.module.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Frontend/src/app/app.module.ts\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2X8MN2IZ9QZrZeIkiimP3ZgPCKj\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"last_opened_file_path\": \"C:/Users/admin/Desktop/gruppe-i/Frontend/src/app\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"spring.configuration.checksum\": \"0ba5b4564c11c6f40134185705efe2ca\",\r\n    \"ts.external.directory.path\": \"/Users/kaanhisi/Desktop/IdeaProjects/gruppe-i/Frontend/node_modules/typescript/lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\admin\\Desktop\\gruppe-i\\Frontend\\src\\app\" />\r\n      <recent name=\"C:\\Users\\admin\\Desktop\\gruppe-i\\Frontend\" />\r\n      <recent name=\"C:\\Users\\admin\\Desktop\\gruppe-i\" />\r\n      <recent name=\"C:\\Users\\admin\\Desktop\\gruppe-i\\Backend\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"ChesSepApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ChesSEP\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.ChesSEP.ChesSEP.ChesSepApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.ChesSEP.ChesSEP.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Spring Boot.ChesSepApplication\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"73c575e3-4343-43a5-94f6-51051cc27b1d\" name=\"Changes\" comment=\"\" />\r\n      <created>1698006214305</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1698006214305</updated>\r\n      <workItem from=\"1698006223378\" duration=\"460000\" />\r\n      <workItem from=\"1698149806768\" duration=\"5153000\" />\r\n      <workItem from=\"1698339329769\" duration=\"667000\" />\r\n      <workItem from=\"1698340520875\" duration=\"1278000\" />\r\n      <workItem from=\"1698349377910\" duration=\"1783000\" />\r\n      <workItem from=\"1698408610093\" duration=\"661000\" />\r\n      <workItem from=\"1698410664045\" duration=\"2092000\" />\r\n      <workItem from=\"1698501098114\" duration=\"1160000\" />\r\n      <workItem from=\"1698528141415\" duration=\"893000\" />\r\n      <workItem from=\"1698532380228\" duration=\"1313000\" />\r\n      <workItem from=\"1698533780909\" duration=\"6831000\" />\r\n      <workItem from=\"1698573565341\" duration=\"21323000\" />\r\n      <workItem from=\"1698599945683\" duration=\"29000\" />\r\n      <workItem from=\"1698697294033\" duration=\"5125000\" />\r\n      <workItem from=\"1698757348817\" duration=\"673000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Frontend\">\r\n      <created>1698006516048</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698006516048</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Frontend\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1698411536353</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698411536354</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"register und preHeader\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1698537143178</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698537143178</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"register und preHeader\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1698537173476</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698537173476</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Routing Modul ergänzt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1698574414944</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698574414944</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"6\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n    <option name=\"exactExcludedFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/Frontend/node_modules/karma/config.tpl.js\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"Frontend\" />\r\n    <MESSAGE value=\"register und preHeader\" />\r\n    <MESSAGE value=\"Routing Modul ergänzt\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Routing Modul ergänzt\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f911703ff768cc28cc92fb5541e4d7555b6772cf)
++++ b/.idea/workspace.xml	(date 1698764169029)
+@@ -5,16 +5,11 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Routing Modul ergänzt">
++      <change afterPath="$PROJECT_DIR$/Frontend/src/assets/images/Schachbrett.jpg" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.css" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -38,29 +33,29 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "RequestMappingsPanelOrder0": "0",
+-    "RequestMappingsPanelOrder1": "1",
+-    "RequestMappingsPanelWidth0": "75",
+-    "RequestMappingsPanelWidth1": "75",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "git-widget-placeholder": "main",
+-    "last_opened_file_path": "C:/Users/admin/Desktop/gruppe-i/Frontend/src/app",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "spring.configuration.checksum": "0ba5b4564c11c6f40134185705efe2ca",
+-    "ts.external.directory.path": "/Users/kaanhisi/Desktop/IdeaProjects/gruppe-i/Frontend/node_modules/typescript/lib",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
++    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
++    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
++    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/admin/Desktop/gruppe-i/Frontend/src/app&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;spring.configuration.checksum&quot;: &quot;0ba5b4564c11c6f40134185705efe2ca&quot;,
++    &quot;ts.external.directory.path&quot;: &quot;/Users/kaanhisi/Desktop/IdeaProjects/gruppe-i/Frontend/node_modules/typescript/lib&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\admin\Desktop\gruppe-i\Frontend\src\app" />
+@@ -112,6 +107,7 @@
+       <workItem from="1698599945683" duration="29000" />
+       <workItem from="1698697294033" duration="5125000" />
+       <workItem from="1698757348817" duration="673000" />
++      <workItem from="1698764058682" duration="111000" />
+     </task>
+     <task id="LOCAL-00001" summary="Frontend">
+       <created>1698006516048</created>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/Backend/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_17\" default=\"true\" project-jdk-name=\"openjdk-20\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision f911703ff768cc28cc92fb5541e4d7555b6772cf)
++++ b/.idea/misc.xml	(date 1698760695692)
+@@ -8,7 +8,7 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="openjdk-20" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_20" default="true" project-jdk-name="openjdk-20" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file

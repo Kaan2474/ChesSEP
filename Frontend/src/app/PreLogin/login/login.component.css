@@ -1,0 +1,42 @@
+.container{
+  margin-top: 100px;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+}
+button{
+  cursor: pointer;
+}
+input{
+  width: 250px;
+  height: 25px;
+  margin-top: 5px;
+  border-radius: 4px;
+}
+.loginButton{
+  margin-top: 20px;
+}
+.zurückButton{
+  margin-top: 10px;
+}
+.loginButton, .zurückButton{
+  width: 250px;
+  height: 25px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 4px;
+  border-color: dodgerblue;
+}
+.loginButton:hover, .zurückButton:hover{
+  background-color: royalblue;
+}
+.register{
+  font-size: 14px;
+  margin-top: 30px;
+}
+a{
+  text-decoration: none;
+ }
+

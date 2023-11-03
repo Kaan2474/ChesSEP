@@ -34,6 +34,11 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticate(user));
     }
 
+    @PostMapping("/twoFactor")
+    public ResponseEntity<String> twoFactor(@RequestBody AuthUserRequestHolder user){
+        return ResponseEntity.ok(userService.checkTwoFactor(user.getOtp()));
+    }
+
 
 
     //For Testing

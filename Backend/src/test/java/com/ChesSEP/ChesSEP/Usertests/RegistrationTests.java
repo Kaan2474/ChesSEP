@@ -26,7 +26,7 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 
 
-
+@Deprecated // Veraltet - Muss aktualisiert werden
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
@@ -82,13 +82,13 @@ public class RegistrationTests {
     @Order(2)
     public void Authentication_loginUser_returnToken() throws Exception{
         //Arrange
-            AuthUserRequestHolder wrongPasswordTestAuth = new AuthUserRequestHolder("test@mail.com", "foof1337");
+            AuthUserRequestHolder wrongPasswordTestAuth = new AuthUserRequestHolder("test@mail.com", "foof1337", "");
             String wrongPasswordJsonRequest=objectMapper.writeValueAsString(wrongPasswordTestAuth);
 
-            AuthUserRequestHolder wrongEmailTestAuth = new AuthUserRequestHolder("test1@mail.com", "foof123");
+            AuthUserRequestHolder wrongEmailTestAuth = new AuthUserRequestHolder("test1@mail.com", "foof123", "");
             String wrongEmailJsonRequest=objectMapper.writeValueAsString(wrongEmailTestAuth);
 
-            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123");
+            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", "");
             String correctJsonRequest=objectMapper.writeValueAsString(correctTestAuth);
 
         //Act
@@ -120,7 +120,7 @@ public class RegistrationTests {
     @Order(3)
     public void Authentication_authenticateUser_returnFromSecuredEndpoint() throws Exception{
         //Arrange
-            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123");
+            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", "");
             String correctJsonRequest=objectMapper.writeValueAsString(correctTestAuth);
 
             MvcResult correctResponse=mockMvc

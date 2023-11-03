@@ -1,0 +1,49 @@
+
+.scroll {
+  background: #D3D3D3;
+  height: 150px;
+  overflow: scroll;
+  width: 250px;
+  padding: 180px;
+  margin-left: 10%;
+}
+
+button {
+  margin-left: 15px;
+  padding: 6px;
+  border: 2px solid #1E1E1E;
+  border-radius: 10px;
+  width: 8%;
+}
+.einladenButton{
+  color: #FFFFFF;
+  background-color: #0D99FF;
+}
+
+.einladenButton:hover{
+  background-color: royalblue;
+}
+
+.startButton{
+  color: white;
+  background-color: green;
+}
+.startButton:hover{
+  background-color: darkgreen;
+}
+
+input {
+  outline: none;
+  padding: 0.5em;
+  border: none;
+  border-radius: 0.25em;
+  margin-left: 10%;
+  margin-top: 2%;
+}
+
+h2{
+  margin-left: 10%;
+  margin-top: 2%;
+}
+
+
