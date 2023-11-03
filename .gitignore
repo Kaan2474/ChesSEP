@@ -21,8 +21,8 @@ Backend/target/
 *.iml
 *.ipr
 # Default ignored files
-/shelf/
-/workspace.xml
+/.idea/shelf/
+/.idea/workspace.xml
 
 ### NetBeans ###
 /nbproject/private/
