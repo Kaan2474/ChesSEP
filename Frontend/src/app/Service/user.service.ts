@@ -11,17 +11,13 @@ export class UserService{
   ) {this.userURL="http://localhost:8080/users";}
 
   public register(fd:any){
-    return this.http.post(this.userURL+"/save", fd);
+    return this.http.post(this.userURL+"/register", fd);
   }
   public login(user:User){
-    return this.http.post<User>(this.userURL+"/login", user);
-  }
-  public checkCode(user:User){
     return this.http.post<User>(this.userURL+"/authenticate", user);
   }
-  public logout(user:User){
-    return this.http.post<User>(this.userURL+"/logout", user);
+  public checkCode(user:User){
+    return this.http.post<User>(this.userURL+"/twoFactor", user);
   }
-
 
 }
