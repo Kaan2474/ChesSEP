@@ -7,6 +7,9 @@ import {AddfriendComponent} from "./PostLogin/addfriend/addfriend.component";
 import {UserProfilViewComponent} from "./PostLogin/user-profil-view/user-profil-view.component";
 import {FriendProfilViewComponent} from "./PostLogin/friend-profil-view/friend-profil-view.component";
 import {CreatePlayAgainstUserComponent} from "./PostLogin/create-play-against-user/create-play-against-user.component";
+import {AuthenticateComponent} from "./PreLogin/authenticate/authenticate.component";
+import {InvitationComponent} from "./PostLogin/invitation/invitation.component";
+import {CreatePlayAgainstComputerComponent} from "./PostLogin/create-play-against-computer/create-play-against-computer.component";
 
 const routes: Routes = [
   {path: "login", title:"ChesSSEP", component: LoginComponent},
@@ -15,7 +18,11 @@ const routes: Routes = [
   {path: "addfriend", title: "ChesSEP", component: AddfriendComponent},
   {path: "user-profil-view", title: "ChesSEP", component: UserProfilViewComponent},
   {path: "friend-profil-view", title: "ChesSEP", component:FriendProfilViewComponent},
-  {path: "create-play-against-user", title: "ChesSEP", component:CreatePlayAgainstUserComponent}
+  {path: "create-play-against-user", title: "ChesSEP", component:CreatePlayAgainstUserComponent},
+  {path: "authenticate", title: "ChesSEP", component:AuthenticateComponent},
+  {path: "invitation", title: "ChesSEP", component:InvitationComponent},
+  {path: "create-play-against-computer", title: "ChesSEP", component:CreatePlayAgainstComputerComponent},
+
 ];
 
 
