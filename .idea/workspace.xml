@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="HomePage Reihenfolge geändert">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="gitignore Zeile 23-25 hinzugefügt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +111,7 @@
       <workItem from="1698913795921" duration="7857000" />
       <workItem from="1698927609315" duration="6097000" />
       <workItem from="1699044459871" duration="2606000" />
-      <workItem from="1699047561402" duration="244000" />
+      <workItem from="1699047561402" duration="432000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend">
       <created>1698006516048</created>
@@ -207,7 +204,21 @@
       <option name="project" value="LOCAL" />
       <updated>1699046496914</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="gitignore Zeile 23-25 hinzugefügt">
+      <created>1699047863948</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1699047863948</updated>
+    </task>
+    <task id="LOCAL-00014" summary="gitignore Zeile 23-25 hinzugefügt">
+      <created>1699047952588</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1699047952588</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,6 +252,7 @@
     <MESSAGE value="app component module fehler behoben" />
     <MESSAGE value="HomePage bearbeitet" />
     <MESSAGE value="HomePage Reihenfolge geändert" />
-    <option name="LAST_COMMIT_MESSAGE" value="HomePage Reihenfolge geändert" />
+    <MESSAGE value="gitignore Zeile 23-25 hinzugefügt" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore Zeile 23-25 hinzugefügt" />
   </component>
 </project>
