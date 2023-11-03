@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Deprecated // Redirecting wird durchs Frontend erzeugt, deswegen Deprecated
 @Component
 public class SuccessHandler implements AuthenticationSuccessHandler {
 
@@ -28,11 +29,11 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         String redirectURL = null;
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername(); // sollte Email sein oder?
+        String username = userDetails.getUsername();
         User user = userRepository.findByEmail(username);
         String output = otpService.generateOTP(user);
         if(output == "Erfolgreich erstellt"){
-            redirectURL=""; //Hier muss Controller GET Path hin?!
+            redirectURL="";
 
             new DefaultRedirectStrategy().sendRedirect(request, response, redirectURL);
         }
