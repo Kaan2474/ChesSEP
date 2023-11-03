@@ -4,15 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Routing Modul ergänzt">
+    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="Postlogin Header: Links aktualisiert&#10;add friend: Abstand zum Header erhöht">
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/friendslist/friendslist.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/friendslist/friendslist.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/friendslist/friendslist.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/friendslist/friendslist.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/joingame/joingame.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/joingame/joingame.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/joingame/joingame.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/joingame/joingame.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/assets/images/chess.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/addfriend/addfriend.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/homepage/homepage.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
     </list>
@@ -152,7 +158,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698574414944</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Postlogin Header: Links aktualisiert&#10;add friend: Abstand zum Header erhöht">
+      <created>1698760593958</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1698760593958</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +181,7 @@
     <MESSAGE value="Frontend" />
     <MESSAGE value="register und preHeader" />
     <MESSAGE value="Routing Modul ergänzt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Routing Modul ergänzt" />
+    <MESSAGE value="Postlogin Header: Links aktualisiert&#10;add friend: Abstand zum Header erhöht" />
+    <option name="LAST_COMMIT_MESSAGE" value="Postlogin Header: Links aktualisiert&#10;add friend: Abstand zum Header erhöht" />
   </component>
 </project>

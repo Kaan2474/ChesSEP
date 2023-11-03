@@ -1,0 +1,18 @@
+/*Die Eigenschaften des Schach Bilds*/
+img {
+  width: 25%;
+  margin-top: 3%;
+  margin-left: 35%;
+}
+
+/*Die Eigenschaften des Buttons unter dem Schacb Bild*/
+button {
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  margin-left: 5px;
+  padding: 8px;
+  border: 2px solid #1E1E1E;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 40%;
+}

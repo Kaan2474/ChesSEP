@@ -10,6 +10,9 @@ import { RegisterComponent } from './PreLogin/register/register.component';
 import { PreHeaderComponent } from './PreLogin/pre-header/pre-header.component';
 import { HeaderComponent } from "./PostLogin/header/header.component";
 import { AddfriendComponent } from "./PostLogin/addfriend/addfriend.component";
+import { FriendslistComponent } from './PostLogin/friendslist/friendslist.component';
+import {HttpClientModule} from "@angular/common/http";
+import { JoingameComponent } from './PostLogin/joingame/joingame.component';
 
 
 @NgModule({
@@ -20,12 +23,15 @@ import { AddfriendComponent } from "./PostLogin/addfriend/addfriend.component";
     RegisterComponent,
     PreHeaderComponent,
     HeaderComponent,
-    AddfriendComponent
+    AddfriendComponent,
+    FriendslistComponent,
+    JoingameComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterOutlet,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
