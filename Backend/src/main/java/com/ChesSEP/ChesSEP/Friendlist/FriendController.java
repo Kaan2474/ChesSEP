@@ -15,31 +15,33 @@ public class FriendController {
     private final FriendService friendService;
 
     @PostMapping("/sendFriendRequest")
-    public void sendFriendRequest(String jwtToken, User Friend){
-
+    public void sendFriendRequest(String jwtToken, UserRequestHolder Friend){
+        friendService.sendFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/acceptFriendRequest")
-    public void acceptFriendRequest(String jwtToken, User Friend){
-
+    public void acceptFriendRequest(String jwtToken, UserRequestHolder Friend){
+        friendService.acceptFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/cancelFriendRequest")
-    public void cancelFriendRequest(String jwtToken, User Friend){
-
+    public void cancelFriendRequest(String jwtToken, UserRequestHolder Friend){
+        friendService.cancelFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/denyFriendRequest")
-    public void denyFriendRequest(String jwtToken, User Friend){
-
+    public void denyFriendRequest(String jwtToken, UserRequestHolder Friend){
+        friendService.denyFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/getMyFriendlist")
     public ResponseEntity<UserRequestHolder[]> getMyFriendlist(String jwtToken){
-        return null;
+        return ResponseEntity.ok(friendService.getMyFriendlist(jwtToken));
     }
-    @PostMapping("/getMyFriendlistOf")
-    public ResponseEntity<UserRequestHolder[]> getMyFriendlistOf(String jwtToken, UserRequestHolder target){
-        return null;
+
+    @PostMapping("/getFriendlistOf")
+    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(String jwtToken, UserRequestHolder target){
+        return ResponseEntity.ok(friendService.getFriendlistOf(jwtToken, target));
     }
+
     @PostMapping("/deleteFriend")
     public void deleteFriend(String jwtToken, UserRequestHolder Friend){
-
+        friendService.deleteFriend(jwtToken, Friend.getId());
     }
 }

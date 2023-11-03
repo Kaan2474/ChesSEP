@@ -59,6 +59,10 @@ public class User implements UserDetails {
 
     @Column
     @Enumerated(EnumType.STRING)
+    private Privacy FriendlistPrivacy;
+
+    @Column
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 

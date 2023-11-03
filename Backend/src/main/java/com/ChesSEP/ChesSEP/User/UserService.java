@@ -44,6 +44,7 @@ public class UserService {
             .geburtsdatum(user.getGeburtsdatum())
             .elo(500)
             .role(Role.USER)
+                .FriendlistPrivacy(Privacy.OEFFENTLICH)
             .build();
 
         userRepository.save(assembledUser);
