@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="User Service bearbeitet">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_10_2023_14_11_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_10_2023_14_11__Changes_.xml" beforeDir="false" />
+    <list default="true" id="73c575e3-4343-43a5-94f6-51051cc27b1d" name="Changes" comment="HomePage Reihenfolge geändert">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/Modules/user.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/create-play-against-computer/create-play-against-computer.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/create-play-against-computer/create-play-against-computer.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/create-play-against-computer/create-play-against-computer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/create-play-against-computer/create-play-against-computer.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/header/header.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PostLogin/user-profil-view/user-profil-view.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PostLogin/user-profil-view/user-profil-view.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/pre-header/pre-header.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/PreLogin/authenticate/authenticate.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +113,8 @@
       <workItem from="1698774970856" duration="11773000" />
       <workItem from="1698913795921" duration="7857000" />
       <workItem from="1698927609315" duration="6097000" />
-      <workItem from="1699044459871" duration="1960000" />
+      <workItem from="1699044459871" duration="2606000" />
+      <workItem from="1699047561402" duration="244000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend">
       <created>1698006516048</created>
@@ -211,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698931622199</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="HomePage Reihenfolge geändert">
+      <created>1699046496914</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1699046496914</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,6 +240,7 @@
     <MESSAGE value="Komponenten hinzugefügt + &#10;User Service und User Klasse erstellt" />
     <MESSAGE value="app component module fehler behoben" />
     <MESSAGE value="HomePage bearbeitet" />
-    <option name="LAST_COMMIT_MESSAGE" value="HomePage bearbeitet" />
+    <MESSAGE value="HomePage Reihenfolge geändert" />
+    <option name="LAST_COMMIT_MESSAGE" value="HomePage Reihenfolge geändert" />
   </component>
 </project>
