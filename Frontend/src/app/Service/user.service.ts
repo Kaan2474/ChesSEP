@@ -10,8 +10,8 @@ export class UserService{
   constructor(private http:HttpClient,
   ) {this.userURL="http://localhost:8080/users";}
 
-  public register(fd:any){
-    return this.http.post(this.userURL+"/register", fd);
+  public register(user:User){
+    return this.http.post(this.userURL+"/register", user);
   }
   public login(user:User){
     return this.http.post<User>(this.userURL+"/authenticate", user);

@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserService} from "../../Service/user.service";
+import {FormBuilder} from "@angular/forms";
+import {User} from "../../Modules/User";
 
 @Component({
   selector: 'app-register',
@@ -7,24 +11,39 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
 
-  url="assets/images/profil-picture-icon.png"
+  user: User;
 
-  onSelect(event: any) {
 
-      let fileType = event.target.files[0].type;
-      if (fileType.match(/image\/*/)) {
-        let reader = new FileReader();
-        reader.readAsDataURL(event.target.files[0]);
-        reader.onload = (event: any) => {
-          this.url = event.target.result;
-        };
-      } else {
-        window.alert('Bitte wählen Sie das richtige Bildformat');
-      }
-    }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
+  ) {
+    this.user = new User()
+  }
+
+  onSubmit() {
+
+    this.userService.register(this.user).subscribe(result => {
+      this.goToLogin
+    }, (error) => {
+      this.errorWithForm();
+    })
+
+
   }
 
 
+  goToLogin() {
+    this.router.navigate(["/"]);
+
+  }
+
+  private errorWithForm() {
+    alert("Ungültige Eingabe! Überprüfe deine Angabe!");
+  }
+
+}
 
 
 
