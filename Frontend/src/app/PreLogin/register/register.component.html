@@ -8,7 +8,7 @@
     <label for="vorname"><b>Vorname</b></label>
     <input
       type="text"
-      [(ngModel)]= "user.firstName"
+      [(ngModel)]= "user.vorname"
       name="vorname"
       id="vorname"
       required #firstname="ngModel"
@@ -21,7 +21,7 @@
     <label for="nachname"><b>Nachname</b></label>
     <input
       type="text"
-      [(ngModel)]= "user.lastName"
+      [(ngModel)]= "user.nachname"
       name="nachname"
       id="nachname"
       required #lastname="ngModel"
@@ -45,7 +45,7 @@
     <label for="geburtsdatum"><b>Geburtsdatum</b></label>
     <input
       type="date"
-      [(ngModel)]= "user.birthDate"
+      [(ngModel)]= "user.geburtsdatum"
       name="geburtsdatum"
       id="geburtsdatum"
       required #birthDate="ngModel"
@@ -57,7 +57,7 @@
     <label for="pwd"><b>Passwort</b></label>
     <input
       type="password"
-      [(ngModel)]= "user.password"
+      [(ngModel)]= "user.passwort"
       name="pwd"
       id="pwd"
       required #password="ngModel"
@@ -70,10 +70,9 @@
     <label for="pwd-repeat"><b>Passwort erneut eingeben</b></label>
     <input
       type="password"
-      [(ngModel)]= "user.password"
       name="pwd-repeat"
       id="pwd-repeat"
-      required #password="ngModel"
+      required
     />
     </div>
 

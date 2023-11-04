@@ -1,10 +1,10 @@
 export class User{
   id:any;
-  firstName:any;
-  lastName:any;
+  vorname:any;
+  nachname:any;
   email:any;
-  birthDate:any;
-  password:any;
-  points:any;
-  verificationCode:any;
+  geburtsdatum:any;
+  passwort:any;
+  elo:any;
+  two_factor:any;
 }
