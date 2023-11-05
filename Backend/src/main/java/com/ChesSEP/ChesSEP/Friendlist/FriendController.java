@@ -19,29 +19,29 @@ public class FriendController {
         friendService.sendFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/acceptFriendRequest")
-    public void acceptFriendRequest(String jwtToken, UserRequestHolder Friend){
+    public void acceptFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.acceptFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/cancelFriendRequest")
-    public void cancelFriendRequest(String jwtToken, UserRequestHolder Friend){
+    public void cancelFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.cancelFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/denyFriendRequest")
-    public void denyFriendRequest(String jwtToken, UserRequestHolder Friend){
+    public void denyFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.denyFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/getMyFriendlist")
-    public ResponseEntity<UserRequestHolder[]> getMyFriendlist(String jwtToken){
+    public ResponseEntity<UserRequestHolder[]> getMyFriendlist(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(friendService.getMyFriendlist(jwtToken));
     }
 
     @PostMapping("/getFriendlistOf")
-    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(String jwtToken, UserRequestHolder target){
+    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder target){
         return ResponseEntity.ok(friendService.getFriendlistOf(jwtToken, target));
     }
 
     @PostMapping("/deleteFriend")
-    public void deleteFriend(String jwtToken, UserRequestHolder Friend){
+    public void deleteFriend(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.deleteFriend(jwtToken, Friend.getId());
     }
 }

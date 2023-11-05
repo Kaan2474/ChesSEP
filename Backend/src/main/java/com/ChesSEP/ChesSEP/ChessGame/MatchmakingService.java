@@ -2,6 +2,7 @@ package com.ChesSEP.ChesSEP.ChessGame;
 
 
 
+import com.ChesSEP.ChesSEP.Friendlist.Friend;
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
@@ -77,6 +78,19 @@ public class MatchmakingService {
             return null;
         }
         return String.valueOf(chessgameRepository.findGame(String.valueOf(getUserFromToken(jwtToken).getId())));
+    }
+
+    public UserRequestHolder[] getMyMatchInvitations(String jwtToken){
+        List<MatchRequest> list = matchRequestRepository.searchInvited(getUserFromToken(jwtToken).getId());
+        UserRequestHolder[] arr = new UserRequestHolder[list.size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = UserRequestHolder.builder()
+                    .id(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getId())
+                    .vorname(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getVorname())
+                    .nachname(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getNachname())
+                    .build();
+        }
+        return arr;
     }
 
     private void startMatch(Long playerWhite, Long playerBlack, String name, Long matchLength){

@@ -1,5 +1,6 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -21,5 +22,7 @@ class MatchRequestID implements Serializable {Long RequestorID; Long InvitedID;}
 public class MatchRequest {
 
     @EmbeddedId MatchRequestID matchRequestID;
+
+
 
 }
