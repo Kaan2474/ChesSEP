@@ -73,7 +73,7 @@ public class UserService {
             String authToken=tokenService.GenerateToken(authUser);
             return authToken; //JWT welcher returned wird
         }
-        return "0";
+        return "Das Token konnte nicht Generiert Werden";
     }
 
     public User findUserbyEmail(String email){

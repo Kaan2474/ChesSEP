@@ -23,19 +23,15 @@ public class UserController {
     private final TokenService tokenService;
     private ObjectMapper objectMapper=new ObjectMapper();
 
-    private String parseString(String target){
-        return "{'status':'"+target+"'}";
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<String> resgisterUser(@RequestBody UserRequestHolder  user){
+    public ResponseEntity<String> resgisterUser(@RequestBody UserRequestHolder  user)throws JsonProcessingException{
         String result=userService.registerUser(user);
 
         if(result.equals("Der User wurde erstellt!")){
-            return new ResponseEntity<String>(result,HttpStatus.OK);
+            return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.OK);
         }
 
-        return new ResponseEntity<String>(result,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/authenticate")
@@ -50,14 +46,14 @@ public class UserController {
     }
 
     @PostMapping("/twoFactor")
-    public ResponseEntity<RequestHolder<String>> twoFactor(@RequestBody AuthUserRequestHolder user){
+    public ResponseEntity<String> twoFactor(@RequestBody AuthUserRequestHolder user)throws JsonProcessingException{
 
         RequestHolder<String> result=new RequestHolder<String>(true,userService.checkTwoFactor(user.getTwoFactor()));
-        if(!result.getObject().equals("0")){
-            return new ResponseEntity<RequestHolder<String>>(result,HttpStatus.OK);
+        if(!result.getObject().equals("Das Token konnte nicht Generiert Werden")){
+            return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.OK);
         }
 
-        return new ResponseEntity<RequestHolder<String>>(result,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.BAD_REQUEST);
     }  
 
     @GetMapping("/{userId}")
