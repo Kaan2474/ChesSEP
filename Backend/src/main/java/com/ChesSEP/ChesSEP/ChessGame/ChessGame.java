@@ -4,9 +4,6 @@ import com.ChesSEP.ChesSEP.ChessGame.ChessGame;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
-
 @Getter
 @Setter
 @Builder
