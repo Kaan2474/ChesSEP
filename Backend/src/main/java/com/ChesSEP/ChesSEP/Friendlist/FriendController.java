@@ -1,9 +1,7 @@
 package com.ChesSEP.ChesSEP.Friendlist;
 
-import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
-import com.ChesSEP.ChesSEP.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
