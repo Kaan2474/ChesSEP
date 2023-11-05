@@ -60,6 +60,7 @@ public class EmailService implements EmailSender { // "EmailService" im Klassend
             String error = "Email konnte nicht zugestellt werden.";
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(userRepository.findUserById(user_id).getEmail());
+            message.setFrom("testzweckeio@gmail.com");
             message.setSubject("Konnte nicht zugestellt werden");
             message.setText(error);
 
