@@ -2,10 +2,7 @@ package com.ChesSEP.ChesSEP.User;
 
 import java.util.List;
 
-import com.ChesSEP.ChesSEP.Email.EmailService;
 import com.ChesSEP.ChesSEP.TwoFactorAuthentication.OtpService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,7 +46,7 @@ public class UserService {
 
         userRepository.save(assembledUser);
 
-        return otpService.generateOTP(assembledUser);
+        return "Der Nutzer wurde Registriert!";
     }
 
     public String authenticate(AuthUserRequestHolder user){
@@ -67,15 +64,16 @@ public class UserService {
     public String checkTwoFactor(String twoFactorToken){
         String [] twoFactor = twoFactorToken.split("_");
         User authUser = userRepository.findUserById(Long.parseLong(twoFactor[1]));
-        if(authUser.getTwoFactor() == Long.parseLong(twoFactor[0])){
-            String authToken=tokenService.GenerateToken(authUser);
+        if(authUser.getTwoFactor() == Long.parseLong(twoFactor[0])&&twoFactor[0].length()<6){
+            
+            authUser.setTwoFactor(999999);
+            userRepository.save(authUser);
 
+            String authToken=tokenService.GenerateToken(authUser);
             return authToken; //JWT welcher returned wird
         }
         return "Fehler bei der Authentifizierung";
     }
-
-
 
     public User findUserbyEmail(String email){
         return userRepository.findByEmail(email);
@@ -87,6 +85,25 @@ public class UserService {
 
     public User findUserById(Long id){
         return userRepository.findUserById(id);
+    }
+
+    public UserRequestHolder convetToRequestHolder(User user){
+        if(user ==null){
+            return null;
+        }
+       
+        UserRequestHolder holder=UserRequestHolder.builder()
+        .id(user.getId())
+        .vorname(user.getVorname())
+        .nachname(user.getNachname())
+        .email(user.getEmail())
+        .geburtsdatum(user.getGeburtsdatum())
+        .profilbild(user.getProfilbild())
+        .elo(user.getElo())
+        .build();
+       
+        return holder;
+
     }
 
 

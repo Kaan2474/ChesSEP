@@ -1,7 +1,5 @@
 package com.ChesSEP.ChesSEP.User;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +31,11 @@ public class UserController {
     @PostMapping("/twoFactor")
     public ResponseEntity<String> twoFactor(@RequestBody AuthUserRequestHolder user){
         return ResponseEntity.ok(userService.checkTwoFactor(user.getOtp()));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserRequestHolder> getUser(@PathVariable Long userId){
+        return ResponseEntity.ok(userService.convetToRequestHolder(userService.findUserById(userId)));
     }
 
 

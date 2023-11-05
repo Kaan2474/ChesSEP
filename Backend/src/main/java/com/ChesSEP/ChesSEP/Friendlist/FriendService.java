@@ -6,7 +6,6 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.Privacy;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
-import com.ChesSEP.ChesSEP.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

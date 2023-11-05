@@ -1,5 +1,6 @@
 package com.ChesSEP.ChesSEP.Security.RequestHolder;
 
+import java.io.File;
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -18,4 +19,6 @@ public class UserRequestHolder {
     private String email;
     private String passwort;
     private Date geburtsdatum;
+    private int elo;
+    private File profilbild;
 }
