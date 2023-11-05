@@ -19,11 +19,11 @@ export class AuthenticateComponent{
   submitCode(){
     this.user.email = localStorage.getItem("ActiveUser");
     this.user.twoFactor = this.code;
-    //this.userService.checkCode(this.user).subscribe((res) =>{this.goToHomePage()},(error) => {this.errorWithForm()})
-    this.userService.checkCode(this.user).subscribe({
-      next:this.goToHomePage,
-      error:this.errorWithForm
-    });
+    this.userService.checkCode(this.user).subscribe((res) =>
+      {this.goToHomePage()},
+      (error) => {
+        this.errorWithForm()
+      })
   }
   goToHomePage(){
     this.router.navigate(["/homepage"]);

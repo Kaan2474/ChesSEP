@@ -21,11 +21,7 @@ export class LoginComponent {
 
   onSubmit()
   {
-    //this.userService.login(this.user).subscribe(result => {this.goToAuthentication()}, (error) => {this.errorWithForm();})
-    var test=this.userService.login(this.user).subscribe({
-      next: this.goToAuthentication,
-      error: this.errorWithForm});
-
+    this.userService.login(this.user).subscribe(result => {this.goToAuthentication()}, (error) => {this.errorWithForm();});
   }
 
   private errorWithForm()

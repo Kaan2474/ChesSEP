@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
-import com.ChesSEP.ChesSEP.Security.RequestHolder.RequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,8 +47,8 @@ public class UserController {
     @PostMapping("/twoFactor")
     public ResponseEntity<String> twoFactor(@RequestBody AuthUserRequestHolder user)throws JsonProcessingException{
 
-        RequestHolder<String> result=new RequestHolder<String>(true,userService.checkTwoFactor(user.getTwoFactor()));
-        if(!result.getObject().equals("Das Token konnte nicht Generiert Werden")){
+        String result=userService.checkTwoFactor(user.getTwoFactor());
+        if(!result.equals("Das Token konnte nicht Generiert Werden")){
             return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.OK);
         }
 
