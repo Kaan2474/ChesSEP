@@ -17,7 +17,7 @@ public class OtpService {
     private EmailService emailService;
 
     //2FA - OTP erzeugen
-    public String generateOTP(User user) { //String Methode, damit SuccessHandler ein Rückgabewert bekommt
+    public Boolean generateOTP(User user) { //String Methode, damit SuccessHandler ein Rückgabewert bekommt
         try {
             SecureRandom random = new SecureRandom(); // PRNG - pseudo-random generated number
             int randomOTP = Math.abs(random.nextInt(100000)); // muss eine natürliche Zahl sein
@@ -28,10 +28,10 @@ public class OtpService {
 
             //Test
             lastOTP = otpString;
-            return "Erfolgreich erstellt";
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return "Fehlgeschlagen";
+            return false;
         }
     }
 

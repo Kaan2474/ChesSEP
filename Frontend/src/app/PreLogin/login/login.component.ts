@@ -21,7 +21,7 @@ export class LoginComponent {
 
   onSubmit()
   {
-    this.userService.login(this.user).subscribe(result => {this.goToAuthentication()}, (error) => {this.errorWithForm();})
+    this.userService.login(this.user).subscribe((data) => {this.goToAuthentication(),console.log(data)} , (error) => {this.errorWithForm(),console.log(error)})
   }
 
   private errorWithForm()
@@ -31,7 +31,7 @@ export class LoginComponent {
 
   goToAuthentication(){
     localStorage.setItem("ActiveUser", this.user.email);
-    this.router.navigate(["/Authentication"]);
+    this.router.navigate(["/authenticate"]);
   }
 
 }

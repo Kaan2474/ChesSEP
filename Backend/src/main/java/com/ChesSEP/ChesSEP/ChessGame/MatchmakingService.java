@@ -1,8 +1,5 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
-
-
-import com.ChesSEP.ChesSEP.Friendlist.Friend;
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;

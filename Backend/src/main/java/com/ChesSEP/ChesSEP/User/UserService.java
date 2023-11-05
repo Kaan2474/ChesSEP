@@ -27,10 +27,10 @@ public class UserService {
     private final OtpService otpService;
 
 
-    public String registerUser(@NonNull UserRequestHolder user){
+    public boolean registerUser(@NonNull UserRequestHolder user){
 
         if(userRepository.findByEmail(user.getEmail())!=null){
-            return user.getEmail()+": Email Existiert Bereits";
+            return false;
         }
 
         User assembledUser=User.builder()
@@ -46,18 +46,17 @@ public class UserService {
 
         userRepository.save(assembledUser);
 
-        return "Der Nutzer wurde Registriert!";
+        return true;
     }
 
-    public String authenticate(AuthUserRequestHolder user){
+    public Boolean authenticate(AuthUserRequestHolder user){
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPasswort()));
             User foundUser = userRepository.findByEmail(user.getEmail());
             return otpService.generateOTP(foundUser);
 
-
         }catch(Exception e){
-            return "Fehler beim Authentifizieren: "+e;
+            return false;
         }
     }
 
@@ -72,7 +71,7 @@ public class UserService {
             String authToken=tokenService.GenerateToken(authUser);
             return authToken; //JWT welcher returned wird
         }
-        return "Fehler bei der Authentifizierung";
+        return "0";
     }
 
     public User findUserbyEmail(String email){
