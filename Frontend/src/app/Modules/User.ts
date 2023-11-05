@@ -6,5 +6,5 @@ export class User{
   geburtsdatum:any;
   passwort:any;
   elo:any;
-  two_factor:any;
+  twoFactor:any;
 }

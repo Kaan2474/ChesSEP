@@ -18,7 +18,7 @@ export class AuthenticateComponent{
 
   submitCode(){
     this.user.email = localStorage.getItem("ActiveUser");
-    this.user.two_factor = this.code;
+    this.user.twoFactor = this.code;
     this.userService.checkCode(this.user).subscribe((res) =>
       {this.goToHomePage()},
       (error) => {

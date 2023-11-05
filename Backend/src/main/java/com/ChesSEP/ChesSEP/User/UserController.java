@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.RequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 
 import lombok.RequiredArgsConstructor;
@@ -42,13 +43,14 @@ public class UserController {
     }
 
     @PostMapping("/twoFactor")
-    public ResponseEntity<String> twoFactor(@RequestBody AuthUserRequestHolder user){
-        String result=userService.checkTwoFactor(user.getOtp());
-        if(!result.equals("0")){
-            return new ResponseEntity<String>(result,HttpStatus.OK);
+    public ResponseEntity<RequestHolder<String>> twoFactor(@RequestBody AuthUserRequestHolder user){
+
+        RequestHolder<String> result=new RequestHolder<String>(true,userService.checkTwoFactor(user.getTwoFactor()));
+        if(!result.getObject().equals("0")){
+            return new ResponseEntity<RequestHolder<String>>(result,HttpStatus.OK);
         }
 
-        return new ResponseEntity<String>(result,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<RequestHolder<String>>(result,HttpStatus.BAD_REQUEST);
     }  
 
     @GetMapping("/{userId}")
