@@ -17,22 +17,16 @@ public class OtpService {
     private EmailService emailService;
 
     //2FA - OTP erzeugen
-    public Boolean generateOTP(User user) { //String Methode, damit SuccessHandler ein Rückgabewert bekommt
-        try {
-            SecureRandom random = new SecureRandom(); // PRNG - pseudo-random generated number
-            int randomOTP = Math.abs(random.nextInt(100000)); // muss eine natürliche Zahl sein
-            String otpString = randomOTP +"_"+ user.getId(); // ID mit anhängen, damit UNIQUE Zuweisung der 2FA möglich ist
-            user.setTwoFactor(randomOTP);
-            userRepository.save(user);
-            emailService.sendOTP(user.getId(), "Ihr 2FA-Code: " + otpString);
+    public void generateOTP(User user) throws Exception { //String Methode, damit SuccessHandler ein Rückgabewert bekommt
+        SecureRandom random = new SecureRandom(); // PRNG - pseudo-random generated number
+        int randomOTP = Math.abs(random.nextInt(100000)); // muss eine natürliche Zahl sein
+        String otpString = randomOTP +"_"+ user.getId(); // ID mit anhängen, damit UNIQUE Zuweisung der 2FA möglich ist
+        user.setTwoFactor(randomOTP);
+        userRepository.save(user);
+        emailService.sendOTP(user.getId(), "Ihr 2FA-Code: " + otpString);
 
-            //Test
-            lastOTP = otpString;
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        //Test
+        lastOTP = otpString;
     }
 
 

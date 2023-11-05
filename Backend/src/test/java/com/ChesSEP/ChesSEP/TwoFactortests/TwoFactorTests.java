@@ -39,7 +39,12 @@ public class TwoFactorTests {
         userRepository.save(testUser);
 
         //act
-        otpService.generateOTP(testUser);
+        try {
+            otpService.generateOTP(testUser);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
 
         //Assert
         Assertions.assertEquals(Integer.parseInt(otpService.getLastOTP().split("_")[0]), testUser.getTwoFactor());

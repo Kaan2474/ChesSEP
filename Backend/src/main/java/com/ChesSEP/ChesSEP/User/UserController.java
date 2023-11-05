@@ -8,6 +8,8 @@ import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.RequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,27 +21,32 @@ public class UserController {
     
     private final UserService userService;
     private final TokenService tokenService;
+    private ObjectMapper objectMapper=new ObjectMapper();
+
+    private String parseString(String target){
+        return "{'status':'"+target+"'}";
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<Boolean> resgisterUser(@RequestBody UserRequestHolder  user){
-        Boolean result=userService.registerUser(user);
+    public ResponseEntity<String> resgisterUser(@RequestBody UserRequestHolder  user){
+        String result=userService.registerUser(user);
 
-        if(result){
-            return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+        if(result.equals("Der User wurde erstellt!")){
+            return new ResponseEntity<String>(result,HttpStatus.OK);
         }
 
-        return new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>(result,HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Boolean> loginUser(@RequestBody AuthUserRequestHolder user){
-        Boolean result=userService.authenticate(user);
+    public ResponseEntity<String> loginUser(@RequestBody AuthUserRequestHolder user) throws JsonProcessingException{
+        String result=userService.authenticate(user);
 
-        if(result){
-            return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+        if(result.equals("Der Code wurde erstellt und die Email versandt!")){
+            return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.OK);
         }
 
-        return new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/twoFactor")

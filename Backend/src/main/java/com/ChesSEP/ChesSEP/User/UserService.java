@@ -27,10 +27,10 @@ public class UserService {
     private final OtpService otpService;
 
 
-    public boolean registerUser(@NonNull UserRequestHolder user){
+    public String registerUser(@NonNull UserRequestHolder user){
 
         if(userRepository.findByEmail(user.getEmail())!=null){
-            return false;
+            return "Die Email existiert bereits oder ist falsch!";
         }
 
         User assembledUser=User.builder()
@@ -46,17 +46,19 @@ public class UserService {
 
         userRepository.save(assembledUser);
 
-        return true;
+        return "Der User wurde erstellt!";
     }
 
-    public Boolean authenticate(AuthUserRequestHolder user){
+    public String authenticate(AuthUserRequestHolder user){
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPasswort()));
             User foundUser = userRepository.findByEmail(user.getEmail());
-            return otpService.generateOTP(foundUser);
+            otpService.generateOTP(foundUser);
+
+            return "Der Code wurde erstellt und die Email versandt!";
 
         }catch(Exception e){
-            return false;
+            return "Fehler beim versenden der Email oder erstellen des Codes: "+e;
         }
     }
 
