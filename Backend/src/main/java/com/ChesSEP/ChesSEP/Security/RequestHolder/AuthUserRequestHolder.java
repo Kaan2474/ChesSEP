@@ -12,5 +12,5 @@ import lombok.Setter;
 public class AuthUserRequestHolder {
     private String email;
     private String passwort;
-    private String twoFactor;
+    private int twoFactor;
 }

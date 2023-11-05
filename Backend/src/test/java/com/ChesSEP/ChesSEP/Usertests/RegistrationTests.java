@@ -82,13 +82,13 @@ public class RegistrationTests {
     @Order(2)
     public void Authentication_loginUser_returnToken() throws Exception{
         //Arrange
-            AuthUserRequestHolder wrongPasswordTestAuth = new AuthUserRequestHolder("test@mail.com", "foof1337", "");
+            AuthUserRequestHolder wrongPasswordTestAuth = new AuthUserRequestHolder("test@mail.com", "foof1337", 999999);
             String wrongPasswordJsonRequest=objectMapper.writeValueAsString(wrongPasswordTestAuth);
 
-            AuthUserRequestHolder wrongEmailTestAuth = new AuthUserRequestHolder("test1@mail.com", "foof123", "");
+            AuthUserRequestHolder wrongEmailTestAuth = new AuthUserRequestHolder("test1@mail.com", "foof123", 999999);
             String wrongEmailJsonRequest=objectMapper.writeValueAsString(wrongEmailTestAuth);
 
-            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", "");
+            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", 999999);
             String correctJsonRequest=objectMapper.writeValueAsString(correctTestAuth);
 
         //Act
@@ -120,7 +120,7 @@ public class RegistrationTests {
     @Order(3)
     public void Authentication_authenticateUser_returnFromSecuredEndpoint() throws Exception{
         //Arrange
-            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", "");
+            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", 999999);
             String correctJsonRequest=objectMapper.writeValueAsString(correctTestAuth);
 
             MvcResult correctResponse=mockMvc

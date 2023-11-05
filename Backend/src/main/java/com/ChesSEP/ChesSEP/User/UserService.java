@@ -62,10 +62,9 @@ public class UserService {
         }
     }
 
-    public String checkTwoFactor(String twoFactorToken){
-        String [] twoFactor = twoFactorToken.split("_");
-        User authUser = userRepository.findUserById(Long.parseLong(twoFactor[1]));
-        if(authUser.getTwoFactor() == Long.parseLong(twoFactor[0])&&twoFactor[0].length()<6){
+    public String checkTwoFactor(AuthUserRequestHolder user){
+        User authUser = userRepository.findByEmail(user.getEmail());
+        if(authUser.getTwoFactor() == user.getTwoFactor()&&Integer.toString(user.getTwoFactor()).length()<6){
             
             authUser.setTwoFactor(999999);
             userRepository.save(authUser);

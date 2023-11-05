@@ -47,7 +47,7 @@ public class UserController {
     @PostMapping("/twoFactor")
     public ResponseEntity<String> twoFactor(@RequestBody AuthUserRequestHolder user)throws JsonProcessingException{
 
-        String result=userService.checkTwoFactor(user.getTwoFactor());
+        String result=userService.checkTwoFactor(user);
         if(!result.equals("Das Token konnte nicht Generiert Werden")){
             return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.OK);
         }
