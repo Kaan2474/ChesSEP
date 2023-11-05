@@ -1,21 +1,21 @@
 package com.ChesSEP.ChesSEP.Friendlist;
 
+import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/friend")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class FriendController {
     private final FriendService friendService;
 
     @PostMapping("/sendFriendRequest")
-    public void sendFriendRequest(String jwtToken, UserRequestHolder Friend){
+    public void sendFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.sendFriendRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/acceptFriendRequest")
