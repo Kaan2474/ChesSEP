@@ -1,0 +1,10 @@
+
+img {
+  margin-top: 3%;
+  width: 55%;
+}
+.split{
+  position: fixed;
+  overflow-x: hidden;
+  z-index: 1;
+}

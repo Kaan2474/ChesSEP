@@ -18,10 +18,11 @@ h1 {
 input {
   margin: 0.80em 0em 1em 0em;
   outline: none;
-  padding: 0.5em;
   border: none;
   border-radius: 0.25em;
   color: black;
+  padding : 0.5em;
+  width: 97%;
 }
 
 button {

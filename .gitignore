@@ -14,10 +14,15 @@ Backend/target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+/Frontend/.idea
+/Backend/.idea
 .idea
 *.iws
 *.iml
 *.ipr
+# Default ignored files
+/.idea/shelf/
+/.idea/workspace.xml
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +36,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/Frontend/.vscode
+/Backend/.vscode

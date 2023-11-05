@@ -1,60 +1,73 @@
-
-<form>
+<form (ngSubmit)="onSubmit()"  #registerForm="ngForm">
   <div class="container">
     <h1>Registrierung</h1>
 
-    <img [src]="url" title="Profilbild" />
-    <input
-      type="file"
-      id="img"
-      style="display:none"
-      accept="image/*"
-      (change)="onSelect($event)"
-    />
-    <u><label for="img">Bild hochladen</label></u>
 
-
+    <div class="form-group">
     <label for="vorname"><b>Vorname</b></label>
     <input
       type="text"
+      class="form-control"
+      [(ngModel)]= "user.vorname"
       name="vorname"
       id="vorname"
-      required
+      required #firstname="ngModel"
     />
+    </div>
 
+
+
+    <div class="form-group">
     <label for="nachname"><b>Nachname</b></label>
     <input
       type="text"
+      class="form-control"
+      [(ngModel)]= "user.nachname"
       name="nachname"
       id="nachname"
-      required
+      required #lastname="ngModel"
     />
+    </div>
 
+
+    <div class="form-group">
     <label for="e-mail"><b>E-Mail</b></label>
     <input
       type="text"
+      [(ngModel)]= "user.email"
       name="e-mail"
       id="e-mail"
-      required
+      required #email="ngModel"
     />
+    </div>
 
+
+    <div class="form-group">
     <label for="geburtsdatum"><b>Geburtsdatum</b></label>
     <input
       type="date"
+      [(ngModel)]= "user.geburtsdatum"
       name="geburtsdatum"
       id="geburtsdatum"
-      required
+      required #birthDate="ngModel"
     />
+    </div>
 
 
+    <div class="form-group">
     <label for="pwd"><b>Passwort</b></label>
     <input
       type="password"
+      [(ngModel)]= "user.passwort"
       name="pwd"
       id="pwd"
-      required
+      required #password="ngModel"
     />
+    </div>
 
+
+
+    <div class="form-group">
     <label for="pwd-repeat"><b>Passwort erneut eingeben</b></label>
     <input
       type="password"
@@ -62,13 +75,15 @@
       id="pwd-repeat"
       required
     />
+    </div>
 
 
-    <button type="submit" class="registerButton">Registrieren</button> <br>
+
+    <button type="submit" [disabled]="!registerForm.form.valid" class="registerButton">Registrieren </button> <br>
     <button routerLink="/" class="Zurück">Zurück</button>
   </div>
 
   <div>
-    <p>Du hast bereits ein Konto? <a href="/login">Login</a>.</p>
+    <p>Du hast bereits ein Konto? <a href="/">Login</a>.</p>
   </div>
 </form>

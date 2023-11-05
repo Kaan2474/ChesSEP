@@ -3,14 +3,14 @@
     <h1>Authentifizierung</h1>
   </div>
   <div class="center"><p>Bitte geben Sie den Code ein, den wir Ihnen per Mail zugesendet haben!</p></div>
-  <form>
+  <form (ngSubmit)="submitCode()" #authentication="ngForm">
     <div class="center">
-      <input type="text"
+      <input type="text" [(ngModel)]="code"
              id="code"
              name="code"
              placeholder="   Authentifizierungs-Code">
 
-    <button type="submit" class="submit">Weiter</button>
+    <button type="submit" [disabled]="!authentication.valid" class="submit">Weiter</button>
     </div>
   </form>
   <div class="center">

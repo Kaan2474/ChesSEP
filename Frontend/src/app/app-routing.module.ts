@@ -12,10 +12,12 @@ import {InvitationComponent} from "./PostLogin/invitation/invitation.component";
 import {CreatePlayAgainstComputerComponent} from "./PostLogin/create-play-against-computer/create-play-against-computer.component";
 import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
 import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
+import {NgForm} from '@angular/forms';
+
 
 const routes: Routes = [
-  {path: "login", title:"ChesSSEP", component: LoginComponent},
-  {path: "", title:"ChesSEP", component: HomepageComponent},
+  {path: "", title:"ChesSSEP", component: LoginComponent},
+  {path: "homepage", title:"ChesSEP", component: HomepageComponent},
   {path: "register", title:"ChesSEP", component: RegisterComponent},
   {path: "addfriend", title: "ChesSEP", component: AddfriendComponent},
   {path: "user-profil-view", title: "ChesSEP", component: UserProfilViewComponent},
