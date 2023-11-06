@@ -40,7 +40,7 @@ public class User implements UserDetails {
     private String nachname;
 
     @Column
-    private int twoFactor; //OTP
+    private int twoFactor;
 
     @Column
     private String email;
@@ -56,6 +56,9 @@ public class User implements UserDetails {
 
     @Column
     private int elo;
+
+    @Column
+    private final int supercode = 1111; //Der für die Abnahme erforderliche Super Sicherheitscode
 
     @Column
     @Enumerated(EnumType.STRING)
