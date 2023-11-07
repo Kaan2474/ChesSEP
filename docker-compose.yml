@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:latest
+    build: 
+      context: ./mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=SEP
+      - MYSQL_DATABASE=SEP
+    ports:
+      - "3306:3307"
+    restart: always
