@@ -3,12 +3,12 @@
     <h1> Login</h1>
   </div>
 
-  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <div class = "center">
       <input type = "email" [(ngModel)]="user.email"
              id = "email"
              name = "email"
-             placeholder="  E-mail">
+             placeholder="  E-mail" >
     </div>
 
     <div class = "center">
@@ -19,7 +19,7 @@
     </div>
 
     <div class="center">
-      <button type="submit" [disabled]="!userForm.form.valid"
+      <button type="submit" [disabled]="!loginForm.form.valid"
               class="loginButton">Login</button>
     </div>
   </form>

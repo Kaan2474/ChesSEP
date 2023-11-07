@@ -6,11 +6,13 @@
   <title>Title</title>
 </head>
 <body>
-  <h3>Du willst einen Freund hinzufügen? Dann gib den Nutzernamen ein!</h3>
-  <form>
-    <label for="username">Nutzername: </label>
-    <input id="username" name="username" type="text">
-    <button type="submit">Freund hinzufügen</button>
+  <h3>Du willst einen Freund hinzufügen? Dann gib die Email-Adresse ein!</h3>
+  <!--Für Freund hinzufügen Backend Kommunikation-->
+  <form #addfriendForm="ngForm" (ngSubmit)="onAddFriend(addfriendForm.value)">
+    <label for="addfriend">Email: </label>
+    <input id="addfriend" name="email" type="text" ngModel>
+    <input id="addfriendButton" type="submit" value="Freund hinzufügen">
   </form>
+
 </body>
 </html>
