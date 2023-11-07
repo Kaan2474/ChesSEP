@@ -5,7 +5,7 @@ body {
 
 
 /*Der ,,Freund hinzufügen'' Knopf*/
-button {
+#addfriendButton {
   color: #FFFFFF;
   background-color: #0D99FF;
   margin-left: 5px;

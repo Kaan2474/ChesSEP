@@ -1,12 +1,18 @@
+/*Farbe des Headers*/
+h1 {
+  color: #1E1E1E;
+  margin-top: 5%;
+}
+
 /*Verschiebt die Buttons nach unten*/
 form {
-  margin-top: 46%;
+  margin-top: 38%;
 }
 
 /*Verschiebt die Buttons in die Mitte des Bildschirms*/
 .container-public {
   display: inline;
-  margin-left: 40%;
+  margin-left: 43%;
 }
 /*Vergrößert den Abstand zwischen den einzelnen Buttons*/
 .container-private {
