@@ -24,7 +24,8 @@ public class FriendService {
         return userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
     }
 
-    public void sendFriendRequest(String jwtToken, Long friendId){
+    public void sendFriendRequest(String jwtToken, String friendemail){
+        long friendId=userRepository.findByEmail(friendemail).getId();
         if(friendRepository.secondRequest(getUserFromToken(jwtToken).getId(), friendId) == null &&
            friendRepository.isFriend(getUserFromToken(jwtToken).getId(), friendId) == null &&
                 friendRepository.searchRequest(getUserFromToken(jwtToken).getId(), friendId) == null){
