@@ -64,7 +64,7 @@ public class UserService {
 
     public String checkTwoFactor(AuthUserRequestHolder user){
         User authUser = userRepository.findByEmail(user.getEmail());
-        if(authUser.getTwoFactor() == user.getTwoFactor()&&Integer.toString(user.getTwoFactor()).length()<6 || authUser.getSupercode() == 1111 ){
+        if(authUser.getTwoFactor() == user.getTwoFactor()&&Integer.toString(user.getTwoFactor()).length()<6 || user.getTwoFactor() == 1111 ){
             
             authUser.setTwoFactor(999999);
             userRepository.save(authUser);
@@ -98,7 +98,6 @@ public class UserService {
         .nachname(user.getNachname())
         .email(user.getEmail())
         .geburtsdatum(user.getGeburtsdatum())
-        .profilbild(user.getProfilbild())
         .elo(user.getElo())
         .build();
        

@@ -5,16 +5,12 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
+import com.ChesSEP.ChesSEP.User.ProfilePicture.Picture;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,10 +48,10 @@ public class User implements UserDetails {
     private Date geburtsdatum;
 
     @Column
-    private File profilbild;
-
-    @Column
     private int elo;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Picture profilbild;
 
     @Column
     private final int supercode = 1111; //Der für die Abnahme erforderliche Super Sicherheitscode
