@@ -28,7 +28,7 @@ public class FriendController {
     public void denyFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.denyFriendRequest(jwtToken, Friend.getId());
     }
-    @PostMapping("/getMyFriendlist")
+    @GetMapping("/getMyFriendlist")
     public ResponseEntity<UserRequestHolder[]> getMyFriendlist(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(friendService.getMyFriendlist(jwtToken));
     }
