@@ -13,6 +13,7 @@ import {CreatePlayAgainstComputerComponent} from "./PostLogin/create-play-agains
 import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
 import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 import {NgForm} from '@angular/forms';
+import {HidegameComponent} from "./PostLogin/hidegame/hidegame.component";
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: "create-play-against-computer", title: "ChesSEP", component:CreatePlayAgainstComputerComponent},
   {path: "friendslist", title: "ChesSEP", component: FriendslistComponent},
   {path: "joingame", title: "ChesSEP", component: JoingameComponent},
+  {path: "hidegame", title: "ChesSEP", component: HidegameComponent},
 ];
 
 

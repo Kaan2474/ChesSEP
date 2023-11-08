@@ -20,6 +20,7 @@ import { CreatePlayAgainstComputerComponent } from './PostLogin/create-play-agai
 import {FormsModule} from "@angular/forms";
 import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
 import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
+import { HidegameComponent } from './PostLogin/hidegame/hidegame.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
     InvitationComponent,
     CreatePlayAgainstComputerComponent,
     FriendslistComponent,
-    JoingameComponent
+    JoingameComponent,
+    HidegameComponent
   ],
   imports: [
     BrowserModule,

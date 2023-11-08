@@ -9,10 +9,10 @@ img {
 button {
   color: #FFFFFF;
   background-color: #0D99FF;
-  margin-left: 5px;
   padding: 8px;
   border: 2px solid #1E1E1E;
   border-radius: 10px;
   cursor: pointer;
-  margin-left: 40%;
+  margin-left: 37.5%;
+  width: 20%;
 }

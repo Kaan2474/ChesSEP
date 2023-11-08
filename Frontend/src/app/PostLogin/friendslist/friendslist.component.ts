@@ -9,19 +9,12 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./friendslist.component.css']
 })
 export class FriendslistComponent implements OnInit{
-
   constructor(private http: HttpClient) { }
-
   ngOnInit() {
     this.getFriendsList();
   }
 
-
-  onGetFriendsList() {
-    this.getFriendsList();
-  }
-
-   private getFriendsList() {
+  getFriendsList() {
     this.http.get("http://localhost:8080/friend/getMyFriendlist")
       .subscribe((response) => {
         console.log(response)
