@@ -32,8 +32,8 @@ public class FriendService {
         friendRepository.searchRequest(sender.getId(), friendId) != null)
         return;
 
-        if(friendRepository.getDuplicateRequest(sender.getId(), friendId) != null){
-            Friend request=friendRepository.getDuplicateRequest(sender.getId(), friendId);
+        if(friendRepository.getRequest(sender.getId(), friendId) != null){
+            Friend request=friendRepository.getRequest(sender.getId(), friendId);
             request.setType(FriendTyp.FRIEND);
             friendRepository.save(request);
             return;
@@ -48,21 +48,28 @@ public class FriendService {
             "ChesSEP - Freundschaftsanfrage",
             getUserFromToken(jwtToken).getVorname() + " " + getUserFromToken(jwtToken).getNachname() + " möchte mit dir befreundet sein.");     
     }
+
     public void acceptFriendRequest(String jwtToken, Long friendId){
-        if(friendRepository.getDuplicateRequest(getUserFromToken(jwtToken).getId(), friendId) != null &&
-                friendRepository.isFriend(getUserFromToken(jwtToken).getId(), friendId) == null){
-            friendRepository.save(Friend.builder()
-                    .friendID(new FriendID(getUserFromToken(jwtToken).getId(), friendId))
-                    .type(FriendTyp.FRIEND)
-                    .build());
-        }
+        User sender=getUserFromToken(jwtToken);
+
+        Friend request=friendRepository.getRequest(sender.getId(), friendId);
+
+        if(request == null || friendRepository.isFriend(sender.getId(), friendId) != null)
+        return;
+
+        request.setType(FriendTyp.FRIEND);
+
+        friendRepository.save(request);
     }
+
     public void cancelFriendRequest(String jwtToken, Long friendId){
         friendRepository.delete(friendRepository.searchRequest(getUserFromToken(jwtToken).getId(), friendId));
     }
+
     public void denyFriendRequest(String jwtToken, Long friendId){
         friendRepository.delete(friendRepository.searchRequest(friendId, getUserFromToken(jwtToken).getId()));
     }
+    
     public UserRequestHolder[] getMyFriendlist (String jwtToken){
         List<Friend> list = friendRepository.getFriendlist(getUserFromToken(jwtToken).getId());
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
@@ -93,6 +100,6 @@ public class FriendService {
     }
 
     public void deleteFriend(String jwtToken, Long friendId){
-        friendRepository.delete(friendRepository.getDuplicateRequest(getUserFromToken(jwtToken).getId(), friendId));
+        friendRepository.delete(friendRepository.getRequest(getUserFromToken(jwtToken).getId(), friendId));
     }
 }

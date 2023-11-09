@@ -11,7 +11,7 @@ import java.util.List;
 public interface FriendRepository extends JpaRepository<Friend, Long> {
 
     @Query("FROM Friend WHERE friendID.FriendID1 IN ?2 AND friendID.FriendID2 IN ?1")
-    Friend getDuplicateRequest(Long friend1, Long friend2);
+    Friend getRequest(Long friend1, Long friend2);
 
     @Query("FROM Friend WHERE friendID.FriendID1 IN ?1 AND friendID.FriendID2 IN ?2 AND type = 'FRIEND' ")
     Friend isFriend(Long friend1, Long friend2);
