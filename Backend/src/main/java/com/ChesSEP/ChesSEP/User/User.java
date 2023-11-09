@@ -53,9 +53,6 @@ public class User implements UserDetails {
     private Picture profilbild;
 
     @Column
-    private final int supercode = 1111; //Der für die Abnahme erforderliche Super Sicherheitscode
-
-    @Column
     @Enumerated(EnumType.STRING)
     private Privacy FriendlistPrivacy;
 

@@ -11,19 +11,23 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class AuthenticateComponent{
   user:User;
   code:String="";
+  result:String='';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private userService: UserService) {this.user = new User()}
 
-  submitCode(){
-    this.user.email = localStorage.getItem("ActiveUser");
-    this.user.twoFactor = this.code;
-    this.userService.checkCode(this.user).subscribe((res) =>
-      {this.goToHomePage()},
-      (error) => {
-        this.errorWithForm()
-      })
+    submitCode(){
+      this.user.email = localStorage.getItem("ActiveUser");
+      this.user.twoFactor = this.code;
+      this.userService.checkCode(this.user).subscribe((res) =>
+        {
+          this.goToHomePage()
+          localStorage.setItem("JWT", res.toString());
+        },
+        (error) => {
+          this.errorWithForm()
+        })
   }
   goToHomePage(){
     this.router.navigate(["/homepage"]);
