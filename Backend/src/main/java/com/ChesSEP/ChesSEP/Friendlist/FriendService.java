@@ -26,27 +26,30 @@ public class FriendService {
 
     public void sendFriendRequest(String jwtToken, String friendemail){
         long friendId=userRepository.findByEmail(friendemail).getId();
-        if(friendRepository.secondRequest(getUserFromToken(jwtToken).getId(), friendId) == null &&
-           friendRepository.isFriend(getUserFromToken(jwtToken).getId(), friendId) == null &&
-                friendRepository.searchRequest(getUserFromToken(jwtToken).getId(), friendId) == null){
-                friendRepository.save(Friend.builder()
-                    .friendID(new FriendID(getUserFromToken(jwtToken).getId(), friendId))
-                    .type(FriendTyp.REQUEST)
-                    .build());
-            emailService.send(getUserFromToken(jwtToken).getId(), friendId,
-                    "ChesSEP - Freundschaftsanfrage",
-                    getUserFromToken(jwtToken).getVorname() + " " + getUserFromToken(jwtToken).getNachname() + " möchte mit dir befreundet sein.");
+        User sender=getUserFromToken(jwtToken);
+
+        if(friendRepository.isFriend(sender.getId(), friendId) != null ||
+        friendRepository.searchRequest(sender.getId(), friendId) != null)
+        return;
+
+        if(friendRepository.getDuplicateRequest(sender.getId(), friendId) != null){
+            Friend request=friendRepository.getDuplicateRequest(sender.getId(), friendId);
+            request.setType(FriendTyp.FRIEND);
+            friendRepository.save(request);
+            return;
         }
-        else if(friendRepository.secondRequest(getUserFromToken(jwtToken).getId(), friendId) != null &&
-                friendRepository.isFriend(getUserFromToken(jwtToken).getId(), friendId) == null){
-            friendRepository.save(Friend.builder()
-                    .friendID(new FriendID(getUserFromToken(jwtToken).getId(), friendId))
-                    .type(FriendTyp.FRIEND)
-                    .build());
-        }
+
+        friendRepository.save(Friend.builder()
+            .friendID(new FriendID(sender.getId(), friendId))
+            .type(FriendTyp.REQUEST)
+            .build());
+
+        emailService.send(getUserFromToken(jwtToken).getId(), friendId,
+            "ChesSEP - Freundschaftsanfrage",
+            getUserFromToken(jwtToken).getVorname() + " " + getUserFromToken(jwtToken).getNachname() + " möchte mit dir befreundet sein.");     
     }
     public void acceptFriendRequest(String jwtToken, Long friendId){
-        if(friendRepository.secondRequest(getUserFromToken(jwtToken).getId(), friendId) != null &&
+        if(friendRepository.getDuplicateRequest(getUserFromToken(jwtToken).getId(), friendId) != null &&
                 friendRepository.isFriend(getUserFromToken(jwtToken).getId(), friendId) == null){
             friendRepository.save(Friend.builder()
                     .friendID(new FriendID(getUserFromToken(jwtToken).getId(), friendId))
@@ -90,6 +93,6 @@ public class FriendService {
     }
 
     public void deleteFriend(String jwtToken, Long friendId){
-        friendRepository.delete(friendRepository.secondRequest(getUserFromToken(jwtToken).getId(), friendId));
+        friendRepository.delete(friendRepository.getDuplicateRequest(getUserFromToken(jwtToken).getId(), friendId));
     }
 }

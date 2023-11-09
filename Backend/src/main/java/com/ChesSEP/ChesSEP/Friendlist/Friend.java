@@ -20,5 +20,6 @@ public class Friend {
     @EmbeddedId FriendID friendID;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private FriendTyp type;
 }
