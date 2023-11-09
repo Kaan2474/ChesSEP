@@ -1,6 +1,5 @@
 package com.ChesSEP.ChesSEP.User;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -52,9 +51,6 @@ public class User implements UserDetails {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Picture profilbild;
-
-    @Column
-    private final int supercode = 1111; //Der für die Abnahme erforderliche Super Sicherheitscode
 
     @Column
     @Enumerated(EnumType.STRING)
