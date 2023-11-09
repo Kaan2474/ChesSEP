@@ -41,6 +41,7 @@ public class UserService {
             .geburtsdatum(user.getGeburtsdatum())
             .elo(500)
             .role(Role.USER)
+            .twoFactor(999999) //Flag für null
                 .FriendlistPrivacy(Privacy.OEFFENTLICH)
             .build();
 

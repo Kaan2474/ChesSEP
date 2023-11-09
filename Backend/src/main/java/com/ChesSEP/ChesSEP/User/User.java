@@ -1,6 +1,5 @@
 package com.ChesSEP.ChesSEP.User;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;

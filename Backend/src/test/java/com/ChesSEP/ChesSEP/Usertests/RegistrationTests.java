@@ -7,6 +7,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -26,14 +28,15 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 
 
-@Deprecated // Veraltet - Muss aktualisiert werden
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @TestPropertySource(properties = {
 	"spring.jpa.defer-database-initialization=true",
-	"spring.jpa.hibernate.ddl.auto=create-drop"
+	"spring.jpa.hibernate.ddl.auto=create-drop",
+    "spring.jpa.properties.hibernate.globally_quoted_identifiers=true"
 })
 public class RegistrationTests {
     
@@ -42,16 +45,17 @@ public class RegistrationTests {
     
     @Autowired
     private MockMvc mockMvc;
+
     private ObjectMapper objectMapper=new ObjectMapper();
 
     @Test
     @Order(1)
-    public void Registration_saveUser_returnToken() throws Exception{
+    public void Registration_saveUser() throws Exception{
         //Arrange
             UserRequestHolder testuser=UserRequestHolder.builder()
                 .vorname("jonas")
                 .nachname("giesen")
-                .email("test@mail.com")
+                .email("jonas.giesen2004@gmail.com")
                 .passwort("foof123")
                 .geburtsdatum(new Date(System.currentTimeMillis()))
                 .build();
@@ -74,21 +78,21 @@ public class RegistrationTests {
 
         //Assert
             Assertions.assertNotNull(response.getResponse().getContentAsString());
-            Assertions.assertEquals("test@mail.com: Email Existiert Bereits",duplicateEmailresponse.getResponse().getContentAsString());
+            Assertions.assertEquals("\"Die Email existiert bereits oder ist falsch!\"",duplicateEmailresponse.getResponse().getContentAsString());
             Assertions.assertEquals(1, userService.findAllUsers().size());
     }
 
     @Test
     @Order(2)
-    public void Authentication_loginUser_returnToken() throws Exception{
+    public void Authentication_loginUser() throws Exception{
         //Arrange
-            AuthUserRequestHolder wrongPasswordTestAuth = new AuthUserRequestHolder("test@mail.com", "foof1337", 999999);
+            AuthUserRequestHolder wrongPasswordTestAuth = new AuthUserRequestHolder("jonas.giesen2004@gmail.com", "foof1337", 999999);
             String wrongPasswordJsonRequest=objectMapper.writeValueAsString(wrongPasswordTestAuth);
 
             AuthUserRequestHolder wrongEmailTestAuth = new AuthUserRequestHolder("test1@mail.com", "foof123", 999999);
             String wrongEmailJsonRequest=objectMapper.writeValueAsString(wrongEmailTestAuth);
 
-            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", 999999);
+            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("jonas.giesen2004@gmail.com", "foof123", 999999);
             String correctJsonRequest=objectMapper.writeValueAsString(correctTestAuth);
 
         //Act
@@ -111,24 +115,26 @@ public class RegistrationTests {
                 .andReturn();
 
         //Assert
-            Assertions.assertTrue(wrongPasswordResponse.getResponse().getContentAsString().startsWith("Fehler beim Authentifizieren: "));
-            Assertions.assertTrue(wrongEmailResponse.getResponse().getContentAsString().startsWith("Fehler beim Authentifizieren: "));
-            Assertions.assertTrue(!correctResponse.getResponse().getContentAsString().startsWith("Fehler beim Authentifizieren: "));
+            Assertions.assertTrue(wrongPasswordResponse.getResponse().getContentAsString().startsWith("\"Fehler beim versenden der Email oder erstellen des Codes:"));
+            Assertions.assertTrue(wrongEmailResponse.getResponse().getContentAsString().startsWith("\"Fehler beim versenden der Email oder erstellen des Codes:"));
+            Assertions.assertTrue(!correctResponse.getResponse().getContentAsString().startsWith("\"Fehler beim versenden der Email oder erstellen des Codes:"));
     }
 
     @Test
     @Order(3)
     public void Authentication_authenticateUser_returnFromSecuredEndpoint() throws Exception{
         //Arrange
-            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("test@mail.com", "foof123", 999999);
+            AuthUserRequestHolder correctTestAuth = new AuthUserRequestHolder("jonas.giesen2004@gmail.com", "foof123", 1111);
             String correctJsonRequest=objectMapper.writeValueAsString(correctTestAuth);
 
             MvcResult correctResponse=mockMvc
-                .perform(post("/users/authenticate")
+                .perform(post("/users/twoFactor")
                     .content(correctJsonRequest)
                     .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
+            String JWT=correctResponse.getResponse().getContentAsString();
+            JWT="Bearer "+JWT.substring(1,JWT.length()-1);
         //Act
             MvcResult nonAuthentcatedResponse=mockMvc
                 .perform(get("/users/hello"))
@@ -136,13 +142,13 @@ public class RegistrationTests {
 
             MvcResult authenticatedResponse=mockMvc
                 .perform(get("/users/hello")
-                    .header("Authorization", "Bearer "+correctResponse.getResponse().getContentAsString()))
+                    .header("Authorization", JWT))
                 .andReturn();  
 
         //Assert
 
-            Assertions.assertTrue(nonAuthentcatedResponse.getResponse().getStatus()==403);
-            Assertions.assertTrue(authenticatedResponse.getResponse().getStatus()==200);
+            Assertions.assertEquals(403,nonAuthentcatedResponse.getResponse().getStatus());
+            Assertions.assertEquals(200,authenticatedResponse.getResponse().getStatus());
             Assertions.assertEquals("Hello World!", authenticatedResponse.getResponse().getContentAsString());
     }
 }
