@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {FriendsService} from "../../Service/friends.service";
 
 
 
@@ -9,15 +9,15 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./friendslist.component.css']
 })
 export class FriendslistComponent implements OnInit{
-  constructor(private http: HttpClient) { }
+  constructor(private friendsService: FriendsService) { }
   ngOnInit() {
-    this.getFriendsList();
+    this.getFriends()
   }
 
-  getFriendsList() {
-    this.http.get("http://localhost:8080/friend/getMyFriendlist")
-      .subscribe((response) => {
-        console.log(response)
-      })
-   }
+  getFriends() {
+    this.friendsService.getFriendslist()
+      .subscribe((data) => {
+        console.log(data)
+      });
+  }
 }
