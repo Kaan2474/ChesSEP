@@ -20,10 +20,7 @@ public class FriendController {
     public void acceptFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.acceptFriendRequest(jwtToken, Friend.getId());
     }
-    @PostMapping("/cancelFriendRequest")
-    public void cancelFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        friendService.cancelFriendRequest(jwtToken, Friend.getId());
-    }
+    
     @PostMapping("/denyFriendRequest")
     public void denyFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.denyFriendRequest(jwtToken, Friend.getId());

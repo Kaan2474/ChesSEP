@@ -28,8 +28,8 @@ public class FriendService {
         long friendId=userRepository.findByEmail(friendemail).getId();
         User sender=getUserFromToken(jwtToken);
 
-        if(friendRepository.isFriend(sender.getId(), friendId) != null ||
-        friendRepository.searchRequest(sender.getId(), friendId) != null)
+        if(friendRepository.getFriends(sender.getId(), friendId) != null ||
+        friendRepository.getRequest(sender.getId(), friendId) != null)
         return;
 
         if(friendRepository.getRequest(sender.getId(), friendId) != null){
@@ -54,7 +54,7 @@ public class FriendService {
 
         Friend request=friendRepository.getRequest(sender.getId(), friendId);
 
-        if(request == null || friendRepository.isFriend(sender.getId(), friendId) != null)
+        if(request == null || friendRepository.getFriends(sender.getId(), friendId) != null)
         return;
 
         request.setType(FriendTyp.FRIEND);
@@ -62,12 +62,10 @@ public class FriendService {
         friendRepository.save(request);
     }
 
-    public void cancelFriendRequest(String jwtToken, Long friendId){
-        friendRepository.delete(friendRepository.searchRequest(getUserFromToken(jwtToken).getId(), friendId));
-    }
-
     public void denyFriendRequest(String jwtToken, Long friendId){
-        friendRepository.delete(friendRepository.searchRequest(friendId, getUserFromToken(jwtToken).getId()));
+        Long id=getUserFromToken(jwtToken).getId();
+        Friend request=friendRepository.getRequest(friendId, id);
+        friendRepository.delete(request);
     }
     
     public UserRequestHolder[] getMyFriendlist (String jwtToken){
@@ -112,6 +110,6 @@ public class FriendService {
     }
 
     public void deleteFriend(String jwtToken, Long friendId){
-        friendRepository.delete(friendRepository.getRequest(getUserFromToken(jwtToken).getId(), friendId));
+        friendRepository.delete(friendRepository.getFriends(getUserFromToken(jwtToken).getId(),friendId));
     }
 }

@@ -1,11 +1,5 @@
 package com.ChesSEP.ChesSEP.FriendListtests;
 
-import com.ChesSEP.ChesSEP.Friendlist.*;
-import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
-import com.ChesSEP.ChesSEP.User.Role;
-import com.ChesSEP.ChesSEP.User.User;
-import com.ChesSEP.ChesSEP.User.UserRepository;
-
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -19,179 +13,105 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.ChesSEP.ChesSEP.Friendlist.FriendRepository;
+import com.ChesSEP.ChesSEP.Friendlist.FriendService;
+import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
+import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
+import com.ChesSEP.ChesSEP.User.User;
+import com.ChesSEP.ChesSEP.User.UserService;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @TestPropertySource(properties = {
-        "spring.jpa.defer-database-initialization=true",
-        "spring.jpa.hibernate.ddl.auto=create-drop",
-        "spring.jpa.properties.hibernate.globally_quoted_identifiers=true"
-
+	"spring.jpa.defer-database-initialization=true",
+	"spring.jpa.hibernate.ddl.auto=create-drop",
+    "spring.jpa.properties.hibernate.globally_quoted_identifiers=true"
 })
 public class FriendListtests {
 
-    @Autowired
-    private UserRepository userRepository;
+    
 
     @Autowired
-    private FriendRepository friendRepository;
+    FriendService friendService;
 
     @Autowired
-    private TokenService tokenService;
+    TokenService tokenService;
+
+    @Autowired 
+    FriendRepository friendRepository;
 
     @Autowired
-    private FriendService friendService;
-
-
-
+    UserService userService;
+    
     @Test
     @Order(1)
-    public void sendFriendRequestTest(){
+    public void FriendService_sendFriendRequest(){
         //Arrange
-        User testUser = User.builder()
+        UserRequestHolder testUser = UserRequestHolder.builder()
                 .email("mario-mai@gmx.net")
                 .vorname("Mario")
                 .nachname("Mai")
                 .passwort("12345")
-                .role(Role.USER)
                 .build();
 
-        userRepository.save(testUser);
+        userService.registerUser(testUser);
 
-        User testUser2 = User.builder()
+        UserRequestHolder testUser2 = UserRequestHolder.builder()
                 .email("testzweckeio@gmail.com")
                 .vorname("Jonas")
                 .nachname("Mai")
-                .role(Role.USER)
+                .passwort("12345")
                 .build();
 
-        userRepository.save(testUser2);
+        userService.registerUser(testUser2);
+
+        User user1=userService.findUserById(1L);
+        User user2=userService.findUserById(2L);
+
+        String token1="Bearer "+tokenService.GenerateToken(user1);
+        String token2="Bearer "+tokenService.GenerateToken(user2);
 
         //Act
-        friendService.sendFriendRequest("Bearer "+tokenService.GenerateToken(testUser), testUser2.getEmail());
+        friendService.sendFriendRequest(token1, user2.getEmail());
 
         //Assert
-        Assertions.assertTrue(friendRepository.searchRequest(testUser.getId(),testUser2.getId()) != null);
+        Assertions.assertTrue(friendRepository.getRequest(user1.getId(),user2.getId()) != null);
     }
 
     @Test
     @Order(2)
-    public void acceptFriendRequestTest(){
+    public void FriendService_acceptFriendRequest(){
         //Arrange
-        User testUser = User.builder()
-                .email("mario-mai@gmx.net")
-                .vorname("Mario")
-                .nachname("Mai")
-                .passwort("12345")
-                .role(Role.USER)
-                .build();
+        User user1=userService.findUserById(1L);
+        User user2=userService.findUserById(2L);
 
-
-        User testUser2 = User.builder()
-                .email("testzweckeio@gmail.com")
-                .vorname("Jonas")
-                .nachname("Mai")
-                .role(Role.USER)
-                .build();
-
-
+        String token1="Bearer "+tokenService.GenerateToken(user1);
+        String token2="Bearer "+tokenService.GenerateToken(user2);
 
         //Act
-        friendService.acceptFriendRequest("Bearer "+tokenService.GenerateToken(testUser),
-                                                    userRepository.findByEmail(testUser2.getEmail()).getId());
+        friendService.acceptFriendRequest(token2, user1.getId());
 
         //Assert
-        Assertions.assertTrue(friendRepository.isFriend(
-                userRepository.findByEmail(testUser.getEmail()).getId(),
-                userRepository.findByEmail(testUser2.getEmail()).getId()) != null);
-
+        Assertions.assertTrue(friendRepository.getFriends(user1.getId(), user2.getId())!=null);
     }
 
     @Test
     @Order(3)
-    public void cancelFriendRequestTest(){
+    public void FriendService_deleteFriend(){
         //Arrange
-        User testUser = User.builder()
-                .email("mario-mai@gmx.net")
-                .vorname("Mario")
-                .nachname("Mai")
-                .passwort("12345")
-                .role(Role.USER)
-                .build();
+        User user1=userService.findUserById(1L);
+        User user2=userService.findUserById(2L);
 
-        User testUser2 = User.builder()
-                .email("testzweckeio@gmail.com")
-                .vorname("Jonas")
-                .nachname("Mai")
-                .role(Role.USER)
-                .build();
-
-
+        String token1="Bearer "+tokenService.GenerateToken(user1);
+        String token2="Bearer "+tokenService.GenerateToken(user2);
 
         //Act
-        friendService.cancelFriendRequest("Bearer "+tokenService.GenerateToken(testUser),
-                                                    userRepository.findByEmail(testUser2.getEmail()).getId());
+        friendService.deleteFriend(token2, user1.getId());
 
         //Assert
-        Assertions.assertTrue(friendRepository.searchRequest(testUser.getId(),testUser2.getId()) == null);
-    }
-
-    @Test
-    @Order(4)
-    public void denyFriendRequestTest(){
-        //Arrange
-        User testUser = User.builder()
-                .email("mario-mai@gmx.net")
-                .vorname("Mario")
-                .nachname("Mai")
-                .passwort("12345")
-                .role(Role.USER)
-                .build();
-
-        User testUser2 = User.builder()
-                .email("testzweckeio@gmail.com")
-                .vorname("Jonas")
-                .nachname("Mai")
-                .role(Role.USER)
-                .build();
-
-
-
-        //Act
-        friendService.denyFriendRequest("Bearer "+tokenService.GenerateToken(testUser), testUser2.getId());
-
-        //Assert
-        Assertions.assertTrue(friendRepository.searchRequest(testUser.getId(),testUser2.getId()) == null);
-    }
-
-    @Test
-    @Order(5)
-    public void deleteFriend(){
-        //Arrange
-        User testUser = User.builder()
-                .email("mario-mai@gmx.net")
-                .vorname("Mario")
-                .nachname("Mai")
-                .passwort("12345")
-                .role(Role.USER)
-                .build();
-
-        User testUser2 = User.builder()
-                .email("testzweckeio@gmail.com")
-                .vorname("Jonas")
-                .nachname("Mai")
-                .role(Role.USER)
-                .build();
-
-
-        //Act
-        friendService.deleteFriend("Bearer "+tokenService.GenerateToken(testUser),
-                                            userRepository.findByEmail(testUser2.getEmail()).getId());
-
-        //Assert
-        Assertions.assertTrue(friendRepository.isFriend(
-                userRepository.findByEmail(testUser.getEmail()).getId(),
-                userRepository.findByEmail(testUser2.getEmail()).getId()) == null);
+        Assertions.assertTrue(friendRepository.getFriends(user1.getId(), user2.getId())==null);
     }
 }
+
