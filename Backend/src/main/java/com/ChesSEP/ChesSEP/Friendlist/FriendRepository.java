@@ -19,7 +19,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     @Query("FROM Friend WHERE friendID.FriendID1 IN ?1 AND friendID.FriendID2 IN ?2 AND type = 'REQUEST' ")
     Friend searchRequest(Long friend1, Long friend2);
 
-    @Query("FROM Friend WHERE friendID.FriendID1 = ?1 ")
+    @Query("FROM Friend WHERE (friendID.FriendID1 = ?1 OR friendID.FriendID2 = ?1) AND type = 'FRIEND' ")
     List<Friend> getFriendlist(Long friend1);
 
 

@@ -71,13 +71,25 @@ public class FriendService {
     }
     
     public UserRequestHolder[] getMyFriendlist (String jwtToken){
-        List<Friend> list = friendRepository.getFriendlist(getUserFromToken(jwtToken).getId());
+        Long userId=getUserFromToken(jwtToken).getId();
+        List<Friend> list = friendRepository.getFriendlist(userId);
+
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
+
         for (int i = 0; i < arr.length; i++) {
+            FriendID currentObj=list.get(i).getFriendID();
+            User currentFriend;
+
+            if(userId==currentObj.FriendID1){
+                currentFriend=userRepository.findUserById(currentObj.FriendID2);
+            }else{
+                currentFriend=userRepository.findUserById(currentObj.FriendID1);
+            }
+
             arr[i] = UserRequestHolder.builder()
-                    .id(userRepository.findUserById(list.get(i).getFriendID().FriendID1).getId())
-                    .vorname(userRepository.findUserById(list.get(i).getFriendID().FriendID1).getVorname())
-                    .nachname(userRepository.findUserById(list.get(i).getFriendID().FriendID1).getNachname())
+                    .id(currentFriend.getId())
+                    .vorname(currentFriend.getVorname())
+                    .nachname(currentFriend.getNachname())
                     .build();
         }
         return arr;
@@ -87,16 +99,28 @@ public class FriendService {
         if(userRepository.findUserById(target.getId()).getFriendlistPrivacy() == Privacy.PRIVAT){
                   return null;
         }
-        List<Friend> anderelist = friendRepository.getFriendlist(target.getId());
-        UserRequestHolder[] anderearr = new UserRequestHolder[anderelist.size()];
-        for (int i = 0; i < anderearr.length; i++) {
-            anderearr[i] = UserRequestHolder.builder()
-                    .id(userRepository.findUserById(anderelist.get(i).getFriendID().FriendID1).getId())
-                    .vorname(userRepository.findUserById(anderelist.get(i).getFriendID().FriendID1).getVorname())
-                    .nachname(userRepository.findUserById(anderelist.get(i).getFriendID().FriendID1).getNachname())
+        Long userId=target.getId();
+        List<Friend> list = friendRepository.getFriendlist(userId);
+
+        UserRequestHolder[] arr = new UserRequestHolder[list.size()];
+
+        for (int i = 0; i < arr.length; i++) {
+            FriendID currentObj=list.get(i).getFriendID();
+            User currentFriend;
+
+            if(userId==currentObj.FriendID1){
+                currentFriend=userRepository.findUserById(currentObj.FriendID2);
+            }else{
+                currentFriend=userRepository.findUserById(currentObj.FriendID1);
+            }
+
+            arr[i] = UserRequestHolder.builder()
+                    .id(currentFriend.getId())
+                    .vorname(currentFriend.getVorname())
+                    .nachname(currentFriend.getNachname())
                     .build();
         }
-        return anderearr;
+        return arr;
     }
 
     public void deleteFriend(String jwtToken, Long friendId){
