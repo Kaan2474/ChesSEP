@@ -71,7 +71,6 @@ public class FriendListtests {
         User user2=userService.findUserById(2L);
 
         String token1="Bearer "+tokenService.GenerateToken(user1);
-        String token2="Bearer "+tokenService.GenerateToken(user2);
 
         //Act
         friendService.sendFriendRequest(token1, user2.getEmail());
@@ -87,7 +86,6 @@ public class FriendListtests {
         User user1=userService.findUserById(1L);
         User user2=userService.findUserById(2L);
 
-        String token1="Bearer "+tokenService.GenerateToken(user1);
         String token2="Bearer "+tokenService.GenerateToken(user2);
 
         //Act
@@ -104,7 +102,6 @@ public class FriendListtests {
         User user1=userService.findUserById(1L);
         User user2=userService.findUserById(2L);
 
-        String token1="Bearer "+tokenService.GenerateToken(user1);
         String token2="Bearer "+tokenService.GenerateToken(user2);
 
         //Act
