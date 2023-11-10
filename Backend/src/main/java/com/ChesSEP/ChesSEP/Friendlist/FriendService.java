@@ -71,13 +71,25 @@ public class FriendService {
     }
     
     public UserRequestHolder[] getMyFriendlist (String jwtToken){
-        List<Friend> list = friendRepository.getFriendlist(getUserFromToken(jwtToken).getId());
+        Long userId=getUserFromToken(jwtToken).getId();
+        List<Friend> list = friendRepository.getFriendlist(userId);
+
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
+
         for (int i = 0; i < arr.length; i++) {
+            FriendID currentObj=list.get(i).getFriendID();
+            User currentFriend;
+
+            if(userId==currentObj.FriendID1){
+                currentFriend=userRepository.findUserById(currentObj.FriendID2);
+            }else{
+                currentFriend=userRepository.findUserById(currentObj.FriendID1);
+            }
+
             arr[i] = UserRequestHolder.builder()
-                    .id(userRepository.findUserById(list.get(i).getFriendID().FriendID1).getId())
-                    .vorname(userRepository.findUserById(list.get(i).getFriendID().FriendID1).getVorname())
-                    .nachname(userRepository.findUserById(list.get(i).getFriendID().FriendID1).getNachname())
+                    .id(currentFriend.getId())
+                    .vorname(currentFriend.getVorname())
+                    .nachname(currentFriend.getNachname())
                     .build();
         }
         return arr;
