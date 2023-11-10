@@ -84,16 +84,114 @@ public class FriendListtests {
                 .vorname("Mario")
                 .nachname("Mai")
                 .passwort("12345")
+                .role(Role.USER)
+                .build();
+
+
+        User testUser2 = User.builder()
+                .email("testzweckeio@gmail.com")
+                .vorname("Jonas")
+                .nachname("Mai")
+                .role(Role.USER)
+                .build();
+
+
+
+        //Act
+        friendService.acceptFriendRequest("Bearer "+tokenService.GenerateToken(testUser),
+                                                    userRepository.findByEmail(testUser2.getEmail()).getId());
+
+        //Assert
+        Assertions.assertTrue(friendRepository.isFriend(
+                userRepository.findByEmail(testUser.getEmail()).getId(),
+                userRepository.findByEmail(testUser2.getEmail()).getId()) != null);
+
+    }
+
+    @Test
+    @Order(3)
+    public void cancelFriendRequestTest(){
+        //Arrange
+        User testUser = User.builder()
+                .email("mario-mai@gmx.net")
+                .vorname("Mario")
+                .nachname("Mai")
+                .passwort("12345")
+                .role(Role.USER)
                 .build();
 
         User testUser2 = User.builder()
                 .email("testzweckeio@gmail.com")
                 .vorname("Jonas")
                 .nachname("Mai")
+                .role(Role.USER)
+                .build();
+
+
+
+        //Act
+        friendService.cancelFriendRequest("Bearer "+tokenService.GenerateToken(testUser),
+                                                    userRepository.findByEmail(testUser2.getEmail()).getId());
+
+        //Assert
+        Assertions.assertTrue(friendRepository.searchRequest(testUser.getId(),testUser2.getId()) == null);
+    }
+
+    @Test
+    @Order(4)
+    public void denyFriendRequestTest(){
+        //Arrange
+        User testUser = User.builder()
+                .email("mario-mai@gmx.net")
+                .vorname("Mario")
+                .nachname("Mai")
+                .passwort("12345")
+                .role(Role.USER)
+                .build();
+
+        User testUser2 = User.builder()
+                .email("testzweckeio@gmail.com")
+                .vorname("Jonas")
+                .nachname("Mai")
+                .role(Role.USER)
+                .build();
+
+
+
+        //Act
+        friendService.denyFriendRequest("Bearer "+tokenService.GenerateToken(testUser), testUser2.getId());
+
+        //Assert
+        Assertions.assertTrue(friendRepository.searchRequest(testUser.getId(),testUser2.getId()) == null);
+    }
+
+    @Test
+    @Order(5)
+    public void deleteFriend(){
+        //Arrange
+        User testUser = User.builder()
+                .email("mario-mai@gmx.net")
+                .vorname("Mario")
+                .nachname("Mai")
+                .passwort("12345")
+                .role(Role.USER)
+                .build();
+
+        User testUser2 = User.builder()
+                .email("testzweckeio@gmail.com")
+                .vorname("Jonas")
+                .nachname("Mai")
+                .role(Role.USER)
                 .build();
 
 
         //Act
-        friendService.acceptFriendRequest("Bearer "+tokenService.GenerateToken(testUser), testUser2.getId());
+        friendService.deleteFriend("Bearer "+tokenService.GenerateToken(testUser),
+                                            userRepository.findByEmail(testUser2.getEmail()).getId());
+
+        //Assert
+        Assertions.assertTrue(friendRepository.isFriend(
+                userRepository.findByEmail(testUser.getEmail()).getId(),
+                userRepository.findByEmail(testUser2.getEmail()).getId()) == null);
     }
 }
