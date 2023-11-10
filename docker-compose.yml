@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  mysql:
+  docker-mysql:
     image: mysql:latest
     build: 
       context: ./mysql
@@ -11,3 +11,17 @@ services:
     ports:
       - "3307:3306"
     restart: always
+    
+  backend:
+    image: chessepbackend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://docker-mysql:3306/SEP
+    depends_on:
+      - docker-mysql
+
+  frontend:
+    image: chessepfrontend
+    ports:
+      - "4200:4200"
