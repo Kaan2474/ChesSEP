@@ -26,8 +26,8 @@ public class SecurityConfig {
             .csrf((csrf) -> csrf.disable())
             .authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.requestMatchers("/users/register","/users/authenticate", "/users/twoFactor").permitAll())
         	//.authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.requestMatchers(HttpMethod.OPTIONS).permitAll())
-            .authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.anyRequest().authenticated())
-            //.authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.anyRequest().permitAll()) //For Testing
+            //.authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.anyRequest().authenticated())
+            .authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.anyRequest().permitAll()) //For Testing
             .sessionManagement((sessionManagement)->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAutentificationFilter, UsernamePasswordAuthenticationFilter.class);
