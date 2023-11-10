@@ -2,6 +2,7 @@ package com.ChesSEP.ChesSEP.Security.JWT;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +26,7 @@ public class SecurityConfig {
             .csrf((csrf) -> csrf.disable())
             .authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.requestMatchers("/users/register","/users/authenticate", "/users/twoFactor").permitAll())
         	.authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.anyRequest().authenticated())
+            .authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll())
             //.authorizeHttpRequests((authorizeHttpRequests)->authorizeHttpRequests.anyRequest().permitAll()) //For Testing
             .sessionManagement((sessionManagement)->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
