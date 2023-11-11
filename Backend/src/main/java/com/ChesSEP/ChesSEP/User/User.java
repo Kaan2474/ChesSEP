@@ -50,7 +50,8 @@ public class User implements UserDetails {
     private int elo;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Picture profilbild;
+    @JoinColumn(name="picture_id")
+    private Picture picture;
 
     @Column
     @Enumerated(EnumType.STRING)

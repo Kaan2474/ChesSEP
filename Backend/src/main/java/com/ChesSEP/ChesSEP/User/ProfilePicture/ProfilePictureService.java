@@ -1,5 +1,8 @@
 package com.ChesSEP.ChesSEP.User.ProfilePicture;
 
+import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
+import com.ChesSEP.ChesSEP.User.User;
+import com.ChesSEP.ChesSEP.User.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,16 @@ public class ProfilePictureService {
 
     @Autowired
     private ProfilePictureRepository profilePictureRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    TokenService tokenService;
 
-    public String uplpadImage(MultipartFile file) throws IOException {
+    private User getUserFromToken(String token) {
+        return userRepository.findByEmail(tokenService.extractEmail(token.substring(7)));
+    }
+
+    public String uplpadImage(String token, MultipartFile file) throws IOException {
 
             Picture dbImage = Picture.builder()
                     .fileName(file.getOriginalFilename())
@@ -26,10 +37,24 @@ public class ProfilePictureService {
                     .build();
             profilePictureRepository.save(dbImage);
 
+            User me = getUserFromToken(token);
+            if(me.getPicture() == null) {
+                me.setPicture(dbImage);
+                userRepository.save(me);
+            }else{
+                deletePicture(token);
+                me.setPicture(null);
+                me.setPicture(dbImage);
+                userRepository.save(me);
+            }
+
             if(dbImage.getId() != null){
-            return ("successfully uploaded");
+            return ("successfully uploaded" + me.getPicture());
         }
         return null;
+    }
+    public void deletePicture(String token){
+        profilePictureRepository.deleteById(getUserFromToken(token).getPicture().getId());
     }
 
 }

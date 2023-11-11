@@ -1,12 +1,12 @@
 package com.ChesSEP.ChesSEP.Security.RequestHolder;
 
-import java.io.File;
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -20,5 +20,5 @@ public class UserRequestHolder {
     private String passwort;
     private Date geburtsdatum;
     private int elo;
-    private File profilbild;
+    private MultipartFile profilbild;
 }
