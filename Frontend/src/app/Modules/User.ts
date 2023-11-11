@@ -7,4 +7,5 @@ export class User{
   passwort:any;
   elo:any;
   twoFactor:any;
+  profilbild:any;
 }

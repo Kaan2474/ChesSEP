@@ -1,39 +1,48 @@
 <app-header></app-header>
 
 
-<div class="container">
-  <a href="/homepage"><img id="profilicon" src="assets/images/profil-picture-icon.png"></a>
-  <u><h2>Max Mustermann</h2></u>
+<table class="table table-striped" *ngIf="user">
+  <a><img id="profilicon" src="assets/images/profil-picture-icon.png">
+    <input
+      type="file"
+      id="img"
+      style="display:none"
+      accept="image/*"
+
+    />
+    <label for="img" class="underlined-label">Bild hochladen</label></a>
+
+
   <table>
     <tbody>
     <tr>
-      <td>Vorname</td>
+      <td> Vorname</td>
       <td>:</td>
-      <td>Max</td>
+      <td>{{ user.vorname}}</td>
     </tr>
     <tr>
       <td>Nachname</td>
       <td>:</td>
-      <td>Muster</td>
+      <td>{{ user.nachname }}</td>
     </tr>
     <tr>
       <td>E-Mail</td>
       <td>:</td>
-      <td>maxmustermann@muster.com</td>
+      <td>{{ user.email }}</td>
     </tr>
     <tr>
       <td>Geburtsdatum</td>
       <td>:</td>
-      <td>20.12.1995</td>
+      <td>{{ user.geburtsdatum }}</td>
     </tr>
     <tr>
       <td>Punkte</td>
       <td>:</td>
-      <td>500</td>
+      <td>{{ user.elo}}</td>
     </tr>
     <tr>
     </tr>
     </tbody>
   </table>
-</div>
+</table>
 

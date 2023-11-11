@@ -1,14 +1,25 @@
-.container {
-  display: flex;
+.table {
+  display: block;
   flex-direction: column;
   width: 40vw;
-  margin-left: 550px;
-  margin-top: 150px;
+  margin-left: 570px;
+  margin-top: 170px;
+
   font-size: 22pt;
 }
 
 img {
-  max-width:20%;
+  max-width:30%;
   height: auto;
   margin-left: 0%;
+  margin-top: 20px;
 }
+ .underlined-label{
+   cursor: pointer;
+   padding: 10px 10px;
+   color: darkgreen;
+
+ }
+
+
+
