@@ -32,9 +32,6 @@ public class ProfilePictureService {
         return null;
     }
 
-    public byte[] getPicture(String filename){
-        return profilePictureRepository.findbyName(filename).getImageData();
-    }
 }
 
 
