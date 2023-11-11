@@ -1,8 +1,9 @@
 package com.ChesSEP.ChesSEP.User.ProfilePicture;
 
+import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
+import com.ChesSEP.ChesSEP.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,21 +16,20 @@ public class ProfilePictureController {
 
     @Autowired
     private ProfilePictureService profilePictureService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    TokenService tokenService;
 
     @PostMapping("/profile/picture")
-    public ResponseEntity<String> uploadImage(@RequestBody MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImage(@RequestHeader(value = "Authorization")@RequestParam("user-profile-view") MultipartFile file) throws IOException {
         String response = profilePictureService.uplpadImage(file);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(response);
+        if (response.equals("successfully uploaded")) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(response);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @GetMapping("/profile/picture/{name}")
-    public ResponseEntity<?>  getImageByName(@PathVariable("name") String name){
-        byte[] image = profilePictureService.getImage(name);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(image);
-    }
 }

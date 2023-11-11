@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "imageData")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,8 +19,10 @@ public class Picture {
 
     private String fileName;
 
+    private String type;
+
     @Lob
-    @Column(name ="imagedata", length = 1000)
+    @Column(name ="imagedata", length = 1000000000)
     private byte[] imageData;
 
 
