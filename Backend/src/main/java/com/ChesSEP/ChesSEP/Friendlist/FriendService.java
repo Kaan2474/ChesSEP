@@ -121,6 +121,34 @@ public class FriendService {
         return arr;
     }
 
+    public UserRequestHolder[] getMyPendingFriendRequests(String jwtToken){
+        User user=getUserFromToken(jwtToken);
+        List<Friend> requests=friendRepository.getFriendRequests(user.getId());
+
+        UserRequestHolder[] result=new UserRequestHolder[requests.size()];
+
+        for (int i = 0; i < result.length; i++) {
+
+            User currentUser;
+            FriendID currentRequestIDs=requests.get(i).getFriendID();
+
+            if(currentRequestIDs.FriendID1==user.getId()){
+                currentUser=userRepository.findUserById(currentRequestIDs.FriendID2);
+            }else{
+                currentUser=userRepository.findUserById(currentRequestIDs.FriendID1);
+            }
+
+            result[i]=UserRequestHolder.builder()
+                .id(currentUser.getId())
+                .vorname(currentUser.getVorname())
+                .nachname(currentUser.getNachname())
+                .build();
+
+        }
+
+        return result;
+    }
+
     public void deleteFriend(String jwtToken, Long friendId){
         friendRepository.delete(friendRepository.getFriends(getUserFromToken(jwtToken).getId(),friendId));
     }

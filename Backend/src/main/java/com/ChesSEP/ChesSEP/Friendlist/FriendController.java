@@ -35,6 +35,11 @@ public class FriendController {
         return ResponseEntity.ok(friendService.getFriendlistOf(jwtToken, target));
     }
 
+    @GetMapping("/getMyPendingFriendRequests")
+    public ResponseEntity<UserRequestHolder[]> getMyPendingFriendRequests(@RequestHeader(value = "Authorization")String jwtToken){
+        return ResponseEntity.ok(friendService.getMyPendingFriendRequests(jwtToken));
+    }
+
     @PostMapping("/deleteFriend")
     public void deleteFriend(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         friendService.deleteFriend(jwtToken, Friend.getId());
