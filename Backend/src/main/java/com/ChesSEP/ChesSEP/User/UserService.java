@@ -99,27 +99,12 @@ public class UserService {
         UserRequestHolder holder;
         byte[] picture=null;
 
-        try {
-            picture = pictureRepository.getPictureByID(user.getId()).getImageData();
-        } catch (Exception e) {
-            // TODO: handle exception
+        if(pictureRepository.getPictureByID(user.getId())==null)
+            picture=null;
+        else{
+            picture=pictureRepository.getPictureByID(user.getId()).getImageData();
         }
         
-
-        if(picture==null){
-
-            holder=UserRequestHolder.builder()
-            .id(user.getId())
-            .vorname(user.getVorname())
-            .nachname(user.getNachname())
-            .email(user.getEmail())
-            .geburtsdatum(user.getGeburtsdatum())
-            .elo(user.getElo())
-            .build();
-
-            return holder;
-        }
-       
         holder=UserRequestHolder.builder()
         .id(user.getId())
         .vorname(user.getVorname())
@@ -127,7 +112,7 @@ public class UserService {
         .email(user.getEmail())
         .geburtsdatum(user.getGeburtsdatum())
         .elo(user.getElo())
-        .profilbild(pictureRepository.getPictureByID(user.getId()).getImageData() )
+        .profilbild(picture)
         .build();
        
         return holder;
