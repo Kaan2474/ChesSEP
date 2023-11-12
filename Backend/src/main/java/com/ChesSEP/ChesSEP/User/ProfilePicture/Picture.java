@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class Picture {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String fileName;

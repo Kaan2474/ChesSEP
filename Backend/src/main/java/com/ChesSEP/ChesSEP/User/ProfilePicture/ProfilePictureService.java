@@ -28,35 +28,30 @@ public class ProfilePictureService {
         return userRepository.findByEmail(tokenService.extractEmail(token.substring(7)));
     }
 
-    public String uplpadImage(String token, MultipartFile file) throws IOException {
+    public void uplpadImage(String token, MultipartFile file) throws IOException {
+            User user = getUserFromToken(token);
 
-            Picture dbImage = Picture.builder()
+            if(profilePictureRepository.getPictureByID(user.getId())==null){
+                Picture dbImage = Picture.builder()
+                    .id(user.getId())
                     .fileName(file.getOriginalFilename())
                     .type(file.getContentType())
                     .imageData(file.getBytes())
                     .build();
-            profilePictureRepository.save(dbImage);
+                
+                profilePictureRepository.save(dbImage);
 
-            User me = getUserFromToken(token);
-            if(me.getPicture() == null) {
-                me.setPicture(dbImage);
-                userRepository.save(me);
-            }else{
-                deletePicture(token);
-                me.setPicture(null);
-                me.setPicture(dbImage);
-                userRepository.save(me);
+                return;
             }
 
-            if(dbImage.getId() != null){
-            return ("successfully uploaded" + me.getPicture());
-        }
-        return null;
-    }
-    public void deletePicture(String token){
-        profilePictureRepository.deleteById(getUserFromToken(token).getPicture().getId());
-    }
+            Picture currentPicture = profilePictureRepository.getPictureByID(user.getId());
 
+            currentPicture.setImageData(file.getBytes());
+            currentPicture.setFileName(file.getName());
+            currentPicture.setType(file.getContentType());
+
+            profilePictureRepository.save(currentPicture);
+    }
 }
 
 

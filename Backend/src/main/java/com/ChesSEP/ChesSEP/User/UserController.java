@@ -73,6 +73,12 @@ public class UserController {
         return new ResponseEntity<>(userService.convetToRequestHolder(userService.findUserbyEmail(tokenService.extractEmail(token.substring(7)))), HttpStatus.OK);
     }
 
+    @PostMapping("/privacy")
+    public void changeFriendListPrivacy(@RequestHeader(value = "Authorization")String token,@RequestBody Privacy newPrivacy){
+
+        userService.changeFriendListPrivacy(token, newPrivacy);
+    }
+
 
 
     //For Testing

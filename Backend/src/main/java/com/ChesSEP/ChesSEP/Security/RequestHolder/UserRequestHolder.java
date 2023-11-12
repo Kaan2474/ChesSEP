@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -20,5 +19,5 @@ public class UserRequestHolder {
     private String passwort;
     private Date geburtsdatum;
     private int elo;
-    private MultipartFile profilbild;
+    private byte[] profilbild;
 }

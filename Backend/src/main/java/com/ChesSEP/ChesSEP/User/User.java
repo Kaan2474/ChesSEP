@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
-import com.ChesSEP.ChesSEP.User.ProfilePicture.Picture;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,10 +47,6 @@ public class User implements UserDetails {
 
     @Column
     private int elo;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="picture_id")
-    private Picture picture;
 
     @Column
     @Enumerated(EnumType.STRING)

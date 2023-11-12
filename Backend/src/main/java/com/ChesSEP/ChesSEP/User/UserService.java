@@ -3,6 +3,8 @@ package com.ChesSEP.ChesSEP.User;
 import java.util.List;
 
 import com.ChesSEP.ChesSEP.TwoFactorAuthentication.OtpService;
+import com.ChesSEP.ChesSEP.User.ProfilePicture.ProfilePictureRepository;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,7 @@ public class UserService {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final OtpService otpService;
+    private final ProfilePictureRepository pictureRepository;
 
 
     public String registerUser(@NonNull UserRequestHolder user){
@@ -100,10 +103,19 @@ public class UserService {
         .email(user.getEmail())
         .geburtsdatum(user.getGeburtsdatum())
         .elo(user.getElo())
+        .profilbild(pictureRepository.getPictureByID(user.getId()).getImageData())
         .build();
        
         return holder;
 
+    }
+
+    public void  changeFriendListPrivacy(String jwtToken,Privacy NewPrivacy){
+        User thisUser=userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
+
+        thisUser.setFriendlistPrivacy(NewPrivacy);
+
+        userRepository.save(thisUser);
     }
 
 
