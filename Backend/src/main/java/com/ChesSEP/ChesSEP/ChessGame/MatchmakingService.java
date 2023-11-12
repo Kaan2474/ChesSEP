@@ -29,40 +29,55 @@ public class MatchmakingService {
     }
 
     public void queueMatch(String jwtToken){
-        if(matchmaking.contains(getUserFromToken(jwtToken).getId())){
+        User sender=getUserFromToken(jwtToken);
+
+        if(matchmaking.contains(sender.getId())){
             return;
         }
-        matchmaking.add(getUserFromToken(jwtToken).getId());
+
+        if(matchmaking.isEmpty()){
+            matchmaking.add(sender.getId());
+            return;
+        }
+        startMatch(sender.getId(), matchmaking.peek(), "", 5L);
     }
 
     public void dequeueMatch(String jwtToken){
-        if(!matchmaking.contains(getUserFromToken(jwtToken).getId())){
+        User sender=getUserFromToken(jwtToken);
+
+        if(!matchmaking.contains(sender.getId())){
             return;
         }
-        matchmaking.remove(getUserFromToken(jwtToken).getId());
+        matchmaking.remove(sender.getId());
 
     }
 
     public void requestMatch(String jwtToken, UserRequestHolder Friend){
-        if(matchRequestRepository.secondRequest(getUserFromToken(jwtToken).getId(), Friend.getId()) != null){
+        User sender=getUserFromToken(jwtToken);
+
+        if(matchRequestRepository.getRequest(sender.getId(), Friend.getId()) != null){
             return;
         }
         matchRequestRepository.save(MatchRequest.builder()
-                .matchRequestID(new MatchRequestID(getUserFromToken(jwtToken).getId(), Friend.getId()))
+                .matchRequestID(new MatchRequestID(sender.getId(), Friend.getId()))
                 .build());
     }
 
     public void cancelMatchRequest(String jwtToken){
-        if(matchRequestRepository.searchRequest(getUserFromToken(jwtToken).getId()) == null){
+        User sender=getUserFromToken(jwtToken);
+
+        if(matchRequestRepository.searchRequest(sender.getId()) == null){
             return;
         }
-        matchRequestRepository.delete(matchRequestRepository.searchRequest(getUserFromToken(jwtToken).getId()));
+        matchRequestRepository.delete(matchRequestRepository.searchRequest(sender.getId()));
     }
 
     public void acceptMatchRequest(String jwtToken, UserRequestHolder Friend){
-        if(matchRequestRepository.searchRequest(getUserFromToken(jwtToken).getId()) != null){
-            startMatch(getUserFromToken(jwtToken).getId(), Friend.getId(),
-                    getUserFromToken(jwtToken).getVorname()+"vs"+Friend.getVorname(), 5L);
+        User sender=getUserFromToken(jwtToken);
+
+        if(matchRequestRepository.searchRequest(sender.getId()) != null){
+            startMatch(sender.getId(), Friend.getId(),
+                    sender.getVorname()+"vs"+Friend.getVorname(), 5L);
         }
     }
 
@@ -71,15 +86,20 @@ public class MatchmakingService {
 
 
     public String getMyCurrentMatchID(String jwtToken){
-        if(matchRequestRepository.searchRequest(getUserFromToken(jwtToken).getId()) == null){
+        User sender=getUserFromToken(jwtToken);
+
+        if(matchRequestRepository.searchRequest(sender.getId()) == null){
             return null;
         }
-        return String.valueOf(chessgameRepository.findGame(String.valueOf(getUserFromToken(jwtToken).getId())));
+        return String.valueOf(chessgameRepository.findGame(String.valueOf(sender.getId())));
     }
 
     public UserRequestHolder[] getMyMatchInvitations(String jwtToken){
-        List<MatchRequest> list = matchRequestRepository.searchInvited(getUserFromToken(jwtToken).getId());
+        User sender=getUserFromToken(jwtToken);
+
+        List<MatchRequest> list = matchRequestRepository.searchInvited(sender.getId());
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
+
         for (int i = 0; i < arr.length; i++) {
             arr[i] = UserRequestHolder.builder()
                     .id(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getId())

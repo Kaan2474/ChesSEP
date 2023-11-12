@@ -9,8 +9,10 @@ import java.util.List;
 @Repository
 public interface MatchRequestRepository extends JpaRepository<MatchRequest, MatchRequestID> {
 
-    @Query("FROM MatchRequest WHERE matchRequestID.RequestorID IN ?2 AND matchRequestID.InvitedID IN ?1")
-    MatchRequest secondRequest(Long requestor, Long invited);
+
+
+    @Query("FROM MatchRequest WHERE (matchRequestID.RequestorID = ?2 OR matchRequestID.RequestorID = ?1) AND (matchRequestID.InvitedID = ?1 OR matchRequestID.InvitedID = ?2)")
+    MatchRequest getRequest(Long requestor, Long invited);
 
     @Query("FROM MatchRequest WHERE matchRequestID.RequestorID = ?1")
     MatchRequest searchRequest(Long requestor);
