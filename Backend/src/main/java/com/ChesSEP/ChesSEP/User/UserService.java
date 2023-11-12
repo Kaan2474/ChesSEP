@@ -97,8 +97,14 @@ public class UserService {
         }
 
         UserRequestHolder holder;
+        byte[] picture=null;
 
-        byte[] picture = pictureRepository.getPictureByID(user.getId()).getImageData();
+        try {
+            picture = pictureRepository.getPictureByID(user.getId()).getImageData();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        
 
         if(picture==null){
 
