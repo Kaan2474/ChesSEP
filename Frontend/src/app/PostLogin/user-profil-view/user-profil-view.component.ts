@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
 import {ActivatedRoute} from "@angular/router";
-import {HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+
 
 
 
@@ -15,35 +16,70 @@ export class UserProfilViewComponent implements OnInit {
 
   user: any;
   token = localStorage.getItem("JWT");
-
-  url ="assets/images/profil-picture-icon.png"
+  selectedFile: File | null = null;
+  url = "assets/images/profil-picture-icon.png"
 
 
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute
-  ) {this.user=new User()
+    private route: ActivatedRoute,
+    private http: HttpClient
+  ) {
+    this.user = new User()
+
 
   }
 
 
   ngOnInit() {
     this.getUserDetail();
+
   }
 
-  getUserDetail(){
-    this.userService.getProfil(this.user).subscribe(  (data)=> {
-      console.log(data)
-      this.user=data
+  getUserDetail() {
+    this.userService.getProfil(this.user).subscribe((data) => {
+        console.log(data)
+        this.user = data
 
 
-  },
-  error => {
-  console.error("Fehler beim Laden der Benutzerdaten")
-})
+      },
+      error => {
+        console.error("Fehler beim Laden der Benutzerdaten");
+      });
+  }
 
+  onSelect(event: any) {
+    // Das ausgewählte File-Objekt wird dem selectedFile zugewiesen
+    this.selectedFile = event.target.files[0];
+    this.imageUpload()
+  }
+
+  imageUpload() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append("user-profile-view", this.selectedFile);
+
+      this.http.post('http://localhost:8080/image/profile/picture/v2/', formData, {observe: 'response'})
+        .subscribe((response) => {
+            console.log('Bild erfolgreich hochgeladen', response);
+            this.getUserDetail();
+          },
+          error => {
+            console.error('Fehler beim Hochladen des Bildes', error);
+          }
+        );
+    }
+  }
 }
 
-}
+
+
+
+
+
+
+
+
+
 
 

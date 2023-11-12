@@ -16,13 +16,14 @@ import {NgForm} from '@angular/forms';
 import {HidegameComponent} from "./PostLogin/hidegame/hidegame.component";
 
 
+
 const routes: Routes = [
   {path: "", title:"ChesSSEP", component: LoginComponent},
   {path: "homepage", title:"ChesSEP", component: HomepageComponent},
   {path: "register", title:"ChesSEP", component: RegisterComponent},
   {path: "addfriend", title: "ChesSEP", component: AddfriendComponent},
   {path: "user-profil-view", title: "ChesSEP", component: UserProfilViewComponent},
-  {path: "friend-profil-view", title: "ChesSEP", component:FriendProfilViewComponent},
+  {path: "friend-profil-view/:userId", title: "ChesSEP", component:FriendProfilViewComponent},
   {path: "create-play-against-user", title: "ChesSEP", component:CreatePlayAgainstUserComponent},
   {path: "authenticate", title: "ChesSEP", component:AuthenticateComponent},
   {path: "invitation", title: "ChesSEP", component:InvitationComponent},

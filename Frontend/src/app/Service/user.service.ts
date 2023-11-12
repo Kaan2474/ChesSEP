@@ -35,9 +35,10 @@ export class UserService {
   }
 
   public getUser(user: User) {
-    return this.http.get<User>(this.userURL + "/{userId}/" + user.id);
+    return this.http.get<User>(this.userURL + "/{userId}/" + user.id ,{headers:this.header} );
 
   }
+
 
 
   public getProfil(user:User){
@@ -45,3 +46,4 @@ export class UserService {
   }
 
 }
+

@@ -2,12 +2,17 @@
 
 
 <table class="table table-striped" *ngIf="user">
-  <a><img id="profilicon" src="assets/images/profil-picture-icon.png">
+  <a><img *ngIf="user && user.profilbild" [src]="user.profilbild" alt="Profilbild">
+    <img *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
     <input
       type="file"
       id="img"
       style="display:none"
       accept="image/*"
+      (click)="onSelect($event)"
+
+
+
 
     />
     <label for="img" class="underlined-label">Bild hochladen</label></a>
