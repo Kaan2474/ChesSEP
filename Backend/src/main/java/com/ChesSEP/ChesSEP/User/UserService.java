@@ -95,15 +95,33 @@ public class UserService {
         if(user ==null){
             return null;
         }
+
+        UserRequestHolder holder;
+
+        byte[] picture = pictureRepository.getPictureByID(user.getId()).getImageData();
+
+        if(picture==null){
+
+            holder=UserRequestHolder.builder()
+            .id(user.getId())
+            .vorname(user.getVorname())
+            .nachname(user.getNachname())
+            .email(user.getEmail())
+            .geburtsdatum(user.getGeburtsdatum())
+            .elo(user.getElo())
+            .build();
+
+            return holder;
+        }
        
-        UserRequestHolder holder=UserRequestHolder.builder()
+        holder=UserRequestHolder.builder()
         .id(user.getId())
         .vorname(user.getVorname())
         .nachname(user.getNachname())
         .email(user.getEmail())
         .geburtsdatum(user.getGeburtsdatum())
         .elo(user.getElo())
-        .profilbild(pictureRepository.getPictureByID(user.getId()).getImageData())
+        .profilbild(pictureRepository.getPictureByID(user.getId()).getImageData() )
         .build();
        
         return holder;
