@@ -110,10 +110,14 @@ public class UserService {
 
     }
 
-    public void  changeFriendListPrivacy(String jwtToken,Privacy NewPrivacy){
+    public void  changeFriendListPrivacy(String jwtToken){
         User thisUser=userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
 
-        thisUser.setFriendlistPrivacy(NewPrivacy);
+        if(thisUser.getFriendlistPrivacy()==Privacy.OEFFENTLICH){
+            thisUser.setFriendlistPrivacy(Privacy.PRIVAT);
+        }else{
+            thisUser.setFriendlistPrivacy(Privacy.OEFFENTLICH);
+        }
 
         userRepository.save(thisUser);
     }

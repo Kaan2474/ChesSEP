@@ -27,7 +27,7 @@ public class UserController {
         String result=userService.registerUser(user);
 
         if(result.equals("Der User wurde erstellt!")){
-            return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.OK);
+            return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.CREATED);
         }
 
         return new ResponseEntity<String>(objectMapper.writeValueAsString(result),HttpStatus.BAD_REQUEST);
@@ -73,10 +73,10 @@ public class UserController {
         return new ResponseEntity<>(userService.convetToRequestHolder(userService.findUserbyEmail(tokenService.extractEmail(token.substring(7)))), HttpStatus.OK);
     }
 
-    @PostMapping("/privacy")
-    public void changeFriendListPrivacy(@RequestHeader(value = "Authorization")String token,@RequestBody Privacy newPrivacy){
+    @PutMapping("/privacy")
+    public void toggleFriendListPrivacy(@RequestHeader(value = "Authorization")String token){
 
-        userService.changeFriendListPrivacy(token, newPrivacy);
+        userService.changeFriendListPrivacy(token);
     }
 
 
