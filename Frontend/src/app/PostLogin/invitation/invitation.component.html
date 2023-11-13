@@ -1,1 +1,27 @@
-<p>invitation works!</p>
+<app-header></app-header>
+<div class="container">
+  <div class="center">
+    <button class="changeLoginBlue">Anfragen</button>
+  </div>
+  <div class="center scroll">
+    <div class="friendContainer">
+      <div class="center">
+      <div id="{{friend.id}}" class="friend" *ngFor="let friend of friendsList;">
+        <p>{{friend.firstName}} {{friend.lastName}} will mit die befreundet sein!</p>
+        <button class="innerButton" [routerLink]="['/Profile', friend.id]">Profil</button>
+        <div class="floatRight">
+          <button class="innerGreenButton" (click)="acceptFriendRequest(friend.id)">Akzeptieren</button>
+          <button class="innerRedButton" (click)="declineFriendRequest(friend.id)">Ablehnen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="center">
+    <button class="button" routerLink="/add_friend">Freund hinzufügen</button>
+  </div>
+  <div class="center">
+    <button class="goHomepage" routerLink="/homepage">Zurück</button>
+  </div>
+  </div>
+</div>
+

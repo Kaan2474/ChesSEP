@@ -1,9 +1,36 @@
 <app-header></app-header>
+<div class = "alles">
 
-<div class = "split-links">
-  <img src="assets/images/Schachbrett.jpg">
-</div>
-<div class = "split-rechts">
-  <p>Gib deiner Partie einen Namen:<br></p>
+  <div class = "split-links">my
+  <img class = "Bild" src="assets/images/Schachbrett.jpg">
+  </div>
 
+  <div class = "split-rechts">
+
+    <div class = "PartieNameContainer">
+      <p>Gib deiner Partie einen Namen:<br></p>
+      <input type="text" id="gameNameInput">
+      <button class = "PartienamenspeichernButton" (click)="saveGameName()">Speichern</button>
+    </div>
+
+    <div>
+      <label for="timerSelect">Timer:</label>
+      <select id="timerSelect" [(ngModel)]="selectedTimer">
+        <option value="5">5 Minuten</option>
+        <option value="10">10 Minuten</option>
+        <option value="15">15 Minuten</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="difficultySelect">Schwierigkeitsstufe:</label>
+      <select id="difficultySelect" [(ngModel)]="selectedDifficulty">
+        <option value="Anfänger">Anfänger</option>
+        <option value="Fortgeschritten">Fortgeschritten</option>
+        <option value="Prof">Profi</option>
+      </select>
+    </div>
+    <button (click)="startGame()">Partie starten</button>
+  </div>
 </div>
+
