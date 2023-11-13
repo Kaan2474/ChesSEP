@@ -1,10 +1,37 @@
-
-img {
-  margin-top: 3%;
-  width: 55%;
+.alles{
+  display:flex;
+  align-items: flex-start;
+  margin-top: 30px;
+  width: 100%;
 }
+
 .split{
   position: fixed;
   overflow-x: hidden;
-  z-index: 1;
 }
+.split-links{
+  width:50%;
+}
+.Bild{
+  width: 100%;
+}
+.split-rechts{
+  width:50%;
+  text-align: center; /* Zentriert den Text horizontal */
+}
+button{
+  cursor: pointer;
+}
+.PartienamenspeichernButton{
+  width: 90px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 4px;
+  border-color: dodgerblue;
+  margin-left: 2px;
+}
+.PartienamenspeichernButton:hover{
+  background-color: royalblue;
+}
+
+
