@@ -39,6 +39,11 @@ export class UserService {
 
   }
 
+  public getUserbyEmail(email : string) {
+    return this.http.get<User>(`${this.userURL}/byEmail/${email}`,{headers:this.header} );
+
+  }
+
   public getProfil(user:User){
     return this.http.get(this.userURL + "/myProfile" ,{headers:this.header} );
   }

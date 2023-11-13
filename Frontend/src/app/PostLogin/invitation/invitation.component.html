@@ -9,8 +9,8 @@
       <div id="{{friend.id}}" class="friend" *ngFor="let friend of friendsList;">
         <p>{{friend.vorname}} {{friend.nachname}} will mit die befreundet sein!</p>
         <div class="floatRight">
-          <button class="innerGreenButton" (click)="acceptFriendRequest(friend.id)">Akzeptieren</button>
-          <button class="innerRedButton" (click)="declineFriendRequest(friend.id)">Ablehnen</button>
+          <button class="innerGreenButton" (click)="acceptFriendRequest(friend)">Akzeptieren</button>
+          <button class="innerRedButton" (click)="declineFriendRequest(friend)">Ablehnen</button>
         </div>
       </div>
     </div>

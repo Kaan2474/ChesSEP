@@ -67,6 +67,18 @@ public class UserController {
         
     }
 
+    @GetMapping("/byEmail/{email}")
+    public ResponseEntity<UserRequestHolder> getUser(@PathVariable String email){
+        UserRequestHolder result=userService.convetToRequestHolder(userService.findUserbyEmail(email));
+        
+        if(result!=null){
+            return new ResponseEntity<UserRequestHolder>(result,HttpStatus.OK);
+        }
+
+        return new ResponseEntity<UserRequestHolder>(result,HttpStatus.BAD_REQUEST);
+        
+    }
+
     @GetMapping("/myProfile")
     public ResponseEntity<UserRequestHolder> myProfile(@RequestHeader(value = "Authorization") String token){
 

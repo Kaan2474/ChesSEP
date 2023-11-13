@@ -20,14 +20,14 @@ export class FriendsService {
   getFriendslist() {
     return this.http.get<Friends[]>(this.URL + "/getMyFriendlist", {headers: this.header});
   }
-  public acceptRequest(jwtToken: any, friendID: any){
-    return this.http.get(this.URL + "/acceptFriendRequest/" + jwtToken +"/" + friendID,{headers: this.header})
+  public acceptRequest(jwtToken: any, friend: any){
+    return this.http.post(this.URL + "/acceptFriendRequest",friend,{headers: this.header})
   }
-  public denyRequest(jwtToken: any, friendID: any){
-    return this.http.get(this.URL + "/denyFriendRequest/" + jwtToken +"/" + friendID, {headers: this.header})
+  public denyRequest(jwtToken: any, friend: any){
+    return this.http.post(this.URL + "/denyFriendRequest" ,friend, {headers: this.header})
   }
   public getFriendRequest(jwtToken:any){
-    return this.http.get<Friends[]>(this.URL + "/getMyPendingFriendRequests" + jwtToken);
+    return this.http.get<Friends[]>(this.URL + "/getMyPendingFriendRequests",{headers: this.header});
   }
 
 }
