@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -81,17 +83,23 @@ public class MatchmakingService {
         }
     }
 
-    //  dummy
-    //  public ChessGame getMatch(String matchid) {}
+    public void denyMatchRequest(String jwtToken, UserRequestHolder friend){
+        User user=getUserFromToken(jwtToken);
+        MatchRequest request=matchRequestRepository.getRequest(user.getId(), friend.getId());
 
+        matchRequestRepository.delete(request);
+    }
 
-    public String getMyCurrentMatchID(String jwtToken){
-        User sender=getUserFromToken(jwtToken);
+    public ChessGame getMyCurrentMatch(String jwtToken){
+        User user=getUserFromToken(jwtToken);
 
-        if(matchRequestRepository.searchRequest(sender.getId()) == null){
-            return null;
-        }
-        return String.valueOf(chessgameRepository.findGame(String.valueOf(sender.getId())));
+        List<ChessGame> result;
+
+        result=onGoingGame.stream()
+            .filter((game)->(game.getPlayerBlackID()==user.getId()||game.getPlayerWhiteID()==user.getId()))
+            .collect(Collectors.toList());
+
+        return result.get(0);
     }
 
     public UserRequestHolder[] getMyMatchInvitations(String jwtToken){

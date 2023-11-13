@@ -32,8 +32,8 @@ public class MatchmakingController {
         matchmakingService.acceptMatchRequest(jwtToken, Friend);
     }
     @PostMapping("/getMyCurrentMatchID")
-    public ResponseEntity<String> getMyCurrentMatchID(@RequestHeader(value = "Authorization") String jwtToken){
-        return ResponseEntity.ok(matchmakingService.getMyCurrentMatchID(jwtToken));
+    public ResponseEntity<ChessGame> getMyCurrentMatchID(@RequestHeader(value = "Authorization") String jwtToken){
+        return ResponseEntity.ok(matchmakingService.getMyCurrentMatch(jwtToken));
     }
 
     //  dummy
