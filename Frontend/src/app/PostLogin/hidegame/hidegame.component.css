@@ -10,3 +10,9 @@ button {
   margin-top: 45%;
   width: 20%;
 }
+
+/*Verschiebt die Spieldaten nach oben*/
+#gamedata {
+  position: relative;
+  bottom: 650px;
+}

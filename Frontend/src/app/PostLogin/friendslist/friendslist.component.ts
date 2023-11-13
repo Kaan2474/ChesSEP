@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FriendsService} from "../../Service/friends.service";
-
+import {Friends} from "../../Modules/Friends";
 
 
 @Component({
@@ -9,6 +9,7 @@ import {FriendsService} from "../../Service/friends.service";
   styleUrls: ['./friendslist.component.css']
 })
 export class FriendslistComponent implements OnInit{
+  public allFriends: Friends[] = [];
   constructor(private friendsService: FriendsService) { }
   ngOnInit() {
     this.getFriends()
@@ -18,6 +19,7 @@ export class FriendslistComponent implements OnInit{
     this.friendsService.getFriendslist()
       .subscribe((data) => {
         console.log(data)
+        this.allFriends = data;
       });
   }
 }

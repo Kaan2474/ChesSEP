@@ -88,6 +88,8 @@ public class FriendService {
                     .id(currentFriend.getId())
                     .vorname(currentFriend.getVorname())
                     .nachname(currentFriend.getNachname())
+                    .elo(currentFriend.getElo())
+                    .geburtsdatum(currentFriend.getGeburtsdatum())
                     .build();
         }
         return arr;
@@ -116,6 +118,8 @@ public class FriendService {
                     .id(currentFriend.getId())
                     .vorname(currentFriend.getVorname())
                     .nachname(currentFriend.getNachname())
+                    .elo(currentFriend.getElo())
+                    .geburtsdatum(currentFriend.getGeburtsdatum())
                     .build();
         }
         return arr;
