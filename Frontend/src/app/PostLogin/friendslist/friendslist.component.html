@@ -8,11 +8,12 @@
     <th>Geburtsdatum</th>
     <th>Elo</th>
   </tr>
-  <tr *ngFor = "let friend in allFriends">
-    <td>{{friend.vorname}}</td>
-    <td>{{friend.nachname}}</td>
-    <td>{{friend.nachname}}</td>
-    <td>{{friend.elo}}</td>
+  <tr *ngFor="let friend of allFriends">
+    <td>{{ friend.vorname }}</td>
+    <td>{{ friend.nachname }}</td>
+    <td>{{ friend.geburtsdatum }}</td>
+    <td>{{ friend.elo }}</td>
+    <td><a href="friend-profil-view/:userId">Profil</a></td>
   </tr>
 </table>
 

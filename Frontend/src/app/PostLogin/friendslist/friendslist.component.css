@@ -19,10 +19,3 @@ form {
   display: inline;
   margin-left: 3%;
 }
-
-/*Vergrößert den Abstand zwischen den Headern in der Tabelle*/
-th {
-  padding: 10px;
-}
-
-
