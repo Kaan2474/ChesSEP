@@ -29,6 +29,9 @@ export class FriendProfilViewComponent implements OnInit {
     this.userService.getUser(this.id).subscribe(data=> {
       this.user = data;
       console.log(this.user)
+      if(this.user.profilbild!=null) {
+        this.user.profilbild = 'data:image/png;base64,' + this.user.profilbild;
+      }
       },
       error => {
         console.error('Error getting user profile:', error);
