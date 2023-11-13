@@ -14,6 +14,10 @@ import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.componen
 import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 import {NgForm} from '@angular/forms';
 import {HidegameComponent} from "./PostLogin/hidegame/hidegame.component";
+import {
+  PlayGameAgainstComputerComponent
+} from "./PostLogin/play-game-against-computer/play-game-against-computer.component";
+import {PlayGameAgainstUserComponent} from "./PostLogin/play-game-against-user/play-game-against-user.component";
 
 
 
@@ -23,7 +27,7 @@ const routes: Routes = [
   {path: "register", title:"ChesSEP", component: RegisterComponent},
   {path: "addfriend", title: "ChesSEP", component: AddfriendComponent},
   {path: "user-profil-view", title: "ChesSEP", component: UserProfilViewComponent},
-  {path: "friend-profil-view/:userId", title: "ChesSEP", component:FriendProfilViewComponent},
+  {path: "friend-profil-view/:id", title: "ChesSEP", component:FriendProfilViewComponent},
   {path: "create-play-against-user", title: "ChesSEP", component:CreatePlayAgainstUserComponent},
   {path: "authenticate", title: "ChesSEP", component:AuthenticateComponent},
   {path: "invitation", title: "ChesSEP", component:InvitationComponent},
@@ -31,6 +35,8 @@ const routes: Routes = [
   {path: "friendslist", title: "ChesSEP", component: FriendslistComponent},
   {path: "joingame", title: "ChesSEP", component: JoingameComponent},
   {path: "hidegame", title: "ChesSEP", component: HidegameComponent},
+  {path: "play-game-against-computer", title: "ChesSEP", component: PlayGameAgainstComputerComponent},
+  {path: "play-game-against-user", title: "ChesSEP", component: PlayGameAgainstUserComponent},
 ];
 
 

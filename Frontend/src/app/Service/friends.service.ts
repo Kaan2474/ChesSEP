@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-
+import {User} from "../Modules/User";
+import {Friends} from "../Modules/Friends";
 
 
 @Injectable({
@@ -17,8 +18,16 @@ export class FriendsService {
   constructor(private http: HttpClient) { }
 
   getFriendslist() {
-    return this.http.get(this.URL + "/getMyFriendlist", {headers: this.header});
+    return this.http.get<Friends[]>(this.URL + "/getMyFriendlist", {headers: this.header});
   }
-
+  public acceptRequest(jwtToken: any, friendID: any){
+    return this.http.get(this.URL + "/acceptFriendRequest/" + jwtToken +"/" + friendID,{headers: this.header})
+  }
+  public denyRequest(jwtToken: any, friendID: any){
+    return this.http.get(this.URL + "/denyFriendRequest/" + jwtToken +"/" + friendID, {headers: this.header})
+  }
+  public getFriendRequest(jwtToken:any){
+    return this.http.get<Friends[]>(this.URL + "/getMyPendingFriendRequests" + jwtToken);
+  }
 
 }

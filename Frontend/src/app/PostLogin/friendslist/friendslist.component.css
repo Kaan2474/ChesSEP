@@ -6,7 +6,7 @@ h1 {
 
 /*Verschiebt die Buttons nach unten*/
 form {
-  margin-top: 38%;
+  margin-top: 480px;
 }
 
 /*Verschiebt die Buttons in die Mitte des Bildschirms*/
@@ -19,5 +19,3 @@ form {
   display: inline;
   margin-left: 3%;
 }
-
-
