@@ -13,7 +13,7 @@
     <td>{{ friend.nachname }}</td>
     <td>{{ friend.geburtsdatum }}</td>
     <td>{{ friend.elo }}</td>
-    <td><a href="friend-profil-view/:userId">Profil</a></td>
+    <td><a [routerLink]="['/friend-profil-view', friend.id]">Profil</a></td>
   </tr>
 </table>
 

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {FriendsService} from "../../Service/friends.service";
 import {UserService} from "../../Service/user.service";
 import {User} from "../../Modules/User";
 import {ActivatedRoute} from "@angular/router";
@@ -11,30 +10,33 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class FriendProfilViewComponent implements OnInit {
 
+  id: any;
   user: User;
-  userId: any;
   token = localStorage.getItem("JWT");
 
   constructor(private userService: UserService,
               private route: ActivatedRoute) {
-    this.user = new User();
+    this.user = new User()
 
   }
-
   ngOnInit() {
-    this.route.params.subscribe(params=>{
-    const userId = params["userId"];
-    this.getProfileFriend(userId);
-
-  });
+    this.id = this.route.snapshot.params["id"];
+    console.log('userId:', this.id);
+    this.getProfileFriend();
 
 }
-
-  getProfileFriend(userId: any){
-    this.userService.getUser(userId).subscribe(data=> {
-      console.log(data)
+  getProfileFriend(){
+    this.userService.getUser(this.id).subscribe(data=> {
       this.user = data;
-    })
+      console.log(this.user)
+      },
+      error => {
+        console.error('Error getting user profile:', error);
+
+      }
+    );
   }
 }
+
+
 
