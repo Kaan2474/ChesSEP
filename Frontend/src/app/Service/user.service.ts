@@ -39,10 +39,12 @@ export class UserService {
 
   }
 
-
-
   public getProfil(user:User){
     return this.http.get(this.userURL + "/myProfile" ,{headers:this.header} );
+  }
+
+  public uploadpicture(data:FormData,user:User){
+    return this.http.post("http://localhost:8080/image/profile/picture/v2",data,{headers:this.header})
   }
 
 }

@@ -21,6 +21,8 @@ import {FormsModule} from "@angular/forms";
 import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
 import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 import { HidegameComponent } from './PostLogin/hidegame/hidegame.component';
+import { PlayGameAgainstComputerComponent } from './PostLogin/play-game-against-computer/play-game-against-computer.component';
+import { PlayGameAgainstUserComponent } from './PostLogin/play-game-against-user/play-game-against-user.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { HidegameComponent } from './PostLogin/hidegame/hidegame.component';
     CreatePlayAgainstComputerComponent,
     FriendslistComponent,
     JoingameComponent,
-    HidegameComponent
+    HidegameComponent,
+    PlayGameAgainstComputerComponent,
+    PlayGameAgainstUserComponent
   ],
   imports: [
     BrowserModule,

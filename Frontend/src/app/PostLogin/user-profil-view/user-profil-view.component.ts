@@ -41,6 +41,9 @@ export class UserProfilViewComponent implements OnInit {
         console.log(data)
         this.user = data
 
+        if(this.user.profilbild!=null){
+          this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
+        }
 
       },
       error => {
@@ -59,8 +62,9 @@ export class UserProfilViewComponent implements OnInit {
       const formData = new FormData();
       formData.append("user-profile-view", this.selectedFile);
 
-      this.http.post('http://localhost:8080/image/profile/picture/v2/', formData, {observe: 'response'})
-        .subscribe((response) => {
+      
+
+      this.userService.uploadpicture(formData,this.user).subscribe((response) => {
             console.log('Bild erfolgreich hochgeladen', response);
             this.getUserDetail();
           },

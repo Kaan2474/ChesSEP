@@ -147,7 +147,7 @@ public class RegistrationTests {
 
         //Assert
 
-            //Assertions.assertEquals(403,nonAuthentcatedResponse.getResponse().getStatus());
+            Assertions.assertEquals(403,nonAuthentcatedResponse.getResponse().getStatus());
             Assertions.assertEquals(200,authenticatedResponse.getResponse().getStatus());
             Assertions.assertEquals("Hello World!", authenticatedResponse.getResponse().getContentAsString());
     }

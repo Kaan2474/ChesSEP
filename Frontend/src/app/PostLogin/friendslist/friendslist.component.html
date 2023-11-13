@@ -1,6 +1,20 @@
 <app-header></app-header>
 
 <h1>Meine Freundesliste</h1>
+<table>
+  <tr>
+    <th>Vorname</th>
+    <th>Nachname</th>
+    <th>Geburtsdatum</th>
+    <th>Elo</th>
+  </tr>
+  <tr *ngFor = "let friend in allFriends">
+    <td>{{friend.vorname}}</td>
+    <td>{{friend.nachname}}</td>
+    <td>{{friend.nachname}}</td>
+    <td>{{friend.elo}}</td>
+  </tr>
+</table>
 
 <form>
   <div class="container-public">
