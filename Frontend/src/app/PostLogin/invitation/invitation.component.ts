@@ -3,6 +3,7 @@ import {FriendsService} from "../../Service/friends.service";
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Friends} from "../../Modules/Friends";
 
 @Component({
   selector: 'app-invitation',
@@ -14,7 +15,7 @@ export class InvitationComponent implements OnInit {
 
   user:User;
   friends:any;
-  friendsList:any
+  friendsList:Friends[]=[];
 
   constructor(private friendService: FriendsService,
               private userService: UserService,
@@ -28,14 +29,15 @@ export class InvitationComponent implements OnInit {
     this.user.email = localStorage.getItem("ActiveUser");
     this.userService.getUser(this.user.id).subscribe( res => {
       this.user = res;
-      this.friendService.getFriendRequest(res.id).subscribe(friends=>this.loadFriendRequests())});
-    ;
+      this.friendService.getFriendRequest(res.id).subscribe(      res => this.friendsList = res
+      )});
   }
 
   // Lade die Freundschaftsanfragen vom Backend
   loadFriendRequests() {
-    this.friendService.getFriendRequest(this.user).subscribe();
-    this.friendsList= this.friendService.getFriendRequest(this.user).subscribe();
+    this.friendService.getFriendRequest(this.user).subscribe(
+      res => this.friendsList = res
+    );
 
   }
 

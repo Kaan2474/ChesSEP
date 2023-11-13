@@ -7,8 +7,7 @@
     <div class="friendContainer">
       <div class="center">
       <div id="{{friend.id}}" class="friend" *ngFor="let friend of friendsList;">
-        <p>{{friend.firstName}} {{friend.lastName}} will mit die befreundet sein!</p>
-        <button class="innerButton" [routerLink]="['/Profile', friend.id]">Profil</button>
+        <p>{{friend.vorname}} {{friend.nachname}} will mit die befreundet sein!</p>
         <div class="floatRight">
           <button class="innerGreenButton" (click)="acceptFriendRequest(friend.id)">Akzeptieren</button>
           <button class="innerRedButton" (click)="declineFriendRequest(friend.id)">Ablehnen</button>
@@ -17,7 +16,7 @@
     </div>
   </div>
   <div class="center">
-    <button class="button" routerLink="/add_friend">Freund hinzufügen</button>
+    <button class="button" routerLink="/addfriend">Freund hinzufügen</button>
   </div>
   <div class="center">
     <button class="goHomepage" routerLink="/homepage">Zurück</button>
