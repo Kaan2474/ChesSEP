@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {User} from "../Modules/User";
 
 
 
@@ -17,7 +18,7 @@ export class FriendsService {
   constructor(private http: HttpClient) { }
 
   getFriendslist() {
-    return this.http.get(this.URL + "/getMyFriendlist", {headers: this.header});
+    return this.http.get<User[]>(this.URL + "/getMyFriendlist", {headers: this.header});
   }
 
 
