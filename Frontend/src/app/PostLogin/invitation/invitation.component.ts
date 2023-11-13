@@ -26,9 +26,8 @@ export class InvitationComponent implements OnInit {
     if(localStorage.getItem("ActiveUser") == "" || localStorage.getItem("ActiveUser") == undefined){
       this.router.navigate([""]);
     }
-    this.user.email = localStorage.getItem("ActiveUser");
 
-    this.userService.getUserbyEmail(this.user.email).subscribe( res => {
+    this.userService.getUserbyToken().subscribe( res => {
       this.user = res;
       this.friendService.getFriendRequest(res).subscribe(
         res => this.friendsList = res

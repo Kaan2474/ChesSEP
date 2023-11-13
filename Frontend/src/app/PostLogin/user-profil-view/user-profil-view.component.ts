@@ -37,7 +37,7 @@ export class UserProfilViewComponent implements OnInit {
   }
 
   getUserDetail() {
-    this.userService.getProfil(this.user).subscribe((data) => {
+    this.userService.getUserbyToken().subscribe((data) => {
         console.log(data)
         this.user = data
 

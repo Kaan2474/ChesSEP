@@ -67,22 +67,10 @@ public class UserController {
         
     }
 
-    @GetMapping("/byEmail/{email}")
-    public ResponseEntity<UserRequestHolder> getUser(@PathVariable String email){
-        UserRequestHolder result=userService.convetToRequestHolder(userService.findUserbyEmail(email));
-        
-        if(result!=null){
-            return new ResponseEntity<UserRequestHolder>(result,HttpStatus.OK);
-        }
-
-        return new ResponseEntity<UserRequestHolder>(result,HttpStatus.BAD_REQUEST);
-        
-    }
-
-    @GetMapping("/myProfile")
-    public ResponseEntity<UserRequestHolder> myProfile(@RequestHeader(value = "Authorization") String token){
-
+    @GetMapping("/byToken")
+    public ResponseEntity<UserRequestHolder> getUser(@RequestHeader(value = "Authorization") String token){
         return new ResponseEntity<>(userService.convetToRequestHolder(userService.findUserbyEmail(tokenService.extractEmail(token.substring(7)))), HttpStatus.OK);
+        
     }
 
     @PutMapping("/privacy")
