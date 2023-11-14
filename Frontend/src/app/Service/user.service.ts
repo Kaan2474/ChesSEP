@@ -34,13 +34,12 @@ export class UserService {
     return this.http.post<User>(this.userURL + "/twoFactor", user);
   }
 
-  public getUser(user: User) {
-    return this.http.get<User>(this.userURL + "/{userId}/" + user.id ,{headers:this.header} );
-
+  public getUser(userId : string) {
+    return this.http.get<User>(`${this.userURL}/${userId}`,{headers:this.header} );
   }
 
-  public getProfil(user:User){
-    return this.http.get(this.userURL + "/myProfile" ,{headers:this.header} );
+  public getUserbyToken() {
+    return this.http.get<User>(this.userURL+"/byToken",{headers:this.header} );
   }
 
   public uploadpicture(data:FormData,user:User){

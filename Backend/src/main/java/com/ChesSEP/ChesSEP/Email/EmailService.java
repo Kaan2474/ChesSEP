@@ -25,11 +25,12 @@ public class EmailService implements EmailSender { // "EmailService" im Klassend
     public void send(Long user_id, Long to, String subject, String msg) throws MailException {
         try {
             SimpleMailMessage message = new SimpleMailMessage(); //SimpleMailMessage for simple Email with only text
-            message.setTo(userRepository.findUserById(to).getEmail()); //hier muss Email -> ggf. Fremdschlüssel von FreundID - Emailadresse
+            message.setTo(userRepository.findUserById(to).getEmail()); // durch findUserById(to) wird der gesuchte User projiziert und .getEmail() gibt die Email aus
             message.setSubject(subject);
             message.setText(msg);
 
             mailSender.send(message);
+            check = true;
         }
         catch (MailException e){
             String error = "Email konnte nicht zugestellt werden.";
@@ -40,6 +41,7 @@ public class EmailService implements EmailSender { // "EmailService" im Klassend
 
             mailSender.send(message);
             handleEmailError(e);
+            check = false;
         }
     }
 

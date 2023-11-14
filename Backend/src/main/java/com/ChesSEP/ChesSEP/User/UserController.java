@@ -67,10 +67,10 @@ public class UserController {
         
     }
 
-    @GetMapping("/myProfile")
-    public ResponseEntity<UserRequestHolder> myProfile(@RequestHeader(value = "Authorization") String token){
-
+    @GetMapping("/byToken")
+    public ResponseEntity<UserRequestHolder> getUser(@RequestHeader(value = "Authorization") String token){
         return new ResponseEntity<>(userService.convetToRequestHolder(userService.findUserbyEmail(tokenService.extractEmail(token.substring(7)))), HttpStatus.OK);
+        
     }
 
     @PutMapping("/privacy")

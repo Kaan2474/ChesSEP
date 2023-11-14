@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: "register", title:"ChesSEP", component: RegisterComponent},
   {path: "addfriend", title: "ChesSEP", component: AddfriendComponent},
   {path: "user-profil-view", title: "ChesSEP", component: UserProfilViewComponent},
-  {path: "friend-profil-view/:userId", title: "ChesSEP", component:FriendProfilViewComponent},
+  {path: "friend-profil-view/:id", title: "ChesSEP", component:FriendProfilViewComponent},
   {path: "create-play-against-user", title: "ChesSEP", component:CreatePlayAgainstUserComponent},
   {path: "authenticate", title: "ChesSEP", component:AuthenticateComponent},
   {path: "invitation", title: "ChesSEP", component:InvitationComponent},
