@@ -19,11 +19,11 @@ public class MatchmakingController {
     public void dequeueMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.dequeueMatch(jwtToken);
     }
-    @PostMapping("/requestMatch")
+@PostMapping("/requestMatch")
     public void requestMatch(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         matchmakingService.requestMatch(jwtToken, Friend);
     }
-    @PostMapping("/denyMatch")
+    @PostMapping("/denyMatchRequest")
     public void denyMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.denyMatchRequest(jwtToken);
     }
