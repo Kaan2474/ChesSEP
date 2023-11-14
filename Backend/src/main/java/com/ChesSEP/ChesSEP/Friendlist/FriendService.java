@@ -87,6 +87,7 @@ public class FriendService {
             arr[i] = UserRequestHolder.builder()
                     .id(currentFriend.getId())
                     .vorname(currentFriend.getVorname())
+                    .email(currentFriend.getEmail())
                     .nachname(currentFriend.getNachname())
                     .elo(currentFriend.getElo())
                     .geburtsdatum(currentFriend.getGeburtsdatum())

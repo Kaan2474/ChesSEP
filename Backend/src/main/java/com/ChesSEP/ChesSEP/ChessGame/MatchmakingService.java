@@ -119,7 +119,7 @@ public class MatchmakingService {
     }
 
     public UserRequestHolder getMyMatchRequest(String jwtToken){
-        MatchRequest request=matchRequestRepository.getRequestWith(getUserFromToken(jwtToken).getId());
+        MatchRequest request=matchRequestRepository.searchRequest(getUserFromToken(jwtToken).getId());
 
         if(request==null)
         return null;
