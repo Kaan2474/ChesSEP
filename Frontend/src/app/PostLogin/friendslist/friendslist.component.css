@@ -8,3 +8,19 @@ table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
+
+/*Der ,,Privatsphäre ändern'' Knopf*/
+input {
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  padding: 5px;
+  border: 2px solid #1E1E1E;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+/*Text, der den Status der Privatsphäre anzeigt*/
+p {
+  font-size: 20px;
+}

@@ -47,7 +47,7 @@ export class UserService {
   }
 
   putPrivacy(jwtToken: any) {
-    return this.http.put(this.userURL + "/privacy" , jwtToken,  {headers: this.header})
+    return this.http.get(this.userURL + "/privacy" , {headers: this.header})
   }
 
 }
