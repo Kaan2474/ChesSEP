@@ -21,7 +21,7 @@ public class MatchmakingController {
     }
     @PostMapping("/requestMatch")
     public void requestMatch(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        matchmakingService.requestMatch(jwtToken, Friend);
+        matchmakingService.requestMatch(jwtToken, Friend.getEmail());
     }
     @PostMapping("/denyMatch")
     public void denyMatch(@RequestHeader(value = "Authorization") String jwtToken){
@@ -29,7 +29,7 @@ public class MatchmakingController {
     }
     @PostMapping("/acceptMatchRequest")
     public void acceptMatchRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        matchmakingService.acceptMatchRequest(jwtToken, Friend);
+        matchmakingService.acceptMatchRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/getMyCurrentMatchID")
     public ResponseEntity<ChessGame> getMyCurrentMatchID(@RequestHeader(value = "Authorization") String jwtToken){

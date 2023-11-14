@@ -9,4 +9,5 @@ public interface ChessgameRepository extends JpaRepository<ChessGame, Long> {
 
     @Query("FROM ChessGame WHERE playerBlackID = ?1 or playerWhiteID = ?1")
     ChessGame findGame(String user);
+
 }
