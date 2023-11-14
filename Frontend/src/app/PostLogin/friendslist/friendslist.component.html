@@ -1,15 +1,9 @@
 <app-header></app-header>
 
+<p>{{privacyText}}</p>
+
 <form>
-  <div class="container-private">
-    <label for="private">Privat</label>
-    <input id="private" name="privacy" type="radio" (click) = changeToPrivate()>
-  </div>
-  <br>
-  <div class="container-public">
-    <label for="public">Öffentlich</label>
-    <input id="public" name="privacy" type="radio">
-  </div>
+  <input id="private" name="privacy" type="button" value="Privatsphäre ändern" (click) = changeToPrivate()>
 </form>
 
 <h1>Meine Freundesliste</h1>
@@ -21,6 +15,7 @@
     <th>Geburtsdatum</th>
     <th>Elo</th>
   </tr>
+
   <tr *ngFor="let friend of allFriends">
     <td>{{ friend.vorname }}</td>
     <td>{{ friend.nachname }}</td>
