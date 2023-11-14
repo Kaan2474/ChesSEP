@@ -4,6 +4,7 @@ import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Friends} from "../../Modules/Friends";
+import {MatchmakingService} from "../../Service/matchmaking.service";
 
 @Component({
   selector: 'app-invitation',
@@ -11,14 +12,13 @@ import {Friends} from "../../Modules/Friends";
   styleUrls: ['./invitation.component.css']
 })
 export class InvitationComponent implements OnInit {
-  activeView = "friends";
-
   user:User;
-  friends:any;
   friendsList:Friends[]=[];
+  matchList: Friends[]=[];
 
   constructor(private friendService: FriendsService,
               private userService: UserService,
+              private matchmakingService:MatchmakingService,
               private router: Router,
               private route: ActivatedRoute) {this.user = new User()
   }
@@ -30,8 +30,10 @@ export class InvitationComponent implements OnInit {
     this.userService.getUserbyToken().subscribe( res => {
       this.user = res;
       this.friendService.getFriendRequest(res).subscribe(
-        res => this.friendsList = res
-      )});
+        res => this.friendsList = res)
+      this.matchmakingService.getMyMatchInvitations((res)).subscribe(
+        res => this.matchList =res)
+    });
   }
 
   // Anfrage annehmen
@@ -43,4 +45,11 @@ export class InvitationComponent implements OnInit {
   declineFriendRequest(friend: any) {
     this.friendService.denyRequest(this.user,friend).subscribe();
   }
+  acceptMatchRequest(friend:any){
+    this.matchmakingService.acceptMatchRequest(this.user,friend).subscribe()
+    }
+  declineMatchRequest(friend: any) {
+    this.matchmakingService.denyMatchRequest(this.user,friend).subscribe();
+  }
+
 }

@@ -14,6 +14,9 @@ public interface MatchRequestRepository extends JpaRepository<MatchRequest, Matc
     @Query("FROM MatchRequest WHERE (matchRequestID.RequestorID = ?2 OR matchRequestID.RequestorID = ?1) AND (matchRequestID.InvitedID = ?1 OR matchRequestID.InvitedID = ?2)")
     MatchRequest getRequest(Long requestor, Long invited);
 
+    @Query("FROM MatchRequest WHERE ( matchRequestID.RequestorID = ?1) OR (matchRequestID.InvitedID = ?1 )")
+    MatchRequest getRequestWith(Long requestor);
+
     @Query("FROM MatchRequest WHERE matchRequestID.RequestorID = ?1")
     MatchRequest searchRequest(Long requestor);
 

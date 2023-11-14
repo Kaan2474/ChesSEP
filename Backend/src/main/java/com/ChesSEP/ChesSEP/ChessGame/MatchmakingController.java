@@ -21,15 +21,15 @@ public class MatchmakingController {
     }
     @PostMapping("/requestMatch")
     public void requestMatch(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        matchmakingService.requestMatch(jwtToken, Friend);
+        matchmakingService.requestMatch(jwtToken, Friend.getEmail());
     }
-    @PostMapping("/cancelMatch")
-    public void cancelMatch(@RequestHeader(value = "Authorization") String jwtToken){
-        matchmakingService.cancelMatchRequest(jwtToken);
+    @PostMapping("/denyMatchRequest")
+    public void denyMatch(@RequestHeader(value = "Authorization") String jwtToken){
+        matchmakingService.denyMatchRequest(jwtToken);
     }
     @PostMapping("/acceptMatchRequest")
     public void acceptMatchRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        matchmakingService.acceptMatchRequest(jwtToken, Friend);
+        matchmakingService.acceptMatchRequest(jwtToken, Friend.getId());
     }
     @PostMapping("/getMyCurrentMatchID")
     public ResponseEntity<ChessGame> getMyCurrentMatchID(@RequestHeader(value = "Authorization") String jwtToken){
@@ -41,5 +41,10 @@ public class MatchmakingController {
     @PostMapping("/getMyMatchInvitations")
     public ResponseEntity<UserRequestHolder[]> getMyMatchInvitations(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyMatchInvitations(jwtToken));
+    }
+
+    @PostMapping("/getMyMatchRequest")
+    public ResponseEntity<UserRequestHolder> getMyMatchRequest(@RequestHeader(value = "Authorization") String jwtToken){
+        return ResponseEntity.ok(matchmakingService.getMyMatchRequest(jwtToken));
     }
 }
