@@ -46,5 +46,9 @@ export class UserService {
     return this.http.post("http://localhost:8080/image/profile/picture/v2",data,{headers:this.header})
   }
 
+  putPrivacy(jwtToken: any) {
+    return this.http.put(this.userURL + "/privacy" , jwtToken,  {headers: this.header})
+  }
+
 }
 

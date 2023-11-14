@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import {User} from "../../Modules/User";
+import {UserService} from "../../Service/user.service";
 
 
 @Component({
@@ -12,11 +13,19 @@ import {User} from "../../Modules/User";
 export class FriendslistComponent implements OnInit{
   public allFriends: Friends[] = [];
   user: User;
-  constructor(private friendsService: FriendsService) {
+  constructor(private friendsService: FriendsService, private userService: UserService) {
     this.user = new User();
+    this.token();
   }
   ngOnInit() {
-    this.getFriends()
+    this.getFriends();
+  }
+
+  token() {
+    this.userService.getUserbyToken()
+      .subscribe(data => {
+        this.user = data;
+      });
   }
 
   getFriends() {
@@ -28,7 +37,7 @@ export class FriendslistComponent implements OnInit{
   }
 
   changeToPrivate() {
-    this.friendsService.putPrivacy(this.user)
+    this.userService.putPrivacy(this.user)
       .subscribe(data => {
         console.log(data);
       })
