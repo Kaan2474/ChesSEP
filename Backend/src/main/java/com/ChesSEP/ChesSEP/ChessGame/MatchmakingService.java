@@ -65,15 +65,6 @@ public class MatchmakingService {
                 .build());
     }
 
-    public void cancelMatchRequest(String jwtToken){
-        User sender=getUserFromToken(jwtToken);
-
-        if(matchRequestRepository.searchRequest(sender.getId()) == null){
-            return;
-        }
-        matchRequestRepository.delete(matchRequestRepository.searchRequest(sender.getId()));
-    }
-
     public void acceptMatchRequest(String jwtToken, UserRequestHolder Friend){
         User sender=getUserFromToken(jwtToken);
 
@@ -83,9 +74,9 @@ public class MatchmakingService {
         }
     }
 
-    public void denyMatchRequest(String jwtToken, UserRequestHolder friend){
+    public void denyMatchRequest(String jwtToken){
         User user=getUserFromToken(jwtToken);
-        MatchRequest request=matchRequestRepository.getRequest(user.getId(), friend.getId());
+        MatchRequest request=matchRequestRepository.getRequestWith(user.getId());
 
         matchRequestRepository.delete(request);
     }

@@ -23,9 +23,9 @@ public class MatchmakingController {
     public void requestMatch(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         matchmakingService.requestMatch(jwtToken, Friend);
     }
-    @PostMapping("/cancelMatch")
-    public void cancelMatch(@RequestHeader(value = "Authorization") String jwtToken){
-        matchmakingService.cancelMatchRequest(jwtToken);
+    @PostMapping("/denyMatch")
+    public void denyMatch(@RequestHeader(value = "Authorization") String jwtToken){
+        matchmakingService.denyMatchRequest(jwtToken);
     }
     @PostMapping("/acceptMatchRequest")
     public void acceptMatchRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
