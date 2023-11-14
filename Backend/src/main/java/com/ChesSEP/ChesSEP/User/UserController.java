@@ -73,7 +73,7 @@ public class UserController {
         
     }
 
-    @PutMapping("/privacy")
+    @GetMapping("/privacy")
     public void toggleFriendListPrivacy(@RequestHeader(value = "Authorization")String token){
 
         userService.changeFriendListPrivacy(token);
