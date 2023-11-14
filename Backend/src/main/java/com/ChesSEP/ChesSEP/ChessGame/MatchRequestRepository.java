@@ -22,4 +22,6 @@ public interface MatchRequestRepository extends JpaRepository<MatchRequest, Matc
 
     @Query("FROM MatchRequest WHERE matchRequestID.InvitedID = ?1")
     List<MatchRequest> searchInvited(Long invited);
+
+
 }

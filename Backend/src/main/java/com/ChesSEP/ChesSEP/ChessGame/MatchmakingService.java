@@ -71,11 +71,14 @@ public class MatchmakingService {
 
     public void acceptMatchRequest(String jwtToken, Long friendId){
         User sender=getUserFromToken(jwtToken);
+        MatchRequest request = matchRequestRepository.getRequest(sender.getId(), friendId);
 
-        if(matchRequestRepository.searchRequest(sender.getId()) != null){
+        if(request != null){
             dequeueMatch(jwtToken);
             startMatch(sender.getId(), friendId,
                     sender.getVorname()+"vs"+userRepository.findUserById(friendId).getVorname(), 5L);
+            matchRequestRepository.delete(request);
+
         }
 
     }

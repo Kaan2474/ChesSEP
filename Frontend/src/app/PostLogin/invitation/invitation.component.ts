@@ -46,7 +46,7 @@ export class InvitationComponent implements OnInit {
     this.friendService.denyRequest(this.user,friend).subscribe();
   }
   acceptMatchRequest(friend:any){
-    this.matchmakingService.acceptMatchRequest(this.user,friend).subscribe()
+    this.matchmakingService.acceptMatchRequest(friend).subscribe()
     }
   declineMatchRequest(friend: any) {
     this.matchmakingService.denyMatchRequest(this.user,friend).subscribe();
