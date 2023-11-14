@@ -43,7 +43,7 @@ public class MatchmakingController {
         return ResponseEntity.ok(matchmakingService.getMyMatchInvitations(jwtToken));
     }
 
-    @PostMapping("/getMyMatchRequest")
+    @GetMapping("/getMyMatchRequest")
     public ResponseEntity<UserRequestHolder> getMyMatchRequest(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyMatchRequest(jwtToken));
     }

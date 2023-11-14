@@ -2,20 +2,35 @@
 
 <h2>Spiele gegen einen Freund </h2>
 
-<div class="scroll">
+<div class="scroll" >
+  <table>
+    <tr>
+      <th>Vorname</th>
+      <th>Nachname</th>
+      <th>Elo</th>
+      <th></th>
+
+    </tr>
+    <tr *ngFor="let friend of allFriends">
+      <td>{{ friend.vorname }}</td>
+      <td>{{ friend.nachname }}</td>
+      <td>{{ friend.elo }}</td>
+      <td><button type="button" (click)="sendRequestMatch(friend)"  class="freundeinladen">Einladen</button></td>
+    </tr>
+  </table>
 
 </div>
 
 <div class ="container">
 <h2>Spiele gegen einen Benutzer</h2>
 
-<input
-  type="text"
-  placeholder="Benutzername"
-  name="benutzername"
-  id="benutzername"
-  required
-/>
+  <input
+    type="text"
+    placeholder="Benutzername"
+    name="benutzername"
+    id="benutzername"
+    required
+  />
 
 <button type="submit" class="einladenButton">Einladen </button>
 

@@ -1,23 +1,41 @@
 
 .scroll {
   background: #D3D3D3;
-  height: 150px;
+  height: 200px;
   overflow: scroll;
   width: 250px;
-  padding: 180px;
+  padding: 200px;
   margin-left: 10%;
 }
 
+table {
+  width: 230%;
+  margin-top: -65%;
+  margin-left: -70%;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
 button {
-  margin-left: 15px;
-  padding: 6px;
-  border: 2px solid #1E1E1E;
-  border-radius: 10px;
-  width: 8%;
+  cursor: pointer;
+
 }
 .einladenButton{
   color: #FFFFFF;
   background-color: #0D99FF;
+}
+
+.freundeinladen{
+  color: #FFFFFF;
+  background-color: #0D99FF;
+}
+
+.freundeinladen:hover{
+  background-color: royalblue;
 }
 
 .einladenButton:hover{
