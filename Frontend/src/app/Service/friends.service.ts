@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Friends} from "../Modules/Friends";
+import {User} from "../Modules/User";
 
 
 @Injectable({
@@ -20,5 +21,7 @@ export class FriendsService {
     return this.http.get<Friends[]>(this.URL + "/getMyFriendlist", {headers: this.header});
   }
 
-
+  putPrivacy(user: User) {
+    return this.http.put("http://localhost:8080/users/privacy", user, {headers: this.header});
+  }
 }

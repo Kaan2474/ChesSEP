@@ -1,6 +1,19 @@
 <app-header></app-header>
 
+<form>
+  <div class="container-private">
+    <label for="private">Privat</label>
+    <input id="private" name="privacy" type="radio" (click) = changeToPrivate()>
+  </div>
+  <br>
+  <div class="container-public">
+    <label for="public">Öffentlich</label>
+    <input id="public" name="privacy" type="radio">
+  </div>
+</form>
+
 <h1>Meine Freundesliste</h1>
+
 <table>
   <tr>
     <th>Vorname</th>
@@ -17,14 +30,3 @@
   </tr>
 </table>
 
-<form>
-  <div class="container-public">
-    <label for="public">Öffentlich</label>
-    <input id="public" name="privacy" value="Öffentlich" type="radio">
-  </div>
-
-  <div class="container-private">
-    <label for="private">Privat</label>
-    <input id="private" name="privacy" value="Privat" type="radio">
-  </div>
-</form>

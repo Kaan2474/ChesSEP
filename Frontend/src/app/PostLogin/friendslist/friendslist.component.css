@@ -4,18 +4,7 @@ h1 {
   margin-top: 5%;
 }
 
-/*Verschiebt die Buttons nach unten*/
-form {
-  margin-top: 480px;
-}
-
-/*Verschiebt die Buttons in die Mitte des Bildschirms*/
-.container-public {
-  display: inline;
-  margin-left: 43%;
-}
-/*Vergrößert den Abstand zwischen den einzelnen Buttons*/
-.container-private {
-  display: inline;
-  margin-left: 3%;
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }

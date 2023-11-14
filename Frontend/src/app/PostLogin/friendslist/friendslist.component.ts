@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
+import {User} from "../../Modules/User";
 
 
 @Component({
@@ -10,7 +11,10 @@ import {Friends} from "../../Modules/Friends";
 })
 export class FriendslistComponent implements OnInit{
   public allFriends: Friends[] = [];
-  constructor(private friendsService: FriendsService) { }
+  user: User;
+  constructor(private friendsService: FriendsService) {
+    this.user = new User();
+  }
   ngOnInit() {
     this.getFriends()
   }
@@ -22,4 +26,11 @@ export class FriendslistComponent implements OnInit{
         this.allFriends = data;
       });
   }
+
+  changeToPrivate() {
+    this.friendsService.putPrivacy(this.user)
+      .subscribe(data => {
+        console.log(data);
+      })
+    }
 }
