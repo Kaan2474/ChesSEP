@@ -118,6 +118,22 @@ public class MatchmakingService {
         return arr;
     }
 
+    public UserRequestHolder getMyMatchRequest(String jwtToken){
+        MatchRequest request=matchRequestRepository.getRequestWith(getUserFromToken(jwtToken).getId());
+
+        if(request==null)
+        return null;
+
+        User invited=userRepository.findUserById(request.matchRequestID.InvitedID);
+
+        return UserRequestHolder.builder()
+            .id(invited.getId())
+            .vorname(invited.getVorname())
+            .nachname(invited.getNachname())
+            .email(invited.getEmail())
+            .build();
+    }
+
     private void startMatch(Long playerWhite, Long playerBlack, String name, Long matchLength){
         onGoingGame.add(ChessGame.builder()
                         .playerWhiteID(playerWhite)

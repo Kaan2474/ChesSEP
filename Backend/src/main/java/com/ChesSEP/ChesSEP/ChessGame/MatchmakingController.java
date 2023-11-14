@@ -19,7 +19,7 @@ public class MatchmakingController {
     public void dequeueMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.dequeueMatch(jwtToken);
     }
-@PostMapping("/requestMatch")
+    @PostMapping("/requestMatch")
     public void requestMatch(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         matchmakingService.requestMatch(jwtToken, Friend.getEmail());
     }
@@ -41,5 +41,10 @@ public class MatchmakingController {
     @PostMapping("/getMyMatchInvitations")
     public ResponseEntity<UserRequestHolder[]> getMyMatchInvitations(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyMatchInvitations(jwtToken));
+    }
+
+    @PostMapping("/getMyMatchRequest")
+    public ResponseEntity<UserRequestHolder> getMyMatchRequest(@RequestHeader(value = "Authorization") String jwtToken){
+        return ResponseEntity.ok(matchmakingService.getMyMatchRequest(jwtToken));
     }
 }
