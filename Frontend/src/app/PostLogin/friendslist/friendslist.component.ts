@@ -62,7 +62,7 @@ export class FriendslistComponent implements OnInit{
       .subscribe(data => {
         this.myToken()
         this.check = this.user.privacy;
-        console.log(this.check);
+        this.checkPrivacy()
       })
       this.checkPrivacy();
     }
