@@ -52,6 +52,8 @@ public class FriendService {
     public void acceptFriendRequest(String jwtToken, Long friendId){
         User sender=getUserFromToken(jwtToken);
 
+        if(sender.getId() == friendId) return;
+
         Friend request=friendRepository.getRequest(sender.getId(), friendId);
 
         if(request == null || friendRepository.getFriends(sender.getId(), friendId) != null)
