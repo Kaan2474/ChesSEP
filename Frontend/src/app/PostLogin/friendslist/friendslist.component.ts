@@ -14,26 +14,27 @@ import {ActivatedRoute} from "@angular/router";
 export class FriendslistComponent implements OnInit{
   public allFriends: Friends[] = [];
   user: User;
-  check: any;
   privacyText: any;
 
 
 
   constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute) {
     this.user = new User();
-    this.myToken();
+    this.refreshUser();
   }
   ngOnInit() {
     this.getFriends();
-    this.checkPrivacy();
+    this.refreshUser();
   }
 
   /*Gibt den Token des Users zurück und speichert diesen in der Variable user*/
-  myToken() {
+  refreshUser() {
     this.userService.getUserbyToken()
       .subscribe(data => {
         this.user = data;
+        this.setPrivacy();
       });
+    
   }
 
 
@@ -47,24 +48,16 @@ export class FriendslistComponent implements OnInit{
   }
 
   /*Prüft, ob Freundesliste privat oder öffentlich ist */
-  checkPrivacy() {
-    if(this.check == "OEFFENTLICH") {
-      this.privacyText = "Status der Privatsphäre: Öffentlich";
-    }
-    else {
-      this.privacyText = "Status der Privatsphäre: Privat";
-    }
+  setPrivacy() {
+    this.privacyText = "Status der Privatsphäre: "+this.user.privacy;
   }
 
   /*Ändert die Privatsphäre des Users*/
   changePrivacy() {
     this.userService.putPrivacy()
       .subscribe(data => {
-        this.myToken()
-        this.check = this.user.privacy;
-        this.checkPrivacy()
+        this.refreshUser();
       })
-      this.checkPrivacy();
     }
 
     onDeleteFriend(friend: {id: number}) {
