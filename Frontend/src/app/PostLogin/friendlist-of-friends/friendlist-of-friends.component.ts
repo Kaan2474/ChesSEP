@@ -34,7 +34,7 @@ export class FriendlistOfFriendsComponent implements OnInit{
 
   }
 
-
+  /*Fügt die Freundesliste des Freundes der Variable allFriends zu*/
   onGetFriendlistOfFriend(user: User) {
     this.friendService.getFriendListOf(user.id)
       .subscribe(data => {
