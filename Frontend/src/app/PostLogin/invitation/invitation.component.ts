@@ -36,20 +36,29 @@ export class InvitationComponent implements OnInit {
     });
   }
 
-  // Anfrage annehmen
   acceptFriendRequest(friend: any) {
-    this.friendService.acceptRequest(this.user, friend).subscribe();
+    this.friendService.acceptRequest(this.user, friend).subscribe(()=> {
+      const index = this.friendsList.indexOf(friend);
+      if (index !== -1) {
+        this.friendsList.splice(index, 1);
+      }
+    });
+    this.showNotification("Freundschaftsanfrage wurde erfolgreich angenommen")
   }
 
-  // Anfrage ablehnen
   declineFriendRequest(friend: any) {
     this.friendService.denyRequest(this.user,friend).subscribe();
+    this.showNotification("Freundschaftsanfrgae wurde erfolgreich abgelehnt")
   }
   acceptMatchRequest(friend:any){
-    this.matchmakingService.acceptMatchRequest(friend).subscribe()
-    }
+    this.matchmakingService.acceptMatchRequest(friend).subscribe();
+    this.showNotification("Spieleinladung wurde erfolgreich angenommen")
+  }
   declineMatchRequest(friend: any) {
     this.matchmakingService.denyMatchRequest(this.user,friend).subscribe();
+    this.showNotification("Spieleinladung wurde erfolgreich abgelehnt")
   }
-
+  showNotification(message:string){
+    alert(message);
+  }
 }
