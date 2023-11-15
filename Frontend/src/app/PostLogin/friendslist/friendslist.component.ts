@@ -58,13 +58,13 @@ export class FriendslistComponent implements OnInit{
 
   /*Ändert die Privatsphäre des Users*/
   changePrivacy() {
-    this.checkPrivacy();
     this.userService.putPrivacy()
       .subscribe(data => {
-        console.log(data);
+        this.myToken()
         this.check = this.user.privacy;
         console.log(this.check);
       })
+      this.checkPrivacy();
     }
 
     onDeleteFriend(friend: {id: number}) {
