@@ -23,6 +23,8 @@ public class MatchmakingService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
 
+    //public boolean test;
+    //zum Testen der Methode acceptMatchRequest
 
     public List<ChessGame> onGoingGame=new ArrayList<ChessGame>();
 
@@ -43,6 +45,7 @@ public class MatchmakingService {
             matchmaking.add(sender.getId());
             return;
         }
+
         startMatch(sender.getId(), matchmaking.peek(), "", 5L);
         matchmaking.clear();
     }
@@ -78,9 +81,10 @@ public class MatchmakingService {
             startMatch(sender.getId(), friendId,
                     sender.getVorname()+"vs"+userRepository.findUserById(friendId).getVorname(), 5L);
             matchRequestRepository.delete(request);
-
+            //test = true;
+            return;
         }
-
+            //test = false;
     }
 
     public void denyMatchRequest(String jwtToken){
@@ -106,9 +110,9 @@ public class MatchmakingService {
     }
 
     public UserRequestHolder[] getMyMatchInvitations(String jwtToken){
-        User sender=getUserFromToken(jwtToken);
+        User user=getUserFromToken(jwtToken);
 
-        List<MatchRequest> list = matchRequestRepository.searchInvited(sender.getId());
+        List<MatchRequest> list = matchRequestRepository.searchInvited(user.getId());
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
 
         for (int i = 0; i < arr.length; i++) {

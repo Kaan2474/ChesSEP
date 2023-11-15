@@ -21,6 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -187,7 +190,7 @@ public class ChessGameTest {
 
 
         //Assert
-
+        //Assertions.assertTrue(matchmakingService.test);
     }
 
     @Test
@@ -226,5 +229,45 @@ public class ChessGameTest {
         Assertions.assertTrue(matchRequestRepository.getRequest(user1.getId(),user2.getId()) == null);
     }
 
+    @Test
+    @Order(6)
+    public void getMyCurrentMatch(){
+        //Arrange
+        UserRequestHolder testUser = UserRequestHolder.builder()
+                .email("mario-mai@gmx.net")
+                .vorname("Mario")
+                .nachname("Mai")
+                .passwort("12345")
+                .build();
 
+        userService.registerUser(testUser);
+
+        UserRequestHolder testUser2 = UserRequestHolder.builder()
+                .email("testzweckeio@gmail.com")
+                .vorname("Jonas")
+                .nachname("Mai")
+                .passwort("12345")
+                .build();
+
+        userService.registerUser(testUser2);
+
+        User user1=userService.findUserById(1L);
+        User user2=userService.findUserById(2L);
+
+        String token1="Bearer "+tokenService.GenerateToken(user1);
+
+
+        boolean test = true;
+        //Act
+        if(matchmakingService.getMyCurrentMatch(token1) != null){
+            test = true;
+        }
+        else{
+            test = false;
+        }
+
+
+        //Assert
+        Assertions.assertTrue(test);
+    }
 }
