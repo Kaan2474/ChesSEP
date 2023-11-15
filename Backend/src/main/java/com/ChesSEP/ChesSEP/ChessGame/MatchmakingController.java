@@ -10,34 +10,39 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class MatchmakingController {
+
     private final MatchmakingService matchmakingService;
-    @PostMapping("/queueMatch")
+
+    @GetMapping("/queueMatch")
     public void queueMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.queueMatch(jwtToken);
     }
-    @PostMapping("/dequeueMatch")
+
+    @GetMapping("/dequeueMatch")
     public void dequeueMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.dequeueMatch(jwtToken);
     }
+
     @PostMapping("/requestMatch")
     public void requestMatch(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         matchmakingService.requestMatch(jwtToken, Friend.getEmail());
     }
-    @PostMapping("/denyMatchRequest")
+
+    @GetMapping("/denyMatchRequest")
     public void denyMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.denyMatchRequest(jwtToken);
     }
+
     @PostMapping("/acceptMatchRequest")
     public void acceptMatchRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         matchmakingService.acceptMatchRequest(jwtToken, Friend.getId());
     }
-    @PostMapping("/getMyCurrentMatchID")
+
+    @GetMapping("/getMyCurrentMatchID")
     public ResponseEntity<ChessGame> getMyCurrentMatchID(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyCurrentMatch(jwtToken));
     }
 
-    //  dummy
-    //  public ResponseEntity<ChessGame> getMatch(String matchid) {}
     @GetMapping("/getMyMatchInvitations")
     public ResponseEntity<UserRequestHolder[]> getMyMatchInvitations(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyMatchInvitations(jwtToken));
@@ -46,5 +51,10 @@ public class MatchmakingController {
     @GetMapping("/getMyMatchRequest")
     public ResponseEntity<UserRequestHolder> getMyMatchRequest(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyMatchRequest(jwtToken));
+    }
+
+    @GetMapping("/endMyMatch")
+    public void  endMyMatch(@RequestHeader(value = "Authorization") String jwtToken){
+        matchmakingService.endMyMatch(jwtToken);
     }
 }

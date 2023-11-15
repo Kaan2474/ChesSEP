@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
+import { MatchmakingService } from 'src/app/Service/matchmaking.service';
+import {User} from "../../Modules/User";
 
 @Component({
   selector: 'app-create-play-against-user',
@@ -9,18 +11,19 @@ import {Friends} from "../../Modules/Friends";
   styleUrls: ['./create-play-against-user.component.css']
 })
 export class CreatePlayAgainstUserComponent implements OnInit{
-
-
   public allFriends: Friends[] = [];
   URL = "http://localhost:8080/match";
+
   token = localStorage.getItem("JWT");
+
   header = new HttpHeaders().set("Authorization", "Bearer " + this.token)
     .set("Access-Control-Allow-Origin", "*")
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
   constructor(private http: HttpClient,
-  private friendsService: FriendsService) { }
+  private friendsService: FriendsService,
+  private matchmakingservice:MatchmakingService) { }
 
   ngOnInit() {
     this.getFriendsList()
@@ -52,6 +55,14 @@ export class CreatePlayAgainstUserComponent implements OnInit{
         console.log(data)
       });
   }
+
+
+  queueForMatch(){
+    this.matchmakingservice.queueMatch().subscribe(data => {
+      console.log(data)
+    })
+  }
+
 
 }
 
