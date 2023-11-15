@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChessgameRepository extends JpaRepository<ChessGame, Long> {
 
-    @Query("FROM ChessGame WHERE playerBlackID = ?1 or playerWhiteID = ?1")
-    ChessGame findGame(String user);
+    @Query("FROM ChessGame WHERE (playerWhiteID = ?1 and playerBlackID = ?2) and startTime = ?3")
+    ChessGame findGame(Long playerWhiteID, Long playerBlackID, Long startTime);
 
 }

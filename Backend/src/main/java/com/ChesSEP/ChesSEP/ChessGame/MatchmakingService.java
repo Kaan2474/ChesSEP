@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,17 +36,28 @@ public class MatchmakingService {
     public void queueMatch(String jwtToken){
         User sender=getUserFromToken(jwtToken);
 
-        if(matchmaking.contains(sender.getId()) || matchRequestRepository.searchRequest(sender.getId()) != null){
-            return;
+        if(matchmaking.contains(sender.getId()))
+        return;  
+
+        MatchRequest request=matchRequestRepository.searchRequest(sender.getId());
+
+        if(matchRequestRepository.searchRequest(sender.getId()) != null){
+            matchRequestRepository.delete(request);
         }
 
-        if(matchmaking.isEmpty() || matchRequestRepository.searchRequest(sender.getId()) == null){
-            matchmaking.add(sender.getId());
-            return;
-        }
+        matchmaking.add(sender.getId());
 
-        startMatch(sender.getId(), matchmaking.peek(), "", 5L);
-        matchmaking.clear();
+        checkForMatch();
+    }
+
+    private void checkForMatch(){
+        if(matchmaking.size()<2)
+        return;
+
+        User white=userRepository.findUserById(matchmaking.remove());
+        User black=userRepository.findUserById(matchmaking.remove());
+        
+        startMatch(white.getId(), black.getId(), white.getVorname()+" "+white.getNachname()+" vs "+black.getVorname()+" "+black.getNachname(), 5L);
     }
 
     public void dequeueMatch(String jwtToken){
@@ -142,22 +152,30 @@ public class MatchmakingService {
     }
 
     private void startMatch(Long playerWhite, Long playerBlack, String name, Long matchLength){
-        onGoingGame.add(ChessGame.builder()
+
+        Long time=System.currentTimeMillis();
+        ChessGame newGame=ChessGame.builder()
                         .playerWhiteID(playerWhite)
                         .playerBlackID(playerBlack)
                         .matchLength(matchLength)
                         .name(name)
-                .build());
+                        .startTime(time)
+                .build();
+
+        chessgameRepository.save(newGame);
+
+        ChessGame thisGame=chessgameRepository.findGame(playerWhite, playerBlack, time);
+
+        onGoingGame.add(thisGame);
     }
 
-    private void endAndSaveMatch(ChessGame game){
-        chessgameRepository.save(ChessGame.builder()
-                        .gameID(game.getGameID())
-                        .playerBlackID(game.getPlayerBlackID())
-                        .playerWhiteID(game.getPlayerWhiteID())
-                        .name(game.getName())
-                        .matchLength(game.getMatchLength())
-                .build());
+    public void endMyMatch(String jwtToken){
+        User user=getUserFromToken(jwtToken);
+
+        ChessGame game=onGoingGame.stream()
+            .filter(a->a.getPlayerBlackID()==user.getId()||a.getPlayerWhiteID()==user.getId())
+            .collect(Collectors.toList()).get(0);
+
         onGoingGame.remove(game);
     }
 }

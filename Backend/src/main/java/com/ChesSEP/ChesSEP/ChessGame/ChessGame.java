@@ -27,4 +27,7 @@ public class ChessGame {
 
     @Column
     private Long matchLength;
+
+    @Column
+    private Long startTime;
 }
