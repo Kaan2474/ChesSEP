@@ -53,6 +53,19 @@ export class CreatePlayAgainstUserComponent implements OnInit{
       });
   }
 
+
+  queueForMatch(){
+
+    this.http.post<any>(this.URL + "/queueMatch", {headers: this.header})
+      .subscribe(response => {
+        console.log(response)
+
+      });
+  }
+
+
+
+
 }
 
 
