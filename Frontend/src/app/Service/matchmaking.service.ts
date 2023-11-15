@@ -21,7 +21,7 @@ export class MatchmakingService {
     this.URL = "http://localhost:8080/match";
 
   }
-  
+
   public getMyMatchInvitations(jwtToken: any){
     return this.http.get<User[]>(this.URL + "/getMyMatchInvitations",{headers: this.header});
   }
@@ -36,6 +36,10 @@ export class MatchmakingService {
 
   public queueMatch(){
     return this.http.get(this.URL + "/queueMatch", {headers: this.header})
+  }
+
+  public dequeueMatch(){
+    return this.http.get(this.URL + "/dequeueMatch", {headers: this.header})
   }
 
 }

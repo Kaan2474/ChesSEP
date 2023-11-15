@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
+import {User} from "../../Modules/User";
 
 @Component({
   selector: 'app-create-play-against-user',
@@ -61,8 +62,6 @@ export class CreatePlayAgainstUserComponent implements OnInit{
       console.log(data)
     })
   }
-
-
 
 
 }
