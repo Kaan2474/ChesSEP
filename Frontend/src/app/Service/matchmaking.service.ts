@@ -21,14 +21,21 @@ export class MatchmakingService {
     this.URL = "http://localhost:8080/match";
 
   }
+  
   public getMyMatchInvitations(jwtToken: any){
     return this.http.get<User[]>(this.URL + "/getMyMatchInvitations",{headers: this.header});
   }
+
   public acceptMatchRequest(friend: any){
     return this.http.post(this.URL + "/acceptMatchRequest",friend, {headers: this.header})
   }
+
   public denyMatchRequest(jwtToken:any, friend: any){
     return this.http.post(this.URL + "/denyMatchRequest",friend, {headers: this.header})
+  }
+
+  public queueMatch(){
+    return this.http.get(this.URL + "/queueMatch", {headers: this.header})
   }
 
 }

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MatchmakingController {
     private final MatchmakingService matchmakingService;
-    @PostMapping("/queueMatch")
+    @GetMapping("/queueMatch")
     public void queueMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.queueMatch(jwtToken);
     }
-    @PostMapping("/dequeueMatch")
+    @GetMapping("/dequeueMatch")
     public void dequeueMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.dequeueMatch(jwtToken);
     }
