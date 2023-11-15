@@ -47,15 +47,30 @@ export class InvitationComponent implements OnInit {
   }
 
   declineFriendRequest(friend: any) {
-    this.friendService.denyRequest(this.user,friend).subscribe();
-    this.showNotification("Freundschaftsanfrgae wurde erfolgreich abgelehnt")
+    this.friendService.denyRequest(this.user,friend).subscribe(()=> {
+      const index = this.friendsList.indexOf(friend);
+      if (index !== -1) {
+        this.friendsList.splice(index, 1);
+      }
+    });
+    this.showNotification("Freundschaftsanfrage wurde erfolgreich abgelehnt")
   }
   acceptMatchRequest(friend:any){
-    this.matchmakingService.acceptMatchRequest(friend).subscribe();
-    this.showNotification("Spieleinladung wurde erfolgreich angenommen")
+    this.matchmakingService.acceptMatchRequest(friend).subscribe(()=> {
+      const index = this.friendsList.indexOf(friend);
+      if (index !== -1) {
+        this.friendsList.splice(index, 1);
+      }
+    });
+
   }
   declineMatchRequest(friend: any) {
-    this.matchmakingService.denyMatchRequest(this.user,friend).subscribe();
+    this.matchmakingService.denyMatchRequest(this.user,friend).subscribe(()=> {
+      const index = this.friendsList.indexOf(friend);
+      if (index !== -1) {
+        this.friendsList.splice(index, 1);
+      }
+    });
     this.showNotification("Spieleinladung wurde erfolgreich abgelehnt")
   }
   showNotification(message:string){
