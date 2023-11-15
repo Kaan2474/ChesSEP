@@ -30,9 +30,9 @@ public class FriendController {
         return ResponseEntity.ok(friendService.getMyFriendlist(jwtToken));
     }
 
-    @PostMapping("/getFriendlistOf")
-    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder target){
-        return ResponseEntity.ok(friendService.getFriendlistOf(jwtToken, target));
+    @GetMapping("/getFriendlistOf/{id}")
+    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(@RequestHeader(value = "Authorization") String jwtToken, @PathVariable String id){
+        return ResponseEntity.ok(friendService.getFriendlistOf(jwtToken, Long.parseLong(id)));
     }
 
     @GetMapping("/getMyPendingFriendRequests")

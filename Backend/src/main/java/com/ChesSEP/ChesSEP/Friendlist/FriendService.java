@@ -98,12 +98,15 @@ public class FriendService {
         return arr;
     }
 
-    public UserRequestHolder[] getFriendlistOf (String jwtToken, UserRequestHolder target){
-        if(userRepository.findUserById(target.getId()).getFriendlistPrivacy() == Privacy.PRIVAT){
-                  return null;
+    public UserRequestHolder[] getFriendlistOf (String jwtToken, Long id){
+                
+        User user=userRepository.findUserById(id);
+
+        if(user.getFriendlistPrivacy() == Privacy.PRIVAT){
+            return null;
         }
-        Long userId=target.getId();
-        List<Friend> list = friendRepository.getFriendlist(userId);
+        
+        List<Friend> list = friendRepository.getFriendlist(user.getId());
 
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
 
@@ -111,7 +114,7 @@ public class FriendService {
             FriendID currentObj=list.get(i).getFriendID();
             User currentFriend;
 
-            if(userId==currentObj.FriendID1){
+            if(user.getId()==currentObj.FriendID1){
                 currentFriend=userRepository.findUserById(currentObj.FriendID2);
             }else{
                 currentFriend=userRepository.findUserById(currentObj.FriendID1);

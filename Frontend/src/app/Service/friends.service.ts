@@ -35,7 +35,7 @@ export class FriendsService {
   }
 
   getFriendListOf(friendID: any) {
-    return this.http.post<Friends[]>(this.URL + "/getFriendlistOf", friendID, {headers: this.header});
+    return this.http.get<Friends[]>(`${this.URL}/getFriendlistOf/${friendID}`, {headers: this.header});
   }
 
 }

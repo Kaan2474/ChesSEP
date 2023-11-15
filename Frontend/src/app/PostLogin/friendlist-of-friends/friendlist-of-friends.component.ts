@@ -22,7 +22,6 @@ export class FriendlistOfFriendsComponent implements OnInit{
     this.id = this.route.snapshot.params["id"];
     console.log('userId:', this.id);
     this.getUserData();
-    this.onGetFriendlistOfFriend(this.user);
   }
 
   /*Gibt die Daten zurück für Vorname und Nachname*/
@@ -30,13 +29,14 @@ export class FriendlistOfFriendsComponent implements OnInit{
     this.userService.getUser(this.id)
       .subscribe(data => {
         this.user = data;
+        this.onGetFriendlistOfFriend(this.user);
       })
 
   }
 
 
   onGetFriendlistOfFriend(user: User) {
-    this.friendService.getFriendListOf(user)
+    this.friendService.getFriendListOf(user.id)
       .subscribe(data => {
         this.allFriends = data;
       });
