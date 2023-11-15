@@ -34,4 +34,8 @@ export class FriendsService {
     return this.http.post(this.URL + "/deleteFriend", friendID, {headers: this.header});
   }
 
+  getFriendListOf(friendID: any) {
+    return this.http.post<Friends[]>(this.URL + "/getFriendlistOf", friendID, {headers: this.header});
+  }
+
 }

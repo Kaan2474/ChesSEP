@@ -24,6 +24,7 @@ import { HidegameComponent } from './PostLogin/hidegame/hidegame.component';
 import { PlayGameAgainstComputerComponent } from './PostLogin/play-game-against-computer/play-game-against-computer.component';
 import { PlayGameAgainstUserComponent } from './PostLogin/play-game-against-user/play-game-against-user.component';
 import {CommonModule} from "@angular/common";
+import { FriendlistOfFriendsComponent } from './PostLogin/friendlist-of-friends/friendlist-of-friends.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {CommonModule} from "@angular/common";
     JoingameComponent,
     HidegameComponent,
     PlayGameAgainstComputerComponent,
-    PlayGameAgainstUserComponent
+    PlayGameAgainstUserComponent,
+    FriendlistOfFriendsComponent
   ],
   imports: [
     BrowserModule,

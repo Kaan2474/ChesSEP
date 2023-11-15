@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<h1>Freundesliste von {{user.vorname}} {{user.nachname}}</h1>
+
+<table>
+  <tr>
+    <th>Vorname</th>
+    <th>Nachname</th>
+    <th>Geburtsdatum</th>
+    <th>Elo</th>
+  </tr>
+
+  <tr *ngFor="let friend of allFriends">
+    <td>{{ friend.vorname }}</td>
+    <td>{{ friend.nachname }}</td>
+    <td>{{ friend.geburtsdatum }}</td>
+    <td>{{ friend.elo }}</td>
+  </tr>
+</table>

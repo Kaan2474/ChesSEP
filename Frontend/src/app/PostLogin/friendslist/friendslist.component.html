@@ -22,7 +22,7 @@
     <td>{{ friend.geburtsdatum }}</td>
     <td>{{ friend.elo }}</td>
     <td><a [routerLink]="['/friend-profil-view', friend.id]">Profil</a></td>
-    <td><a>Freunde</a></td>
+    <td><a [routerLink]="['/friendlist-of-friends', friend.id]">Freunde</a></td>
     <td><button type="button" (click)="onDeleteFriend(friend)">Löschen</button></td>
   </tr>
 </table>
