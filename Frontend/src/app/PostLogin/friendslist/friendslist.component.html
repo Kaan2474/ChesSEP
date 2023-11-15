@@ -3,7 +3,7 @@
 <p>{{privacyText}}</p>
 
 <form>
-  <input id="private" name="privacy" type="button" value="Privatsphäre ändern" (click) = changeToPrivate()>
+  <input id="private" name="privacy" type="button" value="Privatsphäre ändern" (click) = changePrivacy()>
 </form>
 
 <h1>Meine Freundesliste</h1>
@@ -22,6 +22,8 @@
     <td>{{ friend.geburtsdatum }}</td>
     <td>{{ friend.elo }}</td>
     <td><a [routerLink]="['/friend-profil-view', friend.id]">Profil</a></td>
+    <td><a>Freunde</a></td>
+    <td><button type="button" (click)="onDeleteFriend(friend)">Löschen</button></td>
   </tr>
 </table>
 

@@ -113,7 +113,7 @@ public class UserService {
         .geburtsdatum(user.getGeburtsdatum())
         .elo(user.getElo())
         .profilbild(picture)
-        .privacy(user.getFriendlistPrivacy())
+        .privacy(user.getFriendlistPrivacy().name())
         .build();
        
         return holder;

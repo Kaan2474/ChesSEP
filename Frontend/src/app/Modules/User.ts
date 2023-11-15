@@ -8,4 +8,5 @@ export class User{
   elo:any;
   twoFactor:any;
   profilbild:any;
+  privacy: any;
 }

@@ -22,5 +22,5 @@ public class UserRequestHolder {
     private Date geburtsdatum;
     private int elo;
     private byte[] profilbild;
-    private Privacy privacy;
+    private String privacy;
 }
