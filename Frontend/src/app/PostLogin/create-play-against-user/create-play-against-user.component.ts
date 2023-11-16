@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 import {User} from "../../Modules/User";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-create-play-against-user',
   templateUrl: './create-play-against-user.component.html',
   styleUrls: ['./create-play-against-user.component.css']
 })
-export class CreatePlayAgainstUserComponent implements OnInit{
+export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   public allFriends: Friends[] = [];
   URL = "http://localhost:8080/match";
 
@@ -21,12 +22,19 @@ export class CreatePlayAgainstUserComponent implements OnInit{
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
+  data: any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
+  interval = interval(250)
+
   constructor(private http: HttpClient,
   private friendsService: FriendsService,
   private matchmakingservice:MatchmakingService) { }
 
+
   ngOnInit() {
     this.getFriendsList()
+  }
+
+  ngOnDestroy(){
   }
 
   getFriendsList() {
@@ -60,8 +68,17 @@ export class CreatePlayAgainstUserComponent implements OnInit{
   queueForMatch(){
     this.matchmakingservice.queueMatch().subscribe(data => {
       console.log(data)
+      this.intervalMatchRequest()
+      console.log(data)
     })
   }
+
+  intervalMatchRequest(){
+    this.interval.subscribe( data => {
+      this.http.get(this.URL + "/getMyCurrentMatchID", {headers: this.header})
+    })
+ }
+
 
 
 }
