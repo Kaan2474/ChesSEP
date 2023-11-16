@@ -26,7 +26,7 @@ export class MatchmakingService {
     return this.http.get<User[]>(this.URL + "/getMyMatchInvitations",{headers: this.header});
   }
 
-  public acceptMatchRequest(friend: any){
+  public acceptMatchRequest(jwtToken:any,friend: User){
     return this.http.post(this.URL + "/acceptMatchRequest",friend, {headers: this.header})
   }
 

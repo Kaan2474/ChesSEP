@@ -45,7 +45,7 @@
 }
 
 .innerGreenButton{
-  width: 54%;
+  width: 27%;
   margin-right: 3px;
   background-color: rgb(54, 178, 31);
   color: white;
@@ -61,7 +61,7 @@
   margin-bottom: 3px;
 }
 .innerRedButton{
-  width: 44%;
+  width: 22%;
   background-color: rgb(232, 57, 62);
   color: white;
   border-radius: 5px;
@@ -72,12 +72,12 @@
   border-color: rgb(238, 90, 94);
 }
 .floatRight{
-  width: 25%;
+  width: 13%;
   float: right;
   margin-right: 20px;
 }
 .innerButton{
-  width: 20%;
+  width: 10%;
   margin-right: 3px;
   background-color: dodgerblue;
   color: white;
