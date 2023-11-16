@@ -12,16 +12,11 @@ import {User} from "../../Modules/User";
 export class RegisterComponent {
 
   user: User;
-
-
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-
   ) {
     this.user = new User(
-
     )
   }
 
