@@ -6,7 +6,7 @@
       <div class="friendContainer" style="overflow-y: auto">
           <div id="{{friend.id}}" class="friend" *ngFor="let friend of friendsList;">
             <p>{{friend.vorname}} {{friend.nachname}} will mit die befreundet sein!</p>
-            <button class="innerButton" [routerLink]="['/Profile', friend.id]">Profil</button>
+            <button class="innerButton" [routerLink]="['/friend-profil-view', friend.id]">Profil</button>
             <div class="floatRight">
               <button class="innerGreenButton" (click)="acceptFriendRequest(friend)">Akzeptieren</button>
               <button class="innerRedButton" (click)="declineFriendRequest(friend)">Ablehnen</button>
@@ -22,7 +22,7 @@
       <div class="playContainer">
           <div id="{{friend.id}}" class="friend" *ngFor="let friend of matchList;">
             <p>{{friend.vorname}} {{friend.nachname}} hat dich zu einem Spiel eingeladen!</p>
-            <button class="innerButton" [routerLink]="['/Profile', friend.id]">Profil</button>
+            <button class="innerButton" [routerLink]="['/friend-profil-view', friend.id]">Profil</button>
             <div class="floatRight">
               <button class="innerGreenButton" (click)="acceptMatchRequest(friend)">Akzeptieren</button>
               <button class="innerRedButton" (click)="declineMatchRequest(friend)">Ablehnen</button>

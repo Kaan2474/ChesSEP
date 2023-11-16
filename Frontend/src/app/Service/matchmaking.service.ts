@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../Modules/User";
+import {Friends} from "../Modules/Friends";
 
 
 @Injectable({
@@ -40,6 +41,5 @@ export class MatchmakingService {
   public dequeueMatch(){
     return this.http.get(this.URL + "/dequeueMatch", {headers: this.header})
   }
-
 
 }
