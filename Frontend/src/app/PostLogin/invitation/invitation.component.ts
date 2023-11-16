@@ -65,7 +65,7 @@ export class InvitationComponent implements OnInit {
 
   }
   declineMatchRequest(friend: any) {
-    this.matchmakingService.denyMatchRequest(this.user,friend).subscribe(()=> {
+    this.matchmakingService.denyMatchRequest().subscribe(()=> {
       const index = this.friendsList.indexOf(friend);
       if (index !== -1) {
         this.friendsList.splice(index, 1);
