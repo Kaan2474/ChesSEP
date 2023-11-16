@@ -7,7 +7,7 @@
 </head>
 <body>
   <h3>Du willst einen Freund hinzufügen? Dann gib die Email-Adresse ein!</h3>
-  <!--Formular für Freund hinzufügen: Der Text im eingegebenen Feld wird an das Backend geschickt-->
+
   <form #addfriendForm="ngForm" (ngSubmit)="onAddFriend(addfriendForm.value)">
     <label for="addfriend">Email: </label>
     <input id="addfriend" name="email" type="email" ngModel>

@@ -30,14 +30,14 @@ export class FriendslistComponent implements OnInit{
     this.matchmakingservice.dequeueMatch().subscribe();
   }
 
-  /*Gibt den Token des Users zurück und speichert diesen in der Variable user*/
+  /*Gibt den aktuellen User anhand des Tokens zurück und speichert diesen in der Variable user*/
   refreshUser() {
     this.userService.getUserbyToken()
       .subscribe(data => {
         this.user = data;
         this.setPrivacy();
       });
-    
+
   }
 
 
@@ -50,7 +50,7 @@ export class FriendslistComponent implements OnInit{
       });
   }
 
-  /*Prüft, ob Freundesliste privat oder öffentlich ist */
+  /*Setzt den aktuellen Text der Privatsphäre von der Freundesliste*/
   setPrivacy() {
     this.privacyText = "Status der Privatsphäre: "+this.user.privacy;
   }
@@ -63,10 +63,12 @@ export class FriendslistComponent implements OnInit{
       })
     }
 
+    /*Löscht den Freund, wenn man auf ,,Löschen'' drückt, anhand der ID des Freundes*/
     onDeleteFriend(friend: {id: number}) {
     this.friendsService.deleteFriend(friend)
       .subscribe(data => {
         console.log(1);
       })
+      window.location.reload();
     }
 }
