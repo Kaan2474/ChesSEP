@@ -18,6 +18,7 @@ import {
 } from "./PostLogin/play-game-against-computer/play-game-against-computer.component";
 import {PlayGameAgainstUserComponent} from "./PostLogin/play-game-against-user/play-game-against-user.component";
 import {FriendlistOfFriendsComponent} from "./PostLogin/friendlist-of-friends/friendlist-of-friends.component";
+import {WaitingComponent} from "./PostLogin/waiting/waiting.component";
 
 
 
@@ -36,7 +37,8 @@ const routes: Routes = [
   {path: "joingame", title: "ChesSEP", component: JoingameComponent},
   {path: "play-game-against-computer", title: "ChesSEP", component: PlayGameAgainstComputerComponent},
   {path: "play-game-against-user", title: "ChesSEP", component: PlayGameAgainstUserComponent},
-  {path: "friendlist-of-friends/:id", title: "ChesSEP", component: FriendlistOfFriendsComponent}
+  {path: "friendlist-of-friends/:id", title: "ChesSEP", component: FriendlistOfFriendsComponent},
+  {path: "waiting", title: "ChesSEP", component: WaitingComponent}
 ];
 
 

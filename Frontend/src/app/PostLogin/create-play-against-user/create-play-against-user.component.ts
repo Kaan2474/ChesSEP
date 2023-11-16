@@ -59,7 +59,7 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
     this.matchmakingservice.dequeueMatch().subscribe();
   }
 
-  
+
 
   getFriendsList() {
     this.friendsService.getFriendslist()
@@ -88,18 +88,7 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   }
 
   waitForMatch(chess: Chess) {
-    this.sub = interval(250).subscribe(data => {
-      this.http.get(this.URL + "/getMyCurrentMatch", {headers: this.header}).subscribe(chess => {
-        if(chess!=null){
-        this.chessGame = chess;
-        console.log(this.chessGame.timeStamp)
-        }
-        if (this.chessGame != null) {
-          console.log(this.chessGame.gameID)
-          this.router.navigate(["/play-game-against-user"]);
-        }
-      });
-    });
+    this.router.navigate(["/waiting"]);
   }
 
 

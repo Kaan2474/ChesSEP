@@ -24,6 +24,7 @@ import { PlayGameAgainstComputerComponent } from './PostLogin/play-game-against-
 import { PlayGameAgainstUserComponent } from './PostLogin/play-game-against-user/play-game-against-user.component';
 import {CommonModule} from "@angular/common";
 import { FriendlistOfFriendsComponent } from './PostLogin/friendlist-of-friends/friendlist-of-friends.component';
+import { WaitingComponent } from './PostLogin/waiting/waiting.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { FriendlistOfFriendsComponent } from './PostLogin/friendlist-of-friends/
     JoingameComponent,
     PlayGameAgainstComputerComponent,
     PlayGameAgainstUserComponent,
-    FriendlistOfFriendsComponent
+    FriendlistOfFriendsComponent,
+    WaitingComponent
   ],
   imports: [
     BrowserModule,
