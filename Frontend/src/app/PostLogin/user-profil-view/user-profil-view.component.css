@@ -14,10 +14,14 @@ img {
   margin-left: 0%;
   margin-top: 20px;
 }
+
+label{
+font-size: 20px;
+}
  .underlined-label{
    cursor: pointer;
-   padding: 10px 10px;
    color: darkgreen;
+
 
  }
 
