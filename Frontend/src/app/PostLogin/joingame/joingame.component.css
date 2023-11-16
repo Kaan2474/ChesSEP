@@ -16,3 +16,7 @@ button {
   margin-left: 37.5%;
   width: 20%;
 }
+
+button:hover {
+  background-color: royalblue;
+}

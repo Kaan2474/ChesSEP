@@ -11,6 +11,10 @@ button {
   width: 20%;
 }
 
+button:hover {
+  background-color: royalblue;
+}
+
 /*Verschiebt die Spieldaten nach oben*/
 #gamedata {
   position: relative;

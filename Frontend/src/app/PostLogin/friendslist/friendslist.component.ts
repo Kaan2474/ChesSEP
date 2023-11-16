@@ -3,7 +3,6 @@ import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
-import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -18,7 +17,7 @@ export class FriendslistComponent implements OnInit{
 
 
 
-  constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute) {
+  constructor(private friendsService: FriendsService, private userService: UserService) {
     this.user = new User();
     this.refreshUser();
   }
@@ -27,14 +26,14 @@ export class FriendslistComponent implements OnInit{
     this.refreshUser();
   }
 
-  /*Gibt den Token des Users zurück und speichert diesen in der Variable user*/
+  /*Gibt den aktuellen User anhand des Tokens zurück und speichert diesen in der Variable user*/
   refreshUser() {
     this.userService.getUserbyToken()
       .subscribe(data => {
         this.user = data;
         this.setPrivacy();
       });
-    
+
   }
 
 
@@ -47,7 +46,7 @@ export class FriendslistComponent implements OnInit{
       });
   }
 
-  /*Prüft, ob Freundesliste privat oder öffentlich ist */
+  /*Setzt den aktuellen Text der Privatsphäre von der Freundesliste*/
   setPrivacy() {
     this.privacyText = "Status der Privatsphäre: "+this.user.privacy;
   }
@@ -60,6 +59,7 @@ export class FriendslistComponent implements OnInit{
       })
     }
 
+    /*Löscht den Freund, wenn man auf ,,Löschen'' drückt, anhand der ID des Freundes*/
     onDeleteFriend(friend: {id: number}) {
     this.friendsService.deleteFriend(friend)
       .subscribe(data => {
