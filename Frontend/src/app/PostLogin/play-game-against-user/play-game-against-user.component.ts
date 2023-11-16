@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
 import {ActivatedRoute} from "@angular/router";
+import {MatchmakingService} from "../../Service/matchmaking.service";
+import {Chess} from "../../Modules/Chess";
 
 
 @Component({
@@ -12,19 +14,20 @@ import {ActivatedRoute} from "@angular/router";
 export class PlayGameAgainstUserComponent implements OnInit {
   id:any;
   user: any;
-  friend:any
+  gegner:any
   token = localStorage.getItem("JWT");
   url = "assets/images/profil-picture-icon.png"
+  chessGame : any;
 
-  constructor(private userService: UserService,private route: ActivatedRoute) {
+  constructor(private userService: UserService,private route: ActivatedRoute, private matchmakinService: MatchmakingService) {
     this.user = new User();
-    this.friend = new User();
+    this.gegner = new User();
+    this.chessGame = new Chess();
   }
   ngOnInit() {
+    this.getMyCurrentMatch();
     this.getUserDetail();
     this.id = this.route.snapshot.params["id"];
-    console.log('friendID:', this.id);
-    this.getProfileFriend();
   }
 
   getUserDetail() {
@@ -40,18 +43,31 @@ export class PlayGameAgainstUserComponent implements OnInit {
         console.error("Fehler beim Laden der Benutzerdaten");
       });
   }
-  getProfileFriend(){
-    this.userService.getUser(this.id).subscribe(data=> {
-        this.friend = data;
-        console.log(this.friend)
-        if(this.friend.profilbild!=null) {
-          this.friend.profilbild = 'data:image/png;base64,' + this.friend.profilbild;
+  getProfileGegner(gegnerID:any){
+    this.userService.getUser(gegnerID).subscribe(data=> {
+        this.gegner = data;
+        console.log(this.gegner)
+        if(this.gegner.profilbild!=null) {
+          this.gegner.profilbild = 'data:image/png;base64,' + this.gegner.profilbild;
         }
       },
       error => {
         console.error('Error getting user profile:', error);
-
       }
     );
+  }
+
+  getMyCurrentMatch(){
+    this.matchmakinService.getMyCurrentMatch().subscribe(data =>{
+      this.chessGame = data;
+        if(this.user.id === this.chessGame.playerWhiteID){
+          this.id = this.chessGame.playerBlackID;
+        }else {
+          this.id = this.chessGame.playerWhiteID;
+        }
+        this.getProfileGegner(this.id);
+      console.log('friendID:' + this.id);
+      console.log('friendID:' + this.chessGame.playerBlackID);
+    })
   }
 }

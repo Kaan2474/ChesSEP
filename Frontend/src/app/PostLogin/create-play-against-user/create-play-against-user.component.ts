@@ -98,11 +98,13 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
         if (this.chessGame != null) {
           this.ngOnDestroy()
           console.log(this.chessGame.gameID)
-
+          this.router.navigate(["/play-game-against-user"]);
         }
       });
     });
   }
+
+
 
   showNotification(message:string){
     alert(message);

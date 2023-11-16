@@ -42,4 +42,7 @@ export class MatchmakingService {
     return this.http.get(this.URL + "/dequeueMatch", {headers: this.header})
   }
 
+  public getMyCurrentMatch(){
+    return this.http.get(this.URL + "/getMyCurrentMatch", {headers: this.header})
+  }
 }

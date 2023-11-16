@@ -1,16 +1,16 @@
 <app-header></app-header>
-<div class = "friendContainer">
-  <table class="table table-striped" *ngIf="friend">
+<div class = "gegnerContainer">
+  <table class="table table-striped" *ngIf="gegner">
     <tr>
-      <td><a><img *ngIf="friend && friend.profilbild" [src]="user.profilbild" alt="Profilbild">
-        <img *ngIf="!friend || !friend.profilbild" [src]="url" alt ="Standardprofilbild">
+      <td><a><img *ngIf="gegner && gegner.profilbild" [src]="gegner.profilbild" alt="Profilbild">
+        <img *ngIf="!gegner || !gegner.profilbild" [src]="url" alt ="Standardprofilbild">
       </a>
       </td>
-      <td>{{friend.vorname}}</td>
-      <td>{{friend.nachname}}</td>
+      <td>{{gegner.vorname}}</td>
+      <td>{{gegner.nachname}}</td>
     </tr>
     <tr>
-      {{friend.elo}}
+      {{gegner.elo}}
     </tr>
   </table>
 </div>
