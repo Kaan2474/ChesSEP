@@ -5,6 +5,7 @@ import {UserService} from "../../Service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Friends} from "../../Modules/Friends";
 import {MatchmakingService} from "../../Service/matchmaking.service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-invitation',
@@ -13,15 +14,23 @@ import {MatchmakingService} from "../../Service/matchmaking.service";
 })
 export class InvitationComponent implements OnInit {
   user:User;
+  friend:User;
   friendsList:Friends[]=[];
   matchList: Friends[]=[];
+  token = localStorage.getItem("JWT");
+  URL = "http://localhost:8080/match";
 
-  constructor(private friendService: FriendsService,
+  header = new HttpHeaders().set("Authorization", "Bearer " + this.token)
+    .set("Access-Control-Allow-Origin", "*")
+    .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+    .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  constructor(private http: HttpClient,
+              private friendService: FriendsService,
               private userService: UserService,
               private matchmakingService:MatchmakingService,
               private router: Router,
-              private route: ActivatedRoute) {this.user = new User()
-  }
+              private route: ActivatedRoute) {this.user = new User(),
+                                              this.friend=new User()}
   ngOnInit() {
     if(localStorage.getItem("ActiveUser") == "" || localStorage.getItem("ActiveUser") == undefined){
       this.router.navigate([""]);
@@ -56,13 +65,23 @@ export class InvitationComponent implements OnInit {
     this.showNotification("Freundschaftsanfrage wurde erfolgreich abgelehnt")
   }
   acceptMatchRequest(friend:any){
-    this.matchmakingService.acceptMatchRequest(friend).subscribe(()=> {
+    this.matchmakingService.acceptMatchRequest(this.user,friend).subscribe((data)=> {
       const index = this.friendsList.indexOf(friend);
       if (index !== -1) {
         this.friendsList.splice(index, 1);
       }
+        this.myMatchRequest();
     });
 
+  }
+  myMatchRequest(){
+    this.http.get(this.URL + "/getMyMatchRequest", {headers: this.header})
+      .subscribe(data => {
+        console.log(data)
+        this.router.navigate(["/play-game-against-user"]).then(()=>
+          this.myMatchRequest());
+
+      });
   }
   declineMatchRequest(friend: any) {
     this.matchmakingService.denyMatchRequest().subscribe(()=> {
