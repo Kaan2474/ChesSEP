@@ -29,8 +29,8 @@ export class MatchmakingService {
     return this.http.post(this.URL + "/acceptMatchRequest",friend, {headers: this.header})
   }
 
-  public denyMatchRequest(jwtToken:any, friend: any){
-    return this.http.post(this.URL + "/denyMatchRequest",friend, {headers: this.header})
+  public denyMatchRequest(){
+    return this.http.get(this.URL + "/denyMatchRequest", {headers: this.header})
   }
 
   public queueMatch(){

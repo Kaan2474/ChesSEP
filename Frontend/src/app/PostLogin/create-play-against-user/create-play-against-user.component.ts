@@ -11,7 +11,7 @@ import {Chess} from "../../Modules/Chess";
   templateUrl: './create-play-against-user.component.html',
   styleUrls: ['./create-play-against-user.component.css']
 })
-export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
+export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy {
   public allFriends: Friends[] = [];
   URL = "http://localhost:8080/match";
 
@@ -22,26 +22,26 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
-  chessGame:any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
+  chessGame: any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
 
-  sub : Subscription = new Subscription();
+  sub: Subscription = new Subscription();
 
   constructor(private http: HttpClient,
-  private friendsService: FriendsService,
-  private matchmakingservice:MatchmakingService)
-
-  {
-
+              private friendsService: FriendsService,
+              private matchmakingservice: MatchmakingService) {
   }
-
 
 
   ngOnInit() {
     this.getFriendsList()
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.sub.unsubscribe();
+    if (this.chessGame == null) {
+      this.matchmakingservice.dequeueMatch();
+    }
+    this.matchmakingservice.denyMatchRequest()
   }
 
   getFriendsList() {
@@ -52,18 +52,18 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
       });
   }
 
-  sendRequestMatch(user: Friends){
+  sendRequestMatch(user: Friends) {
 
-
-    this.http.post(this.URL + "/requestMatch",user, {headers: this.header})
+    this.http.post(this.URL + "/requestMatch", user, {headers: this.header})
       .subscribe(data => {
+        this.waitForMatch(this.chessGame)
         console.log(data)
         this.myMatchRequest()
       });
   }
 
 
-  myMatchRequest(){
+  myMatchRequest() {
 
     this.http.get(this.URL + "/getMyMatchRequest", {headers: this.header})
       .subscribe(data => {
@@ -72,15 +72,14 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   }
 
 
-  queueForMatch(){
+  queueForMatch() {
     this.matchmakingservice.queueMatch().subscribe(data => {
       console.log(data)
-      this.intervalMatchRequest(this.chessGame)
-
+      this.waitForMatch(this.chessGame)
     })
   }
 
-  intervalMatchRequest(chess:Chess) {
+  waitForMatch(chess: Chess) {
     this.sub = interval(250).subscribe(data => {
       this.http.get(this.URL + "/getMyCurrentMatch", {headers: this.header}).subscribe(chess => {
         this.chessGame = chess;
@@ -88,13 +87,11 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
         if (this.chessGame != null) {
           this.ngOnDestroy()
           console.log(this.chessGame.gameID)
-
         }
       });
     });
   }
 }
-
 
 
 
