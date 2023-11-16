@@ -1,0 +1,12 @@
+/*Kreiert Linien in der Tabelle*/
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+/*Vergößert den Abstand zwischen den Headern und der Daten der Tabelle*/
+th, td {
+  padding: 20px;
+  text-align: center;
+}
+

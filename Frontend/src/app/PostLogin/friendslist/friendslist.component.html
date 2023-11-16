@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<p>{{privacyText}}</p>
+<p><b>{{privacyText}}</b></p>
 
 <form>
   <input id="private" name="privacy" type="button" value="Privatsphäre ändern" (click) = changePrivacy()>
@@ -14,6 +14,9 @@
     <th>Nachname</th>
     <th>Geburtsdatum</th>
     <th>Elo</th>
+    <th>Profil</th>
+    <th>Freunde</th>
+    <th>Löschen</th>
   </tr>
 
   <tr *ngFor="let friend of allFriends">
@@ -23,7 +26,7 @@
     <td>{{ friend.elo }}</td>
     <td><a [routerLink]="['/friend-profil-view', friend.id]">Profil</a></td>
     <td><a [routerLink]="['/friendlist-of-friends', friend.id]">Freunde</a></td>
-    <td><button type="button" (click)="onDeleteFriend(friend)">Löschen</button></td>
+    <td><button id="deleteButton" type="button" (click)="onDeleteFriend(friend)">Löschen</button></td>
   </tr>
 </table>
 

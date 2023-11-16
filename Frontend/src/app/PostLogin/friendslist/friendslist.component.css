@@ -4,6 +4,13 @@ h1 {
   margin-top: 5%;
 }
 
+/*Vergößert den Abstand zwischen den Headern und der Daten der Tabelle*/
+th, td {
+  padding: 20px;
+  text-align: center;
+}
+
+/*Kreiert Linien in der Tabelle*/
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -19,8 +26,36 @@ input {
   cursor: pointer;
 }
 
-
 /*Text, der den Status der Privatsphäre anzeigt*/
 p {
   font-size: 20px;
+  letter-spacing: 1px;
+  color: #1E1E1E;
 }
+
+/*Der Löschen Knopf*/
+#deleteButton{
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  cursor: pointer;
+  border: #1E1E1E solid 1px;
+}
+
+/*Hover-Effekte für den Privatsphäre ändern Knopf, Lösch Knopf und die Links*/
+#deleteButton:hover, a:hover, input:hover {
+  background-color: royalblue;
+}
+
+/*Default-Werte der Links werden entfernt*/
+a:link, a:visited {
+  text-decoration: none;
+}
+
+a {
+  border: #1E1E1E solid 1px;
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
