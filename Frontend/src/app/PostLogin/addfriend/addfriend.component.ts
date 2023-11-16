@@ -16,7 +16,7 @@ export class AddfriendComponent {
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
-  constructor(private http: HttpClient, private matchmakingservice:MatchmakingService ) { }
+  constructor(private http: HttpClient ) { }
   //Sendet die eingegebene Email im Formular an das Backend weiter
   onAddFriend(user: {email: string}) {
     console.log(user);
@@ -24,11 +24,6 @@ export class AddfriendComponent {
       .subscribe(data => {
         console.log(data)
       });
-  }
-
-  ngOnInit(){
-    this.matchmakingservice.cancelMatchRequest().subscribe();
-    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
 }

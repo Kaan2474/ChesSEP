@@ -25,7 +25,6 @@ export class UserProfilViewComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private matchmakingservice: MatchmakingService
   ) {
     this.user = new User()
 
@@ -35,8 +34,6 @@ export class UserProfilViewComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetail();
-    this.matchmakingservice.cancelMatchRequest().subscribe();
-    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
   getUserDetail() {

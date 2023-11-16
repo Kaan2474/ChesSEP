@@ -22,6 +22,7 @@ export class WaitingComponent implements OnInit, OnDestroy{
   constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
+    localStorage.setItem("Waited", "1");
     this.waitForMatch(this.chessGame);
   }
 

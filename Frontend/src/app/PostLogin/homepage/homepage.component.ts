@@ -13,7 +13,12 @@ export class HomepageComponent {
   }
 
   ngOnInit(){
-    this.matchmakingservice.cancelMatchRequest().subscribe();
-    this.matchmakingservice.dequeueMatch().subscribe();
+    var waited=localStorage.getItem("Waited");
+    if(waited=="1"){
+      this.matchmakingservice.cancelMatchRequest().subscribe();
+      this.matchmakingservice.dequeueMatch().subscribe();
+      
+      localStorage.setItem("Waited","0");
+    }
   }
 }

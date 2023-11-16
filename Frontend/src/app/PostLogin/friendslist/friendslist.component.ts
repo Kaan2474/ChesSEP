@@ -19,15 +19,13 @@ export class FriendslistComponent implements OnInit{
 
 
 
-  constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute,private matchmakingservice: MatchmakingService) {
+  constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute) {
     this.user = new User();
     this.refreshUser();
   }
   ngOnInit() {
     this.getFriends();
     this.refreshUser();
-    this.matchmakingservice.cancelMatchRequest().subscribe();
-    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
   /*Gibt den aktuellen User anhand des Tokens zurück und speichert diesen in der Variable user*/

@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
@@ -12,7 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './create-play-against-user.component.html',
   styleUrls: ['./create-play-against-user.component.css']
 })
-export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
+export class CreatePlayAgainstUserComponent implements OnInit{
   public allFriends: Friends[] = [];
   URL = "http://localhost:8080/match";
 
@@ -25,8 +25,6 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
 
   chessGame:any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
 
-  sub : Subscription = new Subscription();
-
   constructor(private http: HttpClient,
   private friendsService: FriendsService,
   private matchmakingservice:MatchmakingService,
@@ -37,28 +35,18 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   }
 
 
-
   ngOnInit() {
+    
+    var waited=localStorage.getItem("Waited");
+    if(waited=="1"){
+      this.matchmakingservice.cancelMatchRequest().subscribe();
+      this.matchmakingservice.dequeueMatch().subscribe();
+      
+      localStorage.setItem("Waited","0");
+    }
+
     this.getFriendsList()
   }
-
-  @HostListener('window:beforeunload')
-  async ngOnDestroy(){
-    await this.destroyInv();
-
-    this.sub.unsubscribe();
-    this.matchmakingservice.cancelMatchRequest().subscribe();
-    this.matchmakingservice.dequeueMatch().subscribe();
-  }
-
-
-  @HostListener('window:beforeunload')
-  async destroyInv(){
-    this.sub.unsubscribe();
-    this.matchmakingservice.cancelMatchRequest().subscribe();
-    this.matchmakingservice.dequeueMatch().subscribe();
-  }
-
 
 
   getFriendsList() {

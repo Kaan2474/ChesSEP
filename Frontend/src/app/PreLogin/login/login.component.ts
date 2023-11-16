@@ -32,6 +32,7 @@ export class LoginComponent {
 
   goToAuthentication(){
     localStorage.setItem("ActiveUser", this.user.email);
+    localStorage.setItem("Waited", "0");
     this.router.navigate(["/authenticate"]);
   }
 
