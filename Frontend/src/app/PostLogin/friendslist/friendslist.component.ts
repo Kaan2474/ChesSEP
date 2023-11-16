@@ -69,5 +69,6 @@ export class FriendslistComponent implements OnInit{
       .subscribe(data => {
         console.log(1);
       })
+      window.location.reload();
     }
 }
