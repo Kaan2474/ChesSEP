@@ -1,1 +1,38 @@
-<app-hidegame></app-hidegame>
+<app-header></app-header>
+<div class = "friendContainer">
+  <table class="table table-striped" *ngIf="friend">
+    <tr>
+      <td><a><img *ngIf="friend && friend.profilbild" [src]="user.profilbild" alt="Profilbild">
+        <img *ngIf="!friend || !friend.profilbild" [src]="url" alt ="Standardprofilbild">
+      </a>
+      </td>
+      <td>{{friend.vorname}}</td>
+      <td>{{friend.nachname}}</td>
+    </tr>
+    <tr>
+      {{friend.elo}}
+    </tr>
+  </table>
+</div>
+<div class = "schachbrettContainer">
+  <img src="/assets/images/Schachbrett.jpg">
+</div>
+
+<div class = "userContainer">
+
+  <table class="table table-striped" *ngIf="user">
+    <tr>
+      <td><a><img *ngIf="user && user.profilbild" [src]="user.profilbild" alt="Profilbild">
+             <img *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
+          </a>
+      </td>
+      <td>{{user.vorname}}</td>
+      <td>{{user.nachname}}</td>
+    </tr>
+    <tr>
+      {{user.elo}}
+    </tr>
+  </table>
+
+</div>
+
