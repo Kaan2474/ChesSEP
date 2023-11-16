@@ -29,7 +29,8 @@ export class InvitationComponent implements OnInit {
               private userService: UserService,
               private matchmakingService:MatchmakingService,
               private router: Router,
-              private route: ActivatedRoute) {this.user = new User(),
+              private route: ActivatedRoute,
+              private matchmakingservice:MatchmakingService) {this.user = new User(),
                                               this.friend=new User()}
   ngOnInit() {
     if(localStorage.getItem("ActiveUser") == "" || localStorage.getItem("ActiveUser") == undefined){
@@ -43,6 +44,9 @@ export class InvitationComponent implements OnInit {
       this.matchmakingService.getMyMatchInvitations((res)).subscribe(
         res => this.matchList =res)
     });
+
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
   acceptFriendRequest(friend: any) {
@@ -78,9 +82,7 @@ export class InvitationComponent implements OnInit {
     this.http.get(this.URL + "/getMyMatchRequest", {headers: this.header})
       .subscribe(data => {
         console.log(data)
-        this.router.navigate(["/play-game-against-user"]).then(()=>
-          this.myMatchRequest());
-
+        this.router.navigate(["/play-game-against-user"])
       });
   }
   declineMatchRequest(friend: any) {
