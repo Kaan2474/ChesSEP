@@ -13,27 +13,27 @@ import {Chess} from "../../Modules/Chess";
 })
 export class PlayGameAgainstUserComponent implements OnInit {
   id:any;
-  user: any;
-  gegner:any
+  user: any=new User();
+  gegner:any=new User();
   token = localStorage.getItem("JWT");
   url = "assets/images/profil-picture-icon.png"
-  chessGame : any;
+  chessGame : any= new Chess();
 
   constructor(private userService: UserService,private route: ActivatedRoute, private matchmakinService: MatchmakingService) {
-    this.user = new User();
-    this.gegner = new User();
-    this.chessGame = new Chess();
   }
+    
+
   ngOnInit() {
     this.getMyCurrentMatch();
     this.getUserDetail();
+    
     this.id = this.route.snapshot.params["id"];
   }
 
   getUserDetail() {
     this.userService.getUserbyToken().subscribe((data) => {
         console.log(data)
-        this.user = data
+        this.user = data;
 
         if(this.user.profilbild!=null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
@@ -43,31 +43,38 @@ export class PlayGameAgainstUserComponent implements OnInit {
         console.error("Fehler beim Laden der Benutzerdaten");
       });
   }
-  getProfileGegner(gegnerID:any){
-    this.userService.getUser(gegnerID).subscribe(data=> {
+  getProfileGegner(){
+
+    if(this.user.id == this.chessGame.playerWhiteID){
+      this.gegner.id = this.chessGame.playerBlackID;
+
+    }else {
+      this.gegner.id = this.chessGame.playerWhiteID;
+    }
+
+    
+    
+    this.userService.getUser(this.gegner.id).subscribe(data=> {
         this.gegner = data;
         console.log(this.gegner)
+
         if(this.gegner.profilbild!=null) {
           this.gegner.profilbild = 'data:image/png;base64,' + this.gegner.profilbild;
         }
-      },
-      error => {
-        console.error('Error getting user profile:', error);
       }
     );
+
+    console.log('user:' + this.user.id);
+    console.log('gegner:' + this.gegner.id);
   }
 
   getMyCurrentMatch(){
     this.matchmakinService.getMyCurrentMatch().subscribe(data =>{
       this.chessGame = data;
-        if(this.user.id === this.chessGame.playerWhiteID){
-          this.id = this.chessGame.playerBlackID;
-        }else {
-          this.id = this.chessGame.playerWhiteID;
-        }
-        this.getProfileGegner(this.id);
-      console.log('friendID:' + this.id);
-      console.log('friendID:' + this.chessGame.playerBlackID);
+       
+      
+
+      this.getProfileGegner();
     })
   }
 }
