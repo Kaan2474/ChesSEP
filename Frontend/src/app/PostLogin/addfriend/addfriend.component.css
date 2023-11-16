@@ -15,6 +15,11 @@ body {
   cursor: pointer;
 }
 
+/*Hover-Effekte für den ,,Freund hinzufügen'' Knopf*/
+#addfriendButton:hover {
+  background-color: royalblue;
+}
+
 /*Der Text über dem Formular*/
 h3 {
   text-align: center;
