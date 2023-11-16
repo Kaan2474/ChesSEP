@@ -3,6 +3,7 @@ import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 
 
 
@@ -23,7 +24,8 @@ export class UserProfilViewComponent implements OnInit {
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private matchmakingservice: MatchmakingService
   ) {
     this.user = new User()
 
@@ -33,7 +35,8 @@ export class UserProfilViewComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetail();
-
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
   getUserDetail() {

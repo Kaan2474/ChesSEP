@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
@@ -42,13 +42,24 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
     this.getFriendsList()
   }
 
-  ngOnDestroy(){
+  @HostListener('window:beforeunload')
+  async ngOnDestroy(){
+    await this.destroyInv();
+
     this.sub.unsubscribe();
-    if (this.chessGame == null) {
-      this.matchmakingservice.dequeueMatch();
-    }
-    this.matchmakingservice.denyMatchRequest()
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
   }
+
+
+  @HostListener('window:beforeunload')
+  async destroyInv(){
+    this.sub.unsubscribe();
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
+  }
+
+  
 
   getFriendsList() {
     this.friendsService.getFriendslist()
@@ -65,23 +76,9 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
       .subscribe(data => {
         this.waitForMatch(this.chessGame)
         console.log(data)
-        this.myMatchRequest()
       });
     this.showNotification("Die Einlladung wurde erfolgreich versendet")
   }
-
-
-  myMatchRequest(){
-
-    this.http.get(this.URL + "/getMyMatchRequest", {headers: this.header})
-      .subscribe(data => {
-        console.log(data)
-        this.router.navigate(["/play-game-against-user"]).then(()=>
-        this.myMatchRequest());
-
-      });
-  }
-
 
   queueForMatch() {
     this.matchmakingservice.queueMatch().subscribe(data => {
@@ -93,10 +90,11 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   waitForMatch(chess: Chess) {
     this.sub = interval(250).subscribe(data => {
       this.http.get(this.URL + "/getMyCurrentMatch", {headers: this.header}).subscribe(chess => {
+        if(chess!=null){
         this.chessGame = chess;
         console.log(this.chessGame.timeStamp)
+        }
         if (this.chessGame != null) {
-          this.ngOnDestroy()
           console.log(this.chessGame.gameID)
           this.router.navigate(["/play-game-against-user"]);
         }

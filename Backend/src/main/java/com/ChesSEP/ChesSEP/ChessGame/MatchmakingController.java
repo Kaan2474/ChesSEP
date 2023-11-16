@@ -33,6 +33,11 @@ public class MatchmakingController {
         matchmakingService.denyMatchRequest(jwtToken);
     }
 
+    @GetMapping("/cancelMatchRequest")
+    public void cancelMatch(@RequestHeader(value = "Authorization") String jwtToken){
+        matchmakingService.cancelMatchRequest(jwtToken);
+    }
+
     @PostMapping("/acceptMatchRequest")
     public void acceptMatchRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
         matchmakingService.acceptMatchRequest(jwtToken, Friend.getId());

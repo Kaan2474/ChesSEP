@@ -73,10 +73,6 @@ export class PlayGameAgainstUserComponent implements OnInit {
   getMyCurrentMatch(){
     this.matchmakinService.getMyCurrentMatch().subscribe(data =>{
       this.chessGame = data;
-       
-      
-
-      
     })
   }
 }

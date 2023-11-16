@@ -34,6 +34,10 @@ export class MatchmakingService {
     return this.http.get(this.URL + "/denyMatchRequest", {headers: this.header})
   }
 
+  public cancelMatchRequest(){
+    return this.http.get(this.URL + "/cancelMatchRequest", {headers: this.header})
+  }
+
   public queueMatch(){
     return this.http.get(this.URL + "/queueMatch", {headers: this.header})
   }

@@ -107,6 +107,16 @@ public class MatchmakingService {
         matchRequestRepository.delete(request);
     }
 
+    public void cancelMatchRequest(String jwtToken){
+        User user=getUserFromToken(jwtToken);
+        MatchRequest request=matchRequestRepository.searchRequest(user.getId());
+
+        if(request==null)
+            return;
+
+        matchRequestRepository.delete(request);
+    }
+
     public ChessGame getMyCurrentMatch(String jwtToken){
         User user=getUserFromToken(jwtToken);
 

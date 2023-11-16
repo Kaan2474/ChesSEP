@@ -3,6 +3,8 @@ import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
+import {ActivatedRoute} from "@angular/router";
+import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 
 
 @Component({
@@ -17,13 +19,15 @@ export class FriendslistComponent implements OnInit{
 
 
 
-  constructor(private friendsService: FriendsService, private userService: UserService) {
+  constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute,private matchmakingservice: MatchmakingService) {
     this.user = new User();
     this.refreshUser();
   }
   ngOnInit() {
     this.getFriends();
     this.refreshUser();
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
   /*Gibt den aktuellen User anhand des Tokens zurück und speichert diesen in der Variable user*/

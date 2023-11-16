@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 
 @Component({
   selector: 'app-homepage',
@@ -6,4 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent {
+
+  constructor(private matchmakingservice:MatchmakingService){
+
+  }
+
+  ngOnInit(){
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
+  }
 }

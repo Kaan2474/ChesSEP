@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class AddfriendComponent {
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private matchmakingservice:MatchmakingService ) { }
   //Sendet die eingegebene Email im Formular an das Backend weiter
   onAddFriend(user: {email: string}) {
     console.log(user);
@@ -23,6 +24,11 @@ export class AddfriendComponent {
       .subscribe(data => {
         console.log(data)
       });
+  }
+
+  ngOnInit(){
+    this.matchmakingservice.cancelMatchRequest().subscribe();
+    this.matchmakingservice.dequeueMatch().subscribe();
   }
 
 }
