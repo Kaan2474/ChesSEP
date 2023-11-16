@@ -1,10 +1,9 @@
 <app-header></app-header>
-<button class = "partieAusblenden" routerLink="joingame">Partie ausblenden</button>
 <div class = "gegnerContainer">
   <table class="table table-striped" *ngIf="gegner">
     <tr>
-      <td><a><img *ngIf="gegner && gegner.profilbild" [src]="gegner.profilbild" alt="Profilbild">
-        <img *ngIf="!gegner || !gegner.profilbild" [src]="url" alt ="Standardprofilbild">
+      <td><a><img class="userPic" *ngIf="gegner && gegner.profilbild" [src]="gegner.profilbild" alt="Profilbild">
+        <img class="userPic" *ngIf="!gegner || !gegner.profilbild" [src]="url" alt ="Standardprofilbild">
       </a>
       </td>
       <td>{{gegner.vorname}}</td>
@@ -16,15 +15,15 @@
   </table>
 </div>
 <div class = "schachbrettContainer">
-  <img src="/assets/images/Schachbrett.jpg">
+  <img id="chessPic" src="/assets/images/Schachbrett.jpg">
 </div>
 
 <div class = "userContainer">
 
   <table class="table table-striped" *ngIf="user">
     <tr>
-      <td><a><img *ngIf="user && user.profilbild" [src]="user.profilbild" alt="Profilbild">
-             <img *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
+      <td><a><img class="userPic" *ngIf="user && user.profilbild" [src]="user.profilbild" alt="Profilbild">
+             <img class="userPic" *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
           </a>
       </td>
       <td>{{user.vorname}}</td>
@@ -36,4 +35,6 @@
   </table>
 
 </div>
+
+<button class = "partieAusblenden" routerLink="joingame">Partie verlassen</button>
 
