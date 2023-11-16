@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatchmakingService} from "../../Service/matchmaking.service";
 import {Chess} from "../../Modules/Chess";
 import { Friends } from 'src/app/Modules/Friends';
+import { Subscription, interval } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { Friends } from 'src/app/Modules/Friends';
   templateUrl: './play-game-against-user.component.html',
   styleUrls: ['./play-game-against-user.component.css']
 })
-export class PlayGameAgainstUserComponent implements OnInit {
+export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   id:any;
   user: User=new User();
   gegner:User=new User();
@@ -20,9 +22,14 @@ export class PlayGameAgainstUserComponent implements OnInit {
   url = "assets/images/profil-picture-icon.png"
   chessGame : any= new Chess();
 
-  constructor(private userService: UserService,private route: ActivatedRoute, private matchmakinService: MatchmakingService) {
-  }
-    
+  constructor(private userService: UserService,
+    private route: ActivatedRoute, 
+    private matchmakinService: MatchmakingService,
+    private http: HttpClient,
+    private router: Router) 
+    {}
+   
+  sub:Subscription=new Subscription;
 
   ngOnInit() {
     this.getMyCurrentMatch();
@@ -33,6 +40,24 @@ export class PlayGameAgainstUserComponent implements OnInit {
     console.log('gegner:' + this.gegner.id);
     
     this.id = this.route.snapshot.params["id"];
+
+    this.refreshMatch();
+  }
+
+  ngOnDestroy(){
+    this.sub.unsubscribe();
+  }
+
+
+
+  refreshMatch() {
+    this.sub = interval(250).subscribe(data => {
+      this.matchmakinService.getMyCurrentMatch().subscribe(chess => {
+        if(chess==null){
+          this.router.navigate(["/homepage"]);
+        }
+      });
+    });
   }
 
   getUserDetail() {
@@ -74,5 +99,9 @@ export class PlayGameAgainstUserComponent implements OnInit {
     this.matchmakinService.getMyCurrentMatch().subscribe(data =>{
       this.chessGame = data;
     })
+  }
+
+  endGame(){
+    this.matchmakinService.endMyMatch().subscribe();
   }
 }

@@ -53,4 +53,8 @@ export class MatchmakingService {
   public getMyCurrentEnemy(){
     return this.http.get(this.URL + "/getMyCurrentEnemy", {headers: this.header})
   }
+
+  public endMyMatch(){
+    return this.http.get(this.URL + "/endMyMatch", {headers: this.header})
+  }
 }
