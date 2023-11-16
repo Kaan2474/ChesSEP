@@ -29,7 +29,7 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)

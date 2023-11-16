@@ -42,11 +42,4 @@ export class MatchmakingService {
     return this.http.get(this.URL + "/dequeueMatch", {headers: this.header})
   }
 
-  public endMatch(){
-    return this.http.get(this.URL + "/endMyMatch", {headers: this.header})
-  }
-
-
-
-
 }

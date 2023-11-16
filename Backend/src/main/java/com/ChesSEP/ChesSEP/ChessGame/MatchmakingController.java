@@ -38,7 +38,7 @@ public class MatchmakingController {
         matchmakingService.acceptMatchRequest(jwtToken, Friend.getId());
     }
 
-    @GetMapping("/getMyCurrentMatchID")
+    @GetMapping("/getMyCurrentMatch")
     public ResponseEntity<ChessGame> getMyCurrentMatchID(@RequestHeader(value = "Authorization") String jwtToken){
         return ResponseEntity.ok(matchmakingService.getMyCurrentMatch(jwtToken));
     }
