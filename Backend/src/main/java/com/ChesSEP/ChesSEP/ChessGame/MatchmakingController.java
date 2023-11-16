@@ -53,6 +53,11 @@ public class MatchmakingController {
         return ResponseEntity.ok(matchmakingService.getMyMatchRequest(jwtToken));
     }
 
+    @GetMapping("/getMyCurrentEnemy")
+    public ResponseEntity<Long> getMyMatchEnemy(@RequestHeader(value = "Authorization") String jwtToken){
+        return ResponseEntity.ok(matchmakingService.getMyCurrentEnemy(jwtToken));
+    }
+
     @GetMapping("/endMyMatch")
     public void  endMyMatch(@RequestHeader(value = "Authorization") String jwtToken){
         matchmakingService.endMyMatch(jwtToken);

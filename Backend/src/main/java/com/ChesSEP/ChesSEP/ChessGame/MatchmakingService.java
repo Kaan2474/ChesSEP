@@ -122,6 +122,21 @@ public class MatchmakingService {
         return result.get(0);
     }
 
+    public Long getMyCurrentEnemy(String jwtToken){
+        ChessGame game =getMyCurrentMatch(jwtToken);
+
+        if(game==null)
+            return null;
+
+        User user=getUserFromToken(jwtToken);
+
+        if(user.getId()==game.getPlayerBlackID()){
+            return game.getPlayerWhiteID();
+        }else{
+            return game.getPlayerBlackID();
+        }
+    }
+
     public UserRequestHolder[] getMyMatchInvitations(String jwtToken){
         User user=getUserFromToken(jwtToken);
 

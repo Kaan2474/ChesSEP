@@ -4,6 +4,7 @@ import {UserService} from "../../Service/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {MatchmakingService} from "../../Service/matchmaking.service";
 import {Chess} from "../../Modules/Chess";
+import { Friends } from 'src/app/Modules/Friends';
 
 
 @Component({
@@ -13,8 +14,8 @@ import {Chess} from "../../Modules/Chess";
 })
 export class PlayGameAgainstUserComponent implements OnInit {
   id:any;
-  user: any=new User();
-  gegner:any=new User();
+  user: User=new User();
+  gegner:User=new User();
   token = localStorage.getItem("JWT");
   url = "assets/images/profil-picture-icon.png"
   chessGame : any= new Chess();
@@ -26,14 +27,18 @@ export class PlayGameAgainstUserComponent implements OnInit {
   ngOnInit() {
     this.getMyCurrentMatch();
     this.getUserDetail();
+    this.getProfileGegner();
+
+    console.log('user:' + this.user.id);
+    console.log('gegner:' + this.gegner.id);
     
     this.id = this.route.snapshot.params["id"];
   }
 
   getUserDetail() {
     this.userService.getUserbyToken().subscribe((data) => {
-        console.log(data)
         this.user = data;
+        console.log('user:' + this.user.id);
 
         if(this.user.profilbild!=null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
@@ -43,29 +48,26 @@ export class PlayGameAgainstUserComponent implements OnInit {
         console.error("Fehler beim Laden der Benutzerdaten");
       });
   }
+
   getProfileGegner(){
 
-    if(this.user.id == this.chessGame.playerWhiteID){
-      this.gegner.id = this.chessGame.playerBlackID;
+    this.matchmakinService.getMyCurrentEnemy().subscribe(data=>{
+      this.gegner.id=data;
+      console.log('gegner:' + this.gegner.id);
+      this.getGegner();
+    })
+  }
 
-    }else {
-      this.gegner.id = this.chessGame.playerWhiteID;
-    }
-
-    
-    
+  getGegner(){
     this.userService.getUser(this.gegner.id).subscribe(data=> {
-        this.gegner = data;
-        console.log(this.gegner)
+      this.gegner = data;
+      console.log(this.gegner)
 
-        if(this.gegner.profilbild!=null) {
-          this.gegner.profilbild = 'data:image/png;base64,' + this.gegner.profilbild;
-        }
+      if(this.gegner.profilbild!=null) {
+        this.gegner.profilbild = 'data:image/png;base64,' + this.gegner.profilbild;
       }
-    );
-
-    console.log('user:' + this.user.id);
-    console.log('gegner:' + this.gegner.id);
+    }
+  );
   }
 
   getMyCurrentMatch(){
@@ -74,7 +76,7 @@ export class PlayGameAgainstUserComponent implements OnInit {
        
       
 
-      this.getProfileGegner();
+      
     })
   }
 }

@@ -45,4 +45,8 @@ export class MatchmakingService {
   public getMyCurrentMatch(){
     return this.http.get(this.URL + "/getMyCurrentMatch", {headers: this.header})
   }
+
+  public getMyCurrentEnemy(){
+    return this.http.get(this.URL + "/getMyCurrentEnemy", {headers: this.header})
+  }
 }
