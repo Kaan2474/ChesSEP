@@ -1,42 +1,35 @@
 <app-header></app-header>
-  <div class="container">
-    <div class="center">
-      <p class="titel">Freundschaftsanfragen></p>
-      <div class="center scroll">
-        <div class="friendContainer">
-          <div class="center">
-            <div id="{{friend.id}}" class="friend" *ngFor="let friend of friendsList;">
-              <p>{{friend.vorname}} {{friend.nachname}} will mit die befreundet sein!</p>
-              <div class="floatRight">
-                <button class="innerGreenButton" (click)="acceptFriendRequest(friend)">Akzeptieren</button>
-                <button class="innerRedButton" (click)="declineFriendRequest(friend)">Ablehnen</button>
-              </div>
-           </div>
+<div class="container">
+  <div class="center">
+    <h2 class="titel">Freundschaftsanfragen</h2>
+    <div class="center scroll">
+      <div class="friendContainer" style="overflow-y: auto">
+          <div id="{{friend.id}}" class="friend" *ngFor="let friend of friendsList;">
+            <p>{{friend.vorname}} {{friend.nachname}} will mit die befreundet sein!</p>
+            <button class="innerButton" [routerLink]="['/Profile', friend.id]">Profil</button>
+            <div class="floatRight">
+              <button class="innerGreenButton" (click)="acceptFriendRequest(friend)">Akzeptieren</button>
+              <button class="innerRedButton" (click)="declineFriendRequest(friend)">Ablehnen</button>
           </div>
         </div>
-                  <div class="center">
-                    <button class="button" routerLink="/addfriend">Freund hinzufügen</button>
-                  </div>
       </div>
     </div>
-    <div class = "center">
-      <p class="titel">Spieleinladungen></p>
-      <div class="center scroll">
-        <div class="playContainer">
-          <div class="center">
-            <div id="{{friend.id}}" class="friend" *ngFor="let friend of matchList;">
-              <p>{{friend.vorname}} {{friend.nachname}} hat dich zu einem Spiel eingeladen!</p>
-              <div class="floatRight">
-                <button class="innerGreenButton" (click)="acceptMatchRequest(friend)">Akzeptieren</button>
-                <button class="innerRedButton" (click)="declineMatchRequest(friend)">Ablehnen</button>
-              </div>
+    <button class="button" routerLink="/addfriend">Freund hinzufügen</button>
+  </div>
+  <div class = "center">
+    <h2 class="titel">Spieleinladungen</h2>
+    <div class="center scroll">
+      <div class="playContainer">
+          <div id="{{friend.id}}" class="friend" *ngFor="let friend of matchList;">
+            <p>{{friend.vorname}} {{friend.nachname}} hat dich zu einem Spiel eingeladen!</p>
+            <button class="innerButton" [routerLink]="['/Profile', friend.id]">Profil</button>
+            <div class="floatRight">
+              <button class="innerGreenButton" (click)="acceptMatchRequest(friend)">Akzeptieren</button>
+              <button class="innerRedButton" (click)="declineMatchRequest(friend)">Ablehnen</button>
             </div>
           </div>
         </div>
-        <div class="center">
-          <button class="button" routerLink="/create-play-against-user">Spiel gegen Benutzer erstellen</button>
-        </div>
       </div>
-    </div>
+    <button class="button" routerLink="/create-play-against-user">Spiel gegen Benutzer erstellen</button>
   </div>
-
+</div>

@@ -1,0 +1,89 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.center {
+  width: 43%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll {
+  overflow-y: auto;
+  max-height: 300px;
+  height: 300px;
+}
+
+.friendContainer, .playContainer{
+  overscroll-behavior-y: contain;
+  width:50%;
+  height: 500px;
+  border: solid 1px black;
+  border-radius: 4px;
+  scroll-behavior: smooth;
+}
+.scroll{
+  scroll-behavior: smooth;
+}
+.friend{
+  height: 60px;
+  border-bottom: solid 2px dodgerblue;
+}
+.button{
+  margin-top: 20px;
+  width: 250px;
+  height: 25px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  border-color: dodgerblue;
+}
+.button:hover{
+  background-color: royalblue;
+}
+
+.innerGreenButton{
+  width: 54%;
+  margin-right: 3px;
+  background-color: rgb(54, 178, 31);
+  color: white;
+  border-radius: 5px;
+  border-color: rgb(54, 178, 31);
+}
+.innerGreenButton:hover{
+  background-color: rgb(74, 190, 53);
+  border-color: rgb(74, 190, 53);
+}
+.friend p{
+  font-family: Arial;
+  margin-bottom: 3px;
+}
+.innerRedButton{
+  width: 44%;
+  background-color: rgb(232, 57, 62);
+  color: white;
+  border-radius: 5px;
+  border-color: rgb(232, 57, 62);
+}
+.innerRedButton:hover{
+  background-color: rgb(238, 90, 94);
+  border-color: rgb(238, 90, 94);
+}
+.floatRight{
+  width: 25%;
+  float: right;
+  margin-right: 20px;
+}
+.innerButton{
+  width: 20%;
+  margin-right: 3px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  border-color: dodgerblue;
+}
+.innerButton:hover{
+  background-color: royalblue;
+}

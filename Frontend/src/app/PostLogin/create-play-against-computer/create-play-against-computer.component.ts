@@ -12,14 +12,13 @@ export class CreatePlayAgainstComputerComponent {
   selectedDifficulty: string = 'Anfänger';
   constructor(private router: Router) {}
 
-
   saveGameName(){
     this.gameName = (<HTMLInputElement>document.getElementById("gameNameInput")).value;
     localStorage.setItem("gameName", this.gameName);
   }
 
   startGame() {
-    this.router.navigate(['/hidegame'], {
+    this.router.navigate(['/play-game-against-computer'], {
       queryParams: {
         timer: this.selectedTimer,
         difficulty: this.selectedDifficulty,
