@@ -3,8 +3,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
-import {User} from "../../Modules/User";
-import {interval, Subscription} from "rxjs";
+import {interval, Observable, Subscription} from "rxjs";
+import {Chess} from "../../Modules/Chess";
 
 @Component({
   selector: 'app-create-play-against-user',
@@ -22,12 +22,18 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
-  data: any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
-  interval = interval(250)
+  chessGame:any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
+
+  sub : Subscription = new Subscription();
 
   constructor(private http: HttpClient,
   private friendsService: FriendsService,
-  private matchmakingservice:MatchmakingService) { }
+  private matchmakingservice:MatchmakingService)
+
+  {
+
+  }
+
 
 
   ngOnInit() {
@@ -35,6 +41,7 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(){
+    this.sub.unsubscribe();
   }
 
   getFriendsList() {
@@ -68,20 +75,26 @@ export class CreatePlayAgainstUserComponent implements OnInit, OnDestroy{
   queueForMatch(){
     this.matchmakingservice.queueMatch().subscribe(data => {
       console.log(data)
-      this.intervalMatchRequest()
-      console.log(data)
+      this.intervalMatchRequest(this.chessGame)
+
     })
   }
 
-  intervalMatchRequest(){
-    this.interval.subscribe( data => {
-      this.http.get(this.URL + "/getMyCurrentMatchID", {headers: this.header})
-    })
- }
+  intervalMatchRequest(chess:Chess) {
+    this.sub = interval(250).subscribe(data => {
+      this.http.get(this.URL + "/getMyCurrentMatch", {headers: this.header}).subscribe(chess => {
+        this.chessGame = chess;
+        console.log(this.chessGame.timeStamp)
+        if (this.chessGame != null) {
+          this.ngOnDestroy()
+          console.log(this.chessGame.gameID)
 
-
-
+        }
+      });
+    });
+  }
 }
+
 
 
 

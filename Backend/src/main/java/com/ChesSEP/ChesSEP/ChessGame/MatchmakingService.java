@@ -116,6 +116,9 @@ public class MatchmakingService {
             .filter((game)->(game.getPlayerBlackID()==user.getId()||game.getPlayerWhiteID()==user.getId()))
             .collect(Collectors.toList());
 
+        if(onGoingGame.size() == 0)
+            return null;
+
         return result.get(0);
     }
 
