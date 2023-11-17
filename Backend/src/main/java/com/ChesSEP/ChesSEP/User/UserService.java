@@ -28,13 +28,15 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final OtpService otpService;
     private final ProfilePictureRepository pictureRepository;
+    private EmailValidator emailValidator=new EmailValidator();
 
 
     public String registerUser(@NonNull UserRequestHolder user){
 
-        if(userRepository.findByEmail(user.getEmail())!=null){
+        if((userRepository.findByEmail(user.getEmail())!=null)||emailValidator.isEmailValid(user.getEmail())){
             return "Die Email existiert bereits oder ist falsch!";
         }
+
 
         User assembledUser=User.builder()
             .vorname(user.getVorname())
