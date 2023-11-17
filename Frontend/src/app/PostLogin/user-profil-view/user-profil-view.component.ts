@@ -20,17 +20,12 @@ export class UserProfilViewComponent implements OnInit {
   selectedFile: File | null = null;
   url = "assets/images/profil-picture-icon.png"
 
-
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute,
-    private http: HttpClient,
   ) {
     this.user = new User()
 
-
   }
-
 
   ngOnInit() {
     this.getUserDetail();
@@ -44,15 +39,10 @@ export class UserProfilViewComponent implements OnInit {
         if(this.user.profilbild!=null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
         }
-
-      },
-      error => {
-        console.error("Fehler beim Laden der Benutzerdaten");
-      });
+      },);
   }
 
   onSelect(event: any) {
-    // Das ausgewählte File-Objekt wird dem selectedFile zugewiesen
     this.selectedFile = event.target.files[0];
     this.imageUpload()
   }
@@ -62,7 +52,7 @@ export class UserProfilViewComponent implements OnInit {
       const formData = new FormData();
       formData.append("user-profile-view", this.selectedFile);
 
-      
+
 
       this.userService.uploadpicture(formData,this.user).subscribe((response) => {
             console.log('Bild erfolgreich hochgeladen', response);
