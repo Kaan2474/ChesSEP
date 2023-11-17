@@ -33,7 +33,7 @@ public class UserService {
 
     public String registerUser(@NonNull UserRequestHolder user){
 
-        if((userRepository.findByEmail(user.getEmail())!=null)||emailValidator.isEmailValid(user.getEmail())){
+        if((userRepository.findByEmail(user.getEmail())!=null)||!emailValidator.isEmailValid(user.getEmail())){
             return "Die Email existiert bereits oder ist falsch!";
         }
 
