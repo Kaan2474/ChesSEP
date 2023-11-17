@@ -13,8 +13,8 @@ public class FriendController {
     private final FriendService friendService;
 
     @PostMapping("/sendFriendRequest")
-    public void sendFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        friendService.sendFriendRequest(jwtToken, Friend.getEmail());
+    public ResponseEntity<Boolean> sendFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
+        return ResponseEntity.ok(friendService.sendFriendRequest(jwtToken, Friend.getEmail()));
     }
     @PostMapping("/acceptFriendRequest")
     public void acceptFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){

@@ -24,19 +24,21 @@ public class FriendService {
         return userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
     }
 
-    public void sendFriendRequest(String jwtToken, String friendemail){
+    public boolean sendFriendRequest(String jwtToken, String friendemail){
         long friendId=userRepository.findByEmail(friendemail).getId();
         User sender=getUserFromToken(jwtToken);
+        if(sender.getId() == friendId)
+            return false;
 
         if(friendRepository.getFriends(sender.getId(), friendId) != null ||
         friendRepository.getRequest(sender.getId(), friendId) != null)
-        return;
+        return false;
 
         if(friendRepository.getRequest(sender.getId(), friendId) != null){
             Friend request=friendRepository.getRequest(sender.getId(), friendId);
             request.setType(FriendTyp.FRIEND);
             friendRepository.save(request);
-            return;
+            return true;
         }
 
         friendRepository.save(Friend.builder()
@@ -46,7 +48,8 @@ public class FriendService {
 
         emailService.send(getUserFromToken(jwtToken).getId(), friendId,
             "ChesSEP - Freundschaftsanfrage",
-            getUserFromToken(jwtToken).getVorname() + " " + getUserFromToken(jwtToken).getNachname() + " möchte mit dir befreundet sein.");     
+            getUserFromToken(jwtToken).getVorname() + " " + getUserFromToken(jwtToken).getNachname() + " möchte mit dir befreundet sein.");
+        return true;
     }
 
     public void acceptFriendRequest(String jwtToken, Long friendId){

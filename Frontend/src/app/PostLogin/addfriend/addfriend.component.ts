@@ -22,8 +22,15 @@ export class AddfriendComponent {
     console.log(user);
     this.http.post(this.URL + "/sendFriendRequest", user, {headers: this.header})
       .subscribe(data => {
+        if(data == false) {
+          alert("Ungültige Eingabe");
+        }else{
+          alert("Freundschaftsanfrage wurde erfolgreich versendet")
+        }
         console.log(data)
-      });
+      },
+    error => alert("Ungültige Eingabe")
+      );
   }
 
 }

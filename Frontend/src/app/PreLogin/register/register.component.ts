@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../Service/user.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
 import {User} from "../../Modules/User";
 
 @Component({
@@ -12,6 +11,7 @@ import {User} from "../../Modules/User";
 export class RegisterComponent {
 
   user: User;
+  passwordRepeat:any;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -21,13 +21,17 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-
-    this.userService.register(this.user).subscribe(result => {
-      this.goToLogin()
-    }, (error) => {
+    if(this.user.passwort != this.passwordRepeat){
       this.errorWithForm();
-    })
+      return;
+    }
+      this.userService.register(this.user).subscribe(result => {
+        this.goToLogin()
+      }, (error) => {
+        this.errorWithForm();
+      })
   }
+
 
   goToLogin() {
     this.router.navigate(["/"]);
@@ -36,6 +40,7 @@ export class RegisterComponent {
   private errorWithForm() {
     alert("Ungültige Eingabe! Überprüfe deine Angabe!");
   }
+
 
 }
 
