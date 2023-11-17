@@ -33,10 +33,6 @@ export class FriendProfilViewComponent implements OnInit {
         this.user.profilbild = 'data:image/png;base64,' + this.user.profilbild;
       }
       },
-      error => {
-        console.error('Error getting user profile:', error);
-
-      }
     );
   }
 }
