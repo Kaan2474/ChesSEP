@@ -7,7 +7,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,14 +14,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-import com.ChesSEP.ChesSEP.User.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
@@ -40,8 +37,8 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 })
 public class RegistrationTests {
     
-    @Autowired
-    private UserService userService;
+    //@Autowired
+    //private UserService userService;
     
     @Autowired
     private MockMvc mockMvc;

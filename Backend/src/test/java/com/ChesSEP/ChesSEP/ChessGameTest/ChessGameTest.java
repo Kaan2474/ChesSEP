@@ -1,7 +1,5 @@
 package com.ChesSEP.ChesSEP.ChessGameTest;
 
-import com.ChesSEP.ChesSEP.ChessGame.ChessGame;
-import com.ChesSEP.ChesSEP.ChessGame.ChessgameRepository;
 import com.ChesSEP.ChesSEP.ChessGame.MatchRequestRepository;
 import com.ChesSEP.ChesSEP.ChessGame.MatchmakingService;
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
@@ -21,9 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -35,8 +30,8 @@ import java.util.List;
 })
 
 public class ChessGameTest {
-    @Autowired
-    private ChessgameRepository chessgameRepository;
+    //@Autowired
+    //private ChessgameRepository chessgameRepository;
 
     @Autowired
     private MatchRequestRepository matchRequestRepository;
@@ -73,7 +68,7 @@ public class ChessGameTest {
         userService.registerUser(testUser2);
 
         User user1=userService.findUserById(1L);
-        User user2=userService.findUserById(2L);
+        //User user2=userService.findUserById(2L);
 
         String token1="Bearer "+tokenService.GenerateToken(user1);
         //String token2="Bearer "+tokenService.GenerateToken(user2);
@@ -109,7 +104,7 @@ public class ChessGameTest {
         userService.registerUser(testUser2);
 
         User user1=userService.findUserById(1L);
-        User user2=userService.findUserById(2L);
+        //User user2=userService.findUserById(2L);
 
         String token1="Bearer "+tokenService.GenerateToken(user1);
 
@@ -252,7 +247,7 @@ public class ChessGameTest {
         userService.registerUser(testUser2);
 
         User user1=userService.findUserById(1L);
-        User user2=userService.findUserById(2L);
+        //User user2=userService.findUserById(2L);
 
         String token1="Bearer "+tokenService.GenerateToken(user1);
 
