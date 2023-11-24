@@ -1,10 +1,10 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
-import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ public class MatchmakingService {
     private final ChessgameRepository chessgameRepository;
     private final MatchRequestRepository matchRequestRepository;
     private final UserRepository userRepository;
-    private final TokenService tokenService;
 
     //public boolean test;
     //zum Testen der Methode acceptMatchRequest
@@ -29,15 +28,15 @@ public class MatchmakingService {
 
     public Queue<Long> matchmaking=new LinkedList<Long>();
 
-    private User getUserFromToken(String jwtToken){
-        return userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
+    private User getSender(){
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public void queueMatch(String jwtToken){
-        User sender=getUserFromToken(jwtToken);
+    public void queueMatch(){
+        User sender=getSender();
 
         if(matchmaking.contains(sender.getId()))
-        return;  
+            return;
 
         MatchRequest request=matchRequestRepository.searchRequest(sender.getId());
 
@@ -52,7 +51,7 @@ public class MatchmakingService {
 
     private void checkForMatch(){
         if(matchmaking.size()<2)
-        return;
+            return;
 
         User white=userRepository.findUserById(matchmaking.remove());
         User black=userRepository.findUserById(matchmaking.remove());
@@ -60,8 +59,8 @@ public class MatchmakingService {
         startMatch(white.getId(), black.getId(), white.getVorname()+" "+white.getNachname()+" vs "+black.getVorname()+" "+black.getNachname(), 5L);
     }
 
-    public void dequeueMatch(String jwtToken){
-        User sender=getUserFromToken(jwtToken);
+    public void dequeueMatch(){
+        User sender=getSender();
 
         if(!matchmaking.contains(sender.getId())){
             return;
@@ -70,8 +69,8 @@ public class MatchmakingService {
 
     }
 
-    public void requestMatch(String jwtToken, String friendemail){
-        User sender=getUserFromToken(jwtToken);
+    public void requestMatch(String friendemail){
+        User sender=getSender();
         long friendId=userRepository.findByEmail(friendemail).getId();
 
         if(matchRequestRepository.getRequest(sender.getId(), friendId) != null){
@@ -82,12 +81,12 @@ public class MatchmakingService {
                 .build());
     }
 
-    public void acceptMatchRequest(String jwtToken, Long friendId){
-        User sender=getUserFromToken(jwtToken);
+    public void acceptMatchRequest(Long friendId){
+        User sender=getSender();
         MatchRequest request = matchRequestRepository.getRequest(sender.getId(), friendId);
 
         if(request != null){
-            dequeueMatch(jwtToken);
+            dequeueMatch();
             startMatch(sender.getId(), friendId,
                     sender.getVorname()+"vs"+userRepository.findUserById(friendId).getVorname(), 5L);
             matchRequestRepository.delete(request);
@@ -97,8 +96,8 @@ public class MatchmakingService {
             //test = false;
     }
 
-    public void denyMatchRequest(String jwtToken){
-        User user=getUserFromToken(jwtToken);
+    public void denyMatchRequest(){
+        User user=getSender();
         MatchRequest request=matchRequestRepository.getRequestWith(user.getId());
 
         if(request == null){
@@ -107,8 +106,8 @@ public class MatchmakingService {
         matchRequestRepository.delete(request);
     }
 
-    public void cancelMatchRequest(String jwtToken){
-        User user=getUserFromToken(jwtToken);
+    public void cancelMatchRequest(){
+        User user=getSender();
         MatchRequest request=matchRequestRepository.searchRequest(user.getId());
 
         if(request==null)
@@ -117,8 +116,8 @@ public class MatchmakingService {
         matchRequestRepository.delete(request);
     }
 
-    public ChessGame getMyCurrentMatch(String jwtToken){
-        User user=getUserFromToken(jwtToken);
+    public ChessGame getMyCurrentMatch(){
+        User user=getSender();
 
         List<ChessGame> result;
 
@@ -132,13 +131,13 @@ public class MatchmakingService {
         return result.get(0);
     }
 
-    public Long getMyCurrentEnemy(String jwtToken){
-        ChessGame game =getMyCurrentMatch(jwtToken);
+    public Long getMyCurrentEnemy(){
+        ChessGame game =getMyCurrentMatch();
 
         if(game==null)
             return null;
 
-        User user=getUserFromToken(jwtToken);
+        User user=getSender();
 
         if(user.getId()==game.getPlayerBlackID()){
             return game.getPlayerWhiteID();
@@ -147,8 +146,8 @@ public class MatchmakingService {
         }
     }
 
-    public UserRequestHolder[] getMyMatchInvitations(String jwtToken){
-        User user=getUserFromToken(jwtToken);
+    public UserRequestHolder[] getMyMatchInvitations(){
+        User user=getSender();
 
         List<MatchRequest> list = matchRequestRepository.searchInvited(user.getId());
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
@@ -163,11 +162,11 @@ public class MatchmakingService {
         return arr;
     }
 
-    public UserRequestHolder getMyMatchRequest(String jwtToken){
-        MatchRequest request=matchRequestRepository.searchRequest(getUserFromToken(jwtToken).getId());
+    public UserRequestHolder getMyMatchRequest(){
+        MatchRequest request=matchRequestRepository.searchRequest(getSender().getId());
 
         if(request==null)
-        return null;
+            return null;
 
         User invited=userRepository.findUserById(request.matchRequestID.InvitedID);
 
@@ -197,8 +196,8 @@ public class MatchmakingService {
         onGoingGame.add(thisGame);
     }
 
-    public void endMyMatch(String jwtToken){
-        User user=getUserFromToken(jwtToken);
+    public void endMyMatch(){
+        User user=getSender();
 
         ChessGame game=onGoingGame.stream()
             .filter(a->a.getPlayerBlackID()==user.getId()||a.getPlayerWhiteID()==user.getId())
