@@ -1,7 +1,6 @@
 package com.ChesSEP.ChesSEP.Friendlist;
 
 import com.ChesSEP.ChesSEP.Email.EmailService;
-import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.Privacy;
 import com.ChesSEP.ChesSEP.User.User;
