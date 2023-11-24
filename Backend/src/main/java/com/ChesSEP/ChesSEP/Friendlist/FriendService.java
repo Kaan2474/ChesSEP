@@ -11,13 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class FriendService {
     private final FriendRepository friendRepository;
     private final UserRepository userRepository;
-    private final TokenService tokenService;
     private final EmailService emailService;
 
 
@@ -33,7 +33,7 @@ public class FriendService {
 
         if(friendRepository.getFriends(sender.getId(), friendId) != null ||
         friendRepository.getRequest(sender.getId(), friendId) != null)
-        return false;
+            return false;
 
         if(friendRepository.getRequest(sender.getId(), friendId) != null){
             Friend request=friendRepository.getRequest(sender.getId(), friendId);
@@ -56,12 +56,12 @@ public class FriendService {
     public void acceptFriendRequest(Long friendId){
         User sender=getSender();
 
-        if(sender.getId() == friendId) return;
+        if(Objects.equals(sender.getId(), friendId)) return;
 
         Friend request=friendRepository.getRequest(sender.getId(), friendId);
 
         if(request == null || friendRepository.getFriends(sender.getId(), friendId) != null)
-        return;
+            return;
 
         request.setType(FriendTyp.FRIEND);
 
@@ -84,7 +84,7 @@ public class FriendService {
             FriendID currentObj=list.get(i).getFriendID();
             User currentFriend;
 
-            if(userId==currentObj.FriendID1){
+            if(Objects.equals(userId, currentObj.FriendID1)){
                 currentFriend=userRepository.findUserById(currentObj.FriendID2);
             }else{
                 currentFriend=userRepository.findUserById(currentObj.FriendID1);
@@ -118,7 +118,7 @@ public class FriendService {
             FriendID currentObj=list.get(i).getFriendID();
             User currentFriend;
 
-            if(user.getId()==currentObj.FriendID1){
+            if(Objects.equals(user.getId(), currentObj.FriendID1)){
                 currentFriend=userRepository.findUserById(currentObj.FriendID2);
             }else{
                 currentFriend=userRepository.findUserById(currentObj.FriendID1);
@@ -146,7 +146,7 @@ public class FriendService {
             User currentUser;
             FriendID currentRequestIDs=requests.get(i).getFriendID();
 
-            if(currentRequestIDs.FriendID1==user.getId()){
+            if(Objects.equals(currentRequestIDs.FriendID1, user.getId())){
                 currentUser=userRepository.findUserById(currentRequestIDs.FriendID2);
             }else{
                 currentUser=userRepository.findUserById(currentRequestIDs.FriendID1);
