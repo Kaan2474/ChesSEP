@@ -7,6 +7,7 @@ import com.ChesSEP.ChesSEP.User.Privacy;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +21,13 @@ public class FriendService {
     private final EmailService emailService;
 
 
-    private User getUserFromToken(String jwtToken){
-        return userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
+    private User getSender(){
+        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public boolean sendFriendRequest(String jwtToken, String friendemail){
+    public boolean sendFriendRequest(String friendemail){
         long friendId=userRepository.findByEmail(friendemail).getId();
-        User sender=getUserFromToken(jwtToken);
+        User sender=getSender();
         if(sender.getId() == friendId)
             return false;
 
@@ -46,14 +47,14 @@ public class FriendService {
             .type(FriendTyp.REQUEST)
             .build());
 
-        emailService.send(getUserFromToken(jwtToken).getId(), friendId,
+        emailService.send(sender.getId(), friendId,
             "ChesSEP - Freundschaftsanfrage",
-            getUserFromToken(jwtToken).getVorname() + " " + getUserFromToken(jwtToken).getNachname() + " möchte mit dir befreundet sein.");
+            sender.getVorname() + " " + sender.getNachname() + " möchte mit dir befreundet sein.");
         return true;
     }
 
-    public void acceptFriendRequest(String jwtToken, Long friendId){
-        User sender=getUserFromToken(jwtToken);
+    public void acceptFriendRequest(Long friendId){
+        User sender=getSender();
 
         if(sender.getId() == friendId) return;
 
@@ -67,14 +68,14 @@ public class FriendService {
         friendRepository.save(request);
     }
 
-    public void denyFriendRequest(String jwtToken, Long friendId){
-        Long id=getUserFromToken(jwtToken).getId();
+    public void denyFriendRequest(Long friendId){
+        Long id=getSender().getId();
         Friend request=friendRepository.getRequest(friendId, id);
         friendRepository.delete(request);
     }
     
-    public UserRequestHolder[] getMyFriendlist (String jwtToken){
-        Long userId=getUserFromToken(jwtToken).getId();
+    public UserRequestHolder[] getMyFriendlist (){
+        Long userId=getSender().getId();
         List<Friend> list = friendRepository.getFriendlist(userId);
 
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
@@ -101,7 +102,7 @@ public class FriendService {
         return arr;
     }
 
-    public UserRequestHolder[] getFriendlistOf (String jwtToken, Long id){
+    public UserRequestHolder[] getFriendlistOf (Long id){
                 
         User user=userRepository.findUserById(id);
 
@@ -134,8 +135,8 @@ public class FriendService {
         return arr;
     }
 
-    public UserRequestHolder[] getMyPendingFriendRequests(String jwtToken){
-        User user=getUserFromToken(jwtToken);
+    public UserRequestHolder[] getMyPendingFriendRequests(){
+        User user=getSender();
         List<Friend> requests=friendRepository.getFriendRequests(user.getId());
 
         UserRequestHolder[] result=new UserRequestHolder[requests.size()];
@@ -162,7 +163,7 @@ public class FriendService {
         return result;
     }
 
-    public void deleteFriend(String jwtToken, Long friendId){
-        friendRepository.delete(friendRepository.getFriends(getUserFromToken(jwtToken).getId(),friendId));
+    public void deleteFriend(Long friendId){
+        friendRepository.delete(friendRepository.getFriends(getSender().getId(),friendId));
     }
 }

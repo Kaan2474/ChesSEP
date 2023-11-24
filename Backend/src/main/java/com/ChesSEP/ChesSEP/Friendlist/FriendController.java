@@ -13,35 +13,35 @@ public class FriendController {
     private final FriendService friendService;
 
     @PostMapping("/sendFriendRequest")
-    public ResponseEntity<Boolean> sendFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        return ResponseEntity.ok(friendService.sendFriendRequest(jwtToken, Friend.getEmail()));
+    public ResponseEntity<Boolean> sendFriendRequest(@RequestBody UserRequestHolder Friend){
+        return ResponseEntity.ok(friendService.sendFriendRequest(Friend.getEmail()));
     }
     @PostMapping("/acceptFriendRequest")
-    public void acceptFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        friendService.acceptFriendRequest(jwtToken, Friend.getId());
+    public void acceptFriendRequest(@RequestBody UserRequestHolder Friend){
+        friendService.acceptFriendRequest(Friend.getId());
     }
     
     @PostMapping("/denyFriendRequest")
-    public void denyFriendRequest(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        friendService.denyFriendRequest(jwtToken, Friend.getId());
+    public void denyFriendRequest(@RequestBody UserRequestHolder Friend){
+        friendService.denyFriendRequest(Friend.getId());
     }
     @GetMapping("/getMyFriendlist")
-    public ResponseEntity<UserRequestHolder[]> getMyFriendlist(@RequestHeader(value = "Authorization") String jwtToken){
-        return ResponseEntity.ok(friendService.getMyFriendlist(jwtToken));
+    public ResponseEntity<UserRequestHolder[]> getMyFriendlist(){
+        return ResponseEntity.ok(friendService.getMyFriendlist());
     }
 
     @GetMapping("/getFriendlistOf/{id}")
-    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(@RequestHeader(value = "Authorization") String jwtToken, @PathVariable String id){
-        return ResponseEntity.ok(friendService.getFriendlistOf(jwtToken, Long.parseLong(id)));
+    public ResponseEntity<UserRequestHolder[]> getFriendlistOf(@PathVariable String id){
+        return ResponseEntity.ok(friendService.getFriendlistOf(Long.parseLong(id)));
     }
 
     @GetMapping("/getMyPendingFriendRequests")
-    public ResponseEntity<UserRequestHolder[]> getMyPendingFriendRequests(@RequestHeader(value = "Authorization")String jwtToken){
-        return ResponseEntity.ok(friendService.getMyPendingFriendRequests(jwtToken));
+    public ResponseEntity<UserRequestHolder[]> getMyPendingFriendRequests(){
+        return ResponseEntity.ok(friendService.getMyPendingFriendRequests());
     }
 
     @PostMapping("/deleteFriend")
-    public void deleteFriend(@RequestHeader(value = "Authorization") String jwtToken, @RequestBody UserRequestHolder Friend){
-        friendService.deleteFriend(jwtToken, Friend.getId());
+    public void deleteFriend(@RequestBody UserRequestHolder Friend){
+        friendService.deleteFriend(Friend.getId());
     }
 }
