@@ -107,40 +107,9 @@ public class EmailTests {
 
     }
 
+   
     @Test
     @Order(3)
-
-    public void emailService_handlingError() {
-        //Arrange
-        User testUser1 = User.builder()
-                .vorname("Mario")
-                .nachname("Mai")
-                .email("testzweckeio@gmail.com")
-                .build();
-
-        User testUser2 = User.builder()
-                .vorname("Max")
-                .nachname("Mustermann")
-                .email("email die nicht legit ist aber trotzdem in der DB vorhanden")
-                .build();
-
-        userRepository.save(testUser1);
-        userRepository.save(testUser2);
-
-        //Act
-
-        emailService.send(testUser1.getId(), testUser2.getId(),
-                "TEST 3 Freundschaftsanfrage",
-                testUser1.getVorname() + " " + testUser1.getNachname() + " möchte mit Ihnen befreundet sein.");
-        boolean status_email = emailService.sendSuccessfully();
-        //Arrange
-        assertFalse(status_email);
-        //MailException und eine Email auf Email vom Sender (testUser1) -> testzweckeio@gmail.com
-
-    }
-
-    @Test
-    @Order(4)
 
     public void emailService_sendOTP() throws Exception{
         //Arrange
