@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service;
 
 
 @Service //logic-layer
-@RequiredArgsConstructor //Generate Constructor for FINAL
-public class EmailService implements EmailSender { // "EmailService" im Klassendiagramm = MailSender
+@RequiredArgsConstructor
+public class EmailService implements EmailSender {
 
-    private final JavaMailSender mailSender; //API to send an Email
+    private final JavaMailSender mailSender;
     private final UserRepository userRepository;
 
     private final String Email="testzweckeio@gmail.com";
 
     @Override
     public void send(Long user_id, Long to, String subject, String msg) throws MailException {
-            SimpleMailMessage message = new SimpleMailMessage(); //SimpleMailMessage for simple Email with only text
-            message.setTo(userRepository.findUserById(to).getEmail()); // durch findUserById(to) wird der gesuchte User projiziert und .getEmail() gibt die Email aus
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(userRepository.findUserById(to).getEmail());
             message.setSubject(subject);
             message.setFrom(Email);
             message.setText(msg);
