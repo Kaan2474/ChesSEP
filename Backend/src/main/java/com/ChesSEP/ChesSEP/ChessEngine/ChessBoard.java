@@ -345,23 +345,29 @@ public class ChessBoard {
     }
 
     private void getValidPositiveVerticalCoords(int x,int y){
-        do{
+
+        y++;
+
+        while (isInBounds(x, y)) {
+
             if(!checkCoord(x, y))
             return;
 
             y++;
-
-        }while (isInBounds(x, y));
+        }
     }
 
 
     private void getValidNegativeVerticalCoords(int x,int y){
-        do{
+        y--;
+
+        while (isInBounds(x, y)) {
+
             if(!checkCoord(x, y))
             return;
 
             y--;
-        }while (isInBounds(x, y));
+        }
     }
 
     private void getValidHorizontalCoords(int x,int y){
@@ -370,21 +376,26 @@ public class ChessBoard {
     }
 
     private void getValidPositiveHorizontalCoords(int x,int y){
-        do{
-            if(!checkCoord(x, y))
+
+        x++;
+
+        while (isInBounds(x, y)) {
+             if(!checkCoord(x, y))
             return;
 
             x++;
-        }while (isInBounds(x, y));
+        }
     }
 
     private void getValidNegativeHorizontalCoords(int x,int y){
-        do{
-            if(!checkCoord(x, y))
+         x--;
+
+        while (isInBounds(x, y)) {
+             if(!checkCoord(x, y))
             return;
 
             x--;
-        }while (isInBounds(x, y));
+        }
     }
 
     private ChessPiece getPieceOn(int x,int y){
