@@ -10,7 +10,7 @@ public class ChessTest {
 
     public ChessTest(){
         boardManager=new BoardManager();
-        boardManager.startNewMatch(0L, boardManager.getDefaultStartConfig());
+        boardManager.startNewMatch(5, boardManager.getDefaultStartConfig());
         scanner = new Scanner(System.in);
         playInConsole();
     }
@@ -23,6 +23,8 @@ public class ChessTest {
 
             System.out.println(board.toString());
 
+            System.out.println(board.getTime()[0]+"  "+board.getTime()[1]);
+            System.out.println(board.getTimeInMin()[0]+"  "+board.getTimeInMin()[1]);
             System.out.println("CurrentTurn: "+board.getCurrentActivePlyer());
             System.out.println("Piece to move:");
             String piece=scanner.nextLine();

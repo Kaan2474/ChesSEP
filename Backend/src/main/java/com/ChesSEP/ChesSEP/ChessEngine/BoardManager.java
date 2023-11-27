@@ -8,7 +8,7 @@ public class BoardManager {
 
     }
 
-    public void startNewMatch(Long time,int[][][] startConfig){
+    public void startNewMatch(double time,int[][][] startConfig){
         Board = new ChessBoard(time, startConfig);
     }
 

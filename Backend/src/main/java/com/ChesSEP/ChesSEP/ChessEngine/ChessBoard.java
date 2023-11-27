@@ -8,8 +8,6 @@ public class ChessBoard {
 
     private List<ChessOperation> Zuege;
 
-    private List<Integer[]> validCoords;
-
     private Color currentPlayer;
 
     private int amountOfpieces;
@@ -17,18 +15,22 @@ public class ChessBoard {
     private Long whiteTime;
     private Long blackTime;
 
+    private Color winner;
+
     private Long intervallStart;
 
     private final int SpringerOffset[][]={{1,2},{-1,2},{1,-2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
-    public ChessBoard(Long time,int[][][] Board){
+    public ChessBoard(double timeInMin,int[][][] Board){
         this.Board=constructBoard(Board);
         currentPlayer=Color.WHITE;
-        whiteTime=time;
-        blackTime=time;
+        whiteTime=Long.parseLong(Double.toString(timeInMin*60*1000).substring(0, Double.toString(timeInMin*60*1000).length()-2));
+        blackTime=Long.parseLong(Double.toString(timeInMin*60*1000).substring(0, Double.toString(timeInMin*60*1000).length()-2));
         amountOfpieces=32;
         Zuege=new ArrayList<ChessOperation>();
+        intervallStart=System.currentTimeMillis();
+        winner=null;
     }
 
     public ChessPiece[][] constructBoard(int[][][] Board){
@@ -55,21 +57,33 @@ public class ChessBoard {
             return;
         }
 
-        /*if(intervallStart!=0){
-            Long currentTime;
-
-            if(currentPlayer==Color.WHITE){
-                currentTime=whiteTime;
-            }else{
-                currentTime=blackTime;
-            }
-
-            currentTime=currentTime
+        if(currentPlayer==Color.WHITE){
+            whiteTime-=System.currentTimeMillis()-intervallStart;
+        }else{
+            blackTime-=System.currentTimeMillis()-intervallStart;
         }
-        intervallStart=System.currentTimeMillis();*/
+
+        if(whiteTime<0){
+            endGameFlag(Color.BLACK);
+            return;
+        }
+
+        if(blackTime<0){
+            endGameFlag(Color.WHITE);
+        }
+
+        intervallStart=System.currentTimeMillis();
 
         toggleCurrentPlayer();
 
+    }
+
+    private void endGameFlag(Color winner){
+        this.winner=winner;
+    }
+
+    public Color getWinner(){
+        return winner;
     }
 
     private void toggleCurrentPlayer(){
@@ -107,15 +121,15 @@ public class ChessBoard {
         if(getPieceOn(x, y).getColor()!=currentPlayer)
         return false;
 
-        ValidCoordsOf(x,y);
+        List<Integer[]> validCoords=ValidCoordsOf(x,y);
 
-        if(!CoordValid(gotoX, gotoY))
+        if(!CoordValid(gotoX, gotoY,validCoords))
         return false;  
 
         return true;
     }
 
-    private boolean CoordValid(int x, int y){
+    private boolean CoordValid(int x, int y,List<Integer[]> validCoords){
         for (int i = 0; i < validCoords.size(); i++) {
             if(validCoords.get(i)[0]==x&&validCoords.get(i)[1]==y)
             return true;
@@ -129,7 +143,7 @@ public class ChessBoard {
     }
 
     public int[][] getHighlightOf(int x, int y){
-        ValidCoordsOf(x, y);
+        List<Integer[]> validCoords=ValidCoordsOf(x, y);
         int[][] result=new int[8][8];
 
         for (int i = 0; i < validCoords.size(); i++) {
@@ -146,7 +160,7 @@ public class ChessBoard {
             return result;
         }
 
-        ValidCoordsOf(x, y);
+        List<Integer[]> validCoords=ValidCoordsOf(x, y);
 
         for (int i = 0; i < validCoords.size(); i++) {
             result[validCoords.get(i)[0]][validCoords.get(i)[1]]=1;
@@ -163,64 +177,86 @@ public class ChessBoard {
         return true;
     }
 
-    private void ValidCoordsOf(int x,int y){
-        validCoords=new ArrayList<Integer[]>();
+    public Long[] getTime(){
+        return new Long[]{whiteTime,blackTime};
+    }
+
+    public Double[] getTimeInMin(){
+        Double whiteTimeDouble=Double.valueOf(Long.toString(whiteTime))/1000/60;
+        Double blackTimeDouble=Double.valueOf(Long.toString(blackTime))/1000/60;
+        return new Double[]{whiteTimeDouble,blackTimeDouble};
+    }   
+
+    private List<Integer[]> ValidCoordsOf(int x,int y){
+        List<Integer[]>validCoords=new ArrayList<>();
         
         System.out.println(getPieceOn(x, y).getType().name());
 
         switch (getPieceOn(x, y).getType()) {
             case BAUER:
-                getValidBauerCoords(x, y);
+                //Custom
+                validCoords.addAll(getValidBauerCoords(x, y));
                 break;
                         
             case TURM:
+                //Horizontal
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 0));
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 0));
 
-                getValidHorizontalCoords(x, y);   
-                getValidVerticalCoords(x, y);
+                //Vertical
+                validCoords.addAll(getValidIterrativeCoords(x, y, 0, 1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 0, -1));
                 break;
 
             case SPRINGER:
-                getValidOffsetCoords(x, y, SpringerOffset);
+                //Custom
+                validCoords.addAll(getValidOffsetCoords(x, y, SpringerOffset));
                 break;
 
             case LAUFER_W:
-                
-                getValidDiagonalCoords(x, y);
+                //Diagonal
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, -1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, -1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 1));
                 break;
 
             case KOENIGIN:
+                //Diagonal
+                validCoords.addAll( getValidIterrativeCoords(x, y, -1, -1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, -1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 1));
 
-                getValidDiagonalCoords(x, y);
-                getValidHorizontalCoords(x, y);  
-                getValidVerticalCoords(x, y);
+                //Horizontal
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 0));
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 0));
+
+                //Vertical
+                validCoords.addAll(getValidIterrativeCoords(x, y, 0, 1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 0, -1));
                 break;
 
             case KOENIG:
-                getValidOffsetCoords(x, y, KönigOffset);     
+                //Custom
+                validCoords.addAll(getValidOffsetCoords(x, y, KönigOffset));     
                 break;
 
             case LAUFER_S:
-                
-                getValidDiagonalCoords(x, y);    
+                //Diagonal
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, -1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, -1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 1));
+                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 1));   
                 break;
         }
+
+        return validCoords;
     }
 
-    private boolean checkCoord(int x,int y){
-        if(getPieceOn(x, y)==null){
-                validCoords.add(new Integer[]{x,y});
-            return true;
-        }
+    private List<Integer[]> getValidOffsetCoords(int x,int y,int[][] offset){
+        List<Integer[]> validCoords=new ArrayList<>();
 
-        if(getPieceOn(x, y).getColor()!=currentPlayer){
-            validCoords.add(new Integer[]{x,y});
-            return false;
-        }
-            
-        return false;
-    }
-
-    private void getValidOffsetCoords(int x,int y,int[][] offset){
         int currentx;
         int currenty;
 
@@ -235,9 +271,13 @@ public class ChessBoard {
                 validCoords.add(new Integer[]{currentx,currenty});
 
         }
+
+        return validCoords;
     }
 
-    private void getValidBauerCoords(int x, int y){
+    private List<Integer[]> getValidBauerCoords(int x, int y){
+
+        List<Integer[]> validCoords=new ArrayList<>();
         ChessPiece piece=getPieceOn(x, y);
 
         switch (piece.getColor()) {
@@ -278,124 +318,34 @@ public class ChessBoard {
                 }
             break;
         }
+        return validCoords;
     }
 
-    private void getValidDiagonalCoords(int x, int y){
-        getValidNWDiagonalCoords(x, y);
-        getValidNODiagonalCoords(x, y);
-        getValidSODiagonalCoords(x, y);
-        getValidSWDiagonalCoords(x, y);
-    }
+    private List<Integer[]> getValidIterrativeCoords(int x,int y,int offsetX, int offsetY){
+        List<Integer[]> validCoords=new ArrayList<>();
 
-    private void getValidSWDiagonalCoords(int x,int y){
-        y--;
-        x--;
-
-        while (isInBounds(x, y)) {
-            if(!checkCoord(x, y))
-            return;
-
-            y--;
-            x--;
-        }
-    }
-
-    private void getValidSODiagonalCoords(int x,int y){
-        y--;
-        x++;
-
-        while (isInBounds(x, y)) {
-            if(!checkCoord(x, y))
-            return;
-
-            y--;
-            x++;
-        }
-    }
-
-    private void getValidNODiagonalCoords(int x,int y){
-        y++;
-        x++;
-
-        while (isInBounds(x, y)) {
-            if(!checkCoord(x, y))
-            return;
-
-            y++;
-            x++;
-        }
-    }
-
-    private void getValidNWDiagonalCoords(int x,int y){
-        y++;
-        x--;
-
-        while (isInBounds(x, y)) {
-            if(!checkCoord(x, y))
-            return;
-
-            y++;
-            x--;
-        }
-    }
-
-    private void getValidVerticalCoords(int x,int y){
-        getValidPositiveVerticalCoords(x, y);
-        getValidNegativeVerticalCoords(x, y);
-    }
-
-    private void getValidPositiveVerticalCoords(int x,int y){
-
-        y++;
+        x+=offsetX;
+        y+=offsetY;
 
         while (isInBounds(x, y)) {
 
-            if(!checkCoord(x, y))
-            return;
+            if(getPieceOn(x, y)==null){
+                validCoords.add(new Integer[]{x,y});
+                
+                x+=offsetX;
+                y+=offsetY;
 
-            y++;
+                continue;
+            }
+
+            if(getPieceOn(x, y).getColor()!=currentPlayer){
+                validCoords.add(new Integer[]{x,y});
+                return validCoords;
+            }else{
+                return validCoords;
+            }
         }
-    }
-
-
-    private void getValidNegativeVerticalCoords(int x,int y){
-        y--;
-
-        while (isInBounds(x, y)) {
-
-            if(!checkCoord(x, y))
-            return;
-
-            y--;
-        }
-    }
-
-    private void getValidHorizontalCoords(int x,int y){
-        getValidPositiveHorizontalCoords(x, y);
-        getValidNegativeHorizontalCoords(x, y);
-    }
-
-    private void getValidPositiveHorizontalCoords(int x,int y){
-
-        x++;
-
-        while (isInBounds(x, y)) {
-             if(!checkCoord(x, y))
-            return;
-
-            x++;
-        }
-    }
-
-    private void getValidNegativeHorizontalCoords(int x,int y){
-         x--;
-
-        while (isInBounds(x, y)) {
-             if(!checkCoord(x, y))
-            return;
-
-            x--;
-        }
+        return validCoords;
     }
 
     private ChessPiece getPieceOn(int x,int y){
