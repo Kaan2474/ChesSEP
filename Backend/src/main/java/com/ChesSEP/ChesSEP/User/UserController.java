@@ -67,14 +67,14 @@ public class UserController {
     }
 
     @GetMapping("/byToken")
-    public ResponseEntity<UserRequestHolder> getUser(@RequestHeader(value = "Authorization") String token){
-        return new ResponseEntity<>(userService.convetToRequestHolder((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()), HttpStatus.OK);
+    public ResponseEntity<UserRequestHolder> getUser(){
+        return new ResponseEntity<>(userService.getUserByToken(), HttpStatus.OK);
         
     }
 
     @GetMapping("/privacy")
-    public void toggleFriendListPrivacy(@RequestHeader(value = "Authorization")String token){
-        userService.changeFriendListPrivacy(token);
+    public void toggleFriendListPrivacy(){
+        userService.changeFriendListPrivacy();
     }
 
 

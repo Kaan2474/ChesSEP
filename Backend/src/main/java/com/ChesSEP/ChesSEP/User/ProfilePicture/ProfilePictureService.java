@@ -1,9 +1,9 @@
 package com.ChesSEP.ChesSEP.User.ProfilePicture;
 
-import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.User.User;
-import com.ChesSEP.ChesSEP.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,19 +14,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ProfilePictureService {
 
-
     private final ProfilePictureRepository profilePictureRepository;
 
-    private final UserRepository userRepository;
-
-    private final TokenService tokenService;
-
-    private User getUserFromToken(String token) {
-        return userRepository.findByEmail(tokenService.extractEmail(token.substring(7)));
+    private User getSender(){
+        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public void uplpadImage(String token, MultipartFile file) throws IOException {
-            User user = getUserFromToken(token);
+    public void uplpadImage(MultipartFile file) throws IOException {
+            User user = getSender();
 
             if(profilePictureRepository.getPictureByID(user.getId())==null){
                 Picture dbImage = Picture.builder()
