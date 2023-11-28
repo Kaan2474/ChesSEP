@@ -7,6 +7,7 @@ import com.ChesSEP.ChesSEP.User.ProfilePicture.ProfilePictureRepository;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,10 @@ public class UserService {
     private final ProfilePictureRepository pictureRepository;
     private EmailValidator emailValidator=new EmailValidator();
 
+
+    public User getSender(){
+        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
     public String registerUser(@NonNull UserRequestHolder user){
 
@@ -93,6 +98,12 @@ public class UserService {
         return userRepository.findUserById(id);
     }
 
+    public UserRequestHolder getUserByToken(){
+        User sender =(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return convetToRequestHolder(sender);
+    }
+
     public UserRequestHolder convetToRequestHolder(User user){
         if(user ==null){
             return null;
@@ -122,9 +133,8 @@ public class UserService {
 
     }
 
-    public void  changeFriendListPrivacy(String jwtToken){
-        User thisUser=userRepository.findByEmail(tokenService.extractEmail(jwtToken.substring(7)));
-
+    public void  changeFriendListPrivacy(){
+        User thisUser=getSender();
         if(thisUser.getFriendlistPrivacy()==Privacy.OEFFENTLICH){
             thisUser.setFriendlistPrivacy(Privacy.PRIVAT);
         }else{
