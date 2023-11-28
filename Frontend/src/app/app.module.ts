@@ -24,6 +24,7 @@ import { PlayGameAgainstUserComponent } from './PostLogin/play-game-against-user
 import {CommonModule} from "@angular/common";
 import { FriendlistOfFriendsComponent } from './PostLogin/friendlist-of-friends/friendlist-of-friends.component';
 import { WaitingComponent } from './PostLogin/waiting/waiting.component';
+import { PrivateChatComponent } from './PostLogin/private-chat/private-chat.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { WaitingComponent } from './PostLogin/waiting/waiting.component';
     PlayGameAgainstComputerComponent,
     PlayGameAgainstUserComponent,
     FriendlistOfFriendsComponent,
-    WaitingComponent
+    WaitingComponent,
+    PrivateChatComponent
   ],
   imports: [
     BrowserModule,
