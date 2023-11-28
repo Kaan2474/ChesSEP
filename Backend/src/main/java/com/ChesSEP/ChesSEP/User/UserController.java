@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -70,6 +72,16 @@ public class UserController {
     public ResponseEntity<UserRequestHolder> getUser(){
         return new ResponseEntity<>(userService.getUserByToken(), HttpStatus.OK);
         
+    }
+
+    @GetMapping("/getMyLeaderboardPosition")
+    public int getMyLeaderboardPosition(){
+        return userService.getMyLeaderboardPosition();
+    }
+
+    @GetMapping("/getLeaderboard")
+    public List<User> getLeaderboard(){
+        return userService.getLeaderboard();
     }
 
     @GetMapping("/privacy")

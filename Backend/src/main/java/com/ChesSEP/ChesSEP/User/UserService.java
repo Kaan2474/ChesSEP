@@ -144,5 +144,11 @@ public class UserService {
         userRepository.save(thisUser);
     }
 
+    public int getMyLeaderboardPosition(){
+        return userRepository.getMyLeaderboardPosition(getSender().getElo())+1;
+    }
 
+    public List<User> getLeaderboard(){
+        return userRepository.getLeaderboard();
+    }
 }

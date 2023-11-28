@@ -56,6 +56,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column
+    private Long clubId;
 
     //Friendlist friendlist
 
