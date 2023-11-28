@@ -19,7 +19,6 @@ import { InvitationComponent } from './PostLogin/invitation/invitation.component
 import { CreatePlayAgainstComputerComponent } from './PostLogin/create-play-against-computer/create-play-against-computer.component';
 import {FormsModule} from "@angular/forms";
 import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
-import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 import { PlayGameAgainstComputerComponent } from './PostLogin/play-game-against-computer/play-game-against-computer.component';
 import { PlayGameAgainstUserComponent } from './PostLogin/play-game-against-user/play-game-against-user.component';
 import {CommonModule} from "@angular/common";
@@ -43,7 +42,6 @@ import { WaitingComponent } from './PostLogin/waiting/waiting.component';
     InvitationComponent,
     CreatePlayAgainstComputerComponent,
     FriendslistComponent,
-    JoingameComponent,
     PlayGameAgainstComputerComponent,
     PlayGameAgainstUserComponent,
     FriendlistOfFriendsComponent,
