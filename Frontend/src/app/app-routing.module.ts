@@ -11,7 +11,6 @@ import {AuthenticateComponent} from "./PreLogin/authenticate/authenticate.compon
 import {InvitationComponent} from "./PostLogin/invitation/invitation.component";
 import {CreatePlayAgainstComputerComponent} from "./PostLogin/create-play-against-computer/create-play-against-computer.component";
 import {FriendslistComponent} from "./PostLogin/friendslist/friendslist.component";
-import {JoingameComponent} from "./PostLogin/joingame/joingame.component";
 import {NgForm} from '@angular/forms';
 import {
   PlayGameAgainstComputerComponent
@@ -19,7 +18,7 @@ import {
 import {PlayGameAgainstUserComponent} from "./PostLogin/play-game-against-user/play-game-against-user.component";
 import {FriendlistOfFriendsComponent} from "./PostLogin/friendlist-of-friends/friendlist-of-friends.component";
 import {WaitingComponent} from "./PostLogin/waiting/waiting.component";
-
+import {PrivateChatComponent} from "./PostLogin/private-chat/private-chat.component";
 
 
 const routes: Routes = [
@@ -34,11 +33,12 @@ const routes: Routes = [
   {path: "invitation", title: "ChesSEP", component:InvitationComponent},
   {path: "create-play-against-computer", title: "ChesSEP", component:CreatePlayAgainstComputerComponent},
   {path: "friendslist", title: "ChesSEP", component: FriendslistComponent},
-  {path: "joingame", title: "ChesSEP", component: JoingameComponent},
   {path: "play-game-against-computer", title: "ChesSEP", component: PlayGameAgainstComputerComponent},
   {path: "play-game-against-user", title: "ChesSEP", component: PlayGameAgainstUserComponent},
   {path: "friendlist-of-friends/:id", title: "ChesSEP", component: FriendlistOfFriendsComponent},
-  {path: "waiting", title: "ChesSEP", component: WaitingComponent}
+  {path: "waiting", title: "ChesSEP", component: WaitingComponent},
+  {path: "privateChat/:id", title: "ChesSEP", component: PrivateChatComponent}
+
 ];
 
 

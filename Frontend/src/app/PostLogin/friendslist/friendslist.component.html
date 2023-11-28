@@ -17,6 +17,7 @@
     <th>Profil</th>
     <th>Freunde</th>
     <th>Löschen</th>
+    <th>Chat</th>
   </tr>
 
   <tr *ngFor="let friend of allFriends">
@@ -27,6 +28,7 @@
     <td><a [routerLink]="['/friend-profil-view', friend.id]">Profil</a></td>
     <td><a [routerLink]="['/friendlist-of-friends', friend.id]">Freunde</a></td>
     <td><button id="deleteButton" type="button" (click)="onDeleteFriend(friend)">Löschen</button></td>
+    <td><a [routerLink]="['/privateChat', friend.id]">Chat</a></td>
   </tr>
 </table>
 
