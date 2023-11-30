@@ -8,10 +8,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
+
+import com.ChesSEP.ChesSEP.ChessEngine.BoardManager;
+import com.ChesSEP.ChesSEP.ChessEngine.ChessBoard;
+import com.ChesSEP.ChesSEP.ChessEngine.Color;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +33,8 @@ public class MatchmakingService {
     public List<ChessGame> onGoingGame=new ArrayList<ChessGame>();
 
     public Queue<Long> matchmaking=new LinkedList<Long>();
+
+    public Map<Long,BoardManager> boards=new HashMap<Long,BoardManager>();
 
     private User getSender(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -178,6 +186,39 @@ public class MatchmakingService {
             .build();
     }
 
+    public int[][][] getMyCurrentFrame(int frameID){
+        User sender=getSender();
+
+        ChessGame game =getMyCurrentMatch();
+
+        Color thisPlayerColor;
+
+        if(game.getPlayerBlackID()==sender.getId()){
+            thisPlayerColor=Color.BLACK;
+        }else{
+            thisPlayerColor=Color.WHITE;
+        }
+
+        BoardManager board=boards.get(game.getGameID());
+
+        if(board.getManagedBoard().getZugId()==frameID)
+            return new int[0][0][0];
+
+        int[][][] frame=board.getMatchFrame(thisPlayerColor);
+
+        return frame;
+    }
+
+    public Boolean makeAMove(int from, int to) {
+        ChessGame game =getMyCurrentMatch();
+
+        ChessBoard board=boards.get(game.getGameID()).getManagedBoard();
+
+        return board.nextStep(from, to);
+    }
+
+    
+
     private void startMatch(Long playerWhite, Long playerBlack, String name, Long matchLength){
 
         Long time=System.currentTimeMillis();
@@ -192,6 +233,12 @@ public class MatchmakingService {
         chessgameRepository.save(newGame);
 
         ChessGame thisGame=chessgameRepository.findGame(playerWhite, playerBlack, time);
+
+        boards.put(thisGame.getGameID(),new BoardManager());
+
+        BoardManager thisBoard=boards.get(thisGame.getGameID());
+
+        thisBoard.startNewMatch(matchLength, thisBoard.getDefaultStartConfig());
 
         onGoingGame.add(thisGame);
     }

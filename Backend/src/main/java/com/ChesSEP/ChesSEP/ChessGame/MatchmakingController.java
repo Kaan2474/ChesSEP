@@ -67,4 +67,16 @@ public class MatchmakingController {
     public void  endMyMatch(){
         matchmakingService.endMyMatch();
     }
+
+    @GetMapping("/getMyCurrentFrame/{frameID}")
+    public ResponseEntity<int[][][]> getMyCurrentFrame(@PathVariable int frameID){
+        return ResponseEntity.ok(matchmakingService.getMyCurrentFrame(frameID));
+    }
+
+
+    //z.B. x=1 y=2 als /12
+    @GetMapping("/makeAMove/{from}/{to}")
+    public ResponseEntity<Boolean> makeAMove(@PathVariable int from, @PathVariable int to){
+        return ResponseEntity.ok(matchmakingService.makeAMove(from,to));
+    }
 }

@@ -6,11 +6,14 @@ import java.util.List;
 public class ChessBoard {
     private ChessPiece[][] Board;
 
-    private List<ChessOperation> Zuege;
+    private List<ChessOperation> zuege;
+    private int zugId;
 
     private Color currentPlayer;
 
     private int amountOfpieces;
+    private int amountOfWhitepieces;
+    private int amountOfBlackpieces;
 
     private Long whiteTime;
     private Long blackTime;
@@ -28,7 +31,10 @@ public class ChessBoard {
         whiteTime=Long.parseLong(Double.toString(timeInMin*60*1000).substring(0, Double.toString(timeInMin*60*1000).length()-2));
         blackTime=Long.parseLong(Double.toString(timeInMin*60*1000).substring(0, Double.toString(timeInMin*60*1000).length()-2));
         amountOfpieces=32;
-        Zuege=new ArrayList<ChessOperation>();
+        amountOfBlackpieces=16;
+        amountOfWhitepieces=16;
+        zuege=new ArrayList<ChessOperation>();
+        zugId=0;
         intervallStart=System.currentTimeMillis();
         winner=null;
     }
@@ -51,10 +57,58 @@ public class ChessBoard {
         return ChessBoard;
     }
 
+    public int getZugId(){
+        return zugId;
+    }
 
-    public void nextStep(int x, int y, int gotoX, int gotoY){
+    public int[][] translateBoard(){
+
+        int[][] chessBoard=new int[8][8];
+
+        for (int i = 0; i < Board.length; i++) {
+            for (int j = 0; j < Board[i].length; j++) {
+                if(getPieceOn(i,j)!=null){
+                    chessBoard[i][j]=getPieceOn(i,j).getIdFromType();
+                }
+            }
+        }
+
+
+        return chessBoard;
+    }
+
+    public int[][] translateColorBoard(){
+
+        int[][] chessBoard=new int[8][8];
+
+        for (int i = 0; i < Board.length; i++) {
+            for (int j = 0; j < Board[i].length; j++) {
+                if(getPieceOn(i,j)!=null){
+                    chessBoard[i][j]=getPieceOn(i,j).getColor().getId();
+                }
+            }
+        }
+
+
+        return chessBoard;
+    }
+
+    public int getCurrentAmountOfPieces(Color color){
+        if(color==Color.WHITE){
+            return amountOfWhitepieces;
+        }
+
+        return amountOfBlackpieces;
+    }
+
+    public boolean nextStep(int from,int to){
+        return nextStep((from-(from%10))/10,from%10,(to-(to%10))/10,to%10);
+    }
+
+
+    public boolean nextStep(int x, int y, int gotoX, int gotoY){
         if(!movePiece(x, y, gotoX, gotoY)){
-            return;
+            return false;
         }
 
         if(currentPlayer==Color.WHITE){
@@ -65,7 +119,7 @@ public class ChessBoard {
 
         if(whiteTime<0){
             endGameFlag(Color.BLACK);
-            return;
+            return false;
         }
 
         if(blackTime<0){
@@ -75,6 +129,9 @@ public class ChessBoard {
         intervallStart=System.currentTimeMillis();
 
         toggleCurrentPlayer();
+        zugId++;
+
+        return true;
 
     }
 
@@ -86,7 +143,7 @@ public class ChessBoard {
         return winner;
     }
 
-    private void toggleCurrentPlayer(){
+    public void toggleCurrentPlayer(){
         if(currentPlayer==Color.WHITE){
             currentPlayer=Color.BLACK;
         }else{
@@ -112,7 +169,7 @@ public class ChessBoard {
         System.out.println(currentPiece.toString());
         ChessPiece previousPiece=putPieceOn(currentPiece, gotoX, gotoY);
 
-        Zuege.add(new ChessOperation(x, y, gotoX, gotoY, currentPiece, previousPiece));
+        zuege.add(new ChessOperation(x, y, gotoX, gotoY, currentPiece, previousPiece));
 
         return true;
     }
@@ -145,6 +202,22 @@ public class ChessBoard {
     public int[][] getHighlightOf(int x, int y){
         List<Integer[]> validCoords=ValidCoordsOf(x, y);
         int[][] result=new int[8][8];
+
+        for (int i = 0; i < validCoords.size(); i++) {
+            result[validCoords.get(i)[0]][validCoords.get(i)[1]]=1;
+        }
+        
+        return result;
+    }
+
+    public int[][] getHighlightOfColor(int x, int y,Color color){
+        int[][] result=new int[8][8];
+
+        if(!isPieceOn(x, y, color)){
+            return result;
+        }
+
+        List<Integer[]> validCoords=ValidCoordsOf(x, y);
 
         for (int i = 0; i < validCoords.size(); i++) {
             result[validCoords.get(i)[0]][validCoords.get(i)[1]]=1;
@@ -190,7 +263,7 @@ public class ChessBoard {
     private List<Integer[]> ValidCoordsOf(int x,int y){
         List<Integer[]>validCoords=new ArrayList<>();
         
-        System.out.println(getPieceOn(x, y).getType().name());
+        //System.out.println(getPieceOn(x, y).getType().name());
 
         switch (getPieceOn(x, y).getType()) {
             case BAUER:
@@ -377,8 +450,14 @@ public class ChessBoard {
     private ChessPiece putPieceOn(ChessPiece piece,int x,int y){
         ChessPiece previousPiece=getPieceOn(x, y);
 
-        if(previousPiece!=null)
-        amountOfpieces--;
+        if(previousPiece!=null){
+            amountOfpieces--;
+            if(previousPiece.getColor()==Color.WHITE){
+                amountOfWhitepieces--;
+            }else{
+                amountOfBlackpieces--;
+            }
+        }
 
         piece.sethasMovedTrue();
 
