@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../Modules/User";
 
 
+
 @Injectable({
   providedIn: "root"
 })
@@ -44,6 +45,14 @@ export class UserService {
 
   public uploadpicture(data:FormData,user:User){
     return this.http.post("http://localhost:8080/image/profile/picture/v2",data,{headers:this.header})
+  }
+
+  public getMyLeaderboardPosition() {
+    return this.http.get<User>(this.userURL+"/getMyLeaderboardPosition", {headers: this.header});
+  }
+
+  public getLeaderboard(){
+    return this.http.get<User[]>(this.userURL+"/getLeaderboard", {headers: this.header});
   }
 
   putPrivacy() {

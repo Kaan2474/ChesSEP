@@ -25,6 +25,7 @@ import {CommonModule} from "@angular/common";
 import { FriendlistOfFriendsComponent } from './PostLogin/friendlist-of-friends/friendlist-of-friends.component';
 import { WaitingComponent } from './PostLogin/waiting/waiting.component';
 import { PrivateChatComponent } from './PostLogin/private-chat/private-chat.component';
+import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.component";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { PrivateChatComponent } from './PostLogin/private-chat/private-chat.comp
     PlayGameAgainstUserComponent,
     FriendlistOfFriendsComponent,
     WaitingComponent,
-    PrivateChatComponent
+    PrivateChatComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,

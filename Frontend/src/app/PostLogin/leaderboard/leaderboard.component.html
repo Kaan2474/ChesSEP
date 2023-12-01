@@ -1,0 +1,21 @@
+<app-header></app-header>
+
+<h2>Leaderboard </h2>
+
+<table>
+  <tr>
+    <th>Rank</th>
+    <th>Vorname</th>
+    <th>Nachname</th>
+    <th>Punktestand</th>
+  </tr>
+
+
+
+    <tr *ngFor="let user of leaderboardlist; index as i" >
+    <td>{{i+1}}</td>
+      <td>{{ user.vorname }}</td>
+      <td>{{ user.nachname }}</td>
+      <td>{{ user.elo }}</td>
+    </tr>
+</table>

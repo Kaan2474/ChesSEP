@@ -19,6 +19,7 @@ import {PlayGameAgainstUserComponent} from "./PostLogin/play-game-against-user/p
 import {FriendlistOfFriendsComponent} from "./PostLogin/friendlist-of-friends/friendlist-of-friends.component";
 import {WaitingComponent} from "./PostLogin/waiting/waiting.component";
 import {PrivateChatComponent} from "./PostLogin/private-chat/private-chat.component";
+import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.component";
 
 
 const routes: Routes = [
@@ -37,7 +38,8 @@ const routes: Routes = [
   {path: "play-game-against-user", title: "ChesSEP", component: PlayGameAgainstUserComponent},
   {path: "friendlist-of-friends/:id", title: "ChesSEP", component: FriendlistOfFriendsComponent},
   {path: "waiting", title: "ChesSEP", component: WaitingComponent},
-  {path: "privateChat/:id", title: "ChesSEP", component: PrivateChatComponent}
+  {path: "privateChat/:id", title: "ChesSEP", component: PrivateChatComponent},
+  {path: "leaderboard", title:"ChesSEP", component: LeaderboardComponent}
 
 ];
 
