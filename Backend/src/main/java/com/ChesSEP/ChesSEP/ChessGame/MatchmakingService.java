@@ -161,10 +161,11 @@ public class MatchmakingService {
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
 
         for (int i = 0; i < arr.length; i++) {
+            User currentUser=userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID);
             arr[i] = UserRequestHolder.builder()
-                    .id(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getId())
-                    .vorname(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getVorname())
-                    .nachname(userRepository.findUserById(list.get(i).getMatchRequestID().RequestorID).getNachname())
+                    .id(currentUser.getId())
+                    .vorname(currentUser.getVorname())
+                    .nachname(currentUser.getNachname())
                     .build();
         }
         return arr;

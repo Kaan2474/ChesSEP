@@ -1,5 +1,8 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardManager {
 
     private ChessBoard Board;
@@ -27,52 +30,83 @@ public class BoardManager {
         return defaultBoard;
     }
 
+    public int[][][] getKönigTestBoard(){
+        int[][][] Board={
+            {{0,0},{0,0},{0,0},{1,1},{0,0},{1,1},{0,0},{0,0}},
+            {{1,1},{0,0},{0,0},{1,1},{6,1},{1,1},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{1,1},{0,0},{1,1},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{2,2},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{1,2},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2}},
+            {{2,2},{3,2},{4,2},{5,2},{6,2},{7,2},{3,2},{2,2}},
+        };
+
+        return Board;
+    }
+
     public int[][][] getMatchFrame(Color color){
         ChessBoard board=getManagedBoard();
 
-        int[][][] frame = new int[5+board.getCurrentAmountOfPieces(color)][8][8];
+        List<int[][]> frame = new ArrayList<int[][]>();
 
         //Status Array
-        int[][] status= {{board.getZugId(),1,2,3,4,5}};
+        int[][] status= {{board.getZugId(),1,2,3,4},  //ZugID PosOfBoard PosOfColor PosOfEvent PosOfHighlightStatus
+                        {(int)board.getTime()[0],(int)board.getTime()[1]},  //WhiteTime  BlackTime both in ms
+                        {0}}; 
 
-        frame[0]=status;
+        if(board.getWinner()!=null){
+            status[2][0]=board.getWinner().getId();
+        }
+                        
+
+        frame.add(status);
 
         //Board
-        frame[1]=board.translateBoard();
+        frame.add(board.translateBoard());
 
         //Color
-        frame[2]=board.translateColorBoard();
+        frame.add(board.translateColorBoard());
 
-        //Rohade
-        //frame[3]=
+        //Event
+        frame.add(board.getEventBoard(color));
 
         //Hightlights
         int counter=0;
 
-        for (int i = 0; i < frame[1].length; i++) {
-            for (int j = 0; j < frame[1][i].length; j++) {
-                if(frame[2][i][j]==color.getId()){
-                    frame[5+counter]=board.checkedGetHighlightOf(i, j);
+        frame.add(new int[8][8]);
 
-                    //HiglightStatus
-                    frame[4][i][j]=5+counter;
+        int headerLength=frame.size();
 
-                    counter++;
+        for (int i = 0; i < frame.get(0).length; i++) {
+            for (int j = 0; j < frame.get(1)[i].length; j++) {
+                if(frame.get(2)[i][j]==color.getId()){
+                    int[][] arr=board.checkedGetHighlightOf(i, j);
+
+                    if(!isTwoDArrayEmpty(arr)){
+                        frame.add(board.checkedGetHighlightOf(i, j));
+
+                        //HiglightStatus
+                        frame.get(headerLength-1)[i][j]=5+counter;
+
+                        counter++;
+                    }
                 }
             }
         }
 
-        return frame;
-    }
+        int[][][] frameArr;
 
-    //dummy
-    public String convertBoardToString(int[][] Board){
-        return"";
-    }
+        frameArr=new int[frame.size()][8][8];
 
-    //dummy
-    public int[][] convertStringToBoard(String Board){
-        return new int[8][8]; 
+
+        for (int i = 0; i < frame.size(); i++) {
+            frameArr[i]=frame.get(i);
+        }
+
+        frame=null;
+        
+        return frameArr;
     }
 
     public ChessBoard getManagedBoard(){
@@ -92,6 +126,17 @@ public class BoardManager {
         return result;
     }
 
+    public boolean isTwoDArrayEmpty(int[][] arr){
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if(arr[i][j]!=0)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         BoardManager boardManager = new BoardManager();
         boardManager.startNewMatch(5, boardManager.getDefaultStartConfig());
@@ -100,7 +145,9 @@ public class BoardManager {
 
         for (int i = 0; i < frame.length; i++) {
             System.out.println(i+":");
-            System.out.println(boardManager.twoDArrtoString(frame[i]));
+
+                System.out.println(boardManager.twoDArrtoString(frame[i]));
+            
         }
 
         //boardManager.getManagedBoard().toggleCurrentPlayer();

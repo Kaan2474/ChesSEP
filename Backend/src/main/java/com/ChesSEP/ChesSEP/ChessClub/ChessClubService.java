@@ -29,12 +29,12 @@ public class ChessClubService {
         UserRequestHolder[] arr = new UserRequestHolder[list.size()];
 
         for (int i = 0; i < arr.length; i++) {
-
+            User currentUser=list.get(i);
             arr[i] = UserRequestHolder.builder()
-                    .id(list.get(i).getId())
-                    .vorname(list.get(i).getVorname())
-                    .nachname(list.get(i).getNachname())
-                    .elo(list.get(i).getElo())
+                    .id(currentUser.getId())
+                    .vorname(currentUser.getVorname())
+                    .nachname(currentUser.getNachname())
+                    .elo(currentUser.getElo())
                     .build();
         }
         return arr;

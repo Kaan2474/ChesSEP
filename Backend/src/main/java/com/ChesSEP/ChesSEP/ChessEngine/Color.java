@@ -1,8 +1,8 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
 public enum Color {
-    BLACK(1),
-    WHITE(2);
+    BLACK(2),
+    WHITE(1);
 
     private int id;
 

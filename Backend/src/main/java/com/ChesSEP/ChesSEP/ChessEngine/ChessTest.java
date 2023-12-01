@@ -10,7 +10,7 @@ public class ChessTest {
 
     public ChessTest(){
         boardManager=new BoardManager();
-        boardManager.startNewMatch(5, boardManager.getDefaultStartConfig());
+        boardManager.startNewMatch(5, boardManager.getKönigTestBoard());
         scanner = new Scanner(System.in);
         playInConsole();
     }
@@ -22,6 +22,16 @@ public class ChessTest {
         while (true) {
 
             System.out.println(board.toString());
+
+            System.out.println("Winner: "+board.getWinner());
+
+            System.out.println("isKingSurrounded: "+board.isKingSurronded(board.getCurrentActivePlyer()));
+            //System.out.println("kingcoords: "+board.getKingPos(board.getCurrentActivePlyer())[0]+"-"+board.getKingPos(board.getCurrentActivePlyer())[1]);
+            //System.out.println(board.getPieceOn(board.getKingPos(board.getCurrentActivePlyer())[0], board.getKingPos(board.getCurrentActivePlyer())[1], board.Board));
+
+            //int[] kingPos=board.getKingPos(Color.WHITE);
+
+            //System.out.println(twoDArrtoString(board.getHighlightOf(kingPos[0], kingPos[1])));
 
             System.out.println(board.getTime()[0]+"  "+board.getTime()[1]);
             System.out.println(board.getTimeInMin()[0]+"  "+board.getTimeInMin()[1]);
