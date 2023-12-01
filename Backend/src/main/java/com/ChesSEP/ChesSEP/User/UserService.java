@@ -148,7 +148,7 @@ public class UserService {
         return userRepository.getMyLeaderboardPosition(getSender().getElo())+1;
     }
 
-    public List<User> getLeaderboard(){
-        return userRepository.getLeaderboard();
+    public User[] getLeaderboard(){
+        return (User[]) userRepository.getLeaderboard().toArray();
     }
 }

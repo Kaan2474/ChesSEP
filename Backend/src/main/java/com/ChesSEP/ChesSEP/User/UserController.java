@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @GetMapping("/getLeaderboard")
-    public List<User> getLeaderboard(){
+    public User[] getLeaderboard(){
         return userService.getLeaderboard();
     }
 
