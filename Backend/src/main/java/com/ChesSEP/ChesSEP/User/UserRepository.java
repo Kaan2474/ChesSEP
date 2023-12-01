@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
     @Query("SELECT COUNT(*) FROM User WHERE elo > ?1")
     int getMyLeaderboardPosition(int elo);
 
-    @Query("FROM User ORDER BY elo LIMIT 5")
+    @Query("FROM User ORDER BY elo DESC LIMIT 5")
     List<User> getLeaderboard();
 
     @Query("FROM User WHERE clubId = ?1")

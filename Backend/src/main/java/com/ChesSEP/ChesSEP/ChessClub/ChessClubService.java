@@ -42,19 +42,33 @@ public class ChessClubService {
 
     public void leaveClub(){
         User user = userRepository.findUserById(getSender().getId());
+        ChessClub chessClub = chessClubRepository.findChessClubById(user.getClubId());
 
         user.setClubId(null);
         userRepository.save(user);
+
+        if(userRepository.getChessClubMember(chessClub.getId()) == null){
+            chessClubRepository.delete(chessClub);
+        }
     }
 
     public void joinClub(String clubName){
         User user = userRepository.findUserById(getSender().getId());
+        ChessClub chessClub = chessClubRepository.findChessClubById(user.getClubId());
 
         user.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
         userRepository.save(user);
+
+        if(userRepository.getChessClubMember(chessClub.getId()) == null){
+            chessClubRepository.delete(chessClub);
+        }
     }
 
     public void createClub(String clubName){
+        if(chessClubRepository.findChessClubByName(clubName)!=null){
+            return;
+        }
+
         chessClubRepository.save(ChessClub.builder()
                 .name(clubName)
                 .build());
