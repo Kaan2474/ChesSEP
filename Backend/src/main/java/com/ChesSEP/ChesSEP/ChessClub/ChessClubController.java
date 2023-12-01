@@ -40,4 +40,8 @@ public class ChessClubController {
         return chessClubService.getAllChessClubs();
     }
 
+    @GetMapping("/getMeinChessClubName")
+    public String getMeinChessClubName(){
+        return chessClubService.getMeinChessClubName();
+    }
 }

@@ -76,6 +76,11 @@ public class ChessClubService {
         joinClub(clubName);
     }
 
+    public String getMeinChessClubName(){
+        User user = userRepository.findUserById(getSender().getId());
+        return chessClubRepository.findChessClubById(user.getClubId()).getName();
+    }
+
     public List<ChessClub> getAllChessClubs(){
         return chessClubRepository.getAllChessClubs();
     }
