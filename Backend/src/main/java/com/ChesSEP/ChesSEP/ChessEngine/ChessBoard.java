@@ -128,6 +128,14 @@ public class ChessBoard {
         }
     }
 
+    private void setTimeLong(Color color,long value){
+        if(color==Color.BLACK){
+            blackTime=value;
+        }else{
+            whiteTime=value;
+        }
+    }
+
     public int[] getTime(Color color){
         double currentTime;
         if(color==Color.BLACK){
@@ -314,15 +322,20 @@ public class ChessBoard {
         if(isKingUnderAttack(currentPlayer))
             endGameFlag(currentPlayer);
 
-        toggleCurrentPlayer();
-
         timeManager();
+
+        toggleCurrentPlayer();
 
         return true;
     }
 
     private void timeManager(){
+        long currentTime=getTimeLong(currentPlayer);
 
+        currentTime-=System.currentTimeMillis()-intervallStart;
+        intervallStart=System.currentTimeMillis();
+
+        setTimeLong(currentPlayer, currentTime);
     }
 
     private void toggleCurrentPlayer(){

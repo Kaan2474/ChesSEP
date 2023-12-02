@@ -24,6 +24,7 @@ public class ChessTest {
             System.out.println(board.toString());
             System.out.println("Winner:"+board.getWinner());
             System.out.println("Time: "+board.getTime(Color.WHITE)[0]+":"+board.getTime(Color.WHITE)[1]+"  "+"Time: "+board.getTime(Color.BLACK)[0]+":"+board.getTime(Color.BLACK)[1]);
+            System.out.println("Time: "+board.getTimeLong(Color.WHITE)+"  Time: "+board.getTimeLong(Color.BLACK));
             System.out.println("CurrentTurn: "+board.getCurrentActivePlyer());
             System.out.println("Piece to move:");
             String piece=scanner.nextLine();
