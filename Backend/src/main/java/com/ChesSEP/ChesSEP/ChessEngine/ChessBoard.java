@@ -14,10 +14,6 @@ public class ChessBoard {
 
     private Color currentPlayer;
 
-    private int amountOfpieces;
-    private int amountOfWhitepieces;
-    private int amountOfBlackpieces;
-
     private long whiteTime;
     private long blackTime;
 
@@ -33,11 +29,6 @@ public class ChessBoard {
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
         blackTime=(long)timeInMin*60*1000;
-
-        //todo change to non fixed
-        amountOfpieces=32;
-        amountOfBlackpieces=16;
-        amountOfWhitepieces=16;
 
         zuege=new ArrayList<ChessOperation>();
         zugId=0;
@@ -95,10 +86,10 @@ public class ChessBoard {
         return resultBoard;
     }
 
-    public int[][] getEventBoard(Color color){
+    public int[][] getKingBoard(Color color){
         int[][] resultBoard=new int[8][8];
 
-        if(!isKingUnderAttack(color))
+        if(isKingUnderAttack(color,chessBoard)==null)
             return resultBoard;
 
         int[] kingsCoords=getKingPos(color);
@@ -106,14 +97,6 @@ public class ChessBoard {
         resultBoard[kingsCoords[0]][kingsCoords[1]]=1;
 
         return resultBoard;
-    }
-
-    public int getCurrentAmountOfPieces(Color color){
-        if(color==Color.BLACK){
-            return amountOfBlackpieces;
-        }else{
-            return amountOfWhitepieces;
-        }
     }
 
     public Color getCurrentActivePlyer(){
@@ -172,18 +155,21 @@ public class ChessBoard {
         return null;
     }
 
-    private boolean isKingUnderAttack(Color kingsColor) {
+    private int[] isKingUnderAttack(Color kingsColor,ChessPiece[][] board) {
         int[] kingPos=getKingPos(kingsColor);
 
         if(kingPos==null)
-            return false;
+            return null;
 
-        return isPositionUnderAttack(kingPos[0], kingPos[1], kingsColor, chessBoard);
+        return isPositionUnderAttack(kingPos[0], kingPos[1], kingsColor, board);
     }
 
     //TODO check for your MOM
     private boolean isKingCheckmate(Color kingsColor){
-        if(!isKingUnderAttack(kingsColor))
+
+        int[] attackerCoords=isKingUnderAttack(kingsColor,chessBoard);
+
+        if(attackerCoords==null)
             return false;
 
         int[] kingPos=getKingPos(kingsColor);
@@ -191,12 +177,69 @@ public class ChessBoard {
         if(validCoordsOf(kingPos[0], kingPos[1], chessBoard).size()!=0)
             return false;
 
-        
+        if(isTheAttackBlockable(kingsColor,attackerCoords[0],attackerCoords[1],chessBoard))
+            return false;
 
         return true;
     }
 
-    private boolean isPositionUnderAttack(int x,int y,Color alliedColor,ChessPiece[][] board){
+    /**
+     * Must check if king is under attack and if he could move before executing if he can dont do this !!!
+     * @param kingsColor
+     * @param attackerX
+     * @param attackerY
+     * @param board
+     * @return boolean if the king could be saved
+     */
+    private boolean isTheAttackBlockable(Color kingsColor, int attackerX, int attackerY,ChessPiece[][] board){
+
+        int[] kingsCoords=getKingPos(kingsColor);
+
+        ChessPiece currentKing=getPieceOn(kingsCoords[0], kingsCoords[1], board);
+
+        List<int[]> validAttackerCoords=validCoordsOf(attackerX, attackerY, board);
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if(!isPieceOn(i, j, currentKing.getColor(), board))
+                    continue;
+                
+                ChessPiece currentPiece=getPieceOn(i, j, board);
+
+                if(currentPiece.getType()==ChessPieceType.KOENIG)
+                    continue;
+
+                List<int[]> currentValidCoords=validCoordsOf(i, j, board);
+
+                for (int k = 0; k < validAttackerCoords.size(); k++) {
+                    for (int l = 0; l < currentValidCoords.size(); l++) {
+                        int[] currentAlliedCoords=currentValidCoords.get(l);
+
+                        if(!doesListContainCoords(currentAlliedCoords[0], currentAlliedCoords[1], validAttackerCoords))
+                            continue;
+
+                        ChessPiece[][] testBoard=createNextBoard(i, j, currentAlliedCoords[0], currentAlliedCoords[1]);
+
+                        if(isKingUnderAttack(kingsColor, testBoard)==null)
+                            return true;
+                    }
+                }
+                
+            }
+        }
+        return false;
+    }
+
+    private ChessPiece[][] createNextBoard(int x, int y, int gotoX, int gotoY){
+
+        ChessPiece[][] nextBoard=copyBoard(chessBoard);
+
+        testMovePieceOnBoard(x, y, gotoX, gotoY, nextBoard);
+
+        return nextBoard;
+    }
+
+    private int[] isPositionUnderAttack(int x,int y,Color alliedColor,ChessPiece[][] board){
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 ChessPiece currentPiece=getPieceOn(i, j, board);
@@ -210,11 +253,11 @@ public class ChessBoard {
                 List<int[]> currentValidEnemyCoords=validCoordsOf(i, j, board);
                 
                 if(doesListContainCoords(x, y, currentValidEnemyCoords))
-                    return true;
+                    return new int[]{i,j};
             }
         }
 
-        return false;
+        return null;
     }
 
     private void endGameFlag(Color loser){
@@ -260,19 +303,23 @@ public class ChessBoard {
 
         int[] kingToRemoveCoords=getKingPos(kingToRemove);
 
-        ChessPiece[][] resultBoard=new ChessPiece[8][8];
+        ChessPiece[][] resultBoard=copyBoard(chessBoard);
 
-        for (int i = 0; i < resultBoard.length; i++) {
-            for (int j = 0; j < resultBoard[i].length; j++) {
+        resultBoard[kingToRemoveCoords[0]][kingToRemoveCoords[1]]=null;
 
-                if(i==kingToRemoveCoords[0]&&j==kingToRemoveCoords[1])
-                    continue;
-                
-                resultBoard[i][j]=chessBoard[i][j];
+        return resultBoard;
+    }
+
+    private ChessPiece[][] copyBoard(ChessPiece[][] boardToCopy){
+        ChessPiece[][] copiedBoard=new ChessPiece[8][8];
+
+        for (int i = 0; i < copiedBoard.length; i++) {
+            for (int j = 0; j < copiedBoard[i].length; j++) {
+                copiedBoard[i][j]=boardToCopy[i][j];
             }
         }
 
-        return resultBoard;
+        return copiedBoard;
     }
 
     private boolean doesListContainCoords(int x, int y, List<int[]> validCoordsOfcurrentPiece) {
@@ -319,12 +366,18 @@ public class ChessBoard {
 
         movePiece(x, y, gotoX, gotoY);
 
-        if(isKingUnderAttack(currentPlayer))
+        if(isKingUnderAttack(currentPlayer,chessBoard)!=null)
             endGameFlag(currentPlayer);
 
         timeManager();
 
         toggleCurrentPlayer();
+
+        System.out.println("checkmate="+isKingCheckmate(currentPlayer));
+
+        if(isKingCheckmate(currentPlayer)){
+            endGameFlag(currentPlayer);
+        }
 
         return true;
     }
@@ -374,6 +427,13 @@ public class ChessBoard {
 
         ChessOperation currentOperation=new ChessOperation(x, y, gotoX, gotoY, currentPiece, preveiousPiece);
         zuege.add(currentOperation);
+    }
+
+    private void testMovePieceOnBoard(int x, int y, int gotoX, int gotoY,ChessPiece[][]board){
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+
+        board[x][y]=null;
+        board[gotoX][gotoY]=currentPiece;
     }
 
     //ValidMoves
@@ -432,7 +492,7 @@ public class ChessBoard {
                     int currentX=resultValidCoords.get(i)[0];
                     int currentY=resultValidCoords.get(i)[1];
 
-                    if(!isPositionUnderAttack(currentX, currentY, currentChessPiece.getColor(), boardWOcurrentKing))
+                    if(isPositionUnderAttack(currentX, currentY, currentChessPiece.getColor(), boardWOcurrentKing)==null)
                       validUnattackedCoords.add(new int[]{currentX,currentY});  
                 }
                 resultValidCoords=validUnattackedCoords;
@@ -489,14 +549,15 @@ public class ChessBoard {
             movingDirection=1;
         }
 
-        if(!isPieceOn(x+movingDirection, y, board)||isPieceOn(x+movingDirection, y,getEnemyColorOf(currentPiece), board))
-            resultValidCoords.add(new int[]{x+movingDirection,y});
-        
+        if(!isPieceOn(x+movingDirection, y, board)||isPieceOn(x+movingDirection, y,getEnemyColorOf(currentPiece), board)){
 
-        if(currentPiece.gethasMoved()==false){
+            resultValidCoords.add(new int[]{x+movingDirection,y});
+
+            if(currentPiece.gethasMoved()==false){
             if(!isPieceOn(x+movingDirection*2, y, board)||isPieceOn(x+movingDirection*2, y,getEnemyColorOf(currentPiece), board)){
                 resultValidCoords.add(new int[]{x+movingDirection*2,y});
             }
+        }
         }
 
         if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board))

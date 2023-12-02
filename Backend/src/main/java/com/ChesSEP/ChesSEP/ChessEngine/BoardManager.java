@@ -17,14 +17,14 @@ public class BoardManager {
 
     public int[][][] getDefaultStartConfig(){
         int[][][] defaultBoard={
-            {{2,1},{3,1},{6,1},{5,1},{6,1},{4,1},{3,1},{2,1}},
+            {{2,1},{3,1},{4,1},{5,1},{6,1},{4,1},{3,1},{2,1}},
             {{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{1,2},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2}},
-            {{2,2},{3,2},{4,2},{5,2},{6,2},{6,2},{3,2},{2,2}},
+            {{2,2},{3,2},{4,2},{5,2},{6,2},{4,2},{3,2},{2,2}},
         };
 
         return defaultBoard;
@@ -51,7 +51,7 @@ public class BoardManager {
         List<int[][]> frame = new ArrayList<int[][]>();
 
         //Status Array
-        int[][] status= {{board.getZugId(),1,2,3,4},  //ZugID PosOfBoard PosOfColor PosOfEvent PosOfHighlightStatus
+        int[][] status= {{board.getZugId(),1,2,3,4,5},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked LetzterZug PosOfHighlightStatus
                         {(int)board.getTimeLong(color),(int)board.getTimeLong(color)},  //WhiteTime  BlackTime both in ms
                         {0}}; 
 
@@ -68,8 +68,12 @@ public class BoardManager {
         //Color
         frame.add(board.translateColorBoard());
 
-        //Event
-        frame.add(board.getEventBoard(color));
+        //KingEvent
+        frame.add(mergeArrays(board.getKingBoard(Color.WHITE), board.getKingBoard(Color.BLACK)));
+
+        //LetzterZug
+        //TODO implemet LezterZug
+        frame.add(new int[8][8]);
 
         //Hightlights
         int counter=0;
@@ -135,6 +139,21 @@ public class BoardManager {
         }
 
         return true;
+    }
+
+    public int[][] mergeArrays(int[][] arr1,int[][] arr2){
+        int[][] resultArr=new int[8][8];
+        for (int i = 0; i < arr2.length; i++) {
+            for (int j = 0; j < arr2[i].length; j++) {
+                if(arr1[i][j]!=0)
+                    resultArr[i][j]=arr1[i][j];
+
+                if(arr2[i][j]!=0)
+                    resultArr[i][j]=arr2[i][j];
+            }
+        }
+
+        return resultArr;
     }
 
     public static void main(String[] args) {
