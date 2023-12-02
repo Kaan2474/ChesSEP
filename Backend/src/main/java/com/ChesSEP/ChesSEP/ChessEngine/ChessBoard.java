@@ -393,6 +393,11 @@ public class ChessBoard {
 
     public boolean nextStep(int x, int y, int gotoX, int gotoY){
 
+        long currentTime=getTimeLong(currentPlayer);
+
+        if(currentTime-(System.currentTimeMillis()-intervallStart)<=0)
+            endGameFlag(currentPlayer);
+
         if(winner!=null)
             return false;
 
@@ -506,8 +511,27 @@ public class ChessBoard {
         ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
 
         ChessPiece preveiousPiece=getPieceOn(gotoX, gotoY, chessBoard);
+
+        //istKleineRochade
+        if((gotoY-y>1)&&currentPiece.getType()==ChessPieceType.KOENIG){
+            ChessPiece turm=getPieceOn(x, y+3,chessBoard);
+            turm.sethasMovedTrue(zuege.size());
+
+            chessBoard[x][y+3]=null;
+            chessBoard[x][y+1]=turm;
+        }
+
+        //istGroßeRochade
+        if((y-gotoY>1)&&currentPiece.getType()==ChessPieceType.KOENIG){
+            ChessPiece turm=getPieceOn(x, y-4,chessBoard);
+            turm.sethasMovedTrue(zuege.size());
+
+            chessBoard[x][y-4]=null;
+            chessBoard[x][y-1]=turm;
+        }   
         
-        if(moveIsEnPassant(y,gotoY)){
+        //istEnPassant
+        if(y!=gotoY&&currentPiece.getType()==ChessPieceType.BAUER){
             int moveDirection;
 
             if(currentPiece.getColor()==Color.BLACK){
@@ -527,10 +551,6 @@ public class ChessBoard {
         zuege.add(currentOperation);
 
         currentPiece.sethasMovedTrue(zuege.size());
-    }
-
-    private boolean moveIsEnPassant(int y,int gotoY){
-        return y!=gotoY;
     }
 
     private void testMovePieceOnBoard(int x, int y, int gotoX, int gotoY,ChessPiece[][]board){
@@ -591,7 +611,13 @@ public class ChessBoard {
                 List<int[]>validUnattackedCoords=new ArrayList<>();
 
                 if(!currentChessPiece.hasMoved()){
-                    
+                    int[] kleineRohade=kleineRochade(currentPlayer,board);
+                    if(kleineRohade!=null)
+                        resultValidCoords.add(kleineRohade);
+
+                    int[] großeRohade=großeRochade(currentPlayer,board);
+                    if(großeRohade!=null)
+                        resultValidCoords.add(großeRohade);
                 }
 
                 ChessPiece[][] boardWOcurrentKing=getBoardWOKing(currentChessPiece.getColor());
@@ -612,6 +638,44 @@ public class ChessBoard {
         }
 
         return resultValidCoords;
+    }
+
+    private int[] kleineRochade(Color kingsColor,ChessPiece[][] board){
+        int[] kingsCoords=getKingPos(kingsColor);
+
+        ChessPiece king=getPieceOn(kingsCoords[0], kingsCoords[1], board);
+
+        if(king==null||king.hasMoved())
+            return null;
+
+        ChessPiece turm=getPieceOn(kingsCoords[0], kingsCoords[1]+3,board);
+
+        if(turm==null||turm.getColor()!=kingsColor||turm.hasMoved())
+            return null;
+
+        if(isPieceOn(kingsCoords[0], kingsCoords[1]+1, board)||isPieceOn(kingsCoords[0], kingsCoords[1]+2, board))
+            return null;
+
+        return new int[]{kingsCoords[0], kingsCoords[1]+2};
+    }
+
+    private int[] großeRochade(Color kingsColor,ChessPiece[][] board){
+        int[] kingsCoords=getKingPos(kingsColor);
+
+        ChessPiece king=getPieceOn(kingsCoords[0], kingsCoords[1], board);
+
+        if(king==null||king.hasMoved())
+            return null;
+
+        ChessPiece turm=getPieceOn(kingsCoords[0], kingsCoords[1]-4,board);
+
+        if(turm==null||turm.getColor()!=kingsColor||turm.hasMoved())
+            return null;
+
+        if(isPieceOn(kingsCoords[0], kingsCoords[1]-1, board)||isPieceOn(kingsCoords[0], kingsCoords[1]-2, board)||isPieceOn(kingsCoords[0], kingsCoords[1]-3, board))
+            return null;
+
+        return new int[]{kingsCoords[0], kingsCoords[1]-2};
     }
 
     private List<int[]> testMovesForCheckMate(int x,int y,List<int[]> potentiallyValidMoves){
