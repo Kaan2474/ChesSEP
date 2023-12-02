@@ -4,12 +4,12 @@ public class ChessPiece {
 
     private ChessPieceType type;
     private Color color;
-    private boolean hasMoved;
+    private int hasMoved;
 
     public ChessPiece(ChessPieceType type, Color color){
         this.type=type;
         this.color=color;
-        this.hasMoved=false;
+        this.hasMoved=-1;
     }
 
     public ChessPiece(int id, int color){
@@ -21,6 +21,8 @@ public class ChessPiece {
         }
 
         type=getTypeFromId(id);
+
+        this.hasMoved=-1;
     }
 
     public ChessPieceType getTypeFromId(int id ){
@@ -49,12 +51,16 @@ public class ChessPiece {
         return this.type;
     }
 
-    public boolean gethasMoved(){
-        return hasMoved;
+    public void sethasMovedTrue(int zugId){
+        hasMoved=zugId;
     }
 
-    public void sethasMovedTrue(){
-        hasMoved=true;
+    public boolean hasMoved(){
+        return hasMoved!=-1;
+    }
+
+    public int whenDidThePieceMove(){
+        return hasMoved;
     }
 
     @Override

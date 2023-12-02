@@ -10,7 +10,6 @@ public class ChessBoard {
     public ChessPiece[][] chessBoard;
 
     private List<ChessOperation> zuege;
-    private int zugId;
 
     private Color currentPlayer;
 
@@ -33,7 +32,6 @@ public class ChessBoard {
         blackTime=(long)timeInMin*60*1000;
 
         zuege=new ArrayList<ChessOperation>();
-        zugId=0;
         intervallStart=System.currentTimeMillis();
 
         transformBauer=false;
@@ -56,7 +54,7 @@ public class ChessBoard {
     }
 
     public int getZugId(){
-        return zugId;
+        return zuege.size();
     }
 
 
@@ -504,17 +502,35 @@ public class ChessBoard {
 
 
     private void movePiece(int x, int y, int gotoX, int gotoY){
-        
-        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
-        ChessPiece preveiousPiece=getPieceOn(gotoX, gotoY, chessBoard);
 
-        currentPiece.sethasMovedTrue();
+        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+
+        ChessPiece preveiousPiece=getPieceOn(gotoX, gotoY, chessBoard);
+        
+        if(moveIsEnPassant(y,gotoY)){
+            int moveDirection;
+
+            if(currentPiece.getColor()==Color.BLACK){
+                moveDirection=-1;
+            }else{
+                moveDirection=+1;
+            }
+
+            preveiousPiece=getPieceOn(gotoX, gotoY+moveDirection, chessBoard);
+            chessBoard[x][y+moveDirection]=null;
+        }
 
         chessBoard[x][y]=null;
         chessBoard[gotoX][gotoY]=currentPiece;
 
         ChessOperation currentOperation=new ChessOperation(x, y, gotoX, gotoY, currentPiece, preveiousPiece);
         zuege.add(currentOperation);
+
+        currentPiece.sethasMovedTrue(zuege.size());
+    }
+
+    private boolean moveIsEnPassant(int y,int gotoY){
+        return y!=gotoY;
     }
 
     private void testMovePieceOnBoard(int x, int y, int gotoX, int gotoY,ChessPiece[][]board){
@@ -666,7 +682,7 @@ public class ChessBoard {
 
             resultValidCoords.add(new int[]{x+movingDirection,y});
 
-            if(currentPiece.gethasMoved()==false){
+            if(currentPiece.hasMoved()==false){
 
                 if(isInBounds(x+movingDirection*2, y)){
                     if(!isPieceOn(x+movingDirection*2, y, board)||isPieceOn(x+movingDirection*2, y,getEnemyColorOf(currentPiece), board)){
@@ -681,6 +697,20 @@ public class ChessBoard {
 
         if(isPieceOn(x+movingDirection, y-1,getEnemyColorOf(currentPiece), board))
         resultValidCoords.add(new int[]{x+movingDirection,y-1});
+
+        if(isPieceOn(x, y-1, getEnemyColorOf(currentPiece), board)){
+            ChessPiece currentEnemyPiece=getPieceOn(x, y-1, board);
+
+            if(currentEnemyPiece.getType()==ChessPieceType.BAUER&&currentEnemyPiece.whenDidThePieceMove()==getZugId())
+                resultValidCoords.add(new int[]{x+movingDirection,y-1});
+        }
+
+        if(isPieceOn(x, y+1, getEnemyColorOf(currentPiece), board)){
+            ChessPiece currentEnemyPiece=getPieceOn(x, y+1, board);
+
+            if(currentEnemyPiece.getType()==ChessPieceType.BAUER&&currentEnemyPiece.whenDidThePieceMove()==getZugId())
+                resultValidCoords.add(new int[]{x+movingDirection,y+1});
+        }
 
         return resultValidCoords;
     }
