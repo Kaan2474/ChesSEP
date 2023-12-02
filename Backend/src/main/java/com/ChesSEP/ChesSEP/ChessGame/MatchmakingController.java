@@ -75,8 +75,14 @@ public class MatchmakingController {
 
 
     //z.B. x=1 y=2 als /12
-    @GetMapping("/makeAMove/{from}/{to}")
+    @GetMapping("engine/makeAMove/{from}/{to}")
     public ResponseEntity<Boolean> makeAMove(@PathVariable int from, @PathVariable int to){
         return ResponseEntity.ok(matchmakingService.makeAMove(from,to));
+    }
+
+    //id wich chessPiece you want the pawan to transform to
+    @GetMapping("engine/transformBauer/{id}")
+    public ResponseEntity<Boolean> transformBauer(@PathVariable int id){
+        return ResponseEntity.ok(matchmakingService.transformBauer(id));
     }
 }

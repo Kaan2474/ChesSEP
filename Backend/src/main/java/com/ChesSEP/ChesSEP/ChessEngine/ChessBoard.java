@@ -21,6 +21,8 @@ public class ChessBoard {
 
     private long intervallStart;
 
+    private boolean transformBauer;
+
     private final int SpringerOffset[][]={{1,2},{-1,2},{1,-2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
@@ -33,6 +35,8 @@ public class ChessBoard {
         zuege=new ArrayList<ChessOperation>();
         zugId=0;
         intervallStart=System.currentTimeMillis();
+
+        transformBauer=false;
         winner=null;
     }
 
@@ -99,6 +103,34 @@ public class ChessBoard {
         return resultBoard;
     }
 
+    public int[][] getLastMove(){
+        int[][] resultBoard=new int[8][8];
+
+        if(zuege.size()==0)
+            return resultBoard;
+
+        ChessOperation lastMove=zuege.get(zuege.size()-1);
+
+        resultBoard[lastMove.x][lastMove.y]=1;
+
+        resultBoard[lastMove.newX][lastMove.newY]=2;
+
+        return resultBoard;
+    }
+
+    public int[][] getBauerTransformEvent(){
+        int[][] resultBoard=new int[8][8];
+
+        int[] bauerCoords=getBauerToTransform();
+
+        if(bauerCoords==null)
+            return resultBoard;
+
+        resultBoard[bauerCoords[0]][bauerCoords[1]]=1;
+
+        return resultBoard;
+    }
+
     public Color getCurrentActivePlyer(){
         return currentPlayer;
     }
@@ -135,6 +167,10 @@ public class ChessBoard {
         return new int[]{(int)minutes,(int)seconds};
     }   
 
+    public boolean hasBauerToTransform(){
+        return transformBauer;
+    }
+
 
     //EndCondition
 
@@ -164,7 +200,6 @@ public class ChessBoard {
         return isPositionUnderAttack(kingPos[0], kingPos[1], kingsColor, board);
     }
 
-    //TODO check for your MOM
     private boolean isKingCheckmate(Color kingsColor){
 
         int[] attackerCoords=isKingUnderAttack(kingsColor,chessBoard);
@@ -224,7 +259,6 @@ public class ChessBoard {
                             return true;
                     }
                 }
-                
             }
         }
         return false;
@@ -361,25 +395,77 @@ public class ChessBoard {
 
     public boolean nextStep(int x, int y, int gotoX, int gotoY){
 
+        if(winner!=null)
+            return false;
+
+        if(transformBauer)
+            return false;
+
         if(!moveIsValid(x, y, gotoX, gotoY))
             return false;
 
         movePiece(x, y, gotoX, gotoY);
 
+        //kign can be slain without resistance next Turn SOLLTE NICHT EINTREFFEN
         if(isKingUnderAttack(currentPlayer,chessBoard)!=null)
             endGameFlag(currentPlayer);
 
-        timeManager();
 
-        toggleCurrentPlayer();
-
-        System.out.println("checkmate="+isKingCheckmate(currentPlayer));
-
-        if(isKingCheckmate(currentPlayer)){
-            endGameFlag(currentPlayer);
+        if(getBauerToTransform()!=null){
+            transformBauer=true;
+        }else{
+            timeManager();
+            toggleCurrentPlayer();
         }
 
+        //usavable Situation
+        if(isKingCheckmate(currentPlayer))
+            endGameFlag(currentPlayer);
+
         return true;
+    }
+
+    public boolean transformBauer(int id){
+        if(!transformBauer||id>5||id<2)
+            return false;
+
+        int[] currentBauerCoords=getBauerToTransform();
+
+        ChessPiece currentPiece=getPieceOn(currentBauerCoords[0], currentBauerCoords[1], chessBoard);
+
+        if(currentPiece==null)
+            return false;
+
+        chessBoard[currentBauerCoords[0]][currentBauerCoords[1]]=new ChessPiece(id, currentPiece.getColor().getId());
+
+        timeManager();
+        toggleCurrentPlayer();
+
+        transformBauer=false;
+        return true;
+    }
+
+    private int[] getBauerToTransform(){
+
+        for (int i = 0; i < chessBoard[0].length; i++) {
+            ChessPiece currentPiece=getPieceOn(0, i, chessBoard);
+
+            if(currentPiece==null||currentPiece.getColor()==Color.WHITE||currentPiece.getType()!=ChessPieceType.BAUER)
+                continue;
+
+            return new int[]{0,i};
+        }
+
+        for (int i = 0; i < chessBoard[7].length; i++) {
+            ChessPiece currentPiece=getPieceOn(7, i, chessBoard);
+
+            if(currentPiece==null||currentPiece.getColor()==Color.BLACK||currentPiece.getType()!=ChessPieceType.BAUER)
+                continue;
+
+            return new int[]{7,i};
+        }
+
+        return null;
     }
 
     private void timeManager(){
@@ -410,6 +496,8 @@ public class ChessBoard {
         return false;
 
         List<int[]> validCoordsOfcurrentPiece=validCoordsOf(x, y, chessBoard);
+
+        validCoordsOfcurrentPiece=testMovesForCheckMate(x, y, validCoordsOfcurrentPiece);
 
         return doesListContainCoords(gotoX, gotoY, validCoordsOfcurrentPiece);
     }
@@ -506,6 +594,31 @@ public class ChessBoard {
         return resultValidCoords;
     }
 
+    private List<int[]> testMovesForCheckMate(int x,int y,List<int[]> potentiallyValidMoves){
+
+        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+
+        if(currentPiece==null)
+            return null;
+        
+        List<int[]> validResultMoves=new ArrayList<>();
+
+        ChessPiece[][] testBoard;
+
+        for (int i = 0; i < potentiallyValidMoves.size(); i++) {
+            int[] currentPos=potentiallyValidMoves.get(i);
+
+            testBoard=copyBoard(chessBoard);
+
+            testMovePieceOnBoard(x, y, currentPos[0], currentPos[1], testBoard);
+
+            if(isKingUnderAttack(currentPiece.getColor(), testBoard)==null)
+                validResultMoves.add(currentPos);
+        }
+
+        return validResultMoves;
+    }
+
     private List<int[]> getValidOffsetCoords(int x,int y,int[][] offset,ChessPiece[][] board){
 
         List<int[]> validCoords=new ArrayList<>();
@@ -554,10 +667,13 @@ public class ChessBoard {
             resultValidCoords.add(new int[]{x+movingDirection,y});
 
             if(currentPiece.gethasMoved()==false){
-            if(!isPieceOn(x+movingDirection*2, y, board)||isPieceOn(x+movingDirection*2, y,getEnemyColorOf(currentPiece), board)){
-                resultValidCoords.add(new int[]{x+movingDirection*2,y});
+
+                if(isInBounds(x+movingDirection*2, y)){
+                    if(!isPieceOn(x+movingDirection*2, y, board)||isPieceOn(x+movingDirection*2, y,getEnemyColorOf(currentPiece), board)){
+                        resultValidCoords.add(new int[]{x+movingDirection*2,y});
+                    }
+                }   
             }
-        }
         }
 
         if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board))
@@ -611,6 +727,8 @@ public class ChessBoard {
 
         List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
 
+        validCoords=testMovesForCheckMate(x, y, validCoords);
+
         return fillCoordsIntoArray(validCoords);
     }
 
@@ -622,6 +740,8 @@ public class ChessBoard {
             return null;
         
         List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
+
+        validCoords=testMovesForCheckMate(x, y, validCoords);
 
         return fillCoordsIntoArray(validCoords);
     }
@@ -640,47 +760,53 @@ public class ChessBoard {
     @Override
     public String toString(){
 
-        String result="";
+        String result="   "+"      A      "+"      B      "+"      C      "+"      D      "+"      E      "+"      F      "+"      G      "+"     H     \n";
 
         for (int i = 0; i < chessBoard.length; i++) {
             result+=Integer.toString(i+1)+"  ";
             for (int j = 0; j < chessBoard[i].length; j++) {
-                if(getPieceOn(i, j,chessBoard)!=null){
+
+                ChessPiece currentPiece=getPieceOn(i, j, chessBoard);
+
+                if(currentPiece!=null){
                     result+="  ";
+
                     switch (getPieceOn(i, j,chessBoard).getType()) {
                         case BAUER:
-                            result+="  "+ChessPieceType.BAUER.name()+" ";
+                            result+="  "+ChessPieceType.BAUER.name()+currentPiece.getColor().getId()+" ";
                             break;
                         
                         case TURM:
-                            result+="  "+ChessPieceType.TURM.name()+"  ";
+                            result+="  "+ChessPieceType.TURM.name()+currentPiece.getColor().getId()+"  ";
                             break;
 
                         case SPRINGER:
-                            result+=ChessPieceType.SPRINGER.name();
+                            result+=ChessPieceType.SPRINGER.name()+currentPiece.getColor().getId();
                             break;
 
                         case LAUFER:
-                            result+=" "+ChessPieceType.LAUFER.name()+" ";
+                            result+=" "+ChessPieceType.LAUFER.name()+currentPiece.getColor().getId()+" ";
                             break;
 
                         case KOENIGIN:
-                            result+=ChessPieceType.KOENIGIN.name();
+                            result+=ChessPieceType.KOENIGIN.name()+currentPiece.getColor().getId();
                             break;
 
                         case KOENIG:
-                            result+=" "+ChessPieceType.KOENIG.name()+" ";
+                            result+=" "+ChessPieceType.KOENIG.name()+currentPiece.getColor().getId()+" ";
                             break;
                     }
                     result+="  ";
                 }else{
-                    result+="    [  ]    ";
+                    result+="     [  ]    ";
                 }
                 
             }
             result+=Integer.toString(i+1)+"  ";
             result+="\n";
         }
+
+        result+="    "+"      A      "+"      B      "+"      C      "+"      D      "+"      E      "+"      F      "+"      G      "+"     H     \n";
         return result;
     }
 }

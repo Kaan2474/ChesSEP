@@ -30,16 +30,47 @@ public class BoardManager {
         return defaultBoard;
     }
 
-    public int[][][] getKönigTestBoard(){
+    public int[][][] getEndGameTestBoard(){
         int[][][] Board={
             {{0,0},{0,0},{0,0},{1,1},{0,0},{1,1},{0,0},{0,0}},
             {{1,1},{0,0},{0,0},{1,1},{6,1},{1,1},{0,0},{0,0}},
-            {{0,0},{0,0},{0,0},{1,1},{0,0},{1,1},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{4,1},{0,0},{1,1},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{2,2},{0,0},{0,0},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
             {{6,2},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+        };
+
+        return Board;
+    }
+
+    public int[][][] getBauerTestBoard(){
+        int[][][] Board={
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{1,1},{0,0},{0,0},{0,0},{0,0},{1,2},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{1,2},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{1,1},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{1,2}},
+        };
+
+        return Board;
+    }
+
+    //TODO mach das board
+    public int[][][] getRohadeTestBoard(){
+        int[][][] Board={
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{1,1},{0,0},{0,0},{0,0},{0,0},{1,2},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{1,2},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{1,1},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{1,2}},
         };
 
         return Board;
@@ -51,7 +82,7 @@ public class BoardManager {
         List<int[][]> frame = new ArrayList<int[][]>();
 
         //Status Array
-        int[][] status= {{board.getZugId(),1,2,3,4,5},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked LetzterZug PosOfHighlightStatus
+        int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getTimeLong(color),(int)board.getTimeLong(color)},  //WhiteTime  BlackTime both in ms
                         {0}}; 
 
@@ -71,9 +102,11 @@ public class BoardManager {
         //KingEvent
         frame.add(mergeArrays(board.getKingBoard(Color.WHITE), board.getKingBoard(Color.BLACK)));
 
-        //LetzterZug
-        //TODO implemet LezterZug
-        frame.add(new int[8][8]);
+        //BauerTransformEvent
+        frame.add(board.getBauerTransformEvent());
+
+        //LetzterZug    1=from 2=to
+        frame.add(board.getLastMove()); 
 
         //Hightlights
         int counter=0;

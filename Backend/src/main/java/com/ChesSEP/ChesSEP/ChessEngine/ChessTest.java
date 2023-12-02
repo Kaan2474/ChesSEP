@@ -10,7 +10,7 @@ public class ChessTest {
 
     public ChessTest(){
         boardManager=new BoardManager();
-        boardManager.startNewMatch(5, boardManager.getKönigTestBoard());
+        boardManager.startNewMatch(5, boardManager.getBauerTestBoard());
         scanner = new Scanner(System.in);
         playInConsole();
     }
@@ -20,6 +20,14 @@ public class ChessTest {
         ChessBoard board=boardManager.getManagedBoard();
 
         while (true) {
+
+            if(board.hasBauerToTransform()){
+                System.out.println("Change Bauer into:");
+                String piece=scanner.nextLine();
+
+                board.transformBauer(Integer.parseInt(piece));
+                continue;
+            }
 
             System.out.println(board.toString());
             System.out.println("Winner:"+board.getWinner());
@@ -33,21 +41,13 @@ public class ChessTest {
 
             int[][] highlight=board.checkedGetHighlightOf(pieceCH[1], pieceCH[0]);
 
-            boolean emptyFlag=true;
-
-            for (int i = 0; i < highlight.length; i++) {
-                for (int j = 0; j < highlight[i].length; j++) {
-                    if(highlight[i][j]!=0){
-                        emptyFlag=false;
-                    }
-                }
+            if (highlight==null) {
+                continue;
             }
 
             System.out.println(twoDArrtoString(highlight));
 
-            if (emptyFlag) {
-                continue;
-            }
+            
 
 
             //System.out.println(board.pieceToString(pieceCH[1], pieceCH[0]));

@@ -210,12 +210,20 @@ public class MatchmakingService {
         return frame;
     }
 
-    public Boolean makeAMove(int from, int to) {
+    public boolean makeAMove(int from, int to) {
         ChessGame game =getMyCurrentMatch();
 
         ChessBoard board=boards.get(game.getGameID()).getManagedBoard();
 
         return board.nextStep(from, to);
+    }
+
+    public boolean transformBauer(int id){
+        ChessGame game =getMyCurrentMatch();
+
+        ChessBoard board=boards.get(game.getGameID()).getManagedBoard();
+
+        return board.transformBauer(id);
     }
 
     
