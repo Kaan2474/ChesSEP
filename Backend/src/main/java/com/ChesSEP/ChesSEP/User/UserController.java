@@ -12,8 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:4200")

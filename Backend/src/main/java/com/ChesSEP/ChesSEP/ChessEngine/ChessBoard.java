@@ -3,8 +3,11 @@ package com.ChesSEP.ChesSEP.ChessEngine;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class ChessBoard {
-    public ChessPiece[][] Board;
+
+    public ChessPiece[][] chessBoard;
 
     private List<ChessOperation> zuege;
     private int zugId;
@@ -26,7 +29,7 @@ public class ChessBoard {
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
     public ChessBoard(double timeInMin,int[][][] Board){
-        this.Board=constructBoard(Board);
+        chessBoard=constructBoard(Board);
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
         blackTime=(long)timeInMin*60*1000;
@@ -42,221 +45,74 @@ public class ChessBoard {
         winner=null;
     }
 
-    public ChessPiece[][] constructBoard(int[][][] Board){
-       
-        ChessPiece[][] ChessBoard=new ChessPiece[8][8];
+    //ImportBoard
 
-        for (int i = 0; i < Board.length; i++) {
-            for (int j = 0; j < Board[i].length; j++) {
+    public ChessPiece[][] constructBoard(int[][][] boardToConstruct){
+        ChessPiece[][] constructedBoard = new ChessPiece[8][8];
 
-                if(Board[i][j][0]!=0){
-                    ChessBoard[i][j]=new ChessPiece(Board[i][j][0], Board[i][j][1]);
-                }else{
-                    ChessBoard[i][j]=null;
-                }
+        for (int i = 0; i < boardToConstruct.length; i++) {
+            for (int j = 0; j < boardToConstruct[i].length; j++) {
+                if(boardToConstruct[i][j][0]!=0)
+                    constructedBoard[i][j] = new ChessPiece(boardToConstruct[i][j][0], boardToConstruct[i][j][1]);
             }
         }
-        
-        return ChessBoard;
+
+        return constructedBoard;
     }
 
     public int getZugId(){
         return zugId;
     }
 
+
+    //ExportBoard
+
     public int[][] translateBoard(){
+        int[][] resultBoard=new int[8][8];
 
-        int[][] chessBoard=new int[8][8];
+        for (int i = 0; i < resultBoard.length; i++) {
+            for (int j = 0; j < resultBoard[i].length; j++) {
+                if(chessBoard[i][j]==null)
+                    continue;
 
-        for (int i = 0; i < Board.length; i++) {
-            for (int j = 0; j < Board[i].length; j++) {
-                if(getPieceOn(i,j,Board)!=null){
-                    chessBoard[i][j]=getPieceOn(i,j,Board).getIdFromType();
-                }
+                resultBoard[i][j]=chessBoard[i][j].getIdFromType();
             }
         }
-
-
-        return chessBoard;
+        return resultBoard;
     }
 
     public int[][] translateColorBoard(){
+        int[][] resultBoard=new int[8][8];
 
-        int[][] chessBoard=new int[8][8];
+        for (int i = 0; i < resultBoard.length; i++) {
+            for (int j = 0; j < resultBoard[i].length; j++) {
+                if(chessBoard[i][j]==null)
+                    continue;
 
-        for (int i = 0; i < Board.length; i++) {
-            for (int j = 0; j < Board[i].length; j++) {
-                if(getPieceOn(i,j,Board)!=null){
-                    chessBoard[i][j]=getPieceOn(i,j,Board).getColor().getId();
-                }
+                resultBoard[i][j]=chessBoard[i][j].getColor().getId();
             }
         }
-
-
-        return chessBoard;
+        return resultBoard;
     }
 
     public int[][] getEventBoard(Color color){
-        int[][] chessBoard=new int[8][8];
+        int[][] resultBoard=new int[8][8];
 
-        if(isKingUnderAttack(color)){
-            int[] kingPos=getKingPos(color);
-            chessBoard[kingPos[0]][kingPos[1]]=1;
-        }
+        if(!isKingUnderAttack(color))
+            return resultBoard;
 
-        return chessBoard;
+        int[] kingsCoords=getKingPos(color);
+
+        resultBoard[kingsCoords[0]][kingsCoords[1]]=1;
+
+        return resultBoard;
     }
 
     public int getCurrentAmountOfPieces(Color color){
-        if(color==Color.WHITE){
-            return amountOfWhitepieces;
-        }
-
-        return amountOfBlackpieces;
-    }
-
-    public boolean nextStep(int from,int to){
-        return nextStep((from-(from%10))/10,from%10,(to-(to%10))/10,to%10);
-    }
-
-
-    public boolean nextStep(int x, int y, int gotoX, int gotoY){
-        if(winner!=null){
-            return false;
-        }
-
-        if(!movePiece(x, y, gotoX, gotoY)){
-            return false;
-        }
-
-        if(currentPlayer==Color.WHITE){
-            whiteTime-=System.currentTimeMillis()-intervallStart;
-        }else{
-            blackTime-=System.currentTimeMillis()-intervallStart;
-        }
-
-        if(whiteTime<0){
-            endGameFlag(Color.BLACK);
-            return false;
-        }
-
-        if(blackTime<0){
-            endGameFlag(Color.WHITE);
-        }
-
-        intervallStart=System.currentTimeMillis();
-
-
-        if(isKingSurronded(currentPlayer)){
-            endGameFlag(currentPlayer);
-        }
-
-        toggleCurrentPlayer();  
-        zugId++;
-
-        return true;
-
-    }
-
-    private boolean isCurrentKingUnderAttack(){
-        return isKingUnderAttack(currentPlayer);
-    }
-
-    public boolean isKingSurronded(Color color){
-        if(!isKingUnderAttack(color))
-        return false;
-
-        int[] kingPos=getKingPos(color);
-
-        List<int[]> validCoordsOfKing = ValidCoordsOf(kingPos[0],kingPos[1],Board);
-
-        if(validCoordsOfKing.size()==0)
-        return true;
-        
-        return false;
-    }
-
-    private ChessPiece[][] getBoardWOKing(){
-        ChessPiece[][] newBoard=new ChessPiece[8][8];
-
-        for (int i = 0; i < Board.length; i++) {
-            for (int j = 0; j < Board[i].length; j++) {
-                ChessPiece currentPiece=getPieceOn(i, j, Board);
-
-                if(currentPiece==null)
-                continue;
-
-                if(currentPiece.getType()==ChessPieceType.KOENIG)
-                continue;
-
-                newBoard[i][j]=currentPiece;
-            }
-        }
-
-        return newBoard;
-    }
-
-    public int[] getKingPos(Color color){
-        for (int i = 0; i < Board.length; i++) {
-            for (int j = 0; j < Board[i].length; j++) {
-                ChessPiece currentPiece=getPieceOn(i,j,Board);
-
-                if(currentPiece==null)
-                continue;
-
-                if(currentPiece.getType()==ChessPieceType.KOENIG&&currentPiece.getColor()==color){
-                    return new int[]{i,j};
-                }
-            }
-        }
-
-        return new int[0];
-    }
-
-    public boolean isKingUnderAttack(Color kingColor){
-        
-        int[] kingPos=getKingPos(kingColor);
-
-        //System.out.println("foof"+kingPos[0]+kingPos[1]);
-
-        return isPositionUnderAttack(kingPos[0], kingPos[1], kingColor,Board);
-    }
-
-    public boolean isPositionUnderAttack(int x,int y,Color currentColor,ChessPiece[][] board){
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if(isPieceOn(i, j, currentColor,board)){
-                    if(CoordInList(x,y,ValidCoordsOf(i, j,board))){
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private Color colorInvert(Color color){
         if(color==Color.BLACK){
-            return Color.WHITE;
+            return amountOfBlackpieces;
         }else{
-            return Color.BLACK;
-        }
-    }
-
-    private void endGameFlag(Color winner){
-        this.winner=winner;
-    }
-
-    public Color getWinner(){
-        return winner;
-    }
-
-    public void toggleCurrentPlayer(){
-        if(currentPlayer==Color.WHITE){
-            currentPlayer=Color.BLACK;
-        }else{
-            currentPlayer=Color.WHITE;
+            return amountOfWhitepieces;
         }
     }
 
@@ -264,94 +120,165 @@ public class ChessBoard {
         return currentPlayer;
     }
 
-    private boolean movePiece(int x, int y, int gotoX, int gotoY){
+    public long getTimeLong(Color color){
+        if(color==Color.BLACK){
+            return blackTime;
+        }else{
+            return whiteTime;
+        }
+    }
+
+    public int[] getTime(Color color){
+        double currentTime;
+        if(color==Color.BLACK){
+            currentTime=(double)blackTime;
+        }else{
+            currentTime=(double)whiteTime;
+        }
+
+        currentTime=currentTime/1000/60;
+
+        double seconds=(currentTime%1)*60;                       
+        double minutes=currentTime-(currentTime%1);
+
+        return new int[]{(int)minutes,(int)seconds};
+    }   
+
+
+    //EndCondition
+
+    private int[] getKingPos(Color kingsColor) {
+
+        for (int i = 0; i < chessBoard.length; i++) {
+            for (int j = 0; j < chessBoard[i].length; j++) {
+                ChessPiece currentPiece=getPieceOn(i, j, chessBoard);
+
+                if(currentPiece==null)
+                    continue;
+
+                if(currentPiece.getColor()==kingsColor&&currentPiece.getType()==ChessPieceType.KOENIG)
+                    return new int[]{i,j};
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isKingUnderAttack(Color kingsColor) {
+        int[] kingPos=getKingPos(kingsColor);
+
+        if(kingPos==null)
+            return false;
+
+        return isPositionUnderAttack(kingPos[0], kingPos[1], kingsColor, chessBoard);
+    }
+
+    //TODO check for your MOM
+    private boolean isKingCheckmate(Color kingsColor){
+        if(!isKingUnderAttack(kingsColor))
+            return false;
+
+        int[] kingPos=getKingPos(kingsColor);
         
-        if(!isPieceOn(x, y))
-        return false;
+        if(validCoordsOf(kingPos[0], kingPos[1], chessBoard).size()!=0)
+            return false;
 
-        if(!moveIsValid(x, y, gotoX, gotoY))
-        return false; 
         
-
-        ChessPiece currentPiece=getPieceOn(x, y,Board);
-        deletePieceOn(x, y);
-        System.out.println(currentPiece.toString());
-        ChessPiece previousPiece=putPieceOn(currentPiece, gotoX, gotoY);
-
-        zuege.add(new ChessOperation(x, y, gotoX, gotoY, currentPiece, previousPiece));
 
         return true;
     }
 
-    private Boolean moveIsValid(int x, int y, int gotoX, int gotoY){
-        if(getPieceOn(x, y,Board).getColor()!=currentPlayer)
+    private boolean isPositionUnderAttack(int x,int y,Color alliedColor,ChessPiece[][] board){
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                ChessPiece currentPiece=getPieceOn(i, j, board);
+
+                if(currentPiece==null)
+                    continue;
+
+                if(currentPiece.getColor()==alliedColor||currentPiece.getType()==ChessPieceType.KOENIG)
+                    continue;
+
+                List<int[]> currentValidEnemyCoords=validCoordsOf(i, j, board);
+                
+                if(doesListContainCoords(x, y, currentValidEnemyCoords))
+                    return true;
+            }
+        }
+
         return false;
+    }
 
-        List<int[]> validCoords=ValidCoordsOf(x,y,Board);
+    private void endGameFlag(Color loser){
+        if(loser==Color.BLACK){
+            winner=Color.WHITE;
+        }else{
+            winner=Color.BLACK;
+        }
+    }
 
-        if(!CoordInList(gotoX, gotoY,validCoords))
-        return false;  
+     public Color getWinner() {
+        return winner;
+    }
+
+    //BoardManagement
+
+    private ChessPiece getPieceOn(int x, int y, ChessPiece[][] board) {
+        if(!isInBounds(x, y))
+            return null;
+        
+        return board[x][y];
+    }
+
+    private boolean isPieceOn(int x,int y, ChessPiece[][] board){
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+
+        if(currentPiece==null)
+            return false;
 
         return true;
     }
 
-    private boolean CoordInList(int x, int y,List<int[]> validCoords){
-        for (int i = 0; i < validCoords.size(); i++) {
-            if(validCoords.get(i)[0]==x&&validCoords.get(i)[1]==y)
+    private boolean isPieceOn(int x,int y,Color colorOfThePiece, ChessPiece[][] board){
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+
+        if(currentPiece==null)
+            return false;
+
+        return currentPiece.getColor()==colorOfThePiece;
+    }
+
+    private ChessPiece[][] getBoardWOKing(Color kingToRemove){
+
+        int[] kingToRemoveCoords=getKingPos(kingToRemove);
+
+        ChessPiece[][] resultBoard=new ChessPiece[8][8];
+
+        for (int i = 0; i < resultBoard.length; i++) {
+            for (int j = 0; j < resultBoard[i].length; j++) {
+
+                if(i==kingToRemoveCoords[0]&&j==kingToRemoveCoords[1])
+                    continue;
+                
+                resultBoard[i][j]=chessBoard[i][j];
+            }
+        }
+
+        return resultBoard;
+    }
+
+    private boolean doesListContainCoords(int x, int y, List<int[]> validCoordsOfcurrentPiece) {
+
+        for (int i = 0; i < validCoordsOfcurrentPiece.size(); i++) {
+
+            int currentX=validCoordsOfcurrentPiece.get(i)[0];
+            int currentY=validCoordsOfcurrentPiece.get(i)[1];
+
+            if(currentX==x&&currentY==y)
             return true;
         }
 
         return false;
-    }
-
-    public int getCurrentAmountOfPieces(){
-        return this.amountOfpieces;
-    }
-
-    public int[][] getHighlightOf(int x, int y){
-        if(!isPieceOn(x, y))
-        return null;
-
-        List<int[]> validCoords=ValidCoordsOf(x, y,Board);
-        int[][] result=new int[8][8];
-
-        for (int i = 0; i < validCoords.size(); i++) {
-            result[validCoords.get(i)[0]][validCoords.get(i)[1]]=1;
-        }
-        
-        return result;
-    }
-
-    public int[][] getHighlightOfColor(int x, int y,Color color){
-        int[][] result=new int[8][8];
-
-        if(!isPieceOn(x, y, color,Board)){
-            return result;
-        }
-
-        List<int[]> validCoords=ValidCoordsOf(x, y,Board);
-
-        for (int i = 0; i < validCoords.size(); i++) {
-            result[validCoords.get(i)[0]][validCoords.get(i)[1]]=1;
-        }
-        
-        return result;
-    }
-
-    public int[][] checkedGetHighlightOf(int x, int y){
-        int[][] result=new int[8][8];
-
-        if(!isPieceOn(x, y, currentPlayer,Board)){
-            return result;
-        }
-
-        List<int[]> validCoords=ValidCoordsOf(x, y,Board);
-
-        for (int i = 0; i < validCoords.size(); i++) {
-            result[validCoords.get(i)[0]][validCoords.get(i)[1]]=1;
-        }
-        
-        return result;
     }
 
     private boolean isInBounds(int x, int y){
@@ -362,102 +289,158 @@ public class ChessBoard {
         return true;
     }
 
-    public long[] getTime(){
-        return new long[]{whiteTime,blackTime};
+    private Color getEnemyColorOf(ChessPiece alliedPiece){
+        if(alliedPiece.getColor()==Color.BLACK){
+            return Color.WHITE;
+        }else{
+            return Color.BLACK;
+        }
     }
 
-    public double[] getTimeInMin(){
-        double[] result=new double[2];
 
-        result[0]=((double)whiteTime)/1000/60;
-        result[1]=((double)blackTime)/1000/60;
+    //MakeAMove
 
-        return result;
-    }   
+    public boolean nextStep(int from,int to){
+        return nextStep((from-(from%10))/10,from%10,(to-(to%10))/10,to%10);
+    }
 
-    private List<int[]> ValidCoordsOf(int x,int y,ChessPiece[][] board){
-        List<int[]>validCoords=new ArrayList<>();
+    public boolean nextStep(int x, int y, int gotoX, int gotoY){
+
+        if(!moveIsValid(x, y, gotoX, gotoY))
+            return false;
+
+        movePiece(x, y, gotoX, gotoY);
+
+        if(isKingUnderAttack(currentPlayer))
+            endGameFlag(currentPlayer);
+
+        toggleCurrentPlayer();
+
+        timeManager();
+
+        return true;
+    }
+
+    private void timeManager(){
+
+    }
+
+    private void toggleCurrentPlayer(){
+        if(currentPlayer==Color.WHITE){
+            currentPlayer=Color.BLACK;
+        }else{
+            currentPlayer=Color.WHITE;
+        }
+    }
+
+    private boolean moveIsValid(int x, int y, int gotoX, int gotoY){
+
+        if(!isInBounds(x, y)||!isInBounds(gotoX, gotoY))
+        return false;
+
+        ChessPiece currentChessPiece=getPieceOn(x, y, chessBoard);
+
+        if(currentChessPiece==null)
+        return false;
+
+        List<int[]> validCoordsOfcurrentPiece=validCoordsOf(x, y, chessBoard);
+
+        return doesListContainCoords(gotoX, gotoY, validCoordsOfcurrentPiece);
+    }
+
+
+    private void movePiece(int x, int y, int gotoX, int gotoY){
         
-        //System.out.println(getPieceOn(x, y).getType().name());
+        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+        ChessPiece preveiousPiece=getPieceOn(gotoX, gotoY, chessBoard);
 
-        switch (getPieceOn(x, y,board).getType()) {
-            case BAUER:
-                //Custom
-                validCoords.addAll(getValidBauerCoords(x, y,board));
-                break;
-                        
+        currentPiece.sethasMovedTrue();
+
+        chessBoard[x][y]=null;
+        chessBoard[gotoX][gotoY]=currentPiece;
+
+        ChessOperation currentOperation=new ChessOperation(x, y, gotoX, gotoY, currentPiece, preveiousPiece);
+        zuege.add(currentOperation);
+    }
+
+    //ValidMoves
+
+    private List<int[]> validCoordsOf(int x,int y,ChessPiece[][] board){
+
+        List<int[]> resultValidCoords=new ArrayList<>();
+
+        ChessPiece currentChessPiece=getPieceOn(x, y, board);
+
+        if(currentChessPiece==null)
+        return resultValidCoords;
+
+        switch (currentChessPiece.getType()) {
             case TURM:
-                //Horizontal
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 0,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 0,board));
-
-                //Vertical
-                validCoords.addAll(getValidIterrativeCoords(x, y, 0, 1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 0, -1,board));
-
-                System.out.println(twoDArrtoString(validCoords));
-                break;
+                //Horizontal/Vertical
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,-1,0,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,+1,0,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,0,-1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,0,+1,board));
+            break;
 
             case SPRINGER:
-                //Custom
-                validCoords.addAll(getValidOffsetCoords(x, y, SpringerOffset,board));
-                break;
+                resultValidCoords.addAll(getValidOffsetCoords(x, y, SpringerOffset, board));
+            break;
 
-            case LAUFER_W:
+            case LAUFER:
                 //Diagonal
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, -1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, -1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 1,board));
-
-                break;
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,+1,+1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,+1,-1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,-1,+1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,-1,-1,board));
+            break;
 
             case KOENIGIN:
+                //Horizontal/Vertical
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,-1,0,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,+1,0,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,0,-1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,0,+1,board));
+
                 //Diagonal
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, -1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, -1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 1,board));
-
-                //Horizontal
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 0,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 0,board));
-
-                //Vertical
-                validCoords.addAll(getValidIterrativeCoords(x, y, 0, 1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 0, -1,board));
-                break;
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,+1,+1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,+1,-1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,-1,+1,board));
+                resultValidCoords.addAll(getValidIterrativeCoords(x,y,-1,-1,board));
+            break;
 
             case KOENIG:
-                //Custom
-                validCoords.addAll(getValidOffsetCoords(x, y, KönigOffset,board));   
+                resultValidCoords.addAll(getValidOffsetCoords(x, y, KönigOffset, board));
                 List<int[]>validUnattackedCoords=new ArrayList<>();
-                
-                for (int i = 0; i < validCoords.size(); i++) {
-                    int[] currentPos=validCoords.get(i);
 
-                    if(!isPositionUnderAttack(x, y, currentPlayer,getBoardWOKing())){
-                        validUnattackedCoords.add(currentPos);
-                    }
+                ChessPiece[][] boardWOcurrentKing=getBoardWOKing(currentChessPiece.getColor());
+
+                for (int i = 0; i < resultValidCoords.size(); i++) {
+                    int currentX=resultValidCoords.get(i)[0];
+                    int currentY=resultValidCoords.get(i)[1];
+
+                    if(!isPositionUnderAttack(currentX, currentY, currentChessPiece.getColor(), boardWOcurrentKing))
+                      validUnattackedCoords.add(new int[]{currentX,currentY});  
                 }
+                resultValidCoords=validUnattackedCoords;
+            break;
 
-                validCoords=validUnattackedCoords;
-                break;
-
-            case LAUFER_S:
-                //Diagonal
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, -1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, -1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, 1, 1,board));
-                validCoords.addAll(getValidIterrativeCoords(x, y, -1, 1,board));   
-                break;
+            case BAUER:
+                resultValidCoords.addAll(getValidBauerCoords(x, y, board));
+            break;
         }
 
-        return validCoords;
+        return resultValidCoords;
     }
 
     private List<int[]> getValidOffsetCoords(int x,int y,int[][] offset,ChessPiece[][] board){
+
         List<int[]> validCoords=new ArrayList<>();
+
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+
+        if(currentPiece==null)
+            return validCoords;
 
         int currentx;
         int currenty;
@@ -466,7 +449,7 @@ public class ChessBoard {
             currentx=x+offset[i][0];
             currenty=y+offset[i][1];
 
-            if((currentx>=8||currentx<=-1)||(currenty>=8||currenty<=-1))
+            if(!isInBounds(currentx, currenty))
                 continue;
 
             if(!isPieceOn(currentx, currenty, currentPlayer,board))
@@ -479,137 +462,118 @@ public class ChessBoard {
 
     private List<int[]> getValidBauerCoords(int x, int y,ChessPiece[][] board){
 
-        List<int[]> validCoords=new ArrayList<>();
-        ChessPiece piece=getPieceOn(x, y,board);
+        List<int[]> resultValidCoords=new ArrayList<>();
 
-        switch (piece.getColor()) {
-            case WHITE:
-                if(!isPieceOn(x+1,y,Color.WHITE,board)){
-                    validCoords.add(new int[]{x+1,y});
-                }
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+        int movingDirection;
 
-                if(!piece.gethasMoved()&&isInBounds(x, y)){
-                    validCoords.add(new int[]{x+2,y});
-                }
+        if(currentPiece==null)
+        return null;
 
-                if(isPieceOn(x+1, y+1, Color.BLACK,board)){
-                    validCoords.add(new int[]{x+1,y+1});
-                }
-
-                if(isPieceOn(x+1, y-1, Color.BLACK,board)){
-                    validCoords.add(new int[]{x+1,y-1});
-                }
-            break;
-
-            case BLACK:
-
-                if(!isPieceOn(x-1,y,Color.BLACK,board)){
-                    validCoords.add(new int[]{x-1,y});
-                }
-
-                if(!piece.gethasMoved()&&isInBounds(x, y)){
-                    validCoords.add(new int[]{x-2,y});
-                }
-
-                if(isPieceOn(x-1, y+1, Color.WHITE,board)){
-                    validCoords.add(new int[]{x-1,y+1});
-                }
-
-                if(isPieceOn(x-1, y-1, Color.WHITE,board)){
-                    validCoords.add(new int[]{x-1,y-1});
-                }
-            break;
+        if(currentPiece.getColor()==Color.BLACK){
+            movingDirection=-1;
+        }else{
+            movingDirection=1;
         }
-        return validCoords;
+
+        if(!isPieceOn(x+movingDirection, y, board)||isPieceOn(x+movingDirection, y,getEnemyColorOf(currentPiece), board))
+            resultValidCoords.add(new int[]{x+movingDirection,y});
+        
+
+        if(currentPiece.gethasMoved()==false){
+            if(!isPieceOn(x+movingDirection*2, y, board)||isPieceOn(x+movingDirection*2, y,getEnemyColorOf(currentPiece), board)){
+                resultValidCoords.add(new int[]{x+movingDirection*2,y});
+            }
+        }
+
+        if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board))
+            resultValidCoords.add(new int[]{x+movingDirection,y+1});
+
+        if(isPieceOn(x+movingDirection, y-1,getEnemyColorOf(currentPiece), board))
+        resultValidCoords.add(new int[]{x+movingDirection,y-1});
+
+        return resultValidCoords;
     }
 
     private List<int[]> getValidIterrativeCoords(int x,int y,int offsetX, int offsetY,ChessPiece[][] board){
-        List<int[]> validCoords=new ArrayList<>();
 
-        x+=offsetX;
-        y+=offsetY;
+        List<int[]> resultValidCoords=new ArrayList<>();
+
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+
+        x=x+offsetX;
+        y=y+offsetY;
 
         while (isInBounds(x, y)) {
+            
+            if(!isPieceOn(x, y, board)){
+                resultValidCoords.add(new int[]{x,y});
 
-            if(getPieceOn(x, y, board)==null){
-                validCoords.add(new int[]{x,y});
-                
-                x+=offsetX;
-                y+=offsetY;
+                x=x+offsetX;
+                y=y+offsetY;
 
                 continue;
             }
 
-            if(getPieceOn(x, y, board).getColor()!=currentPlayer){
-                validCoords.add(new int[]{x,y});
-                return validCoords;
-            }else{
-                return validCoords;
+            if(isPieceOn(x, y, currentPiece.getColor(), board))
+                return resultValidCoords;
+
+            if(isPieceOn(x, y, getEnemyColorOf(currentPiece), board)){
+                resultValidCoords.add(new int[]{x,y});
+                return resultValidCoords;
             }
-        }
-        return validCoords;
-    }
 
-    public ChessPiece getPieceOn(int x,int y,ChessPiece[][] board){
-        if(!isInBounds(x, y))
-        return null;
-
-        return board[x][y];
-    }
-
-    private Boolean isPieceOn(int x,int y,Color color,ChessPiece[][] board){
-
-        if(!isInBounds(x, y))
-        return false;
-
-        if(getPieceOn(x, y,board)==null)
-        return false;
-
-        return getPieceOn(x, y,board).getColor()==color;
-    }
-
-    private Boolean isPieceOn(int x,int y){
-        return Board[x][y]!=null;
-    }
-
-    private void deletePieceOn(int x,int y){
-        Board[x][y]=null;
-    }
-
-    private ChessPiece putPieceOn(ChessPiece piece,int x,int y){
-        ChessPiece previousPiece=getPieceOn(x, y,Board);
-
-        if(previousPiece!=null){
-            amountOfpieces--;
-            if(previousPiece.getColor()==Color.WHITE){
-                amountOfWhitepieces--;
-            }else{
-                amountOfBlackpieces--;
-            }
         }
 
-        piece.sethasMovedTrue();
-
-        Board[x][y]=piece;
-
-        return previousPiece;  
+        return resultValidCoords;
     }
 
-    public String pieceToString(int x, int y){
-        return getPieceOn(x, y,Board).toString();
+    public int[][] GetHighlightOf(int x, int y){
+
+        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+
+        if(currentPiece==null)
+            return null;
+
+        List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
+
+        return fillCoordsIntoArray(validCoords);
     }
+
+    public int[][] checkedGetHighlightOf(int x, int y){
+
+        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+
+        if(currentPiece==null||currentPiece.getColor()!=currentPlayer)
+            return null;
+        
+        List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
+
+        return fillCoordsIntoArray(validCoords);
+    }
+
+    private int[][] fillCoordsIntoArray(List<int[]> coordsList){
+        int[][] coordArr=new int[8][8];
+
+        for (int i = 0; i < coordsList.size(); i++) {
+            coordArr[coordsList.get(i)[0]][coordsList.get(i)[1]]=1;
+        }
+
+        return coordArr;
+    }
+
 
     @Override
     public String toString(){
 
         String result="";
 
-        for (int i = 0; i < Board.length; i++) {
+        for (int i = 0; i < chessBoard.length; i++) {
             result+=Integer.toString(i+1)+"  ";
-            for (int j = 0; j < Board[i].length; j++) {
-                if(getPieceOn(i, j,Board)!=null){
+            for (int j = 0; j < chessBoard[i].length; j++) {
+                if(getPieceOn(i, j,chessBoard)!=null){
                     result+="  ";
-                    switch (getPieceOn(i, j,Board).getType()) {
+                    switch (getPieceOn(i, j,chessBoard).getType()) {
                         case BAUER:
                             result+="  "+ChessPieceType.BAUER.name()+" ";
                             break;
@@ -622,8 +586,8 @@ public class ChessBoard {
                             result+=ChessPieceType.SPRINGER.name();
                             break;
 
-                        case LAUFER_W:
-                            result+=ChessPieceType.LAUFER_W.name();
+                        case LAUFER:
+                            result+=" "+ChessPieceType.LAUFER.name()+" ";
                             break;
 
                         case KOENIGIN:
@@ -632,10 +596,6 @@ public class ChessBoard {
 
                         case KOENIG:
                             result+=" "+ChessPieceType.KOENIG.name()+" ";
-                            break;
-
-                        case LAUFER_S:
-                            result+=ChessPieceType.LAUFER_S.name();
                             break;
                     }
                     result+="  ";
@@ -647,27 +607,6 @@ public class ChessBoard {
             result+=Integer.toString(i+1)+"  ";
             result+="\n";
         }
-        return result;
-    }
-
-    public String twoDArrtoString(List<int[]> targetList){
-        String result="";
-
-        int[][] target= new int[8][8];
-
-        for (int i = 0; i < targetList.size(); i++) {
-            target[targetList.get(i)[0]][targetList.get(i)[1]]=1;
-            System.out.println("foof");
-        }
-
-
-        for (int i = 0; i < target.length; i++) {
-            for (int j = 0; j < target[i].length; j++) {
-                result+=" "+target[i][j]+" ";
-            }
-            result+="\n";
-        }
-
         return result;
     }
 }

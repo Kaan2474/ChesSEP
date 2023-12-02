@@ -4,10 +4,9 @@ public enum ChessPieceType {
     BAUER(1),
     TURM(2),
     SPRINGER(3),
-    LAUFER_S(4),
+    LAUFER(4),
     KOENIGIN(5),
-    KOENIG(6),
-    LAUFER_W(7);
+    KOENIG(6);
 
     private int id;
 
