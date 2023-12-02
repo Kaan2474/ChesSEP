@@ -590,6 +590,10 @@ public class ChessBoard {
                 resultValidCoords.addAll(getValidOffsetCoords(x, y, KönigOffset, board));
                 List<int[]>validUnattackedCoords=new ArrayList<>();
 
+                if(!currentChessPiece.hasMoved()){
+                    
+                }
+
                 ChessPiece[][] boardWOcurrentKing=getBoardWOKing(currentChessPiece.getColor());
 
                 for (int i = 0; i < resultValidCoords.size(); i++) {
@@ -678,14 +682,14 @@ public class ChessBoard {
             movingDirection=1;
         }
 
-        if(!isPieceOn(x+movingDirection, y, board)||isPieceOn(x+movingDirection, y,getEnemyColorOf(currentPiece), board)){
+        if(!isPieceOn(x+movingDirection, y, board)){
 
             resultValidCoords.add(new int[]{x+movingDirection,y});
 
             if(currentPiece.hasMoved()==false){
 
                 if(isInBounds(x+movingDirection*2, y)){
-                    if(!isPieceOn(x+movingDirection*2, y, board)||isPieceOn(x+movingDirection*2, y,getEnemyColorOf(currentPiece), board)){
+                    if(!isPieceOn(x+movingDirection*2, y, board)){
                         resultValidCoords.add(new int[]{x+movingDirection*2,y});
                     }
                 }   

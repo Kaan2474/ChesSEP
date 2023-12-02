@@ -9,7 +9,7 @@ public class ChessPiece {
     public ChessPiece(ChessPieceType type, Color color){
         this.type=type;
         this.color=color;
-        this.hasMoved=-1;
+        hasMoved=-1;
     }
 
     public ChessPiece(int id, int color){
@@ -52,6 +52,7 @@ public class ChessPiece {
     }
 
     public void sethasMovedTrue(int zugId){
+        if(hasMoved==-1)
         hasMoved=zugId;
     }
 
