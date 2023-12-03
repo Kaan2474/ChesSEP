@@ -1,7 +1,9 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -17,6 +19,14 @@ public class ChessBoard {
     private long blackTime;
 
     private Color winner;
+    private boolean isRemis;
+    private int remisCounterWhite;
+    private int remisCounterBlack;
+    private boolean requestRemisWhite;
+    private boolean requestRemisBlack;
+    private Map<Integer,ChessPiece[][]> remisPattern;
+    private Map<Integer,Integer> remisPatternCounter;
+    
 
     private long intervallStart;
 
@@ -36,6 +46,11 @@ public class ChessBoard {
 
         transformBauer=false;
         winner=null;
+        isRemis=false;
+        remisCounterWhite=0;
+        remisCounterBlack=0;
+        remisPattern=new HashMap<>();
+        remisPatternCounter=new HashMap<>();
     }
 
     //ImportBoard
@@ -60,29 +75,29 @@ public class ChessBoard {
 
     //ExportBoard
 
-    public int[][] translateBoard(){
+    public int[][] translateBoard(ChessPiece[][] board){
         int[][] resultBoard=new int[8][8];
 
         for (int i = 0; i < resultBoard.length; i++) {
             for (int j = 0; j < resultBoard[i].length; j++) {
-                if(chessBoard[i][j]==null)
+                if(board[i][j]==null)
                     continue;
 
-                resultBoard[i][j]=chessBoard[i][j].getIdFromType();
+                resultBoard[i][j]=board[i][j].getIdFromType();
             }
         }
         return resultBoard;
     }
 
-    public int[][] translateColorBoard(){
+    public int[][] translateColorBoard(ChessPiece[][] board){
         int[][] resultBoard=new int[8][8];
 
         for (int i = 0; i < resultBoard.length; i++) {
             for (int j = 0; j < resultBoard[i].length; j++) {
-                if(chessBoard[i][j]==null)
+                if(board[i][j]==null)
                     continue;
 
-                resultBoard[i][j]=chessBoard[i][j].getColor().getId();
+                resultBoard[i][j]=board[i][j].getColor().getId();
             }
         }
         return resultBoard;
@@ -392,6 +407,8 @@ public class ChessBoard {
     }
 
     public boolean nextStep(int x, int y, int gotoX, int gotoY){
+        if(isRemis)
+            return false;
 
         long currentTime=getTimeLong(currentPlayer);
 
@@ -425,7 +442,152 @@ public class ChessBoard {
         if(isKingCheckmate(currentPlayer))
             endGameFlag(currentPlayer);
 
+        remisPatternManager();
+
+        isRemis=remisManager();
+
         return true;
+    }
+
+    private boolean remisManager(){
+        if(remisCounterWhite>=75||remisCounterBlack>=75)
+            return true;
+
+        if(requestRemisWhite&&requestRemisBlack&&remisCounterWhite+remisCounterBlack>=50)
+            return true;
+
+        if(remisPatternCounter.containsValue(5))
+            return true;
+
+        return false;
+
+    }
+
+    public boolean getRemis(){
+        return isRemis;
+    }
+
+    private void remisPatternManager(){
+        int[][]currentBoard=translateBoard(chessBoard);
+        int[][]currentColorBoard=translateColorBoard(chessBoard);
+
+        if(remisPattern.isEmpty()){
+            remisPattern.put(remisPattern.size(), chessBoard);
+            remisPatternCounter.put(remisPattern.size(), 0);
+ 
+            return;
+        }
+
+        List<Integer> matched=new ArrayList<>();
+
+        for (int i = 0; i < remisPattern.size(); i++) {
+            if(compare2DArr(translateBoard(remisPattern.get(i)), currentBoard)&&compare2DArr(translateColorBoard(remisPattern.get(i)), currentColorBoard))
+            matched.add(i);
+        }
+
+        if(matched.isEmpty()){
+            remisPattern.put(remisPattern.size(), chessBoard);
+            remisPatternCounter.put(remisPattern.size(), 0);
+
+            return;
+        }
+
+        int match=-1;
+
+        for (int i = 0; i < matched.size(); i++) {
+            if(compareAllHiglights(chessBoard, remisPattern.get(matched.get(i)))){
+                match=i;
+                break;
+            }
+        }
+
+        if(match==-1){
+            remisPattern.put(remisPattern.size(), chessBoard);
+            remisPatternCounter.put(remisPattern.size(), 0);
+
+            return;
+        }
+
+        int currentCounter=remisPatternCounter.get(match);
+
+        remisPatternCounter.remove(match);
+        remisPatternCounter.put(match, currentCounter+1);
+    
+    }
+
+    private boolean compareAllHiglights(ChessPiece[][] board1,ChessPiece[][] board2){
+        if(board1==null||board2==null)
+            return false;
+
+        for (int i = 0; i < board1.length; i++) {
+            for (int j = 0; j < board1[i].length; j++) {
+                int[][]currentHighlight1=getHighlightOf(i, j, board1);
+                int[][]currentHighlight2=getHighlightOf(i, j, board2);
+
+                if(currentHighlight1==null||currentHighlight2==null)
+                    continue;
+
+                if(!compare2DArr(currentHighlight1, currentHighlight2))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean compare2DArr(int[][] arr1, int[][] arr2){
+        if(arr1==null||arr2==null)
+            return false;
+
+        if(arr1.length!=arr2.length)
+            return false;
+
+        for (int i = 0; i < arr1.length; i++) {
+            if(arr1[i].length!=arr2[i].length)
+                return false;
+        }
+
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr1[i].length; j++) {
+                if(arr1[i][j]!=arr2[i][j])
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    public void setRequestRemis(Color player,boolean value){
+        if(player==Color.BLACK){
+            requestRemisBlack=value;
+        }else{
+            requestRemisWhite=value;
+        }
+    }
+
+    private void remisCounterManager(ChessPiece currentPiece,ChessPiece previousPiece){
+
+        if(currentPiece.getColor()==Color.BLACK){
+            if(currentPiece.getType()==ChessPieceType.BAUER)
+                remisCounterBlack=0;
+            
+            if(previousPiece!=null)
+                remisCounterBlack=0;
+
+            if(remisCounterBlack!=0)
+                remisCounterBlack++;
+
+        }else{
+            if(currentPiece.getType()==ChessPieceType.BAUER)
+                remisCounterWhite=0;
+            
+            if(previousPiece!=null)
+                remisCounterWhite=0;
+
+            if(remisCounterBlack!=0)
+                remisCounterWhite++;
+        }
     }
 
     public boolean transformBauer(int id){
@@ -551,6 +713,9 @@ public class ChessBoard {
         zuege.add(currentOperation);
 
         currentPiece.sethasMovedTrue(zuege.size());
+
+        remisCounterManager(currentPiece, preveiousPiece);
+        remisPatternManager();
     }
 
     private void testMovePieceOnBoard(int x, int y, int gotoX, int gotoY,ChessPiece[][]board){
@@ -816,14 +981,14 @@ public class ChessBoard {
         return resultValidCoords;
     }
 
-    public int[][] GetHighlightOf(int x, int y){
+    private int[][] getHighlightOf(int x, int y,ChessPiece[][] board){
 
-        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+        ChessPiece currentPiece=getPieceOn(x, y, board);
 
         if(currentPiece==null)
             return null;
 
-        List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
+        List<int[]> validCoords=validCoordsOf(x, y, board);
 
         validCoords=testMovesForCheckMate(x, y, validCoords);
 

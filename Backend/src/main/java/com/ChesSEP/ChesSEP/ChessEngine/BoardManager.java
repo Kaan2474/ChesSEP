@@ -41,18 +41,21 @@ public class BoardManager {
                         {(int)board.getTimeLong(color),(int)board.getTimeLong(color)},  //WhiteTime  BlackTime both in ms
                         {0}}; 
 
-        if(board.getWinner()!=null){
+        if(board.getWinner()!=null)
             status[2][0]=board.getWinner().getId();
-        }
+        
+
+        if(board.getRemis())
+            status[2][0]=3;
                         
 
         frame.add(status);
 
         //Board
-        frame.add(board.translateBoard());
+        frame.add(board.translateBoard(board.chessBoard));
 
         //Color
-        frame.add(board.translateColorBoard());
+        frame.add(board.translateColorBoard(board.chessBoard));
 
         //KingEvent
         frame.add(mergeArrays(board.getKingBoard(Color.WHITE), board.getKingBoard(Color.BLACK)));
