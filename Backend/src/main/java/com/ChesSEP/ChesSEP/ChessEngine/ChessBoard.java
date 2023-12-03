@@ -51,6 +51,8 @@ public class ChessBoard {
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternCounter=new HashMap<>();
+
+        remisPatternManager();
     }
 
     //ImportBoard
@@ -315,8 +317,17 @@ public class ChessBoard {
         }
     }
 
-     public Color getWinner() {
-        return winner;
+    public int getWinner() {
+        if(isRemis)
+            return 3;
+
+        if(winner==Color.WHITE)
+            return 1;
+
+        if(winner==Color.BLACK)
+            return 2; 
+        
+        return 0;
     }
 
     //BoardManagement
@@ -362,11 +373,23 @@ public class ChessBoard {
 
         for (int i = 0; i < copiedBoard.length; i++) {
             for (int j = 0; j < copiedBoard[i].length; j++) {
-                copiedBoard[i][j]=boardToCopy[i][j];
+                if(boardToCopy[i][j]==null)
+                    continue;
+
+                copiedBoard[i][j]=copyPiece(boardToCopy[i][j]);
             }
         }
 
         return copiedBoard;
+    }
+
+    private ChessPiece copyPiece(ChessPiece pieceToCopy){
+        
+        ChessPiece copiedPice=new ChessPiece(pieceToCopy.getIdFromType(), pieceToCopy.getColor().getId());
+
+        copiedPice.setHasMoved(pieceToCopy.whenDidThePieceMove());
+
+        return copiedPice;
     }
 
     private boolean doesListContainCoords(int x, int y, List<int[]> validCoordsOfcurrentPiece) {
@@ -442,8 +465,6 @@ public class ChessBoard {
         if(isKingCheckmate(currentPlayer))
             endGameFlag(currentPlayer);
 
-        remisPatternManager();
-
         isRemis=remisManager();
 
         return true;
@@ -456,7 +477,7 @@ public class ChessBoard {
         if(requestRemisWhite&&requestRemisBlack&&remisCounterWhite+remisCounterBlack>=50)
             return true;
 
-        if(remisPatternCounter.containsValue(5))
+        if(remisPatternCounter.containsValue(2))
             return true;
 
         return false;
@@ -468,43 +489,31 @@ public class ChessBoard {
     }
 
     private void remisPatternManager(){
-        int[][]currentBoard=translateBoard(chessBoard);
-        int[][]currentColorBoard=translateColorBoard(chessBoard);
 
         if(remisPattern.isEmpty()){
-            remisPattern.put(remisPattern.size(), chessBoard);
             remisPatternCounter.put(remisPattern.size(), 0);
+            remisPattern.put(remisPattern.size(), copyBoard(chessBoard));
  
-            return;
-        }
-
-        List<Integer> matched=new ArrayList<>();
-
-        for (int i = 0; i < remisPattern.size(); i++) {
-            if(compare2DArr(translateBoard(remisPattern.get(i)), currentBoard)&&compare2DArr(translateColorBoard(remisPattern.get(i)), currentColorBoard))
-            matched.add(i);
-        }
-
-        if(matched.isEmpty()){
-            remisPattern.put(remisPattern.size(), chessBoard);
-            remisPatternCounter.put(remisPattern.size(), 0);
-
             return;
         }
 
         int match=-1;
 
-        for (int i = 0; i < matched.size(); i++) {
-            if(compareAllHiglights(chessBoard, remisPattern.get(matched.get(i)))){
+        for (int i = 0; i < remisPattern.size(); i++) {
+            if(euqualBoards(chessBoard, remisPattern.get(i))){
+
+                if(!isKingMovesetEqual(Color.WHITE, chessBoard, remisPattern.get(i))||!isKingMovesetEqual(Color.BLACK, chessBoard, remisPattern.get(i)))
+                    continue;
+                
                 match=i;
                 break;
             }
         }
 
         if(match==-1){
-            remisPattern.put(remisPattern.size(), chessBoard);
             remisPatternCounter.put(remisPattern.size(), 0);
-
+            remisPattern.put(remisPattern.size(), copyBoard(chessBoard));
+            
             return;
         }
 
@@ -515,19 +524,56 @@ public class ChessBoard {
     
     }
 
-    private boolean compareAllHiglights(ChessPiece[][] board1,ChessPiece[][] board2){
+    private boolean isKingMovesetEqual(Color kingscolor,ChessPiece[][] board1,ChessPiece[][] board2){
+        int[] kingscoords=getKingPos(kingscolor);
+
+        return isMovesetEqual(kingscoords[0], kingscoords[1], board1, board2);
+    }
+
+    private boolean isMovesetEqual(int x,int y,ChessPiece[][] board1,ChessPiece[][] board2){
+        if(!isInBounds(x, y))
+            return false;
+
+        List<int[]> coordList1=validCoordsOf(x, y, board1);
+        List<int[]> coordList2=validCoordsOf(x, y, board2);
+
+        return areListsEqual(coordList1,coordList2);
+    }
+
+    private boolean areListsEqual(List<int[]> list1,List<int[]> list2){
+        if((list1==null&&list2!=null)||(list1!=null&&list2==null))
+            return false;
+
+        if(list1==null&&list2==null)
+            return true;
+
+        if(list1.size()!=list2.size())
+            return false;
+
+        for (int i = 0; i < list1.size(); i++) {
+            int[] currentCoord1=list1.get(i);
+            int[] currentCoord2=list1.get(i);
+
+            if(currentCoord1[0]!=currentCoord2[0]||currentCoord1[1]!=currentCoord2[1])
+                return false;
+        }
+
+        return true; 
+    }
+
+    private boolean euqualBoards(ChessPiece[][] board1,ChessPiece[][] board2){
         if(board1==null||board2==null)
             return false;
 
         for (int i = 0; i < board1.length; i++) {
             for (int j = 0; j < board1[i].length; j++) {
-                int[][]currentHighlight1=getHighlightOf(i, j, board1);
-                int[][]currentHighlight2=getHighlightOf(i, j, board2);
+                if(board1[i][j]==null&&board2[i][j]!=null)
+                    return false;
 
-                if(currentHighlight1==null||currentHighlight2==null)
+                if(board1[i][j]==null)
                     continue;
 
-                if(!compare2DArr(currentHighlight1, currentHighlight2))
+                if(!board1[i][j].isEqual(board2[i][j]))
                     return false;
             }
         }
@@ -535,7 +581,7 @@ public class ChessBoard {
         return true;
     }
 
-    private boolean compare2DArr(int[][] arr1, int[][] arr2){
+    /*private boolean compare2DArr(int[][] arr1, int[][] arr2){
         if(arr1==null||arr2==null)
             return false;
 
@@ -555,7 +601,7 @@ public class ChessBoard {
         }
 
         return true;
-    }
+    }*/
 
 
     public void setRequestRemis(Color player,boolean value){
@@ -569,24 +615,22 @@ public class ChessBoard {
     private void remisCounterManager(ChessPiece currentPiece,ChessPiece previousPiece){
 
         if(currentPiece.getColor()==Color.BLACK){
-            if(currentPiece.getType()==ChessPieceType.BAUER)
+            if(currentPiece.getType()==ChessPieceType.BAUER){
                 remisCounterBlack=0;
-            
-            if(previousPiece!=null)
+            }else if(previousPiece!=null){
                 remisCounterBlack=0;
-
-            if(remisCounterBlack!=0)
+            }else{
                 remisCounterBlack++;
+            }
 
         }else{
-            if(currentPiece.getType()==ChessPieceType.BAUER)
+            if(currentPiece.getType()==ChessPieceType.BAUER){
                 remisCounterWhite=0;
-            
-            if(previousPiece!=null)
+            }else if(previousPiece!=null){
                 remisCounterWhite=0;
-
-            if(remisCounterBlack!=0)
+            }else{
                 remisCounterWhite++;
+            }
         }
     }
 
@@ -721,6 +765,37 @@ public class ChessBoard {
     private void testMovePieceOnBoard(int x, int y, int gotoX, int gotoY,ChessPiece[][]board){
         ChessPiece currentPiece=getPieceOn(x, y, board);
 
+        //istKleineRochade
+        if((gotoY-y>1)&&currentPiece.getType()==ChessPieceType.KOENIG){
+            ChessPiece turm=getPieceOn(x, y+3,board);
+            turm.sethasMovedTrue(zuege.size());
+
+            board[x][y+3]=null;
+            board[x][y+1]=turm;
+        }
+
+        //istGroßeRochade
+        if((y-gotoY>1)&&currentPiece.getType()==ChessPieceType.KOENIG){
+            ChessPiece turm=getPieceOn(x, y-4,board);
+            turm.sethasMovedTrue(zuege.size());
+
+            board[x][y-4]=null;
+            board[x][y-1]=turm;
+        }   
+        
+        //istEnPassant
+        if(y!=gotoY&&currentPiece.getType()==ChessPieceType.BAUER){
+            int moveDirection;
+
+            if(currentPiece.getColor()==Color.BLACK){
+                moveDirection=-1;
+            }else{
+                moveDirection=+1;
+            }
+
+            board[x][y+moveDirection]=null;
+        }
+
         board[x][y]=null;
         board[gotoX][gotoY]=currentPiece;
     }
@@ -776,11 +851,11 @@ public class ChessBoard {
                 List<int[]>validUnattackedCoords=new ArrayList<>();
 
                 if(!currentChessPiece.hasMoved()){
-                    int[] kleineRohade=kleineRochade(currentPlayer,board);
+                    int[] kleineRohade=kleineRochade(currentChessPiece.getColor(),board);
                     if(kleineRohade!=null)
                         resultValidCoords.add(kleineRohade);
 
-                    int[] großeRohade=großeRochade(currentPlayer,board);
+                    int[] großeRohade=großeRochade(currentChessPiece.getColor(),board);
                     if(großeRohade!=null)
                         resultValidCoords.add(großeRohade);
                 }
@@ -844,7 +919,7 @@ public class ChessBoard {
     }
 
     private List<int[]> testMovesForCheckMate(int x,int y,List<int[]> potentiallyValidMoves){
-
+        
         ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
 
         if(currentPiece==null)

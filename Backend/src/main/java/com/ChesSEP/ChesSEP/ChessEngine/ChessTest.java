@@ -10,7 +10,7 @@ public class ChessTest {
 
     public ChessTest(){
         boardManager=new BoardManager();
-        boardManager.startNewMatch(5, getRohadeTestBoard());
+        boardManager.startNewMatch(5, getRemisTestBoard());
         scanner = new Scanner(System.in);
         playInConsole();
     }
@@ -164,6 +164,21 @@ public class ChessTest {
         };
 
         return Board;
+    }
+
+    public int[][][] getRemisTestBoard(){
+        int[][][] defaultBoard={
+            {{2,1},{0,0},{0,0},{0,0},{6,1},{4,1},{3,1},{2,1}},
+            {{0,0},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
+            {{0,0},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2}},
+            {{2,2},{3,2},{4,2},{5,2},{6,2},{4,2},{3,2},{2,2}},
+        };
+
+        return defaultBoard;
     }
 
     public static void main(String[] args) {

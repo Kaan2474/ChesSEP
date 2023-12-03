@@ -1,5 +1,7 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
+import lombok.val;
+
 public class ChessPiece {
 
     private ChessPieceType type;
@@ -56,12 +58,29 @@ public class ChessPiece {
         hasMoved=zugId;
     }
 
+    public void setHasMoved(int value){
+        hasMoved=value;
+    }
+
     public boolean hasMoved(){
         return hasMoved!=-1;
     }
 
     public int whenDidThePieceMove(){
         return hasMoved;
+    }
+
+    public boolean isEqual(ChessPiece another){
+        if(another==null)
+            return false;
+
+        if(color!=another.getColor())
+            return false;
+
+        if(type!=another.getType())
+            return false;
+
+        return true;
     }
 
     @Override

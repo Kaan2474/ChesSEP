@@ -39,15 +39,7 @@ public class BoardManager {
         //Status Array
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getTimeLong(color),(int)board.getTimeLong(color)},  //WhiteTime  BlackTime both in ms
-                        {0}}; 
-
-        if(board.getWinner()!=null)
-            status[2][0]=board.getWinner().getId();
-        
-
-        if(board.getRemis())
-            status[2][0]=3;
-                        
+                        {board.getWinner()}}; 
 
         frame.add(status);
 

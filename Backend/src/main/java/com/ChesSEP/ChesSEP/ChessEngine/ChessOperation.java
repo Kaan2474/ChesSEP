@@ -15,6 +15,6 @@ public class ChessOperation {
 
     @Override 
     public String toString(){
-        return "notImplemented";  //dummy convert to chessnotation String
+        return "notImplemented";  //TODO convert to chessnotation String
     }
 }
