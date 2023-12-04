@@ -1,6 +1,7 @@
 package com.ChesSEP.ChesSEP.ChessClub;
 
 
+import com.ChesSEP.ChesSEP.Chat.ChatService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
@@ -16,6 +17,8 @@ public class ChessClubService {
 
     private final UserRepository userRepository;
     private final ChessClubRepository chessClubRepository;
+    private final ChatService chatService;
+
 
 
     private User getSender(){
@@ -84,4 +87,55 @@ public class ChessClubService {
     public List<ChessClub> getAllChessClubs(){
         return chessClubRepository.getAllChessClubs();
     }
+
+
+
+
+    /*
+    Beim joinen wird clubId vom getSender überschrieben und er wird in die Chat Liste eingetragen
+     */
+    public void joinClubByMario(String clubname) {
+        User newMember = getSender();
+        if (getSender().getClubId() == null) {
+            newMember.setClubId(chessClubRepository.findChessClubByName(clubname).getId());
+            userRepository.save(newMember);
+            chatService.updateChessClubChat(clubname);
+        } else {
+            deleteClubV2(clubname);
+            newMember.setClubId(chessClubRepository.findChessClubByName(clubname).getId());
+        }
+    }
+
+    public String createClubV2(String clubName){
+        User user = userRepository.findUserById(getSender().getId());
+        if(chessClubRepository.findChessClubByName(clubName)!=null){
+            return "Club existiert bereits";
+        }else if(user.getClubId() != null){
+            return "Du bist schon in einem Club, verlasse erst den Club";
+        }else {
+
+            chessClubRepository.save(ChessClub.builder()
+                    .name(clubName)
+                    .build());
+            User owner = getSender();
+            owner.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(owner);
+
+
+            chatService.createChessClubChat(clubName);
+            //joinClubByMario(clubName);
+            return "Erfolgreich erstellt";
+        }
+    }
+
+
+    public void deleteClubV2(String clubName){
+        List<User> member = userRepository.getChessClubMember(chessClubRepository.findChessClubByName(clubName).getId());
+        if(member.isEmpty()){
+            chessClubRepository.delete(chessClubRepository.findChessClubByName(clubName));
+
+        }
+    }
+
+
 }
