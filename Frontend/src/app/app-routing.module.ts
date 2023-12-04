@@ -20,6 +20,7 @@ import {FriendlistOfFriendsComponent} from "./PostLogin/friendlist-of-friends/fr
 import {WaitingComponent} from "./PostLogin/waiting/waiting.component";
 import {PrivateChatComponent} from "./PostLogin/private-chat/private-chat.component";
 import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.component";
+import {ChessPuzzleComponent} from "./PostLogin/chess-puzzle/chess-puzzle.component";
 
 
 const routes: Routes = [
@@ -39,8 +40,8 @@ const routes: Routes = [
   {path: "friendlist-of-friends/:id", title: "ChesSEP", component: FriendlistOfFriendsComponent},
   {path: "waiting", title: "ChesSEP", component: WaitingComponent},
   {path: "privateChat/:id", title: "ChesSEP", component: PrivateChatComponent},
-  {path: "leaderboard", title:"ChesSEP", component: LeaderboardComponent}
-
+  {path: "leaderboard", title:"ChesSEP", component: LeaderboardComponent},
+  {path: "chess-puzzle", title:"ChesSEP", component: ChessPuzzleComponent}
 ];
 
 

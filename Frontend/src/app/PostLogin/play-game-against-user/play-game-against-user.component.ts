@@ -4,7 +4,6 @@ import {UserService} from "../../Service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatchmakingService} from "../../Service/matchmaking.service";
 import {Chess} from "../../Modules/Chess";
-import { Friends } from 'src/app/Modules/Friends';
 import { Subscription, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,29 +15,29 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   id:any;
-  user: User=new User();
-  gegner:User=new User();
+  user: User;
+  rival: User;
   token = localStorage.getItem("JWT");
-  url = "assets/images/profil-picture-icon.png"
+  url = "assets/images/profil-picture-icon.png";
   chessGame : any= new Chess();
 
-  constructor(private userService: UserService,
-    private route: ActivatedRoute, 
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
     private matchmakinService: MatchmakingService,
     private http: HttpClient,
-    private router: Router) 
-    {}
-   
-  sub:Subscription=new Subscription;
+    private router: Router) {
+      this.user = new User();
+      this.rival = new User();
+    }
+
+  sub:Subscription = new Subscription;
 
   ngOnInit() {
     this.getMyCurrentMatch();
     this.getUserDetail();
-    this.getProfileGegner();
+    this.getIdOfRival();
 
-    console.log('user:' + this.user.id);
-    console.log('gegner:' + this.gegner.id);
-    
     this.id = this.route.snapshot.params["id"];
 
     this.refreshMatch();
@@ -61,11 +60,9 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   }
 
   getUserDetail() {
-    this.userService.getUserbyToken().subscribe((data) => {
+    this.userService.getUserbyToken().subscribe(data => {
         this.user = data;
-        console.log('user:' + this.user.id);
-
-        if(this.user.profilbild!=null){
+        if(this.user.profilbild != null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
         }
       },
@@ -74,22 +71,20 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       });
   }
 
-  getProfileGegner(){
-
-    this.matchmakinService.getMyCurrentEnemy().subscribe(data=>{
-      this.gegner.id=data;
-      console.log('gegner:' + this.gegner.id);
-      this.getGegner();
+  //Gibt die ID des Gegners zurück
+  getIdOfRival(){
+    this.matchmakinService.getMyCurrentEnemy().subscribe(data=> {
+      this.rival.id = data;
+      this.getRival();
     })
   }
 
-  getGegner(){
-    this.userService.getUser(this.gegner.id).subscribe(data=> {
-      this.gegner = data;
-      console.log(this.gegner)
-
-      if(this.gegner.profilbild!=null) {
-        this.gegner.profilbild = 'data:image/png;base64,' + this.gegner.profilbild;
+  //Speichert den Gegner in der Variable rival anhand der ID
+  getRival(){
+    this.userService.getUser(this.rival.id).subscribe(data=> {
+      this.rival = data;
+      if(this.rival.profilbild!=null) {
+        this.rival.profilbild = 'data:image/png;base64,' + this.rival.profilbild;
       }
     }
   );

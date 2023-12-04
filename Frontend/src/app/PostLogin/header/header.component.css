@@ -3,11 +3,6 @@ body {
   margin-top: 30px;
 }
 
-/*Das Brief-Bild neben Nachrichten*/
-#message {
-  height: 35px;
-}
-
 /*Das Schach-Bild neben der Überschrift*/
 #chessboard{
   height: 40px;

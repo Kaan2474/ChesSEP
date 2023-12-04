@@ -1,40 +1,43 @@
 <app-header></app-header>
-<div class = "gegnerContainer">
-  <table class="table table-striped" *ngIf="gegner">
+
+<div>
+  <table id="user-table" *ngIf="user">
     <tr>
-      <td><a><img class="userPic" *ngIf="gegner && gegner.profilbild" [src]="gegner.profilbild" alt="Profilbild">
-        <img class="userPic" *ngIf="!gegner || !gegner.profilbild" [src]="url" alt ="Standardprofilbild">
-      </a>
-      </td>
-      <td>{{gegner.vorname}}</td>
-      <td>{{gegner.nachname}}</td>
+      <th>Profilbild</th>
+      <th>Name</th>
+      <th>Elo</th>
     </tr>
     <tr>
-      {{gegner.elo}}
+      <td>
+        <img class="userPics" *ngIf="user.profilbild" [src]="user.profilbild" alt="Das Profilbild des Users">
+        <img class="userPics" *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
+      </td>
+      <td>Kaan Hisiroglu</td>
+      <td>500</td>
     </tr>
   </table>
-</div>
-<div class = "schachbrettContainer">
+  <h3>Timer: 00:00</h3>
+
   <img id="chessPic" src="/assets/images/Schachbrett.jpg">
-</div>
 
-<div class = "userContainer">
-
-  <table class="table table-striped" *ngIf="user">
+  <table id="rival-table" *ngIf="rival">
     <tr>
-      <td><a><img class="userPic" *ngIf="user && user.profilbild" [src]="user.profilbild" alt="Profilbild">
-             <img class="userPic" *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
-          </a>
-      </td>
-      <td>{{user.vorname}}</td>
-      <td>{{user.nachname}}</td>
+      <th>Profilbild</th>
+      <th>Name</th>
+      <th>Elo</th>
     </tr>
     <tr>
-      <td> {{user.elo}} </td>
+      <td>
+        <img class="userPics" *ngIf="rival.profilbild" [src]="rival.profilbild" alt="Das Profilbild des Gegners">
+        <img class="userPics" *ngIf="!rival || !rival.profilbild" [src]="url" alt ="Standardprofilbild"></td>
+      <td>Max Mustermann</td>
+      <td>500</td>
     </tr>
   </table>
+  <h3>Timer: 00:00</h3>
 
+  <br>
+  <button (click)="endGame()">Partie aufgeben</button>
 </div>
 
-<button class = "partieAusblenden" (click)="endGame()" routerLink="joingame">Partie Beenden</button>
 

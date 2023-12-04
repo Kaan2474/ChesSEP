@@ -1,0 +1,28 @@
+/*Die Schachpuzzle-Überschrift*/
+h2 {
+  color: #1E1E1E;
+}
+
+p {
+  font-size: 20px;
+}
+
+/*Der ,,Datei auswählen'' Button*/
+button {
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  padding: 5px;
+  border: 2px solid #1E1E1E;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 10%;
+}
+
+button:hover {
+  background-color: royalblue;
+}
+
+#chessPic {
+  width: 500px;
+  height: 400px;
+}

@@ -26,6 +26,7 @@ import { FriendlistOfFriendsComponent } from './PostLogin/friendlist-of-friends/
 import { WaitingComponent } from './PostLogin/waiting/waiting.component';
 import { PrivateChatComponent } from './PostLogin/private-chat/private-chat.component';
 import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.component";
+import { ChessPuzzleComponent } from './PostLogin/chess-puzzle/chess-puzzle.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.componen
     FriendlistOfFriendsComponent,
     WaitingComponent,
     PrivateChatComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    ChessPuzzleComponent
   ],
   imports: [
     BrowserModule,
