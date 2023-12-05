@@ -149,6 +149,18 @@ public class UserService {
     }
 
     public User[] getLeaderboard(){
-        return (User[]) userRepository.getLeaderboard().toArray();
+        List<User> list = userRepository.getLeaderboard();
+        User[] arr = new User[list.size()];
+
+        for (int i = 0; i < arr.length; i++) {
+            User currentUser=list.get(i);
+            arr[i] = User.builder()
+                    .id(currentUser.getId())
+                    .vorname(currentUser.getVorname())
+                    .nachname(currentUser.getNachname())
+                    .elo(currentUser.getElo())
+                    .build();
+        }
+        return arr;
     }
 }
