@@ -65,6 +65,7 @@ public class ChatService {
         if(user.isEmpty()){
             return false;
         }
+        user.add(getSender().getId());
         chatRepository.save(Chat.builder()
                 .ownerId(getSender().getId())
                 .user(user)
