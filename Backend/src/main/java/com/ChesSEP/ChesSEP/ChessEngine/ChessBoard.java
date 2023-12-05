@@ -35,7 +35,9 @@ public class ChessBoard {
     private final int SpringerOffset[][]={{1,2},{-1,2},{1,-2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
-    public ChessBoard(double timeInMin,int[][][] Board){
+    private long timebuffer;
+
+    public ChessBoard(double timeInMin,long timebuffer,int[][][] Board){
         chessBoard=constructBoard(Board);
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
@@ -51,6 +53,7 @@ public class ChessBoard {
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternCounter=new HashMap<>();
+        this.timebuffer=timebuffer;
 
         remisPatternManager();
     }
@@ -680,7 +683,11 @@ public class ChessBoard {
     private void timeManager(){
         long currentTime=getTimeLong(currentPlayer);
 
+        long differenz=System.currentTimeMillis()-intervallStart+timebuffer;
+
+        if(differenz<0)
         currentTime-=System.currentTimeMillis()-intervallStart;
+        
         intervallStart=System.currentTimeMillis();
 
         setTimeLong(currentPlayer, currentTime);
@@ -1056,7 +1063,7 @@ public class ChessBoard {
         return resultValidCoords;
     }
 
-    private int[][] getHighlightOf(int x, int y,ChessPiece[][] board){
+    /*private int[][] getHighlightOf(int x, int y,ChessPiece[][] board){
 
         ChessPiece currentPiece=getPieceOn(x, y, board);
 
@@ -1068,7 +1075,7 @@ public class ChessBoard {
         validCoords=testMovesForCheckMate(x, y, validCoords);
 
         return fillCoordsIntoArray(validCoords);
-    }
+    }*/
 
     public int[][] checkedGetHighlightOf(int x, int y){
 

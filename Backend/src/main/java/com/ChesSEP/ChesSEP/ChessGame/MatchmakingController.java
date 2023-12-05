@@ -85,4 +85,10 @@ public class MatchmakingController {
     public ResponseEntity<Boolean> transformBauer(@PathVariable int id){
         return ResponseEntity.ok(matchmakingService.transformBauer(id));
     }
+
+    //forTesting
+    @GetMapping("engine/testBoard")
+    public ResponseEntity<int[][][]>getTestBoard(){
+        return ResponseEntity.ok(matchmakingService.getTestBoard());
+    }
 }
