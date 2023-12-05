@@ -10,7 +10,7 @@ public class ChessTest {
 
     public ChessTest(){
         boardManager=new BoardManager();
-        boardManager.startNewMatch(5, getRemisTestBoard());
+        boardManager.startNewMatch(5,10L, getRemisTestBoard());
         scanner = new Scanner(System.in);
         playInConsole();
     }

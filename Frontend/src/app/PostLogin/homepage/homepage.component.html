@@ -1,9 +1,31 @@
 <app-header></app-header>
 
 <div class = "card">
+  <div class = "Schachclub">
 
+  </div>
+  <div class = "SchachSpiel">
     <img src="assets/images/Schachbrett.jpg">
-   <button routerLink="/create-play-against-user" >Spiel gegen Benutzer</button>
-   <!--<button routerLink="/create-play-against-computer" >Spiel gegen Computer</button>-->
-
-</div>
+    <button routerLink="/create-play-against-user" >Spiel gegen Benutzer</button>
+    <button routerLink="/chesspuzzle" >Starte ein Schachpuzzle</button>
+  </div>
+  <div class = "GruppenChat">
+    <div class="center">
+      <h2>Gruppen</h2>
+    </div>
+    <div class="center">
+      <div class="groupContainer" style="overflow-y: auto">
+        <div id="{{group.id}}" class="group" *ngFor="let group of allgroups; let i = index">
+          <div class="groupContent">
+            <p>{{group.id}}</p>
+            <button class="innerButton" [routerLink]="['/groupchat', group.id]">Chat</button>
+            <button class="innerRedButton">Verlassen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="center">
+      <button class="button" routerLink="/createGroups">Neuen Gruppenchat erstellen</button>
+    </div>
+  </div>
+  </div>

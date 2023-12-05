@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
+import {Friends} from "../../Modules/Friends";
 
 @Component({
   selector: 'app-homepage',
@@ -8,6 +9,7 @@ import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 })
 export class HomepageComponent {
 
+  public allgroups: Friends[] = [];
   constructor(private matchmakingservice:MatchmakingService){
 
   }
@@ -17,7 +19,7 @@ export class HomepageComponent {
     if(waited=="1"){
       this.matchmakingservice.cancelMatchRequest().subscribe();
       this.matchmakingservice.dequeueMatch().subscribe();
-      
+
       localStorage.setItem("Waited","0");
     }
   }

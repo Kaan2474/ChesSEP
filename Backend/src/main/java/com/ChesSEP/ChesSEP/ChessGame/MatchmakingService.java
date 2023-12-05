@@ -247,7 +247,7 @@ public class MatchmakingService {
 
         BoardManager thisBoard=boards.get(thisGame.getGameID());
 
-        thisBoard.startNewMatch(matchLength, thisBoard.getDefaultStartConfig());
+        thisBoard.startNewMatch(matchLength,10L, thisBoard.getDefaultStartConfig());
 
         onGoingGame.add(thisGame);
     }
@@ -260,5 +260,12 @@ public class MatchmakingService {
             .collect(Collectors.toList()).get(0);
 
         onGoingGame.remove(game);
+    }
+
+    public int[][][] getTestBoard() {
+        BoardManager boardManager=new BoardManager();
+        boardManager.startNewMatch(200, 5L, boardManager.getDefaultStartConfig());
+
+        return boardManager.getMatchFrame(Color.WHITE);
     }
 }
