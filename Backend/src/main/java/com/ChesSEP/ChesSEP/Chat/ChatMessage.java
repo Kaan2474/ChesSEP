@@ -1,23 +1,21 @@
 package com.ChesSEP.ChesSEP.Chat;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-class MessageId implements Serializable {Long messageId; Long senderId; Long time;}
+class MessageId implements Serializable {Long senderId; Long recipientId; Long time;}
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class ChatMessage {
 
     @EmbeddedId

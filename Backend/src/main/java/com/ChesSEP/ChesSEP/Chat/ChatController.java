@@ -79,4 +79,14 @@ public class ChatController {
         }
     }
 
+    @PostMapping("/{chatId}/writeMessage")
+    public ResponseEntity<Boolean> writeMessage(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto){
+        Boolean check = chatService.writeMessage(chatRequestDto.getContent(), chatRequestDto);
+        if(check){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

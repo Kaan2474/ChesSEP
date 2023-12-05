@@ -21,5 +21,6 @@ public class ChatRequestDto {
     private String groupName;
     private List<Long> user;
     private ChatType type;
+    private String content;
 
 }

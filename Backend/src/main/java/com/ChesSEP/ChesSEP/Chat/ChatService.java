@@ -44,18 +44,10 @@ public class ChatService {
         }else {
 
             chatRepository.save(Chat.builder()
-                    .ownerId(getSender().getId())
-                    .recipientId(friendId)
-                    .type(ChatType.PRIVATE)
+                            .ownerId(getSender().getId())
+                            .recipientId(friendId)
+                            .type(ChatType.PRIVATE)
                     .build());
-            /*Chat chat = Chat.builder()
-                    .ownerId(getSender().getId())
-                    .recipientId(friendId)
-                    .type(ChatType.PRIVATE)
-                    .build();
-            chatRepository.save(chat);
-
-             */
             return true;
         }
     }
@@ -151,12 +143,62 @@ public class ChatService {
         }
     }
 
-    public void deleteChat(String clubName){
-        chatRepository.delete(chatRepository.findChatByClubName(clubName));
+    public boolean writeMessage(String content, ChatRequestDto chatRequestDto){
+        if(content == null){
+            return false;
+        }else{
+            chatMessageRepository.save(ChatMessage.builder()
+                    .messageId(new MessageId(getSender().getId(), chatRequestDto.getRecipientId(), System.currentTimeMillis()))
+                    .read(false)
+                    .chatId(chatRepository.getPrivateChat(getSender().getId(), chatRequestDto.getRecipientId()).getChatId())
+                    .content(content)
+                    .build());
+            return true;
+        }
     }
 
+    /*
+    Maximum verbugged
+
+    public List<ChatMessage> getMessage(long chatId, long lastMessageTime){
+        ChatMessage chat = chatMessageRepository.findLatestMessage(chatId);
+        if(chat == null){
+            return null;
+        }
+
+        if(lastMessageTime>= chatMessageRepository.findLatestMessage(chatId).getMessageId().time)
+            return  null;
+
+        return findChatMessagesOf(chatId);
+    }
+
+     */
+
+
+    //Lösche Chat aus DB -> Für Owner
+    public void deleteChat(String clubName){
+        if(getSender().getId().equals(chatRepository.findChatByGroupName(clubName).getOwnerId())){
+            chatRepository.delete(chatRepository.findChatByClubName(clubName));
+        }
+    }
     public List<ChatMessage> findChatMessagesOf(Chat chatid){
         return chatMessageRepository.findChatMessagesOf(chatid);
+    }
+
+
+    /*
+    Muss nicht konventiert werden, List übergibt das selbe Format. getestet in Postman
+     */
+    public ChatMessage[] chatMessageListToArray(List<ChatMessage> messages){
+        if(messages == null){
+            return null;
+        }
+
+        ChatMessage [] array = new ChatMessage[messages.size()];
+        for (int i = 0; i < messages.size(); i++) {
+            array[i] = messages.get(i);
+        }
+        return array;
     }
 
 }

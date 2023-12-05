@@ -13,4 +13,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     @Query("FROM ChatMessage WHERE chatId = ?1")
     List<ChatMessage> findChatMessagesOf(Chat chatId);
 
+    @Query("SELECT max(messageId.time) FROM ChatMessage WHERE chatId = ?1")
+    ChatMessage findLatestMessage(long chatId);
 }
