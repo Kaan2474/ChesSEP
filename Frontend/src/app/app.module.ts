@@ -27,6 +27,7 @@ import { WaitingComponent } from './PostLogin/waiting/waiting.component';
 import { PrivateChatComponent } from './PostLogin/private-chat/private-chat.component';
 import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.component";
 import { ChessPuzzleComponent } from './PostLogin/chess-puzzle/chess-puzzle.component';
+import { SchachclubComponent } from './PostLogin/schachclub/schachclub.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { ChessPuzzleComponent } from './PostLogin/chess-puzzle/chess-puzzle.comp
     WaitingComponent,
     PrivateChatComponent,
     LeaderboardComponent,
-    ChessPuzzleComponent
+    ChessPuzzleComponent,
+    SchachclubComponent
   ],
   imports: [
     BrowserModule,
