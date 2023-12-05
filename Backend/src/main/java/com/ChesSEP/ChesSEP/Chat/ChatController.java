@@ -68,4 +68,15 @@ public class ChatController {
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/{chatId}/addMember")
+    public ResponseEntity<String> addMember(@PathVariable Long chatId, @RequestBody ChatRequestDto newMember){
+        String check = chatService.addMemberToGroupChat(chatId, newMember.getRecipientId());
+        if(check.equals("User erfolgreich hinzugefügt")){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

@@ -138,6 +138,18 @@ public class ChatService {
             return "Etwas ist fehlgeschlagen";
         }
     }
+
+    public String addMemberToGroupChat(Long chatId, Long newMemberId){
+        Chat chat = chatRepository.findChatByChatId(chatId);
+        if(chat.getUser().contains(newMemberId)){
+            return "User existiert bereits";
+        }else{
+            chat.getUser().add(newMemberId);
+            chatRepository.save(chat);
+            return "User erfolgreich hinzugefügt";
+        }
+    }
+
     public void deleteChat(String clubName){
         chatRepository.delete(chatRepository.findChatByClubName(clubName));
     }

@@ -16,6 +16,9 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query("FROM Chat WHERE privateGroupName = ?1")
     Chat findChatByGroupName(String groupName);
 
+    @Query("FROM Chat WHERE chatId = ?1")
+    Chat findChatByChatId(Long chatId);
+
     @Query("FROM Chat WHERE (ownerId = ?1 AND recipientId = ?2) OR (ownerId = ?2 AND recipientId = ?1)")
     Chat getPrivateChat(Long owner, Long friend);
 
