@@ -78,8 +78,8 @@ public class UserController {
     }
 
     @GetMapping("/getLeaderboard")
-    public User[] getLeaderboard(){
-        return userService.getLeaderboard();
+    public ResponseEntity<UserRequestHolder[]> getLeaderboard(){
+        return ResponseEntity.ok(userService.getLeaderboard());
     }
 
     @GetMapping("/privacy")

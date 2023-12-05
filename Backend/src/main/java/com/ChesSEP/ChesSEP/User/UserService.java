@@ -148,18 +148,12 @@ public class UserService {
         return userRepository.getMyLeaderboardPosition(getSender().getElo())+1;
     }
 
-    public User[] getLeaderboard(){
+    public UserRequestHolder[] getLeaderboard(){
         List<User> list = userRepository.getLeaderboard();
-        User[] arr = new User[list.size()];
+        UserRequestHolder[] arr = new UserRequestHolder[list.size()];
 
-        for (int i = 0; i < arr.length; i++) {
-            User currentUser=list.get(i);
-            arr[i] = User.builder()
-                    .id(currentUser.getId())
-                    .vorname(currentUser.getVorname())
-                    .nachname(currentUser.getNachname())
-                    .elo(currentUser.getElo())
-                    .build();
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = convetToRequestHolder(list.get(i));
         }
         return arr;
     }
