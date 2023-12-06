@@ -69,7 +69,7 @@ public class ChatController {
         }
     }
 
-    @PutMapping("/{chatId}/addMember")
+    @PutMapping("/addMember/{chatId}")
     public ResponseEntity<String> addMember(@PathVariable Long chatId, @RequestBody ChatRequestDto newMember){
         String check = chatService.addMemberToGroupChat(chatId, newMember.getRecipientId());
         if(check.equals("User erfolgreich hinzugefügt")){
@@ -79,14 +79,45 @@ public class ChatController {
         }
     }
 
-    @PostMapping("/{chatId}/writeMessage")
+    //privateChat Message
+    @PostMapping("/writeMessagePrivateChat/{chatId}")
     public ResponseEntity<Boolean> writeMessage(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto){
-        Boolean check = chatService.writeMessage(chatRequestDto.getContent(), chatRequestDto);
+        Boolean check = chatService.writeMessage(chatRequestDto.getContent(), chatId);
         if(check){
             return new ResponseEntity<>(check, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/writeMessageGroup/{chatId}")
+    public ResponseEntity<Boolean> writeMessageGroup(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto) {
+        Boolean check = chatService.writeMessageGroup(chatRequestDto.getContent(), chatId);
+        if (check) {
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //Gibt alle Members aus einer Gruppe zurück - klappt - für GruppenChat
+    @GetMapping("/members/{chatId}/{groupName}")
+    public ResponseEntity<List<Long>> membersOfChatId(@PathVariable long chatId, @PathVariable String groupName){
+        return ResponseEntity.ok(chatService.memberOfChatId(chatId,groupName));
+    }
+
+    //Gibt neuste Nachricht(en) zurück
+    @GetMapping("/latest/{chatId}/{time}")
+    public ResponseEntity<List<ChatMessage>> findLatestMessage(@PathVariable long chatId, @PathVariable long time){
+        return ResponseEntity.ok(chatService.getNewMessage(chatId, time));
+    }
+
+    /*
+    ###########Deprecated############
+    @GetMapping("/getMessages/{chatId}")
+    public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId){
+        return ResponseEntity.ok(chatService.findChatMessagesOf(chatId));
+    }
+     */
 
 }

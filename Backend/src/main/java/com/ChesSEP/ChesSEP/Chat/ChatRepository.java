@@ -16,17 +16,21 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query("FROM Chat WHERE privateGroupName = ?1")
     Chat findChatByGroupName(String groupName);
 
+
     @Query("FROM Chat WHERE chatId = ?1")
     Chat findChatByChatId(Long chatId);
 
+    //Unterhaltung zwischen 2 Personen
     @Query("FROM Chat WHERE (ownerId = ?1 AND recipientId = ?2) OR (ownerId = ?2 AND recipientId = ?1)")
     Chat getPrivateChat(Long owner, Long friend);
+
 
     @Query("FROM Chat WHERE chessClubName = ?1")
     Chat findChatByClubName(String clubName);
 
     @Query("FROM Chat WHERE chatId = ?1 AND privateGroupName = ?2")
     List<Long> memberOfGroupChat(Long chatId, String groupName);
+
 
     /*@Query("FROM Chat WHERE ownerId =? 1 AND privateGroupName = ?2")
     Chat findGroupChatOf(Long ownerId, String privateGroupName);

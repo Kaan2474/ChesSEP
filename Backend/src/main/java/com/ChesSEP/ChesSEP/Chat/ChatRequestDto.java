@@ -14,13 +14,14 @@ import java.util.List;
 public class ChatRequestDto {
 
 
-    private Long ownerId;
-    private Long recipientId;
-    private Long chessClubId;
+    private long ownerId;
+    private long recipientId;
+    private long chessClubId;
     private String chessClubName;
     private String groupName;
     private List<Long> user;
     private ChatType type;
     private String content;
+    private long chatId;
 
 }
