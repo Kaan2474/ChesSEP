@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-class MessageId implements Serializable {Long senderId; Long recipientId; Long time;}
+class MessageId implements Serializable {Long senderId; Long chatId; Long time;}
 
 @Entity
 @AllArgsConstructor
@@ -21,9 +21,9 @@ public class ChatMessage {
     @EmbeddedId
     MessageId messageId;
 
-    private Long chatId;
-
     private String content;
 
-    private Boolean read;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ChatMessageStatus chatMessageStatus;
 }

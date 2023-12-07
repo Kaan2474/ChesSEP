@@ -62,4 +62,11 @@ public class ChessClubController {
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    //Hier mit einer @PathVariable, vielleicht einfacher fürs Frontend
+    @GetMapping("/getMember/{id}")
+    public ResponseEntity<UserRequestHolder[]> getMembers(@PathVariable long id){
+        return ResponseEntity.ok(chessClubService.getChessClubMember(id));
+    }
 }

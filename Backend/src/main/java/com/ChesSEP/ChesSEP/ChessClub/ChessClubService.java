@@ -5,6 +5,7 @@ import com.ChesSEP.ChesSEP.Chat.ChatService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
+import com.ChesSEP.ChesSEP.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class ChessClubService {
     private final UserRepository userRepository;
     private final ChessClubRepository chessClubRepository;
     private final ChatService chatService;
+    private final UserService userService;
 
 
 
@@ -117,13 +119,13 @@ public class ChessClubService {
             chessClubRepository.save(ChessClub.builder()
                     .name(clubName)
                     .build());
-            User owner = getSender();
-            owner.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
-            userRepository.save(owner);
+
+            user.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(user);
 
 
             chatService.createChessClubChat(clubName);
-            //joinClubByMario(clubName);
+            joinClubByMario(clubName);
             return "Erfolgreich erstellt";
         }
     }
@@ -135,6 +137,16 @@ public class ChessClubService {
             chessClubRepository.delete(chessClubRepository.findChessClubByName(clubName));
 
         }
+    }
+
+    public UserRequestHolder[] getChessClubMember(long chessId){
+        List<User> list = userRepository.getChessClubMember(chessId);
+        UserRequestHolder[] x = new UserRequestHolder[list.size()];
+
+        for (int i = 0; i < list.size() ; i++) {
+            x[i]  = userService.convetToRequestHolder(list.get(i));
+        }
+        return x;
     }
 
 

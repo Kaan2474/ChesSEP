@@ -1,1 +1,15 @@
-<p>private-chat works!</p>
+<app-header></app-header>
+
+<div class = "container">
+  <div class = "center">
+    <h2 class="Titel" *ngIf="friend">Privater Chat mit {{friend.vorname}} {{friend.nachname}}</h2>
+  </div>
+
+
+
+
+
+  <div class="center">
+    <button class="goBack" routerLink="/friendslist">Zurück</button>
+  </div>
+</div>

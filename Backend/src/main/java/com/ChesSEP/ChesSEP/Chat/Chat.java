@@ -16,19 +16,20 @@ public class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatId;
+    private long chatId;
 
-    private Long ownerId; //Der Gründer eines ChessClubs = ownerId;
+    private long ownerId; //Der Gründer eines ChessClubs = ownerId;
 
-    private Long recipientId; //nur bei private Chat
+    private long recipientId; //nur bei private Chat
 
     private String chessClubName; //nur bei ChessClub
     private String privateGroupName; //nur bei privaten Gruppen
-    private Long chessClubId;
 
     @Enumerated(EnumType.STRING)
     private ChatType type;
 
     @ElementCollection
+    @CollectionTable(name = "mitglieder", joinColumns = @JoinColumn(name = "chatId"))
+    @Column(name = "user")
     private List<Long> user = new ArrayList<>(); //Hier kommt die ID des Empfängers oder einzelner Em
 }
