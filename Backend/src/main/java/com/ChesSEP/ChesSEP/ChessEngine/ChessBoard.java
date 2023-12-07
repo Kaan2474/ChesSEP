@@ -25,7 +25,7 @@ public class ChessBoard {
     private boolean requestRemisWhite;
     private boolean requestRemisBlack;
     private Map<Integer,ChessPiece[][]> remisPattern;
-    private Map<Integer,Integer> remisPatternCounter;
+    private Map<Integer,Integer[]> remisPatternStatus;
     
 
     private long intervallStart;
@@ -40,6 +40,8 @@ public class ChessBoard {
     private boolean isPuzzle;
     private int[][] puzzleMoves;
     private Color puzzlePlayerColor;
+
+    private int[] enPassantSquare;
 
     public ChessBoard(double timeInMin,long timebuffer,int[][][] Board){
         chessBoard=constructBoard(Board);
@@ -58,7 +60,8 @@ public class ChessBoard {
         remisCounterWhite=0;
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
-        remisPatternCounter=new HashMap<>();
+        remisPatternStatus=new HashMap<>();
+        enPassantSquare=null;
         
         remisPatternManager();
     }
@@ -83,7 +86,8 @@ public class ChessBoard {
         remisCounterWhite=0;
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
-        remisPatternCounter=new HashMap<>();
+        remisPatternStatus=new HashMap<>();
+        enPassantSquare=null;
 
         puzzleMoves=moves;
 
@@ -582,7 +586,7 @@ public class ChessBoard {
         if(requestRemisWhite&&requestRemisBlack&&remisCounterWhite+remisCounterBlack>=50)
             return true;
 
-        if(remisPatternCounter.containsValue(2))
+        if(remisPatternStatus.containsValue(2))
             return true;
 
         return false;
@@ -596,7 +600,11 @@ public class ChessBoard {
     private void remisPatternManager(){
 
         if(remisPattern.isEmpty()){
-            remisPatternCounter.put(remisPattern.size(), 0);
+            if(enPassantSquare==null){
+                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,-1,-1});
+            }else{
+                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,enPassantSquare[0],enPassantSquare[1]});
+            }
             remisPattern.put(remisPattern.size(), copyBoard(chessBoard));
  
             return;
@@ -616,16 +624,21 @@ public class ChessBoard {
         }
 
         if(match==-1){
-            remisPatternCounter.put(remisPattern.size(), 0);
+            if(enPassantSquare==null){
+                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,-1,-1});
+            }else{
+                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,enPassantSquare[0],enPassantSquare[1]});
+            }
             remisPattern.put(remisPattern.size(), copyBoard(chessBoard));
             
             return;
         }
 
-        int currentCounter=remisPatternCounter.get(match);
+        Integer[] status=remisPatternStatus.get(match);
+        status[0]+=1;
 
-        remisPatternCounter.remove(match);
-        remisPatternCounter.put(match, currentCounter+1);
+        remisPatternStatus.remove(match);
+        remisPatternStatus.put(match, status);
     
     }
 
@@ -764,7 +777,7 @@ public class ChessBoard {
         for (int i = 0; i < chessBoard[0].length; i++) {
             ChessPiece currentPiece=getPieceOn(0, i, chessBoard);
 
-            if(currentPiece==null||currentPiece.getColor()==Color.WHITE||currentPiece.getType()!=ChessPieceType.BAUER)
+            if(currentPiece==null||currentPiece.getColor()==Color.BLACK||currentPiece.getType()!=ChessPieceType.BAUER)
                 continue;
 
             return new int[]{0,i};
@@ -773,7 +786,7 @@ public class ChessBoard {
         for (int i = 0; i < chessBoard[7].length; i++) {
             ChessPiece currentPiece=getPieceOn(7, i, chessBoard);
 
-            if(currentPiece==null||currentPiece.getColor()==Color.BLACK||currentPiece.getType()!=ChessPieceType.BAUER)
+            if(currentPiece==null||currentPiece.getColor()==Color.WHITE||currentPiece.getType()!=ChessPieceType.BAUER)
                 continue;
 
             return new int[]{7,i};
@@ -846,17 +859,32 @@ public class ChessBoard {
         }   
         
         //istEnPassant
-        if(y!=gotoY&&currentPiece.getType()==ChessPieceType.BAUER){
-            int moveDirection;
+        if(isEnPassantSquare(gotoX, gotoY)&&currentPiece.getType()==ChessPieceType.BAUER){
+            int movingDirection;
 
             if(currentPiece.getColor()==Color.BLACK){
-                moveDirection=-1;
+                movingDirection=1;
             }else{
-                moveDirection=+1;
+                movingDirection=-1;
             }
 
-            preveiousPiece=getPieceOn(gotoX, gotoY+moveDirection, chessBoard);
-            chessBoard[x][y+moveDirection]=null;
+            preveiousPiece=getPieceOn(gotoX, gotoY+movingDirection, chessBoard);
+            chessBoard[x][y+movingDirection]=null;
+        }
+
+        enPassantSquare=null;
+
+        //istZweierBauerMove
+        if(currentPiece.getType()==ChessPieceType.BAUER&&y-gotoY==0&&(x-gotoX==2||x-gotoX==-2)){
+            int movingDirection;
+
+            if(currentPiece.getColor()==Color.BLACK){
+                movingDirection=1;
+            }else{
+                movingDirection=-1;
+            }
+
+            enPassantSquare=new int[]{x+movingDirection,y};
         }
 
         chessBoard[x][y]=null;
@@ -893,16 +921,16 @@ public class ChessBoard {
         }   
         
         //istEnPassant
-        if(y!=gotoY&&currentPiece.getType()==ChessPieceType.BAUER){
-            int moveDirection;
+        if(isEnPassantSquare(gotoX, gotoY)&&currentPiece.getType()==ChessPieceType.BAUER){
+            int movingDirection;
 
             if(currentPiece.getColor()==Color.BLACK){
-                moveDirection=-1;
+                movingDirection=1;
             }else{
-                moveDirection=+1;
+                movingDirection=-1;
             }
 
-            board[x][y+moveDirection]=null;
+            board[x][y+movingDirection]=null;
         }
 
         board[x][y]=null;
@@ -1109,27 +1137,23 @@ public class ChessBoard {
             }
         }
 
-        if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board))
+        if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board)||isEnPassantSquare(x+movingDirection, y+1))
             resultValidCoords.add(new int[]{x+movingDirection,y+1});
 
-        if(isPieceOn(x+movingDirection, y-1,getEnemyColorOf(currentPiece), board))
+        if(isPieceOn(x+movingDirection, y-1,getEnemyColorOf(currentPiece), board)||isEnPassantSquare(x+movingDirection, y-1))
         resultValidCoords.add(new int[]{x+movingDirection,y-1});
 
-        if(isPieceOn(x, y-1, getEnemyColorOf(currentPiece), board)){
-            ChessPiece currentEnemyPiece=getPieceOn(x, y-1, board);
-
-            if(currentEnemyPiece.getType()==ChessPieceType.BAUER&&currentEnemyPiece.whenDidThePieceMove()==getZugId())
-                resultValidCoords.add(new int[]{x+movingDirection,y-1});
-        }
-
-        if(isPieceOn(x, y+1, getEnemyColorOf(currentPiece), board)){
-            ChessPiece currentEnemyPiece=getPieceOn(x, y+1, board);
-
-            if(currentEnemyPiece.getType()==ChessPieceType.BAUER&&currentEnemyPiece.whenDidThePieceMove()==getZugId())
-                resultValidCoords.add(new int[]{x+movingDirection,y+1});
-        }
-
         return resultValidCoords;
+    }
+
+    private boolean isEnPassantSquare(int x,int y){
+        if(!isInBounds(x, y))
+            return false;
+
+        if(enPassantSquare==null)
+            return false;
+
+        return x==enPassantSquare[0]&&y==enPassantSquare[1];
     }
 
     private List<int[]> getValidIterrativeCoords(int x,int y,int offsetX, int offsetY,ChessPiece[][] board){

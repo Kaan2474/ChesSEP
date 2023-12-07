@@ -1,7 +1,5 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
-import lombok.val;
-
 public class ChessPiece {
 
     private ChessPieceType type;
