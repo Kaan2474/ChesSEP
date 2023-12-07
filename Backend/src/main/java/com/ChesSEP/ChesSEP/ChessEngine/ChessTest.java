@@ -1,18 +1,54 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import com.ChesSEP.ChesSEP.CSVReader.CSVReader;
 
 public class ChessTest {
     
     private BoardManager boardManager;
+    private CSVReader reader;
     private Scanner scanner;
 
     public ChessTest(){
-        boardManager=new BoardManager();
-        boardManager.startNewMatch(5,10L, getRemisTestBoard());
         scanner = new Scanner(System.in);
-        playInConsole();
+        System.out.println("selectMode 1=Game 2=Puzzle");
+        String mode=scanner.nextLine();
+
+        String path ="C:\\Users\\jonas\\Downloads\\chess_puzzles.csv";
+
+        if(mode.equals("1")){
+            boardManager=new BoardManager();
+            boardManager.startNewMatch(5,10L, boardManager.getDefaultStartConfig());
+            playInConsole();
+
+        }else if (mode.equals("2")) {
+
+            reader=new CSVReader();
+            String[] info={};
+            try {
+                info =reader.getPuzzleInfo(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < info.length; i++) {
+                System.out.println((i+1)+": "+info[i]);
+            }
+            System.out.println("selectPuzzlenumber:");
+            int puzzleId=Integer.parseInt(scanner.nextLine());
+            boardManager=new BoardManager();
+            try{
+                boardManager.startNewChessPuzzle(
+                    reader.getStatus(puzzleId,path),
+                    reader.CSVtoBoard(puzzleId, path),
+                    reader.MovesToArr(puzzleId, path));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            playInConsole();
+        }
     }
 
     public void playInConsole(){
@@ -72,8 +108,9 @@ public class ChessTest {
     }
 
     public int[] translateFromChessNotation(String coord){
+        int y=Integer.parseInt(""+coord.charAt(1));
 
-        int[] result={-1,Integer.parseInt(""+coord.charAt(1))-1};
+        int[] result={-1,7-(y-1)};
 
         switch (coord.charAt(0)) {
             case 'A':

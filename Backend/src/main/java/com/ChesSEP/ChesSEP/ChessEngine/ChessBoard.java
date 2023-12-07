@@ -37,11 +37,17 @@ public class ChessBoard {
 
     private long timebuffer;
 
+    private boolean isPuzzle;
+    private int[][] puzzleMoves;
+    private Color puzzlePlayerColor;
+
     public ChessBoard(double timeInMin,long timebuffer,int[][][] Board){
         chessBoard=constructBoard(Board);
+        isPuzzle=false;
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
         blackTime=(long)timeInMin*60*1000;
+        this.timebuffer=timebuffer;
 
         zuege=new ArrayList<ChessOperation>();
         intervallStart=System.currentTimeMillis();
@@ -53,9 +59,35 @@ public class ChessBoard {
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternCounter=new HashMap<>();
-        this.timebuffer=timebuffer;
-
+        
         remisPatternManager();
+    }
+
+    public ChessBoard(int[] status,int[][][] Board,int[][] moves){
+        chessBoard=constructBoard(Board,status);
+        isPuzzle=true;
+
+        if(status[0]==1){
+            currentPlayer=Color.WHITE;
+            puzzlePlayerColor=Color.BLACK;
+        }else{
+            currentPlayer=Color.BLACK;
+            puzzlePlayerColor=Color.WHITE;
+        }
+
+        zuege=new ArrayList<ChessOperation>();
+        transformBauer=false;
+
+        winner=null;
+        isRemis=false;
+        remisCounterWhite=0;
+        remisCounterBlack=0;
+        remisPattern=new HashMap<>();
+        remisPatternCounter=new HashMap<>();
+
+        puzzleMoves=moves;
+
+        nextEnemyStep();
     }
 
     //ImportBoard
@@ -70,6 +102,27 @@ public class ChessBoard {
             }
         }
 
+        return constructedBoard;
+    }
+
+    public ChessPiece[][] constructBoard(int[][][] boardToConstruct,int[] status){
+        ChessPiece[][] constructedBoard = new ChessPiece[8][8];
+        int[][] zugId=convertStatusToZugIdArr(status);
+
+        for (int i = 0; i < boardToConstruct.length; i++) {
+            for (int j = 0; j < boardToConstruct[i].length; j++) {
+                if(boardToConstruct[i][j][0]!=0){
+                    constructedBoard[i][j] = new ChessPiece(boardToConstruct[i][j][0], boardToConstruct[i][j][1]);
+                }
+            }
+        }
+
+        return constructedBoard;
+    }
+
+    private int[][] convertStatusToZugIdArr(int[] status){
+        int[][] constructedBoard = new int[8][8];
+        //TODO unimplemented
         return constructedBoard;
     }
 
@@ -433,6 +486,9 @@ public class ChessBoard {
     }
 
     public boolean nextStep(int x, int y, int gotoX, int gotoY){
+        if(isPuzzle)
+            return nextPuzzleStep(x, y, gotoX, gotoY);
+
         if(isRemis)
             return false;
 
@@ -471,6 +527,52 @@ public class ChessBoard {
         isRemis=remisManager();
 
         return true;
+    }
+
+    private boolean nextPuzzleStep(int x, int y, int gotoX, int gotoY){
+
+        if(winner!=null)
+            return false;
+
+        if(transformBauer)
+            return false;
+
+        int[] currentMove=puzzleMoves[zuege.size()];
+        
+        if(y!=(currentMove[0]-(currentMove[0]%10))/10||x!=currentMove[0]%10||gotoY!=(currentMove[1]-(currentMove[1]%10))/10||gotoX!=currentMove[1]%10)
+            return false;
+
+        movePiece(x, y, gotoX, gotoY);
+
+        if(isKingUnderAttack(currentPlayer,chessBoard)!=null)
+            endGameFlag(currentPlayer);
+
+        if(getBauerToTransform()!=null)
+            transformBauer=true;
+
+        if(isKingCheckmate(currentPlayer))
+            endGameFlag(currentPlayer);
+
+        toggleCurrentPlayer();
+
+        if(currentPlayer!=puzzlePlayerColor)
+            nextEnemyStep();
+
+        return true;
+    }
+
+    private void nextEnemyStep(){
+
+        if(puzzleMoves.length==zuege.size()){
+            endGameFlag(currentPlayer);
+            return;
+        }
+
+        int[] currentMove=puzzleMoves[zuege.size()];
+        
+        movePiece(currentMove[0]%10,(currentMove[0]-(currentMove[0]%10))/10,currentMove[1]%10,(currentMove[1]-(currentMove[1]%10))/10);
+
+        toggleCurrentPlayer();
     }
 
     private boolean remisManager(){
@@ -683,10 +785,10 @@ public class ChessBoard {
     private void timeManager(){
         long currentTime=getTimeLong(currentPlayer);
 
-        long differenz=System.currentTimeMillis()-intervallStart+timebuffer;
+        long differenz=System.currentTimeMillis()-(intervallStart+timebuffer);
 
-        if(differenz<0)
-        currentTime-=System.currentTimeMillis()-intervallStart;
+        if(differenz>0)
+        currentTime-=differenz;
         
         intervallStart=System.currentTimeMillis();
 
@@ -988,9 +1090,9 @@ public class ChessBoard {
         return null;
 
         if(currentPiece.getColor()==Color.BLACK){
-            movingDirection=-1;
-        }else{
             movingDirection=1;
+        }else{
+            movingDirection=-1;
         }
 
         if(!isPieceOn(x+movingDirection, y, board)){
@@ -1108,7 +1210,7 @@ public class ChessBoard {
         String result="   "+"      A      "+"      B      "+"      C      "+"      D      "+"      E      "+"      F      "+"      G      "+"     H     \n";
 
         for (int i = 0; i < chessBoard.length; i++) {
-            result+=Integer.toString(i+1)+"  ";
+            result+=Integer.toString(8-i)+"  ";
             for (int j = 0; j < chessBoard[i].length; j++) {
 
                 ChessPiece currentPiece=getPieceOn(i, j, chessBoard);
@@ -1147,7 +1249,7 @@ public class ChessBoard {
                 }
                 
             }
-            result+=Integer.toString(i+1)+"  ";
+            result+=Integer.toString(8-i)+"  ";
             result+="\n";
         }
 
