@@ -1,18 +1,29 @@
 <app-header></app-header>
 
 <div class = "card">
-  <div class = "Schachclub">
+  <div class ="form-group">
+    <form (ngSubmit)="createClub(createClubForm.value)"  #createClubForm="ngForm">
+
     <h3>Schachclub erstellen </h3>
-    <label>Gebe einen Namen für den Schachclub ein:</label>
+    <label for="createClub">Gebe einen Namen für den Schachclub ein:</label>
     <br>
     <input
       type="text"
-      class="form-control"
-      name="schachclub erstellen"
-      id="schachclub erstellen"
-    />
+      name ="name"
+      id="createClub"
+      ngModel
+      >
+      <input
+        type="submit"
+        id="createClubButton"
+        value="Erstellen">
 
-    <button type="submit"  class="createSchachclub" >Erstellen</button>
+      <!-- <button type="submit" id="createClubButton"  class="createSchachclub">Erstellen</button> -->
+    </form>
+
+
+
+
     <h3>Schachclub beitreten </h3>
     <label>Gebe den Namen für den Schachclub ein, in dem du beitreten möchtest:</label>
     <br>
@@ -22,7 +33,8 @@
       name="schachclub beitreten"
       id="schachclub beitreten"
     />
-    <button type="submit"  class="joinSchachclub" >Beitreten</button>
+     <!-- <button (click)="joinClub()" class="joinSchachclub">Beitreten</button> -->
+
 
     <h3>Übersicht aller Schachclubs </h3>
 

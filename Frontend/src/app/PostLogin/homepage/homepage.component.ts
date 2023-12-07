@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 import {Friends} from "../../Modules/Friends";
+import {ChessClubService} from "../../Service/chess-club.service";
+import {Router} from "@angular/router";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {ChessClub} from "../../Modules/ChessClub";
+
+
 
 @Component({
   selector: 'app-homepage',
@@ -10,7 +16,19 @@ import {Friends} from "../../Modules/Friends";
 export class HomepageComponent {
 
   public allgroups: Friends[] = [];
-  constructor(private matchmakingservice:MatchmakingService){
+
+
+  URL = "http://localhost:8080/ChessClub"
+  token = localStorage.getItem("JWT")
+  header = new HttpHeaders().set("Authorization", "Bearer " + this.token)
+    .set("Access-Control-Allow-Origin", "*")
+    .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+    .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+
+  constructor(private matchmakingservice:MatchmakingService,
+              private chessclubservice: ChessClubService,
+              private http: HttpClient,
+              private router: Router){
 
   }
 
@@ -23,4 +41,24 @@ export class HomepageComponent {
       localStorage.setItem("Waited","0");
     }
   }
+
+  createClub(name: {name: string}){
+    console.log(name.name)
+    this.http.get(`${this.URL}/createClubV2/${name.name}`, {headers: this.header}).subscribe(data =>
+
+      {
+        this.showNotification("Der Schachclub wurde erstellt");
+      },
+      error => {
+        console.log("Schachclub konnte nicht erstellt werden", error)
+        alert('Fehler beim Erstellen des Schachclubs');
+      }
+    );
+  }
+
+
+  showNotification(message:string){
+    alert(message);
+  }
+
 }
