@@ -37,7 +37,7 @@ public class ChessClubController {
     }
 
     @GetMapping("/getAllChessClubs")
-    public List<ChessClub> getAllChessClubs(){
+    public ChessClub[] getAllChessClubs(){
         return chessClubService.getAllChessClubs();
     }
 
@@ -51,8 +51,8 @@ public class ChessClubController {
     public void joinClubV2(@RequestBody String clubName){
         chessClubService.joinClubByMario(clubName);
     }
-    @PostMapping("/createClubV2")
-    public ResponseEntity<String> createClubV2(@RequestBody String clubName){
+    @GetMapping("/createClubV2/{clubName}")
+    public ResponseEntity<String> createClubV2(@PathVariable String clubName){
         String check = chessClubService.createClubV2(clubName);
         if(check.equals("Erfolgreich erstellt")) {
             return new ResponseEntity<>(check, HttpStatus.CREATED);

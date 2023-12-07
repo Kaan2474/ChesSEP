@@ -141,6 +141,10 @@ public class ChatController {
         }
     }
 
+    //Findet alle private und gruppen chats
+    @GetMapping("/allMyChats")
+    public List<Chat> findAllMyPrivateChats(){ return chatService.findAllMyChats();}
+
 
     /*
     ###########Deprecated############

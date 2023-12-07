@@ -86,8 +86,19 @@ public class ChessClubService {
         return chessClubRepository.findChessClubById(user.getClubId()).getName();
     }
 
-    public List<ChessClub> getAllChessClubs(){
-        return chessClubRepository.getAllChessClubs();
+    public ChessClub[] getAllChessClubs(){
+        List<ChessClub> list = chessClubRepository.getAllChessClubs();
+
+        ChessClub[] arr = new ChessClub[list.size()];
+
+        for (int i = 0; i < arr.length; i++) {
+            ChessClub chessClub=list.get(i);
+            arr[i] = ChessClub.builder()
+                    .id(chessClub.getId())
+                    .name(chessClub.getName())
+                    .build();
+        }
+        return arr;
     }
 
 
@@ -103,8 +114,8 @@ public class ChessClubService {
             userRepository.save(newMember);
             chatService.updateChessClubChat(clubname);
         } else {
-            deleteClubV2(clubname);
             newMember.setClubId(chessClubRepository.findChessClubByName(clubname).getId());
+            deleteClubV2(clubname);
         }
     }
 
