@@ -263,6 +263,11 @@ public class ChatService {
     }
 
 
+    public List<Chat> findAllMyChats(){
+        return chatRepository.findAllChatsOfUserId(getSender().getId());
+    }
+
+
 }
 
 
