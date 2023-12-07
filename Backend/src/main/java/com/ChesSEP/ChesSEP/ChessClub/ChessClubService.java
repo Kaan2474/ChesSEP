@@ -114,8 +114,8 @@ public class ChessClubService {
             userRepository.save(newMember);
             chatService.updateChessClubChat(clubname);
         } else {
-            deleteClubV2(clubname);
             newMember.setClubId(chessClubRepository.findChessClubByName(clubname).getId());
+            deleteClubV2(clubname);
         }
     }
 
