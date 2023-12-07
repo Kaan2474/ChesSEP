@@ -119,12 +119,12 @@ public class ChessClubService {
         }
     }
 
-    public String createClubV2(String clubName){
+    public boolean createClubV2(String clubName){
         User user = userRepository.findUserById(getSender().getId());
         if(chessClubRepository.findChessClubByName(clubName)!=null){
-            return "Club existiert bereits";
+            return false;
         }else if(user.getClubId() != null){
-            return "Du bist schon in einem Club, verlasse erst den Club";
+            return false;
         }else {
 
             chessClubRepository.save(ChessClub.builder()
@@ -137,7 +137,7 @@ public class ChessClubService {
 
             chatService.createChessClubChat(clubName);
             joinClubByMario(clubName);
-            return "Erfolgreich erstellt";
+            return true;
         }
     }
 

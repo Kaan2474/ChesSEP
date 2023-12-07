@@ -102,48 +102,48 @@ public class ChatService {
 
     }
 
-    public String leaveGroupChat(String groupName) {
+    public boolean leaveGroupChat(String groupName) {
         if (chatRepository.findChatByGroupName(groupName) != null && chatRepository.findChatByGroupName(groupName).getUser().contains(getSender().getId())) {
             Chat leftGroup = chatRepository.findChatByGroupName(groupName);
             leftGroup.getUser().remove(getSender().getId());
             chatRepository.save(leftGroup);
-            return "Du hast den Gruppenchat erfolgreich verlassen";
+            return true;
         } else {
-            return "Entweder existiert die Gruppe nicht oder du bist gar kein Mitglied dieser Gruppe";
+            return false;
         }
     }
 
-    public String deleteGroupChat(String privateGroupName) {
+    public boolean deleteGroupChat(String privateGroupName) {
         Chat toDelete = chatRepository.findChatByGroupName(privateGroupName);
         if (toDelete != null && Objects.equals(toDelete.getOwnerId(), getSender().getId())) {
             chatRepository.delete(toDelete);
-            return "Erfolgreich gelöscht";
+            return true;
         } else {
-            return "Etwas ist fehlgeschlagen";
+            return false;
         }
     }
 
     //Delete Unterhaltung (Muss noch getestet werden, ob Recipient ebenfalls löschen kann)
-    public String deletePrivateChat(Long recipientId) {
+    public boolean deletePrivateChat(Long recipientId) {
         Chat toDelete = chatRepository.getPrivateChat(getSender().getId(), recipientId);
         if (toDelete != null) {
             chatRepository.delete(toDelete);
-            return "Erfolgreich gelöscht";
+            return true;
         } else {
-            return "Etwas ist fehlgeschlagen";
+            return false;
         }
     }
 
 
     // Hinzufügen von Teilnehmer in Gruppenchats --> ChessClub Bedingung fehlt
-    public String addMemberToGroupChat(Long chatId, Long newMemberId) {
+    public boolean addMemberToGroupChat(Long chatId, Long newMemberId) {
         Chat chat = chatRepository.findChatByChatId(chatId);
         if (chat.getUser().contains(newMemberId)) {
-            return "User existiert bereits";
+            return false;
         } else {
             chat.getUser().add(newMemberId);
             chatRepository.save(chat);
-            return "User erfolgreich hinzugefügt";
+            return true;
         }
     }
 
