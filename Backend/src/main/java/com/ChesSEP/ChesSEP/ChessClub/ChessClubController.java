@@ -37,7 +37,7 @@ public class ChessClubController {
     }
 
     @GetMapping("/getAllChessClubs")
-    public List<ChessClub> getAllChessClubs(){
+    public ChessClub[] getAllChessClubs(){
         return chessClubService.getAllChessClubs();
     }
 
