@@ -23,5 +23,9 @@ public class ChatRequestDto {
     private ChatType type;
     private String content;
     private long chatId;
+    private String chatMessageStatus;
+    private long senderId;
+    private String newContent;
+    private String oldContent;
 
 }

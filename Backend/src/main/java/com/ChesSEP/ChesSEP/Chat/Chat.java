@@ -29,5 +29,7 @@ public class Chat {
     private ChatType type;
 
     @ElementCollection
+    @CollectionTable(name = "mitglieder", joinColumns = @JoinColumn(name = "chatId"))
+    @Column(name = "user")
     private List<Long> user = new ArrayList<>(); //Hier kommt die ID des Empfängers oder einzelner Em
 }

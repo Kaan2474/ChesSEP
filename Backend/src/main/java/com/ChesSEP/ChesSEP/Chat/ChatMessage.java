@@ -23,5 +23,7 @@ public class ChatMessage {
 
     private String content;
 
-    private Boolean read;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ChatMessageStatus chatMessageStatus;
 }

@@ -22,11 +22,11 @@ public class ChatService {
 
     private final UserRepository userRepository;
 
-    private User getSender(){
+    private User getSender() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    ChatService(ChatMessageRepository chatMessageRepository, ChatRepository chatRepository, ChessClubRepository chessClubRepository,UserRepository userRepository){
+    ChatService(ChatMessageRepository chatMessageRepository, ChatRepository chatRepository, ChessClubRepository chessClubRepository, UserRepository userRepository) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatRepository = chatRepository;
         this.chessClubRepository = chessClubRepository;
@@ -37,24 +37,25 @@ public class ChatService {
     wird nur eien Person eingeladen = privat
     ab > 1 = Group
      */
-    public boolean createPrivateChat(Long friendId){
+    public boolean createPrivateChat(Long friendId) {
 
-        if(chatRepository.getPrivateChat(getSender().getId(), friendId) != null) {
+        if (chatRepository.getPrivateChat(getSender().getId(), friendId) != null) {
             return false;
-        }else {
+        } else {
 
             chatRepository.save(Chat.builder()
-                            .ownerId(getSender().getId())
-                            .recipientId(friendId)
-                            .type(ChatType.PRIVATE)
+                    .ownerId(getSender().getId())
+                    .recipientId(friendId)
+                    .type(ChatType.PRIVATE)
                     .build());
             return true;
         }
     }
 
-    public boolean createGroupChat(List<Long> user, String groupName){
+    //Gruppenchat Erstellung
+    public boolean createGroupChat(List<Long> user, String groupName) {
 
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return false;
         }
         user.add(getSender().getId());
@@ -67,7 +68,8 @@ public class ChatService {
         return true;
     }
 
-    public void createChessClubChat(String name){
+    //Für das erstellen von ChessClubChats, welches beim erstellen eines Clubs direkt mit erstellt wird
+    public void createChessClubChat(String name) {
 
         List<Long> member = new ArrayList<>();
         member.add(getSender().getId());
@@ -86,13 +88,13 @@ public class ChatService {
 
 
     /*
-    Liste der Teilnehmer, die Nachrichten bekommen, wird um getSender erweitert
+    Liste der ChatTeilnehmer wird um getSender erweitert
      */
-    public void updateChessClubChat(String clubName){
+    public void updateChessClubChat(String clubName) {
         Chat a = chatRepository.findChatByClubName(clubName);
         List<User> member = userRepository.getChessClubMember(chessClubRepository.findChessClubByName(clubName).getId());
         List<Long> updatedList = new ArrayList<>();
-        for(User x : member){
+        for (User x : member) {
             updatedList.add(x.getId());
         }
         a.setUser(updatedList);
@@ -100,84 +102,185 @@ public class ChatService {
 
     }
 
-    public String leaveGroupChat(String groupName){
-        if(chatRepository.findChatByGroupName(groupName)!= null && chatRepository.findChatByGroupName(groupName).getUser().contains(getSender().getId())){
+    public String leaveGroupChat(String groupName) {
+        if (chatRepository.findChatByGroupName(groupName) != null && chatRepository.findChatByGroupName(groupName).getUser().contains(getSender().getId())) {
             Chat leftGroup = chatRepository.findChatByGroupName(groupName);
             leftGroup.getUser().remove(getSender().getId());
             chatRepository.save(leftGroup);
             return "Du hast den Gruppenchat erfolgreich verlassen";
-        }else{
+        } else {
             return "Entweder existiert die Gruppe nicht oder du bist gar kein Mitglied dieser Gruppe";
         }
     }
 
-    public String deleteGroupChat(String privateGroupName){
+    public String deleteGroupChat(String privateGroupName) {
         Chat toDelete = chatRepository.findChatByGroupName(privateGroupName);
-        if(toDelete != null && Objects.equals(toDelete.getOwnerId(), getSender().getId())){
+        if (toDelete != null && Objects.equals(toDelete.getOwnerId(), getSender().getId())) {
             chatRepository.delete(toDelete);
             return "Erfolgreich gelöscht";
-        }else{
+        } else {
             return "Etwas ist fehlgeschlagen";
         }
     }
 
     //Delete Unterhaltung (Muss noch getestet werden, ob Recipient ebenfalls löschen kann)
-    public String deletePrivateChat(Long recipientId){
+    public String deletePrivateChat(Long recipientId) {
         Chat toDelete = chatRepository.getPrivateChat(getSender().getId(), recipientId);
-        if(toDelete!=null){
+        if (toDelete != null) {
             chatRepository.delete(toDelete);
             return "Erfolgreich gelöscht";
-        }else{
+        } else {
             return "Etwas ist fehlgeschlagen";
         }
     }
 
-    public String addMemberToGroupChat(Long chatId, Long newMemberId){
+
+    // Hinzufügen von Teilnehmer in Gruppenchats --> ChessClub Bedingung fehlt
+    public String addMemberToGroupChat(Long chatId, Long newMemberId) {
         Chat chat = chatRepository.findChatByChatId(chatId);
-        if(chat.getUser().contains(newMemberId)){
+        if (chat.getUser().contains(newMemberId)) {
             return "User existiert bereits";
-        }else{
+        } else {
             chat.getUser().add(newMemberId);
             chatRepository.save(chat);
             return "User erfolgreich hinzugefügt";
         }
     }
 
-    public boolean writeMessage(String content, long chatId){
-        if(content == null || chatRepository.findChatByChatId(chatId)== null){
+    //Für das schreiben von Nachrichten in Privaten Unterhaltungen (1 zu 1)
+    public boolean writeMessage(String content, long chatId) {
+        if (content == null || chatRepository.findChatByChatId(chatId) == null || chatRepository.findByChatIdAndUserId(chatId, getSender().getId()) == null) {
             return false;
-        }else{
+        } else {
             chatMessageRepository.save(ChatMessage.builder()
                     .messageId(new MessageId(getSender().getId(), chatId, System.currentTimeMillis()))
-                    .read(false)
+                    .chatMessageStatus(ChatMessageStatus.UNREAD)
                     .content(content)
                     .build());
             return true;
         }
     }
+
+
+    //Für das schreiben von Nachrichten in Gruppen
+    public boolean writeMessageGroup(String content, long chatId) {
+        if (content == null || chatRepository.findChatByChatId(chatId) == null || chatRepository.findByChatIdAndUserId(chatId, getSender().getId()) == null) {
+            return false;
+        } else {
+            chatMessageRepository.save(ChatMessage.builder()
+                    .messageId(new MessageId(getSender().getId(), chatId, System.currentTimeMillis()))
+                    .chatMessageStatus(ChatMessageStatus.UNREAD)
+                    .content(content)
+                    .build());
+            return true;
+        }
+    }
+
+    //Liste aller Nachrichten, nach newestMessageTime
+    //Sobald jemand anderes die Nachricht abruft, wird der Status der Nachricht auf ChatMessageStatus.READ gesetzt
+    public List<ChatMessage> getNewMessage(long chatId, long newestMessageTime) {
+
+        List<ChatMessage> list = chatMessageRepository.findNewMessageOf(chatId, newestMessageTime);
+        for (ChatMessage x : list) {
+            if (x.messageId.senderId != getSender().getId()) {
+                x.setChatMessageStatus(ChatMessageStatus.READ);
+                chatMessageRepository.save(x);
+            }
+        }
+
+
+        return list;
+    }
+
+    //Lösche Chat aus DB -> Für Owner
+    public void deleteChat(String clubName) {
+        if (getSender().getId().equals(chatRepository.findChatByGroupName(clubName).getOwnerId())) {
+            chatRepository.delete(chatRepository.findChatByClubName(clubName));
+        }
+    }
+
+    //Gibt Nachrichten aus chatId aus
+    public List<ChatMessage> findChatMessagesOf(long chatId) {
+        return chatMessageRepository.findChatMessagesOf(chatId);
+    }
+
+    //Rückgabe von Member aus einem Gruppenchat
+    public List<Long> memberOfChatId(long chatId, String groupName) {
+        List<Long> members;
+        members = chatRepository.findChatByChatId(chatId).getUser();
+        return members;
+    }
+
+
+    private List<ChatMessage> myLastWrittenMessage(long chatId, long senderId) {
+        return chatMessageRepository.myWrittenMessage(chatId, senderId);
+    }
+
+    public List<ChatMessage> myChangeableMessage(long chatId) {
+        List<ChatMessage> messages = myLastWrittenMessage(chatId, getSender().getId());
+        List<ChatMessage> unreadMessage = new ArrayList<>();
+        if (messages.isEmpty()) {
+            return null;
+        }
+        for (ChatMessage x : messages) {
+            if (x.getChatMessageStatus() == ChatMessageStatus.UNREAD) {
+                unreadMessage.add(x);
+            }
+        }
+        return unreadMessage;
+    }
+
+    public boolean setChangeMessage(long chatId, String oldContent, String newContent) {
+        if(chatRepository.findByChatIdAndUserId(chatId, getSender().getId())==null){
+            return false;
+        }
+
+        List<ChatMessage> list = myChangeableMessage(chatId);
+        for (ChatMessage x : list) {
+            if (x.getContent().equals(oldContent)) {
+                x.setContent(newContent);
+                chatMessageRepository.save(x);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    public boolean deleteMessage(long chatId, String oldContent){
+        if(chatRepository.findByChatIdAndUserId(chatId, getSender().getId())==null){
+            return false;
+        }
+        List<ChatMessage> list = myChangeableMessage(chatId);
+        for(ChatMessage x : list){
+            if(x.getContent().equals(oldContent)){
+                chatMessageRepository.delete(x);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+}
+
+
+
 
 
     /*
-    Folgendes Problem: Bei normalen Unterhaltungen, gibt es einen Sender und einen Empfänger = 2 long Id's
-    Bei einem Gruppenchat gibt es nur einen Owner und einen Namen, wie dieser Chat genannt werden soll. Keinen Empfänger
+    Es fehlen noch
+    -> Ändere/Lösche Message bevor jemand anderes die Nachricht gelesen hat
+    -> Gib alle meine ChatGruppen aus
      */
-    public boolean writeMessageGroup(String content, long chatId){
-        if(content == null || chatRepository.findChatByChatId(chatId)== null){
-            return false;
-        }else{
-            chatMessageRepository.save(ChatMessage.builder()
-                    .messageId(new MessageId(getSender().getId(), chatId, System.currentTimeMillis()))
-                    .read(false)
-                    .content(content)
-                    .build());
-            return true;
-        }
-    }
 
 
 
-/* Vorsichthalber
+    ////////////////////////Methoden die eig nicht mehr gebraucht werden/////////////////////////////////////////////////////////////////////////
 
+    /*
+        ##Gibt alle Nachrichten aus, die vor Time geschrieben wurden##
 
     public List<ChatMessage> getAllMessage(long chatId, long lastMessageTime){
         ChatMessage chat = chatMessageRepository.findLatestMessage(chatId);
@@ -190,46 +293,12 @@ public class ChatService {
 
         return findChatMessagesOf(chatId);
     }
-
  */
-
-    public List<ChatMessage> getNewMessage(long chatId, long newestMessageTime){
-        return chatMessageRepository.findNewMessageOf(chatId, newestMessageTime);
-    }
-
-
-
-
-    //Lösche Chat aus DB -> Für Owner
-    public void deleteChat(String clubName){
-        if(getSender().getId().equals(chatRepository.findChatByGroupName(clubName).getOwnerId())){
-            chatRepository.delete(chatRepository.findChatByClubName(clubName));
-        }
-    }
-    //Gibt Nachrichten aus chatId aus
-    public List<ChatMessage> findChatMessagesOf(long chatId){
-        return chatMessageRepository.findChatMessagesOf(chatId);
-    }
-
-    public List<Long> memberOfChatId(long chatId, String groupName){
-        List<Long> members;
-        members = chatRepository.findChatByChatId(chatId).getUser();
-        return members;
-    }
-
-
-    /*
-    Es fehlen noch
-    -> Ändere/Lösche Message bevor jemand anderes die Nachricht gelesen hat
-    -> Gib alle meine ChatGruppen aus
-     */
-
-
 
 
     /*
     Muss nicht konventiert werden, List übergibt das selbe Format. getestet in Postman
-     */
+
     public ChatMessage[] chatMessageListToArray(List<ChatMessage> messages){
         if(messages == null){
             return null;
@@ -241,4 +310,5 @@ public class ChatService {
         }
         return array;
     }
-}
+     */
+

@@ -2,6 +2,7 @@ package com.ChesSEP.ChesSEP.Chat;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -111,6 +112,35 @@ public class ChatController {
     public ResponseEntity<List<ChatMessage>> findLatestMessage(@PathVariable long chatId, @PathVariable long time){
         return ResponseEntity.ok(chatService.getNewMessage(chatId, time));
     }
+
+    //Gibt eine List aus, mit allen Nachrichten die ungelesen sind und somit verändert/gelöscht werden können
+    @GetMapping("/changableMessage/{chatId}")
+    public ResponseEntity<List<ChatMessage>> lastWrittenChangeableMessage(@PathVariable long chatId){
+        return ResponseEntity.ok(chatService.myChangeableMessage(chatId));
+    }
+
+    //Verändert eine Ungelesene Nachricht
+    @PostMapping("/changeMessage/{chatId}")
+    public ResponseEntity<Boolean> changeMessage(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto){
+        boolean check = chatService.setChangeMessage(chatId, chatRequestDto.getOldContent(), chatRequestDto.getNewContent());
+        if(check){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //löscht eine ungelesene Nachricht
+    @PostMapping("/deleteMessage/{chatId}")
+    public ResponseEntity<Boolean> deleteMessage(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto){
+        boolean check = chatService.deleteMessage(chatId, chatRequestDto.getOldContent());
+        if(check){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     /*
     ###########Deprecated############
