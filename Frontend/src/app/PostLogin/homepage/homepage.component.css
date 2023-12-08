@@ -22,9 +22,10 @@ button {
   margin: 0.1%;
   cursor: pointer;
 }
-.createSchachclub{
-  width: 20%;
+table, th, td {
+  margin-left: 40%;
 }
-.joinSchachclub{
-  width: 20%;
+
+th{
+  color: royalblue;
 }

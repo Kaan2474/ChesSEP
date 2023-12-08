@@ -2,12 +2,14 @@ package com.ChesSEP.ChesSEP.ChessClub;
 
 
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/ChessClub")
@@ -15,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChessClubController {
     private final ChessClubService chessClubService;
+    private ObjectMapper objectMapper=new ObjectMapper();
+
 
     @GetMapping("/getMembers")
     public ResponseEntity<UserRequestHolder[]> getMembers(@RequestBody String clubName){
@@ -42,13 +46,13 @@ public class ChessClubController {
     }
 
     @GetMapping("/getMeinChessClubName")
-    public String getMeinChessClubName(){
-        return chessClubService.getMeinChessClubName();
+    public ResponseEntity<String> getMeinChessClubName() throws JsonProcessingException{
+        return ResponseEntity.ok(objectMapper.writeValueAsString(chessClubService.getMeinChessClubName()));
     }
 
 
-    @PostMapping("/joinClubV2")
-    public void joinClubV2(@RequestBody String clubName){
+    @GetMapping("/joinClubV2/{clubName}")
+    public void joinClubV2(@PathVariable String clubName){
         chessClubService.joinClubByMario(clubName);
     }
     @GetMapping("/createClubV2/{clubName}")

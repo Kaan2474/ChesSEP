@@ -82,8 +82,11 @@ public class ChessClubService {
     }
 
     public String getMeinChessClubName(){
-        User user = userRepository.findUserById(getSender().getId());
-        return chessClubRepository.findChessClubById(user.getClubId()).getName();
+
+        if(getSender().getClubId().equals(0L))
+        return "du bist in keinem Club";
+
+        return chessClubRepository.findChessClubById(getSender().getClubId()).getName();
     }
 
     public ChessClub[] getAllChessClubs(){

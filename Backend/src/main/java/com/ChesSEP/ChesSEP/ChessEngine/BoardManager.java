@@ -43,7 +43,7 @@ public class BoardManager {
         //Status Array
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getTimeLong(color),(int)board.getTimeLong(color)},  //WhiteTime  BlackTime both in ms
-                        {board.getWinner()}}; 
+                        {board.getWinner()}}; // 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
 
         frame.add(status);
 
@@ -53,7 +53,7 @@ public class BoardManager {
         //Color
         frame.add(board.translateColorBoard(board.chessBoard));
 
-        //KingEvent
+        //schach
         frame.add(mergeArrays(board.getKingBoard(Color.WHITE), board.getKingBoard(Color.BLACK)));
 
         //BauerTransformEvent
@@ -69,8 +69,8 @@ public class BoardManager {
 
         int headerLength=frame.size();
 
-        for (int i = 0; i < frame.get(0).length; i++) {
-            for (int j = 0; j < frame.get(1)[i].length; j++) {
+        for (int i = 0; i < frame.get(frame.size()-1).length; i++) {
+            for (int j = 0; j < frame.get(frame.size()-1)[i].length; j++) {
                 if(frame.get(2)[i][j]==color.getId()){
                     int[][] arr=board.checkedGetHighlightOf(i, j);
 
@@ -78,7 +78,7 @@ public class BoardManager {
                         frame.add(board.checkedGetHighlightOf(i, j));
 
                         //HiglightStatus
-                        frame.get(headerLength-1)[i][j]=5+counter;
+                        frame.get(headerLength-1)[i][j]=headerLength+counter;
 
                         counter++;
                     }
@@ -118,6 +118,9 @@ public class BoardManager {
     }
 
     public boolean isTwoDArrayEmpty(int[][] arr){
+        if(arr==null)
+            return true;
+
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j]!=0)
@@ -147,7 +150,7 @@ public class BoardManager {
         BoardManager boardManager = new BoardManager();
         boardManager.startNewMatch(5,10L, boardManager.getDefaultStartConfig());
         //boardManager.getManagedBoard().toggleCurrentPlayer();
-        int[][][] frame= boardManager.getMatchFrame(Color.WHITE);
+        int[][][] frame= boardManager.getMatchFrame(Color.BLACK);
 
         for (int i = 0; i < frame.length; i++) {
             System.out.println(i+":");
