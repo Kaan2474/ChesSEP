@@ -29,10 +29,10 @@ public class ChatController {
     }
 
     @PostMapping("/createGroupChat")
-    public ResponseEntity<Boolean> createGroupChat(@RequestBody ChatRequestDto user){
+    public ResponseEntity<Boolean> createGroupChat(@RequestBody ChatRequestDto chatRequestDto){
 
-        List<Long> member = user.getUser();
-        boolean check = chatService.createGroupChat(member, user.getGroupName());
+        List<Long> member = chatRequestDto.getUser();
+        boolean check = chatService.createGroupChat(member, chatRequestDto.getGroupName());
         if(check) {
             return new ResponseEntity<>(check, HttpStatus.CREATED);
         }else{
@@ -40,45 +40,6 @@ public class ChatController {
         }
     }
 
-    @PostMapping("/leaveGroup")
-    public ResponseEntity<Boolean> leaveGroupChat(@RequestBody ChatRequestDto user) {
-        boolean check = chatService.leaveGroupChat(user.getGroupName());
-        if (check) {
-            return new ResponseEntity<>(check, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/deleteGroupChat/{privateGroupName}")
-    public ResponseEntity<Boolean> deleteGroupChat(@PathVariable String privateGroupName){
-        boolean check = chatService.deleteGroupChat(privateGroupName);
-        if(check){
-            return new ResponseEntity<>(check, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/deletePrivateChat")
-    public ResponseEntity<Boolean> deletePrivateChat(@RequestBody ChatRequestDto friend){
-        boolean check = chatService.deletePrivateChat(friend.getRecipientId());
-        if(check){
-            return new ResponseEntity<>(check, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/addMember/{chatId}")
-    public ResponseEntity<Boolean> addMember(@PathVariable Long chatId, @RequestBody ChatRequestDto newMember){
-        boolean check = chatService.addMemberToGroupChat(chatId, newMember.getRecipientId());
-        if(check){
-            return new ResponseEntity<>(check, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
-        }
-    }
 
     //privateChat Message
     @PostMapping("/writeMessagePrivateChat/{chatId}")
@@ -102,9 +63,9 @@ public class ChatController {
     }
 
     //Gibt alle Members aus einer Gruppe zurück - klappt - für GruppenChat
-    @GetMapping("/members/{chatId}/{groupName}")
-    public ResponseEntity<List<Long>> membersOfChatId(@PathVariable long chatId, @PathVariable String groupName){
-        return ResponseEntity.ok(chatService.memberOfChatId(chatId,groupName));
+    @GetMapping("/members/{chatId}")
+    public ResponseEntity<List<Long>> membersOfChatId(@PathVariable long chatId){
+        return ResponseEntity.ok(chatService.memberOfChatId(chatId));
     }
 
     //Gibt neuste Nachricht(en) zurück
@@ -146,12 +107,51 @@ public class ChatController {
     public List<Chat> findAllMyPrivateChats(){ return chatService.findAllMyChats();}
 
 
-    /*
-    ###########Deprecated############
     @GetMapping("/getMessages/{chatId}")
     public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId){
         return ResponseEntity.ok(chatService.findChatMessagesOf(chatId));
     }
-     */
+
+
+    ///////////////Verworfene Methoden//////////////////////////////////
+    @PostMapping("/leaveGroup")
+    public ResponseEntity<Boolean> leaveGroupChat(@RequestBody ChatRequestDto user) {
+        boolean check = chatService.leaveGroupChat(user.getGroupName());
+        if (check) {
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/deleteGroupChat/{privateGroupName}")
+    public ResponseEntity<Boolean> deleteGroupChat(@PathVariable String privateGroupName){
+        boolean check = chatService.deleteGroupChat(privateGroupName);
+        if(check){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/deletePrivateChat")
+    public ResponseEntity<Boolean> deletePrivateChat(@RequestBody ChatRequestDto friend){
+        boolean check = chatService.deletePrivateChat(friend.getRecipientId());
+        if(check){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/addMember/{chatId}")
+    public ResponseEntity<Boolean> addMember(@PathVariable Long chatId, @RequestBody ChatRequestDto newMember){
+        boolean check = chatService.addMemberToGroupChat(chatId, newMember.getRecipientId());
+        if(check){
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
