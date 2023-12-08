@@ -268,6 +268,10 @@ public class ChatService {
         return chatRepository.findAllChatsOfUserId(getSender().getId());
     }
 
+    public List<Chat> findAllMyGroupChats(){
+        return chatRepository.findAllGroupChatsOfUserId(getSender().getId(), ChatType.GROUP);
+    }
+
 
 }
 

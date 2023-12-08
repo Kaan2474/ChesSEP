@@ -2,7 +2,6 @@ package com.ChesSEP.ChesSEP.Chat;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +17,9 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @PostMapping("/createPrivateChat")
-    public ResponseEntity<Boolean> createPrivateChat(@RequestBody ChatRequestDto friend) {
-        boolean check = chatService.createPrivateChat(friend.getRecipientId());
+    @GetMapping("/createPrivateChat/{friendId}")
+    public ResponseEntity<Boolean> createPrivateChat(@PathVariable long friendId) {
+        boolean check = chatService.createPrivateChat(friendId);
         if (!check) {
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         } else {
@@ -106,6 +105,8 @@ public class ChatController {
     @GetMapping("/allMyChats")
     public List<Chat> findAllMyPrivateChats(){ return chatService.findAllMyChats();}
 
+    @GetMapping("/allMyGroupChats")
+    public List<Chat> findAllMyGroupChats(){ return chatService.findAllMyGroupChats();}
 
     @GetMapping("/getMessages/{chatId}")
     public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId){
