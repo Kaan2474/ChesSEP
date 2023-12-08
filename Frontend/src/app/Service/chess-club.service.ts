@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ChessClub} from "../Modules/ChessClub";
+import {User} from "../Modules/User";
 
 
 @Injectable({
@@ -46,8 +47,8 @@ export class ChessClubService {
 
   }
 
-  getAllMembers(){
-    return this.http.get(this.URL + "/getMembers", {headers: this.header});
+  getMembers(){
+    return this.http.get<User[]>(this.URL + "/getMembers", {headers: this.header});
 
   }
 }

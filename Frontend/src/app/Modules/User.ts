@@ -9,4 +9,5 @@ export class User{
   twoFactor:any;
   profilbild:any;
   privacy: any;
+  clubId: any;
 }

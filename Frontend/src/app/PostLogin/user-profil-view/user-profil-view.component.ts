@@ -4,6 +4,7 @@ import {UserService} from "../../Service/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
+import {ChessClubService} from "../../Service/chess-club.service";
 
 
 
@@ -22,6 +23,7 @@ export class UserProfilViewComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private chessclubservice: ChessClubService
   ) {
     this.user = new User()
 
@@ -29,6 +31,7 @@ export class UserProfilViewComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetail();
+    this.getMyClubName()
   }
 
   getUserDetail() {
@@ -44,7 +47,15 @@ export class UserProfilViewComponent implements OnInit {
 
   onSelect(event: any) {
     this.selectedFile = event.target.files[0];
+
     this.imageUpload()
+  }
+
+  getMyClubName(){
+    this.chessclubservice.getMyChessClubname().subscribe(data=>{
+    this.user = data
+    console.log(data)})
+
   }
 
   imageUpload() {
@@ -64,6 +75,8 @@ export class UserProfilViewComponent implements OnInit {
         );
     }
   }
+
+
 }
 
 

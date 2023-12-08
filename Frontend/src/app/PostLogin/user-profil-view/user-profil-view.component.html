@@ -9,13 +9,15 @@
       id="img"
       style="display:none"
       accept="image/*"
+
       (change)="onSelect($event)"
 
 
 
 
     />
-    <label for="img" class="underlined-label">Bild hochladen</label></a>
+    <label for="img" class="underlined-label">Bild hochladen</label>
+  </a>
 
 
   <table>
@@ -44,6 +46,12 @@
       <td><strong>Punkte</strong></td>
       <td>:</td>
       <td>{{ user.elo}}</td>
+    </tr>
+    <tr>
+    <tr>
+      <td><strong>Schachclub</strong></td>
+      <td>:</td>
+      <td>{{ user.name}}</td>
     </tr>
     <tr>
     </tr>

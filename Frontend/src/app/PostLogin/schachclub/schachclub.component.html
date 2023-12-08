@@ -2,5 +2,17 @@
 
 <h2>Schachclub </h2>
 
+<h3>Gruppenmitglieder</h3>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+  <tr *ngFor="let User of allMemberList" >
+    <td>{{ User.vorname }}</td>
+  </tr>
+</table>
+
 
 
