@@ -37,7 +37,7 @@ export class ChessClubService {
   }
 
   getAllChessClubs(){
-    return this.http.get(this.URL + "/getAllChessClubs", {headers: this.header});
+    return this.http.get<ChessClub[]>(this.URL + "/getAllChessClubs", {headers: this.header});
 
   }
 
