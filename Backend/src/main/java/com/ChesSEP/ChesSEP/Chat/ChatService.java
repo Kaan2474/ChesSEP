@@ -124,7 +124,7 @@ public class ChatService {
     }
 
     //Delete Unterhaltung (Muss noch getestet werden, ob Recipient ebenfalls löschen kann)
-    public boolean deletePrivateChat(Long recipientId) {
+    public boolean deletePrivateChat(long recipientId) {
         Chat toDelete = chatRepository.getPrivateChat(getSender().getId(), recipientId);
         if (toDelete != null) {
             chatRepository.delete(toDelete);
@@ -136,7 +136,7 @@ public class ChatService {
 
 
     // Hinzufügen von Teilnehmer in Gruppenchats --> ChessClub Bedingung fehlt
-    public boolean addMemberToGroupChat(Long chatId, Long newMemberId) {
+    public boolean addMemberToGroupChat(long chatId, long newMemberId) {
         Chat chat = chatRepository.findChatByChatId(chatId);
         if (chat.getUser().contains(newMemberId)) {
             return false;
@@ -148,8 +148,9 @@ public class ChatService {
     }
 
     //Für das schreiben von Nachrichten in Privaten Unterhaltungen (1 zu 1)
+    //findByChatIDAndUserId -> Buggy
     public boolean writeMessage(String content, long chatId) {
-        if (content == null || chatRepository.findChatByChatId(chatId) == null || chatRepository.findByChatIdAndUserId(chatId, getSender().getId()) == null) {
+        if (content == null || chatRepository.findChatByChatId(chatId) == null){ // || chatRepository.findByChatIdAndUserId(chatId, getSender().getId()) == null) {
             return false;
         } else {
             chatMessageRepository.save(ChatMessage.builder()
@@ -205,7 +206,7 @@ public class ChatService {
     }
 
     //Rückgabe von Member aus einem Gruppenchat
-    public List<Long> memberOfChatId(long chatId, String groupName) {
+    public List<Long> memberOfChatId(long chatId) {
         List<Long> members;
         members = chatRepository.findChatByChatId(chatId).getUser();
         return members;

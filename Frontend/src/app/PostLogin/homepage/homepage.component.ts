@@ -57,6 +57,25 @@ export class HomepageComponent {
   }
 
 
+  joinClub(name: {name: string}) {
+    console.log(name.name)
+    this.http.get(`${this.URL}/joinClubV2/${name.name}`  ,{ headers: this.header }).subscribe(
+      (data) => {
+          this.showNotification(`Du bist dem Schachclub "${name.name}" beigetreten.`);
+
+      },
+      (error) => {
+        console.log("Fehler beim Beitritt zum Schachclub", error);
+        alert(`Fehler beim Beitritt zum Schachclub "${name.name}"`);
+      }
+    );
+  }
+
+
+
+
+
+
   showNotification(message:string){
     alert(message);
   }

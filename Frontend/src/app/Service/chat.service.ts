@@ -1,9 +1,8 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Chat} from "../Modules/Chat";
 import {User} from "../Modules/User";
 import {Message} from "../Modules/Message";
-import {GroupMessage} from "../Modules/GroupMessage";
-import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,34 +24,42 @@ export class ChatService {
 
   }
 
-  public createPrivateChat(friend: User) {
-    return this.http.post(this.userURL + "/createPrivateChat", friend,{headers: this.header});
+  public createPrivateChat(chat: Chat) {
+    return this.http.post(this.userURL + "/createPrivateChat", chat,{headers: this.header});
   }
-  public createGroupChat(user: User) {
-    return this.http.post(this.userURL + "/createGroupChat", user, {headers: this.header});
+  public createGroupChat(chat: Chat) {
+    return this.http.post(this.userURL + "/createGroupChat", chat, {headers: this.header});
   }
-  public leaveGroup(user: User) {
-    return this.http.post(this.userURL + "/leaveGroup", user, {headers: this.header});
+  public writeMessage(chatid:bigint, chat:Chat) {
+    return this.http.post(`${this.userURL}/writeMessagePrivateChat/${chatid}`, chat,{headers: this.header});
   }
-  public deleteGroupChat(name: String) {
-    return this.http.post(this.userURL + "/deleteGroupChat/{privateGroupName}", name,{headers: this.header});
+  public writeMessageGroup(chatid:bigint, chat:Chat) {
+    return this.http.post(`${this.userURL}/writeMessageGroup/${chatid}`, chat,{headers: this.header});
   }
-  public deletePrivatChat(friend: User) {
-    return this.http.post(this.userURL + "/deletePrivateChat", friend,{headers: this.header});
+  public membersOfGroupChat(chatid:bigint) {
+    return this.http.get<User[]>(`${this.userURL}/members/${chatid}`,{headers: this.header});
   }
-  public addMember(user: User) {
-    return this.http.put(this.userURL + "/{chatId}/addMember", user,{headers: this.header});
+  public findLatestMessage(chatId:bigint,time: bigint) {
+        return this.http.get<Message[]>(`${this.userURL}/latest/${chatId}/${time}`,{headers: this.header});
   }
-  public writeMessage(user: User) {
-    return this.http.post(this.userURL + "/writeMessagePrivateChat/{chatId}", user,{headers: this.header});
+
+  getChangeableMessages(chatId: bigint) {
+    return this.http.get<Message[]>(`${this.userURL}/changableMessage/${chatId}`, {headers:this.header});
   }
-  public writeMessageGroup(user: User) {
-    return this.http.post(this.userURL + "/writeMessageGroup/{chatId}", user,{headers: this.header});
+
+  changeMessage(chatId: bigint, chat: Chat) {
+    return this.http.post(`${this.userURL}/changeMessage/${chatId}`, chat, {headers:this.header});
   }
-  public membersOfGroupChat(groupName: string) {
-    return this.http.post<User[]>(this.userURL + "/members/{chatId}/{groupName}", groupName,{headers: this.header});
+
+  deleteMessage(chatId: bigint, chat: Chat) {
+    return this.http.post(`${this.userURL}/deleteMessage/${chatId}`, chat, {headers:this.header});
   }
-  public findLatestMessage(time: bigint) {
-        return this.http.post<Message[]>(this.userURL + "/members/{chatId}/{groupName}", time,{headers: this.header});
+
+  findAllMyChats() {
+    return this.http.get<Chat[]>( `${this.userURL}/allMyChats`, {headers:this.header});
+  }
+
+  getChatMessages(chatId: bigint) {
+    return this.http.get<Message[]>(`${this.userURL}/getMessages/${chatId}`, {headers:this.header});
   }
 }
