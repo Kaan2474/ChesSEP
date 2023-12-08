@@ -4,7 +4,7 @@ export class Chat {
   chessClubId:any;
   chessClubName:any;
   groupName:any;
-  user?:any[];
+  user:any[]=[];
   content:any;
   chatId:any;
   chatMessageStatus:any;

@@ -5,8 +5,8 @@ import {ChessClubService} from "../../Service/chess-club.service";
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ChessClub} from "../../Modules/ChessClub";
-
-
+import {ChatService} from "../../Service/chat.service";
+import {Chat} from "../../Modules/Chat";
 
 @Component({
   selector: 'app-homepage',
@@ -15,7 +15,8 @@ import {ChessClub} from "../../Modules/ChessClub";
 })
 export class HomepageComponent {
 
-  public allgroups: Friends[] = [];
+  public allgroups: Chat[] = [];
+
 
   allChessClubs: ChessClub[] = [];
 
@@ -29,6 +30,7 @@ export class HomepageComponent {
 
   constructor(private matchmakingservice:MatchmakingService,
               private chessclubservice: ChessClubService,
+              private chatService: ChatService,
               private http: HttpClient,
               private router: Router){
 
@@ -43,6 +45,8 @@ export class HomepageComponent {
       localStorage.setItem("Waited","0");
     }
     this.getAllChessClubs()
+    this.chatService.findAllMyChats().subscribe((data)=>
+      this.allgroups=data);
   }
 
   createClub(name: {name: string}){
@@ -80,11 +84,6 @@ export class HomepageComponent {
     this.allChessClubs = data)
 
   }
-
-
-
-
-
 
   showNotification(message:string){
     alert(message);

@@ -34,7 +34,7 @@ p {
 }
 
 /*Der Löschen Knopf*/
-#deleteButton{
+#deleteButton, chatButton{
   color: #FFFFFF;
   background-color: #0D99FF;
   cursor: pointer;
@@ -42,7 +42,7 @@ p {
 }
 
 /*Hover-Effekte für den Privatsphäre ändern Knopf, Lösch Knopf und die Links*/
-#deleteButton:hover, a:hover, input:hover {
+#deleteButton:hover, chatButton:hover, a:hover, input:hover {
   background-color: royalblue;
 }
 

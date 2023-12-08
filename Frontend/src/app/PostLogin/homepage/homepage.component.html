@@ -56,23 +56,24 @@
     <button routerLink="/create-play-against-user" >Spiel gegen Benutzer</button>
     <button routerLink="/chess-puzzle" >Starte ein Schachpuzzle</button>
   </div>
+
   <div class = "GruppenChat">
     <div class="center">
       <h2>Gruppen</h2>
     </div>
     <div class="center">
       <div class="groupContainer" style="overflow-y: auto">
-        <div id="{{group.id}}" class="group" *ngFor="let group of allgroups; let i = index">
+        <div id="{{group.chatId}}" class="group" *ngFor="let group of allgroups">
           <div class="groupContent">
-            <p>{{group.id}}</p>
-            <button class="innerButton" [routerLink]="['/groupchat', group.id]">Chat</button>
+            <p>{{group.chatId}} test</p>
+            <button class="innerButton" [routerLink]="['/', group.chatId]">Chat</button>
             <button class="innerRedButton">Verlassen</button>
           </div>
         </div>
       </div>
     </div>
     <div class="center">
-      <button class="button" routerLink="/createGroups">Neuen Gruppenchat erstellen</button>
+      <button class="button" routerLink="/addmembers">Neuen Gruppenchat erstellen</button>
     </div>
   </div>
   </div>

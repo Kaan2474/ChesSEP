@@ -24,11 +24,11 @@ export class ChatService {
 
   }
 
-  public createPrivateChat(chat: Chat) {
-    return this.http.post(this.userURL + "/createPrivateChat", chat,{headers: this.header});
+  public createPrivateChat(friendid:number) {
+    return this.http.get(`${this.userURL}/createPrivateChat/${friendid}`,{headers: this.header});
   }
-  public createGroupChat(chat: Chat) {
-    return this.http.post(this.userURL + "/createGroupChat", chat, {headers: this.header});
+  public createGroupChat(name:String, users:any[]) {
+    return this.http.get(`${this.userURL}/createGroupChat/${name}/${users}`, {headers: this.header});
   }
   public writeMessage(chatid:bigint, chat:Chat) {
     return this.http.post(`${this.userURL}/writeMessagePrivateChat/${chatid}`, chat,{headers: this.header});
