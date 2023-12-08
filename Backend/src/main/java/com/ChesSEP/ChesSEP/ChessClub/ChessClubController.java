@@ -47,8 +47,8 @@ public class ChessClubController {
     }
 
 
-    @PostMapping("/joinClubV2")
-    public void joinClubV2(@RequestBody String clubName){
+    @GetMapping("/joinClubV2/{clubName}")
+    public void joinClubV2(@PathVariable String clubName){
         chessClubService.joinClubByMario(clubName);
     }
     @GetMapping("/createClubV2/{clubName}")

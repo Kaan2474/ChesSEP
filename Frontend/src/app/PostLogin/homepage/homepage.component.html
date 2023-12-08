@@ -21,20 +21,21 @@
       <!-- <button type="submit" id="createClubButton"  class="createSchachclub">Erstellen</button> -->
     </form>
 
-
-
-
+    <form (ngSubmit)="joinClub(joinClubForm.value)"  #joinClubForm="ngForm">
     <h3>Schachclub beitreten </h3>
-    <label>Gebe den Namen für den Schachclub ein, in dem du beitreten möchtest:</label>
+    <label for="joinClub">Gebe den Namen für den Schachclub ein, in dem du beitreten möchtest:</label>
     <br>
     <input
       type="text"
-      class="form-control"
-      name="schachclub beitreten"
-      id="schachclub beitreten"
-    />
+      name="name"
+      id="joinClub"
+      ngModel>
+    <input
+      type="submit"
+      id="joinClubButton"
+      value="Beitreten">
      <!-- <button (click)="joinClub()" class="joinSchachclub">Beitreten</button> -->
-
+    </form>
 
     <h3>Übersicht aller Schachclubs </h3>
 
