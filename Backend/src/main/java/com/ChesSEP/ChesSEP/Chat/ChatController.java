@@ -2,6 +2,7 @@ package com.ChesSEP.ChesSEP.Chat;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,11 +28,12 @@ public class ChatController {
         }
     }
 
-    @PostMapping("/createGroupChat")
-    public ResponseEntity<Boolean> createGroupChat(@RequestBody ChatRequestDto chatRequestDto){
+    @GetMapping("/createGroupChat/{groupName}/{user}")
+    public ResponseEntity<Boolean> createGroupChat(@PathVariable String groupName, @PathVariable List<Long> user){
 
-        List<Long> member = chatRequestDto.getUser();
-        boolean check = chatService.createGroupChat(member, chatRequestDto.getGroupName());
+        //List<Long> member = chatRequestDto.getUser();
+
+        boolean check = chatService.createGroupChat(user, groupName);
         if(check) {
             return new ResponseEntity<>(check, HttpStatus.CREATED);
         }else{
