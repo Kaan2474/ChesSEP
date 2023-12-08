@@ -43,7 +43,7 @@ public class BoardManager {
         //Status Array
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getTimeLong(color),(int)board.getTimeLong(color)},  //WhiteTime  BlackTime both in ms
-                        {board.getWinner()}}; 
+                        {board.getWinner()}}; // 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
 
         frame.add(status);
 
@@ -53,7 +53,7 @@ public class BoardManager {
         //Color
         frame.add(board.translateColorBoard(board.chessBoard));
 
-        //KingEvent
+        //schach
         frame.add(mergeArrays(board.getKingBoard(Color.WHITE), board.getKingBoard(Color.BLACK)));
 
         //BauerTransformEvent
@@ -147,7 +147,7 @@ public class BoardManager {
         BoardManager boardManager = new BoardManager();
         boardManager.startNewMatch(5,10L, boardManager.getDefaultStartConfig());
         //boardManager.getManagedBoard().toggleCurrentPlayer();
-        int[][][] frame= boardManager.getMatchFrame(Color.WHITE);
+        int[][][] frame= boardManager.getMatchFrame(Color.BLACK);
 
         for (int i = 0; i < frame.length; i++) {
             System.out.println(i+":");
