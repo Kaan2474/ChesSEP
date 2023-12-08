@@ -69,8 +69,8 @@ public class BoardManager {
 
         int headerLength=frame.size();
 
-        for (int i = 0; i < frame.get(0).length; i++) {
-            for (int j = 0; j < frame.get(1)[i].length; j++) {
+        for (int i = 0; i < frame.get(frame.size()-1).length; i++) {
+            for (int j = 0; j < frame.get(frame.size()-1)[i].length; j++) {
                 if(frame.get(2)[i][j]==color.getId()){
                     int[][] arr=board.checkedGetHighlightOf(i, j);
 
@@ -78,7 +78,7 @@ public class BoardManager {
                         frame.add(board.checkedGetHighlightOf(i, j));
 
                         //HiglightStatus
-                        frame.get(headerLength-1)[i][j]=5+counter;
+                        frame.get(headerLength-1)[i][j]=headerLength+counter;
 
                         counter++;
                     }
