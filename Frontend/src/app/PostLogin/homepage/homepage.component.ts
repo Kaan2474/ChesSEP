@@ -17,6 +17,8 @@ export class HomepageComponent {
 
   public allgroups: Friends[] = [];
 
+  allChessClubs: ChessClub[] = [];
+
 
   URL = "http://localhost:8080/ChessClub"
   token = localStorage.getItem("JWT")
@@ -40,6 +42,7 @@ export class HomepageComponent {
 
       localStorage.setItem("Waited","0");
     }
+    this.getAllChessClubs()
   }
 
   createClub(name: {name: string}){
@@ -54,6 +57,7 @@ export class HomepageComponent {
         alert('Fehler beim Erstellen des Schachclubs');
       }
     );
+    window.location.reload();
   }
 
 
@@ -69,6 +73,12 @@ export class HomepageComponent {
         alert(`Fehler beim Beitritt zum Schachclub "${name.name}"`);
       }
     );
+  }
+
+  getAllChessClubs(){
+    this.chessclubservice.getAllChessClubs().subscribe(data=>
+    this.allChessClubs = data)
+
   }
 
 
