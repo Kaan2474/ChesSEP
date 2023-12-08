@@ -52,12 +52,10 @@ public class ChessClubController {
         chessClubService.joinClubByMario(clubName);
     }
     @GetMapping("/createClubV2/{clubName}")
-    public ResponseEntity<String> createClubV2(@PathVariable String clubName){
-        String check = chessClubService.createClubV2(clubName);
-        if(check.equals("Erfolgreich erstellt")) {
+    public ResponseEntity<Boolean> createClubV2(@PathVariable String clubName){
+        boolean check = chessClubService.createClubV2(clubName);
+        if(check) {
             return new ResponseEntity<>(check, HttpStatus.CREATED);
-        }else if(check.equals("Club existiert bereits")){
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         }else{
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         }

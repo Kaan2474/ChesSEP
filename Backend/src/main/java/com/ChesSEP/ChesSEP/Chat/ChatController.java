@@ -19,31 +19,31 @@ public class ChatController {
     }
 
     @PostMapping("/createPrivateChat")
-    public ResponseEntity<String> createPrivateChat(@RequestBody ChatRequestDto friend) {
+    public ResponseEntity<Boolean> createPrivateChat(@RequestBody ChatRequestDto friend) {
         boolean check = chatService.createPrivateChat(friend.getRecipientId());
         if (!check) {
-            return new ResponseEntity<>("Gruppe gibt es schon", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>("Erfolgreich", HttpStatus.CREATED);
+            return new ResponseEntity<>(check, HttpStatus.CREATED);
         }
     }
 
     @PostMapping("/createGroupChat")
-    public ResponseEntity<String> createGroupChat(@RequestBody ChatRequestDto user){
+    public ResponseEntity<Boolean> createGroupChat(@RequestBody ChatRequestDto user){
 
         List<Long> member = user.getUser();
         boolean check = chatService.createGroupChat(member, user.getGroupName());
         if(check) {
-            return new ResponseEntity<>("Erfolgreich erstellt", HttpStatus.CREATED);
+            return new ResponseEntity<>(check, HttpStatus.CREATED);
         }else{
-            return new ResponseEntity<>("Gruppe darf nicht leer sein", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/leaveGroup")
-    public ResponseEntity<String> leaveGroupChat(@RequestBody ChatRequestDto user) {
-        String check = chatService.leaveGroupChat(user.getGroupName());
-        if (check.equals("Du hast den Gruppenchat erfolgreich verlassen")) {
+    public ResponseEntity<Boolean> leaveGroupChat(@RequestBody ChatRequestDto user) {
+        boolean check = chatService.leaveGroupChat(user.getGroupName());
+        if (check) {
             return new ResponseEntity<>(check, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
@@ -51,9 +51,9 @@ public class ChatController {
     }
 
     @PostMapping("/deleteGroupChat/{privateGroupName}")
-    public ResponseEntity<String> deleteGroupChat(@PathVariable String privateGroupName){
-        String check = chatService.deleteGroupChat(privateGroupName);
-        if(check.equals("Erfolgreich gelöscht")){
+    public ResponseEntity<Boolean> deleteGroupChat(@PathVariable String privateGroupName){
+        boolean check = chatService.deleteGroupChat(privateGroupName);
+        if(check){
             return new ResponseEntity<>(check, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
@@ -61,9 +61,9 @@ public class ChatController {
     }
 
     @PostMapping("/deletePrivateChat")
-    public ResponseEntity<String> deletePrivateChat(@RequestBody ChatRequestDto friend){
-        String check = chatService.deletePrivateChat(friend.getRecipientId());
-        if(check.equals("Erfolgreich gelöscht")){
+    public ResponseEntity<Boolean> deletePrivateChat(@RequestBody ChatRequestDto friend){
+        boolean check = chatService.deletePrivateChat(friend.getRecipientId());
+        if(check){
             return new ResponseEntity<>(check, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
@@ -71,9 +71,9 @@ public class ChatController {
     }
 
     @PutMapping("/addMember/{chatId}")
-    public ResponseEntity<String> addMember(@PathVariable Long chatId, @RequestBody ChatRequestDto newMember){
-        String check = chatService.addMemberToGroupChat(chatId, newMember.getRecipientId());
-        if(check.equals("User erfolgreich hinzugefügt")){
+    public ResponseEntity<Boolean> addMember(@PathVariable Long chatId, @RequestBody ChatRequestDto newMember){
+        boolean check = chatService.addMemberToGroupChat(chatId, newMember.getRecipientId());
+        if(check){
             return new ResponseEntity<>(check, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
