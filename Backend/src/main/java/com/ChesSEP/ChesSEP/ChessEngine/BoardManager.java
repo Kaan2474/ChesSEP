@@ -118,6 +118,9 @@ public class BoardManager {
     }
 
     public boolean isTwoDArrayEmpty(int[][] arr){
+        if(arr==null)
+            return true;
+
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j]!=0)
