@@ -61,7 +61,7 @@ public class ChessTest {
                 System.out.println("Change Bauer into:");
                 String piece=scanner.nextLine();
 
-                board.transformBauer(Integer.parseInt(piece));
+                board.bauerTransform(Integer.parseInt(piece));
                 continue;
             }
 

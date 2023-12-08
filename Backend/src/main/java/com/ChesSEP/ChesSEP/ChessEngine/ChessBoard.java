@@ -30,7 +30,7 @@ public class ChessBoard {
 
     private long intervallStart;
 
-    private boolean transformBauer;
+    private boolean bauerTransform;
 
     private final int SpringerOffset[][]={{1,2},{-1,2},{1,-2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
@@ -54,20 +54,22 @@ public class ChessBoard {
         zuege=new ArrayList<ChessOperation>();
         intervallStart=System.currentTimeMillis();
 
-        transformBauer=false;
+        bauerTransform=false;
         winner=null;
         isRemis=false;
         remisCounterWhite=0;
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternStatus=new HashMap<>();
-        enPassantSquare=null;
+        enPassantSquare=new int[]{-1,-1};
         
         remisPatternManager();
     }
 
     public ChessBoard(int[] status,int[][][] Board,int[][] moves){
         chessBoard=constructBoard(Board,status);
+        setStatusToBoard(status, chessBoard);
+
         isPuzzle=true;
 
         if(status[0]==1){
@@ -79,7 +81,7 @@ public class ChessBoard {
         }
 
         zuege=new ArrayList<ChessOperation>();
-        transformBauer=false;
+        bauerTransform=false;
 
         winner=null;
         isRemis=false;
@@ -87,7 +89,7 @@ public class ChessBoard {
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternStatus=new HashMap<>();
-        enPassantSquare=null;
+        enPassantSquare=new int[]{-1,-1};;
 
         puzzleMoves=moves;
 
@@ -111,7 +113,6 @@ public class ChessBoard {
 
     public ChessPiece[][] constructBoard(int[][][] boardToConstruct,int[] status){
         ChessPiece[][] constructedBoard = new ChessPiece[8][8];
-        int[][] zugId=convertStatusToZugIdArr(status);
 
         for (int i = 0; i < boardToConstruct.length; i++) {
             for (int j = 0; j < boardToConstruct[i].length; j++) {
@@ -124,10 +125,56 @@ public class ChessBoard {
         return constructedBoard;
     }
 
-    private int[][] convertStatusToZugIdArr(int[] status){
-        int[][] constructedBoard = new int[8][8];
-        //TODO unimplemented
-        return constructedBoard;
+    private void setStatusToBoard(int[] status,ChessPiece[][] board){
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                ChessPiece currentPiece=getPieceOn(j, i, board);
+
+                if(currentPiece==null)
+                    continue;
+
+                if(!isBauerInDefaultPosition(j, i, board))
+                    currentPiece.setHasMoved(true);
+
+            }
+        }
+
+        if(status[1]==1){
+            board[7][0].setHasMoved(false);
+            board[7][4].setHasMoved(false);
+        }
+
+        if(status[2]==1){
+            board[7][7].setHasMoved(false);
+            board[7][4].setHasMoved(false);
+        }
+
+        if(status[3]==1){
+            board[0][0].setHasMoved(false);
+            board[0][4].setHasMoved(false);
+        }
+
+        if(status[4]==1){
+            board[0][7].setHasMoved(false);
+            board[0][4].setHasMoved(false);
+        }
+    }
+
+    private boolean isBauerInDefaultPosition(int x,int y,ChessPiece[][] board){
+        
+        ChessPiece currentPiece=getPieceOn(x, y, board);
+
+        if(currentPiece==null)
+            return false;
+
+        if(currentPiece.getType()!=ChessPieceType.BAUER)
+            return false;
+        
+        if(x==1||x==6)
+            return true;
+        
+        return false;
     }
 
     public int getZugId(){
@@ -243,7 +290,7 @@ public class ChessBoard {
     }   
 
     public boolean hasBauerToTransform(){
-        return transformBauer;
+        return bauerTransform;
     }
 
 
@@ -447,7 +494,11 @@ public class ChessBoard {
         
         ChessPiece copiedPice=new ChessPiece(pieceToCopy.getIdFromType(), pieceToCopy.getColor().getId());
 
-        copiedPice.setHasMoved(pieceToCopy.whenDidThePieceMove());
+        if(pieceToCopy.hasMoved()){
+            copiedPice.setHasMoved(true);
+        }else{
+            copiedPice.setHasMoved(false);
+        }
 
         return copiedPice;
     }
@@ -504,7 +555,7 @@ public class ChessBoard {
         if(winner!=null)
             return false;
 
-        if(transformBauer)
+        if(bauerTransform)
             return false;
 
         if(!moveIsValid(x, y, gotoX, gotoY))
@@ -518,7 +569,7 @@ public class ChessBoard {
 
 
         if(getBauerToTransform()!=null){
-            transformBauer=true;
+            bauerTransform=true;
         }else{
             timeManager();
             toggleCurrentPlayer();
@@ -538,7 +589,7 @@ public class ChessBoard {
         if(winner!=null)
             return false;
 
-        if(transformBauer)
+        if(bauerTransform)
             return false;
 
         int[] currentMove=puzzleMoves[zuege.size()];
@@ -552,7 +603,7 @@ public class ChessBoard {
             endGameFlag(currentPlayer);
 
         if(getBauerToTransform()!=null)
-            transformBauer=true;
+            bauerTransform=true;
 
         if(isKingCheckmate(currentPlayer))
             endGameFlag(currentPlayer);
@@ -586,11 +637,7 @@ public class ChessBoard {
         if(requestRemisWhite&&requestRemisBlack&&remisCounterWhite+remisCounterBlack>=50)
             return true;
 
-        if(remisPatternStatus.containsValue(2))
-            return true;
-
         return false;
-
     }
 
     public boolean getRemis(){
@@ -600,11 +647,8 @@ public class ChessBoard {
     private void remisPatternManager(){
 
         if(remisPattern.isEmpty()){
-            if(enPassantSquare==null){
-                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,-1,-1});
-            }else{
-                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,enPassantSquare[0],enPassantSquare[1]});
-            }
+
+            remisPatternStatus.put(remisPattern.size(), new Integer[]{0,enPassantSquare[0],enPassantSquare[1]});
             remisPattern.put(remisPattern.size(), copyBoard(chessBoard));
  
             return;
@@ -615,6 +659,9 @@ public class ChessBoard {
         for (int i = 0; i < remisPattern.size(); i++) {
             if(euqualBoards(chessBoard, remisPattern.get(i))){
 
+                if(remisPatternStatus.get(i)[1]==enPassantSquare[0]&&remisPatternStatus.get(i)[2]==enPassantSquare[1])
+                    continue;
+
                 if(!isKingMovesetEqual(Color.WHITE, chessBoard, remisPattern.get(i))||!isKingMovesetEqual(Color.BLACK, chessBoard, remisPattern.get(i)))
                     continue;
                 
@@ -624,11 +671,7 @@ public class ChessBoard {
         }
 
         if(match==-1){
-            if(enPassantSquare==null){
-                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,-1,-1});
-            }else{
-                remisPatternStatus.put(remisPattern.size(), new Integer[]{0,enPassantSquare[0],enPassantSquare[1]});
-            }
+            remisPatternStatus.put(remisPattern.size(), new Integer[]{0,enPassantSquare[0],enPassantSquare[1]});
             remisPattern.put(remisPattern.size(), copyBoard(chessBoard));
             
             return;
@@ -636,6 +679,9 @@ public class ChessBoard {
 
         Integer[] status=remisPatternStatus.get(match);
         status[0]+=1;
+
+        if(status[0]==5)
+            isRemis=true;
 
         remisPatternStatus.remove(match);
         remisPatternStatus.put(match, status);
@@ -752,8 +798,8 @@ public class ChessBoard {
         }
     }
 
-    public boolean transformBauer(int id){
-        if(!transformBauer||id>5||id<2)
+    public boolean bauerTransform(int id){
+        if(!bauerTransform||id>5||id<2)
             return false;
 
         int[] currentBauerCoords=getBauerToTransform();
@@ -768,7 +814,7 @@ public class ChessBoard {
         timeManager();
         toggleCurrentPlayer();
 
-        transformBauer=false;
+        bauerTransform=false;
         return true;
     }
 
@@ -872,7 +918,7 @@ public class ChessBoard {
             chessBoard[x][y+movingDirection]=null;
         }
 
-        enPassantSquare=null;
+        enPassantSquare=new int[]{-1,-1};
 
         //istZweierBauerMove
         if(currentPiece.getType()==ChessPieceType.BAUER&&y-gotoY==0&&(x-gotoX==2||x-gotoX==-2)){

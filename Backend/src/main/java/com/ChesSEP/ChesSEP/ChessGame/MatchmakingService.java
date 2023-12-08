@@ -223,7 +223,7 @@ public class MatchmakingService {
 
         ChessBoard board=boards.get(game.getGameID()).getManagedBoard();
 
-        return board.transformBauer(id);
+        return board.bauerTransform(id);
     }
 
     
