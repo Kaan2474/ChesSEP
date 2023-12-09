@@ -73,7 +73,7 @@
       <div class="groupContainer" style="overflow-y: auto">
         <div id="{{group.chatId}}" class="group" *ngFor="let group of allgroups">
           <div class="groupContent">
-            <p>{{group.chatId}} test</p>
+            <p>{{group.privateGroupName}}</p>
             <button class="innerButton" [routerLink]="['/', group.chatId]">Chat</button>
             <button class="innerRedButton">Verlassen</button>
           </div>

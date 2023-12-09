@@ -48,7 +48,7 @@ export class HomepageComponent {
       localStorage.setItem("Waited","0");
     }
     this.getAllChessClubs()
-    this.chatService.findAllMyChats().subscribe((data)=>
+    this.chatService.findAllMyGroupChats().subscribe((data)=>
       this.allgroups=data);
     this.userService.getUserbyToken().subscribe(data => {
       this.schachclubId = data.clubId; console.log(data)} )

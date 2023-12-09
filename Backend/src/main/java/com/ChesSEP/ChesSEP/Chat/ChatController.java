@@ -103,10 +103,6 @@ public class ChatController {
         }
     }
 
-    //Findet alle private und gruppen chats
-    @GetMapping("/allMyChats")
-    public List<Chat> findAllMyPrivateChats(){ return chatService.findAllMyChats();}
-
     @GetMapping("/allMyGroupChats")
     public List<Chat> findAllMyGroupChats(){ return chatService.findAllMyGroupChats();}
 
@@ -119,7 +115,7 @@ public class ChatController {
     ///////////////Verworfene Methoden//////////////////////////////////
     @PostMapping("/leaveGroup")
     public ResponseEntity<Boolean> leaveGroupChat(@RequestBody ChatRequestDto user) {
-        boolean check = chatService.leaveGroupChat(user.getGroupName());
+        boolean check = chatService.leaveGroupChat(user.getPrivateGroupName());
         if (check) {
             return new ResponseEntity<>(check, HttpStatus.OK);
         } else {

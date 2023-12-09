@@ -18,7 +18,7 @@ public class ChatRequestDto {
     private long recipientId;
     private long chessClubId;
     private String chessClubName;
-    private String groupName;
+    private String privateGroupName;
     private List<Long> user;
     private ChatType type;
     private String content;

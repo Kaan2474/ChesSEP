@@ -3,7 +3,7 @@ export class Chat {
   recipientId:any;
   chessClubId:any;
   chessClubName:any;
-  groupName:any;
+  privateGroupName:any;
   user:any[]=[];
   content:any;
   chatId:any;
