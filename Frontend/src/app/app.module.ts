@@ -28,6 +28,8 @@ import { PrivateChatComponent } from './PostLogin/private-chat/private-chat.comp
 import {LeaderboardComponent} from "./PostLogin/leaderboard/leaderboard.component";
 import { ChessPuzzleComponent } from './PostLogin/chess-puzzle/chess-puzzle.component';
 import { SchachclubComponent } from './PostLogin/schachclub/schachclub.component';
+import { AddMembersComponent } from './PostLogin/homepage/add-members/add-members.component';
+import { GroupchatComponent } from './PostLogin/groupchat/groupchat.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { SchachclubComponent } from './PostLogin/schachclub/schachclub.component
     PrivateChatComponent,
     LeaderboardComponent,
     ChessPuzzleComponent,
-    SchachclubComponent
+    SchachclubComponent,
+    AddMembersComponent,
+    GroupchatComponent
   ],
   imports: [
     BrowserModule,
