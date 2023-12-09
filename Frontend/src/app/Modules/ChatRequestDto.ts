@@ -3,7 +3,7 @@ export class ChatRequestDto {
   recipientId: any;
   chessClubId: any;
   chessClubName: any;
-  groupName: any;
+  privateGroupName: any;
   user: any[] = [];
   type: any;
   content: any;

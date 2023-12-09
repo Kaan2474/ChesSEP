@@ -53,7 +53,7 @@ public class ChatService {
     }
 
     //Gruppenchat Erstellung
-    public boolean createGroupChat(List<Long> user, String groupName) {
+    public boolean createGroupChat(List<Long> user, String privateGroupName) {
 
         if (user.isEmpty()) {
             return false;
@@ -62,7 +62,7 @@ public class ChatService {
         chatRepository.save(Chat.builder()
                 .ownerId(getSender().getId())
                 .user(user)
-                .privateGroupName(groupName)
+                .privateGroupName(privateGroupName)
                 .type(ChatType.GROUP)
                 .build());
         return true;
@@ -102,9 +102,9 @@ public class ChatService {
 
     }
 
-    public boolean leaveGroupChat(String groupName) {
-        if (chatRepository.findChatByGroupName(groupName) != null && chatRepository.findChatByGroupName(groupName).getUser().contains(getSender().getId())) {
-            Chat leftGroup = chatRepository.findChatByGroupName(groupName);
+    public boolean leaveGroupChat(String privateGroupName) {
+        if (chatRepository.findChatByGroupName(privateGroupName) != null && chatRepository.findChatByGroupName(privateGroupName).getUser().contains(getSender().getId())) {
+            Chat leftGroup = chatRepository.findChatByGroupName(privateGroupName);
             leftGroup.getUser().remove(getSender().getId());
             chatRepository.save(leftGroup);
             return true;
@@ -263,13 +263,8 @@ public class ChatService {
         return false;
     }
 
-
-    public List<Chat> findAllMyChats(){
-        return chatRepository.findAllChatsOfUserId(getSender().getId());
-    }
-
     public List<Chat> findAllMyGroupChats(){
-        return chatRepository.findAllGroupChatsOfUserId(getSender().getId(), ChatType.GROUP);
+        return chatRepository.findAllGroupChatsOfUserId(getSender().getId());
     }
 
 

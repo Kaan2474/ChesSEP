@@ -34,11 +34,9 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query("SELECT c FROM Chat c JOIN c.user u WHERE c.chatId = ?1 AND u = ?2")
     Chat findByChatIdAndUserId(long chatId, long userId);
 
-   @Query("FROM Chat WHERE ownerId = ?1 ")
-    List<Chat> findAllChatsOfUserId(long userId);
+    @Query("FROM Chat x JOIN x.user u WHERE u = ?1 ")
+    List<Chat> findAllGroupChatsOfUserId(long userId);
 
-  @Query("FROM Chat WHERE ownerId = ?1 AND type = ?2")
-   List<Chat> findAllGroupChatsOfUserId(long userId, ChatType chatType);
 
 
 }

@@ -55,8 +55,8 @@ export class ChatService {
     return this.http.post(`${this.userURL}/deleteMessage/${chatId}`, chat, {headers:this.header});
   }
 
-  findAllMyChats() {
-    return this.http.get<Chat[]>( `${this.userURL}/allMyChats`, {headers:this.header});
+  findAllMyGroupChats() {
+    return this.http.get<Chat[]>( `${this.userURL}/allMyGroupChats`, {headers:this.header});
   }
 
   getChatMessages(chatId: bigint) {
