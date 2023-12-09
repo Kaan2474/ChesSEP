@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <h2>Schachclub </h2>
-
+<div *ngIf="chessClubMembers">
 <h3>Gruppenmitglieder</h3>
 
 <table>
@@ -9,10 +9,11 @@
     <th>Name</th>
   </tr>
 
-  <tr *ngFor="let User of allMemberList" >
-    <td>{{ User.vorname }}</td>
+  <tr *ngFor="let user of chessClubMembers" >
+    <td>{{ user.vorname }}</td>
+    <td>{{ user.nachname }}</td>
   </tr>
 </table>
 
-
+</div>
 

@@ -23,9 +23,14 @@ button {
   cursor: pointer;
 }
 table, th, td {
-  margin-left: 40%;
+  margin-left: 20%;
 }
 
 th{
   color: royalblue;
+}
+
+.ÜbersichtSchachclub{
+  margin-top: 20%;
+
 }

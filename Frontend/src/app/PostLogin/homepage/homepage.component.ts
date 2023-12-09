@@ -7,6 +7,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ChessClub} from "../../Modules/ChessClub";
 import {ChatService} from "../../Service/chat.service";
 import {Chat} from "../../Modules/Chat";
+import {UserService} from "../../Service/user.service";
+import {scheduled} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -16,9 +18,9 @@ import {Chat} from "../../Modules/Chat";
 export class HomepageComponent {
 
   public allgroups: Chat[] = [];
-
-
   allChessClubs: ChessClub[] = [];
+  schachclubId : any;
+
 
 
   URL = "http://localhost:8080/ChessClub"
@@ -32,6 +34,7 @@ export class HomepageComponent {
               private chessclubservice: ChessClubService,
               private chatService: ChatService,
               private http: HttpClient,
+              private userService: UserService,
               private router: Router){
 
   }
@@ -47,6 +50,9 @@ export class HomepageComponent {
     this.getAllChessClubs()
     this.chatService.findAllMyChats().subscribe((data)=>
       this.allgroups=data);
+    this.userService.getUserbyToken().subscribe(data => {
+      this.schachclubId = data.clubId; console.log(data)} )
+    console.log(this.schachclubId)
   }
 
   createClub(name: {name: string}){
@@ -54,7 +60,6 @@ export class HomepageComponent {
     this.http.get(`${this.URL}/createClubV2/${name.name}`, {headers: this.header}).subscribe(data =>
 
       {
-        this.showNotification("Der Schachclub wurde erstellt");
       },
       error => {
         console.log("Schachclub konnte nicht erstellt werden", error)
@@ -62,6 +67,7 @@ export class HomepageComponent {
       }
     );
     window.location.reload();
+    this.showNotification("Der Schachclub wurde erstellt");
   }
 
 
@@ -89,4 +95,5 @@ export class HomepageComponent {
     alert(message);
   }
 
+  protected readonly scheduled = scheduled;
 }

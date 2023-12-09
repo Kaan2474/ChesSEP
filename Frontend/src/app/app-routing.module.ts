@@ -44,7 +44,7 @@ const routes: Routes = [
   {path: "privateChat/:id", title: "ChesSEP", component: PrivateChatComponent},
   {path: "leaderboard", title:"ChesSEP", component: LeaderboardComponent},
   {path: "chess-puzzle", title:"ChesSEP", component: ChessPuzzleComponent},
-  {path: "schachclub", title:"ChesSEP", component:SchachclubComponent},
+  {path: "schachclub/:id", title:"ChesSEP", component:SchachclubComponent},
   {path: "addmembers", title:"ChesSEP", component:AddMembersComponent},
   {path: "groupchat/:id", title:"ChesSEP", component:GroupchatComponent}
 

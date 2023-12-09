@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <div class = "card">
-  <div class ="form-group">
+  <div class ="form-group" *ngIf="!schachclubId">
     <form (ngSubmit)="createClub(createClubForm.value)"  #createClubForm="ngForm">
 
     <h3>Schachclub erstellen </h3>
@@ -34,7 +34,17 @@
       id="joinClubButton"
       value="Beitreten">
     </form>
+  </div>
 
+  <div *ngIf="schachclubId ">
+    <button [routerLink]="['/schachclub', schachclubId]">
+      Hier gelangst du zu deinem Schachclub
+    </button>
+
+  </div>
+
+
+  <div class="ÜbersichtSchachclub">
     <h3>Übersicht aller Schachclubs </h3>
 
     <table>
@@ -46,11 +56,9 @@
         <td>{{ ChessClub.name }}</td>
       </tr>
     </table>
-
-
-
-
   </div>
+
+
   <div class = "SchachSpiel">
     <img src="assets/images/Schachbrett.jpg">
     <button routerLink="/create-play-against-user" >Spiel gegen Benutzer</button>
