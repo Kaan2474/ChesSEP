@@ -200,6 +200,11 @@ public class ChatService {
         }
     }
 
+    //Gibt private Chat Objekt aus
+    public Chat getPrivateChatWith(long friendId){
+        return chatRepository.getPrivateChat(getSender().getId(), friendId);
+    }
+
     //Gibt Nachrichten aus chatId aus
     public List<ChatMessage> findChatMessagesOf(long chatId) {
         return chatMessageRepository.findChatMessagesOf(chatId);

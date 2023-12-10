@@ -103,6 +103,16 @@ public class ChatController {
         }
     }
 
+    @GetMapping("getMyPrivateChatWith/{friendId}")
+    public ResponseEntity<Chat> getMyPrivateChatWith(@PathVariable long friendId){
+        Chat chat = chatService.getPrivateChatWith(friendId);
+        if(chat != null){
+            return new ResponseEntity<>(chat, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(chat, HttpStatus.BAD_REQUEST); //wenn Chat == null
+        }
+    }
+
     @GetMapping("/allMyGroupChats")
     public List<Chat> findAllMyGroupChats(){ return chatService.findAllMyGroupChats();}
 
