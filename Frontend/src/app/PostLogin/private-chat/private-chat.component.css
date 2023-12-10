@@ -1,0 +1,101 @@
+.container{
+  margin-top: 20px;
+}
+.center{
+  display: flex;
+  justify-content: center;
+}
+button{
+  cursor: pointer;
+}
+
+.friendContainer{
+  overscroll-behavior-y: contain;
+  width:30%;
+  height: 500px;
+  border: solid 1px black;
+  border-radius: 4px;
+  scroll-behavior: smooth;
+}
+.scroll{
+  scroll-behavior: smooth;
+}
+.friend{
+  height: 60px;
+  border-bottom: solid 2px black;
+}
+.button{
+  margin-top: 20px;
+  width: 250px;
+  height: 25px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  border-color: dodgerblue;
+}
+.button:hover{
+  background-color: royalblue;
+}
+
+.profilButton{
+  width: 25%;
+  margin-right: 3px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  border-color: dodgerblue;
+  margin-left: 1px;
+
+}
+.profilButton:hover{
+  background-color: royalblue;
+}
+.friend p{
+  font-family: Arial;
+  margin-bottom: 10px;
+  margin-left: 3px;
+}
+.entfernenButton{
+  width: 25%;
+  margin-right: 10px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  border-color: darkred;
+}
+.entfernenButton:hover{
+  background-color: rgb(238, 90, 94);
+  border-color: rgb(238, 90, 94);
+}
+.hinzufügenButton{
+  width: 25%;
+  margin-right: 20px;
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+  border-color: darkgreen;
+}
+.hinzufügenButton:hover{
+  background-color: rgb(74, 190, 53);
+  border-color: rgb(74, 190, 53);
+}
+.buttonMargin{
+  width: 10px;
+}
+.goBack{
+  margin-top: 20px;
+  width: 250px;
+  height: 25px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+#gruppenname{
+  font-size: 17px;
+  display: inline-block;
+  border-color: royalblue;
+  border-radius: 5px;
+  width: 100%;
+  margin: 3px;
+}
+
