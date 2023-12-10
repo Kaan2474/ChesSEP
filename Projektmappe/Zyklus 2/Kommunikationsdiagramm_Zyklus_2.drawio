@@ -1,0 +1,269 @@
+<mxfile host="Electron" modified="2023-12-10T16:16:55.236Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="GhrKcc-0iQqKpY9G440F" version="22.0.3" type="device">
+  <diagram name="Seite-1" id="b_AbeNFCWmbCOd8GSfH6">
+    <mxGraphModel dx="1674" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-1" value="interactive create chessclub" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=160;" parent="1" vertex="1">
+          <mxGeometry x="10" y="10" width="1680" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-2" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="kSUUrWYaEWPYAp4Em4we-1" vertex="1">
+          <mxGeometry x="20" y="50" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="kSUUrWYaEWPYAp4Em4we-1" source="kSUUrWYaEWPYAp4Em4we-3" target="kSUUrWYaEWPYAp4Em4we-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-8" value="2: createClub(clubname:String)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-7" vertex="1" connectable="0">
+          <mxGeometry x="-0.0318" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-3" value="ChessClubController" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-1" vertex="1">
+          <mxGeometry x="243" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.004;entryY=0.429;entryDx=0;entryDy=0;entryPerimeter=0;" parent="kSUUrWYaEWPYAp4Em4we-1" source="kSUUrWYaEWPYAp4Em4we-2" target="kSUUrWYaEWPYAp4Em4we-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-5" value="1: createClub(clubName:String)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-4" vertex="1" connectable="0">
+          <mxGeometry x="-0.0255" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="kSUUrWYaEWPYAp4Em4we-1" source="kSUUrWYaEWPYAp4Em4we-6" target="kSUUrWYaEWPYAp4Em4we-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="921" y="110" />
+              <mxPoint x="921" y="135" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-11" value="3.1: chessClubRepository.save(club: ChessClub)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-10" vertex="1" connectable="0">
+          <mxGeometry x="0.0076" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;" parent="kSUUrWYaEWPYAp4Em4we-1" source="kSUUrWYaEWPYAp4Em4we-6" target="kSUUrWYaEWPYAp4Em4we-14" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-33" value="3.2: userRepository.save(User user, clubId: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-15" vertex="1" connectable="0">
+          <mxGeometry x="-0.0205" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-6" value="ChessClubService" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-1" vertex="1">
+          <mxGeometry x="610" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-9" value="ChessClubRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-1" vertex="1">
+          <mxGeometry x="1071" y="100" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-14" value="UserRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-1" vertex="1">
+          <mxGeometry x="1081" y="180" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="kSUUrWYaEWPYAp4Em4we-1" source="g2wFAO5k7BA9X1VEMyWg-1" target="g2wFAO5k7BA9X1VEMyWg-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-6" value="3.4: chatRepository.save(chat)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="g2wFAO5k7BA9X1VEMyWg-5">
+          <mxGeometry x="0.0078" y="-2" relative="1" as="geometry">
+            <mxPoint x="-1" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-1" value="ChatService" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="kSUUrWYaEWPYAp4Em4we-1">
+          <mxGeometry x="1071" y="10" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.013;entryY=0.657;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="kSUUrWYaEWPYAp4Em4we-1" source="kSUUrWYaEWPYAp4Em4we-6" target="g2wFAO5k7BA9X1VEMyWg-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-3" value="3.3: createChessClubChat(clubName: String)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="g2wFAO5k7BA9X1VEMyWg-2">
+          <mxGeometry x="-0.4098" y="3" relative="1" as="geometry">
+            <mxPoint x="42" y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-4" value="ChessClubRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="kSUUrWYaEWPYAp4Em4we-1">
+          <mxGeometry x="1484" y="10" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-17" value="interactive join chessclub" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=160;" parent="1" vertex="1">
+          <mxGeometry x="10" y="315" width="1700" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-18" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="kSUUrWYaEWPYAp4Em4we-17" vertex="1">
+          <mxGeometry x="20" y="50" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="kSUUrWYaEWPYAp4Em4we-17" source="kSUUrWYaEWPYAp4Em4we-21" target="kSUUrWYaEWPYAp4Em4we-28" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-20" value="2: joinClub(clubname:String)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-19" vertex="1" connectable="0">
+          <mxGeometry x="-0.0318" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-21" value="ChessClubController" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-17" vertex="1">
+          <mxGeometry x="243" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.004;entryY=0.429;entryDx=0;entryDy=0;entryPerimeter=0;" parent="kSUUrWYaEWPYAp4Em4we-17" source="kSUUrWYaEWPYAp4Em4we-18" target="kSUUrWYaEWPYAp4Em4we-21" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-23" value="1: joinClub(clubName:String)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-22" vertex="1" connectable="0">
+          <mxGeometry x="-0.0255" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="kSUUrWYaEWPYAp4Em4we-17" source="kSUUrWYaEWPYAp4Em4we-28" target="kSUUrWYaEWPYAp4Em4we-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-25" value="3.1: chessClubRepository.save(User user, club: ChessClub)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-24" vertex="1" connectable="0">
+          <mxGeometry x="0.0076" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;" parent="kSUUrWYaEWPYAp4Em4we-17" source="kSUUrWYaEWPYAp4Em4we-28" target="kSUUrWYaEWPYAp4Em4we-30" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-27" value="3.2: userRepository.save(User user, clubId: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-26" vertex="1" connectable="0">
+          <mxGeometry x="-0.0318" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=0.806;exitY=0.014;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="kSUUrWYaEWPYAp4Em4we-17" source="kSUUrWYaEWPYAp4Em4we-28" target="g2wFAO5k7BA9X1VEMyWg-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-12" value="3.3: updateChessClubChat(clubName:String)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="g2wFAO5k7BA9X1VEMyWg-11">
+          <mxGeometry x="-0.0487" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-28" value="ChessClubService" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-17" vertex="1">
+          <mxGeometry x="610" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-29" value="ChessClubRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-17" vertex="1">
+          <mxGeometry x="1110" y="95" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-30" value="UserRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-17" vertex="1">
+          <mxGeometry x="980" y="195" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-9" value="ChatService" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="kSUUrWYaEWPYAp4Em4we-17">
+          <mxGeometry x="1050" y="5" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-34" value="interactive send message private Chat" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=160;" parent="1" vertex="1">
+          <mxGeometry x="10" y="620" width="1460" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-35" target="kSUUrWYaEWPYAp4Em4we-38" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-40" value="1: writePrivateMessage(chatId: long, chatMessage: ChatRequestDto)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-39" vertex="1" connectable="0">
+          <mxGeometry x="-0.4963" y="-1" relative="1" as="geometry">
+            <mxPoint x="77" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-35" value="User 1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="kSUUrWYaEWPYAp4Em4we-34" vertex="1">
+          <mxGeometry x="10" y="80" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-38" target="kSUUrWYaEWPYAp4Em4we-41" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-53" value="2.1:&amp;nbsp;&amp;nbsp;getNewestMessage(chatId: long, time: long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-51" vertex="1" connectable="0">
+          <mxGeometry x="-0.1014" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-38" value="ChatController" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-34" vertex="1">
+          <mxGeometry x="330" y="150" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-41" target="kSUUrWYaEWPYAp4Em4we-44" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230" y="170" />
+              <mxPoint x="1230" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-46" value="1.3: chatMessageRepository.save(chatMessage)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-45" vertex="1" connectable="0">
+          <mxGeometry x="-0.1245" y="1" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-41" target="kSUUrWYaEWPYAp4Em4we-44" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-56" value="2.2: chatMessageRepository.findNewMesssageOf&lt;br&gt;(chaId:long, newestMessageTime: long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-54" vertex="1" connectable="0">
+          <mxGeometry x="0.0099" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.813;entryY=1;entryDx=0;entryDy=0;exitX=0.449;exitY=0.992;exitDx=0;exitDy=0;entryPerimeter=0;exitPerimeter=0;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-41" target="kSUUrWYaEWPYAp4Em4we-38" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="870" y="229" />
+              <mxPoint x="870" y="260" />
+              <mxPoint x="460" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-59" value="2.3: findNewMessageOf(chatId: Long, time: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-58" vertex="1" connectable="0">
+          <mxGeometry x="0.1121" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-41" value="ChatMessageService" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-34" vertex="1">
+          <mxGeometry x="800" y="160" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.021;entryY=0.505;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.005;exitY=0.128;exitDx=0;exitDy=0;exitPerimeter=0;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-38" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="169.99857142857147" as="sourcePoint" />
+            <mxPoint x="796.6399999999999" y="170.3199999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-43" value="1.2: saveMessage(chatMessage: ChatMessage)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-42" vertex="1" connectable="0">
+          <mxGeometry x="-0.1285" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-44" value="ChatMessageRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" parent="kSUUrWYaEWPYAp4Em4we-34" vertex="1">
+          <mxGeometry x="1250" y="160" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-37" value="User 2" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="kSUUrWYaEWPYAp4Em4we-34" vertex="1">
+          <mxGeometry x="10" y="240" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.304;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-37" target="kSUUrWYaEWPYAp4Em4we-38" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-50" value="2: findLatestMessage(senderId: Long, time: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-49" vertex="1" connectable="0">
+          <mxGeometry x="-0.7556" y="2" relative="1" as="geometry">
+            <mxPoint x="123" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="kSUUrWYaEWPYAp4Em4we-34" source="kSUUrWYaEWPYAp4Em4we-38" target="kSUUrWYaEWPYAp4Em4we-37" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="320" />
+              <mxPoint x="70" y="320" />
+              <mxPoint x="70" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kSUUrWYaEWPYAp4Em4we-61" value="2.4: findLatestMessage(senderId: Long, time: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kSUUrWYaEWPYAp4Em4we-60" vertex="1" connectable="0">
+          <mxGeometry x="0.1303" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-10" value="ChessClubRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="320" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="g2wFAO5k7BA9X1VEMyWg-9" target="g2wFAO5k7BA9X1VEMyWg-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2wFAO5k7BA9X1VEMyWg-8" value="3.4: chatRepository.save(chat)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="g2wFAO5k7BA9X1VEMyWg-7">
+          <mxGeometry x="0.0078" y="-2" relative="1" as="geometry">
+            <mxPoint x="-1" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
