@@ -103,13 +103,23 @@ public class ChatController {
         }
     }
 
-    @GetMapping("getMyPrivateChatWith/{friendId}")
+    @GetMapping("/getMyPrivateChatWith/{friendId}")
     public ResponseEntity<Chat> getMyPrivateChatWith(@PathVariable long friendId){
         Chat chat = chatService.getPrivateChatWith(friendId);
         if(chat != null){
             return new ResponseEntity<>(chat, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(chat, HttpStatus.BAD_REQUEST); //wenn Chat == null
+        }
+    }
+
+    @GetMapping("/getGroupByGroupName/{privateGroupName}")
+    public ResponseEntity<Chat> getGroupByGroupName(@PathVariable String privateGroupName){
+        Chat chat = chatService.getGroupByGroupName(privateGroupName);
+        if(chat!=null){
+            return new ResponseEntity<>(chat, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(chat, HttpStatus.BAD_REQUEST);
         }
     }
 

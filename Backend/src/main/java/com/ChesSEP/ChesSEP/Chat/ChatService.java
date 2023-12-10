@@ -55,7 +55,7 @@ public class ChatService {
     //Gruppenchat Erstellung
     public boolean createGroupChat(List<Long> user, String privateGroupName) {
 
-        if (user.isEmpty()) {
+        if (user.isEmpty()|| chatRepository.findChatByGroupName(privateGroupName) != null) {
             return false;
         }
         user.add(getSender().getId());
@@ -132,6 +132,10 @@ public class ChatService {
         } else {
             return false;
         }
+    }
+
+    public Chat getGroupByGroupName(String privateGroupName){
+        return chatRepository.findChatByGroupName(privateGroupName);
     }
 
 
