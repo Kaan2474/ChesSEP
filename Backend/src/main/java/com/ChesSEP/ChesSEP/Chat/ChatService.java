@@ -192,14 +192,6 @@ public class ChatService {
 
 
 
-    //Lösche Chat aus DB -> Für Owner
-    public void deleteChat(String clubName) {
-        if (getSender().getId().equals(chatRepository.findChatByGroupName(clubName).getOwnerId())) {
-            chatRepository.delete(chatRepository.findChatByClubName(clubName));
-        }
-    }
-
-
 
     //Gibt Nachrichten aus chatId aus
     public List<ChatMessage> findChatMessagesOf(long chatId) {
@@ -266,6 +258,13 @@ public class ChatService {
 
     ////////////////////////Methoden die eig nicht mehr gebraucht werden/////////////////////////////////////////////////////////////////////////
 
+
+    //Lösche Chat aus DB -> Für Owner
+    public void deleteChat(String clubName) {
+        if (getSender().getId().equals(chatRepository.findChatByGroupName(clubName).getOwnerId())) {
+            chatRepository.delete(chatRepository.findChatByClubName(clubName));
+        }
+    }
 
     public boolean leaveGroupChat(String privateGroupName) {
         if (chatRepository.findChatByGroupName(privateGroupName) != null && chatRepository.findChatByGroupName(privateGroupName).getUser().contains(getSender().getId())) {
