@@ -1,0 +1,116 @@
+<mxfile host="Electron" modified="2023-12-10T16:17:58.533Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="3lqmKd-abH99NbahATuM" version="22.0.3" type="device">
+  <diagram name="Seite-1" id="cSnD1ZB4XsMl0Zepgjx0">
+    <mxGraphModel dx="2585" dy="1513" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KnIUttVsCUuA8iG3leXt-1" value="interactive send message private Chat" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=160;" vertex="1" parent="1">
+          <mxGeometry x="30" y="20" width="1460" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-4" target="KnIUttVsCUuA8iG3leXt-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-3" value="1: writePrivateMessage(chatId: long, chatMessage: ChatRequestDto)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-2">
+          <mxGeometry x="-0.4963" y="-1" relative="1" as="geometry">
+            <mxPoint x="77" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-4" value="User 1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="KnIUttVsCUuA8iG3leXt-1">
+          <mxGeometry x="10" y="80" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-7" target="KnIUttVsCUuA8iG3leXt-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-6" value="2.1:&amp;nbsp;&amp;nbsp;getNewestMessage(chatId: long, time: long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-5">
+          <mxGeometry x="-0.1014" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-7" value="ChatController" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="KnIUttVsCUuA8iG3leXt-1">
+          <mxGeometry x="330" y="150" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-14" target="KnIUttVsCUuA8iG3leXt-17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230" y="170" />
+              <mxPoint x="1230" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-9" value="1.3: chatMessageRepository.save(chatMessage)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-8">
+          <mxGeometry x="-0.1245" y="1" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-14" target="KnIUttVsCUuA8iG3leXt-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-11" value="2.2: chatMessageRepository.findNewMesssageOf&lt;br&gt;(chaId:long, newestMessageTime: long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-10">
+          <mxGeometry x="0.0099" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.813;entryY=1;entryDx=0;entryDy=0;exitX=0.449;exitY=0.992;exitDx=0;exitDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-14" target="KnIUttVsCUuA8iG3leXt-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="870" y="229" />
+              <mxPoint x="870" y="260" />
+              <mxPoint x="460" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-13" value="2.3: findNewMessageOf(chatId: Long, time: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-12">
+          <mxGeometry x="0.1121" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-14" value="ChatMessageService" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="KnIUttVsCUuA8iG3leXt-1">
+          <mxGeometry x="800" y="160" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.021;entryY=0.505;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.005;exitY=0.128;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="169.99857142857147" as="sourcePoint" />
+            <mxPoint x="796.6399999999999" y="170.3199999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-16" value="1.2: saveMessage(chatMessage: ChatMessage)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-15">
+          <mxGeometry x="-0.1285" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-17" value="ChatMessageRepository:&lt;br&gt;Database" style="html=1;align=center;verticalAlign=middle;dashed=0;whiteSpace=wrap;" vertex="1" parent="KnIUttVsCUuA8iG3leXt-1">
+          <mxGeometry x="1250" y="160" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-18" value="User 2" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="KnIUttVsCUuA8iG3leXt-1">
+          <mxGeometry x="10" y="240" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.304;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-18" target="KnIUttVsCUuA8iG3leXt-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-20" value="2: findLatestMessage(senderId: Long, time: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-19">
+          <mxGeometry x="-0.7556" y="2" relative="1" as="geometry">
+            <mxPoint x="123" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="KnIUttVsCUuA8iG3leXt-1" source="KnIUttVsCUuA8iG3leXt-7" target="KnIUttVsCUuA8iG3leXt-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="320" />
+              <mxPoint x="70" y="320" />
+              <mxPoint x="70" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KnIUttVsCUuA8iG3leXt-22" value="2.4: findLatestMessage(senderId: Long, time: Long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="KnIUttVsCUuA8iG3leXt-21">
+          <mxGeometry x="0.1303" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
