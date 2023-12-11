@@ -3,6 +3,7 @@ package com.ChesSEP.ChesSEP.Chat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,8 +61,6 @@ public class ChatController {
     //Erstelle eine Gruppen Uneterhaltung mit mehreren Usern
     @GetMapping("/createGroupChat/{groupName}/{user}")
     public ResponseEntity<Boolean> createGroupChat(@PathVariable String groupName, @PathVariable List<Long> user){
-
-        //List<Long> member = chatRequestDto.getUser();
 
         boolean check = chatService.createGroupChat(user, groupName);
         if(check) {
@@ -161,6 +160,7 @@ public class ChatController {
     public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId){
         return ResponseEntity.ok(chatService.findChatMessagesOf(chatId));
     }
+
 
 
 

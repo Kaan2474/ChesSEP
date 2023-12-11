@@ -152,7 +152,9 @@ public class ChatService {
             return false;
         } else {
             chatMessageRepository.save(ChatMessage.builder()
-                    .messageId(new MessageId(getSender().getId(), chatId, System.currentTimeMillis()))
+                    .senderId(getSender().getId())
+                    .chatId(chatId)
+                    .time(System.currentTimeMillis())
                     .chatMessageStatus(ChatMessageStatus.UNREAD)
                     .content(content)
                     .build());
@@ -167,7 +169,9 @@ public class ChatService {
             return false;
         } else {
             chatMessageRepository.save(ChatMessage.builder()
-                    .messageId(new MessageId(getSender().getId(), chatId, System.currentTimeMillis()))
+                    .senderId(getSender().getId())
+                    .chatId(chatId)
+                    .time(System.currentTimeMillis())
                     .chatMessageStatus(ChatMessageStatus.UNREAD)
                     .content(content)
                     .build());
@@ -182,7 +186,7 @@ public class ChatService {
 
         List<ChatMessage> list = chatMessageRepository.findNewMessageOf(chatId, newestMessageTime);
         for (ChatMessage x : list) {
-            if (x.messageId.senderId != getSender().getId()) {
+            if (x.getSenderId() != getSender().getId()) {
                 x.setChatMessageStatus(ChatMessageStatus.READ);
                 chatMessageRepository.save(x);
             }

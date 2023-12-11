@@ -27,5 +27,6 @@ public class ChatRequestDto {
     private long senderId;
     private String newContent;
     private String oldContent;
+    private long time;
 
 }
