@@ -36,7 +36,7 @@ export class ChatService {
     return this.http.post(`${this.userURL}/writeMessageGroup/${chatid}`, chat,{headers: this.header});
   }
   public membersOfGroupChat(chatid:bigint) {
-    return this.http.get<User[]>(`${this.userURL}/members/${chatid}`,{headers: this.header});
+    return this.http.get<BigInt[]>(`${this.userURL}/members/${chatid}`,{headers: this.header});
   }
   public findLatestMessage(chatId:bigint,time: bigint) {
         return this.http.get<Chat[]>(`${this.userURL}/latest/${chatId}/${time}`,{headers: this.header});
@@ -61,14 +61,13 @@ export class ChatService {
   getChatMessages(chatId: bigint) {
     return this.http.get<Chat[]>(`${this.userURL}/getMessages/${chatId}`, {headers:this.header});
   }
-  findallMyGroupChats(){
-    return this.http.get<Chat[]>(`${this.userURL}/allMyGroupChats`, {headers:this.header})
-  }
   getMyPrivateChatWith(friendId:bigint){
     return this.http.get<Chat>(`${this.userURL}/getMyPrivateChatWith/${friendId}`, {headers:this.header})
   }
-  getGroupByGroupName(groupName:String){
+  getGroupByGroupName(groupName:any){
     return this.http.get<Chat>(`${this.userURL}/getGroupByGroupName/${groupName}`, {headers:this.header})
   }
-
+  leaveGroupChat(user:any){
+      return this.http.post(`${this.userURL}/leaveGroup`, user, {headers:this.header});
+  }
 }

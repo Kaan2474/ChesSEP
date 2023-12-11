@@ -17,6 +17,7 @@ export class AddMembersComponent implements OnInit{
   user: User;
   id:any;
   memberIds:any = [];
+  groupName:any;
 
 
   constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute, private chatService: ChatService,private router: Router) {
@@ -28,7 +29,7 @@ export class AddMembersComponent implements OnInit{
     console.log('userId:', this.id);
     this.getFriends();
     this.refreshUser();
-      }
+  }
   refreshUser() {
     this.userService.getUserbyToken()
       .subscribe(data => {
@@ -54,7 +55,7 @@ export class AddMembersComponent implements OnInit{
 
   createGroup() {
     const groupname = (document.getElementById("gruppenname") as HTMLInputElement).value;
-
+    this.groupName = groupname;
     if (groupname === "") {
       alert("Sie müssen einen Namen für die Gruppe eintragen!");
     } else if (this.memberIds.length < 2) {
@@ -62,7 +63,9 @@ export class AddMembersComponent implements OnInit{
     } else {
       this.chatService.createGroupChat(groupname, this.memberIds).subscribe(()=> {
         alert(`Gruppenchat: ${groupname} wurde erfolgreich erstellt`);
-        this.router.navigate(['/groupchat']);}
+        this.router.navigate(['/groupchat/' + this.groupName]);
+        localStorage.setItem("GroupName", this.groupName);
+        }
       );
     }
   }

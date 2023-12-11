@@ -9,6 +9,7 @@ import {ChatService} from "../../Service/chat.service";
 import {Chat} from "../../Modules/Chat";
 import {UserService} from "../../Service/user.service";
 import {scheduled} from "rxjs";
+import {User} from "../../Modules/User";
 
 @Component({
   selector: 'app-homepage',
@@ -20,7 +21,6 @@ export class HomepageComponent {
   public allgroups: Chat[] = [];
   allChessClubs: ChessClub[] = [];
   schachclubId : any;
-
 
 
   URL = "http://localhost:8080/ChessClub"
@@ -36,7 +36,6 @@ export class HomepageComponent {
               private http: HttpClient,
               private userService: UserService,
               private router: Router){
-
   }
 
   ngOnInit(){
@@ -94,6 +93,7 @@ export class HomepageComponent {
   showNotification(message:string){
     alert(message);
   }
+
 
   protected readonly scheduled = scheduled;
 }
