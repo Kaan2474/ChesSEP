@@ -112,20 +112,19 @@ public class ChessClubService {
     Beim joinen wird clubId vom getSender überschrieben und er wird in die Chat Liste eingetragen
      */
     public void joinClubByMario(String clubName) {
-        User newMember = getSender();
+        getSender();
         if (getSender().getClubId() == null) {
-            newMember.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
-            userRepository.save(newMember);
+            getSender().setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(getSender());
             chatService.updateChessClubChat(clubName);
         } else {
-            newMember.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
-            userRepository.save(newMember);
+            getSender().setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(getSender());
             deleteClubV2(clubName);
         }
     }
 
     public boolean createClubV2(String clubName){
-        User user = userRepository.findUserById(getSender().getId());
         if(chessClubRepository.findChessClubByName(clubName)!=null){
             return false;
         }else {
@@ -134,8 +133,8 @@ public class ChessClubService {
                     .name(clubName)
                     .build());
 
-            user.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
-            userRepository.save(user);
+            getSender().setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(getSender());
 
 
             chatService.createChessClubChat(clubName);
