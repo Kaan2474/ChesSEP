@@ -111,12 +111,6 @@ public class ChatController {
     //#################Alles Rund um Nachrichten#######################
 
 
-    //Gibt neuste Nachricht(en) zurück
-    @GetMapping("/latest/{chatId}/{time}")
-    public ResponseEntity<List<ChatMessage>> findLatestMessage(@PathVariable long chatId, @PathVariable long time){
-        return ResponseEntity.ok(chatService.getNewMessage(chatId, time));
-    }
-
 
     //Gibt eine List aus, mit allen Nachrichten die ungelesen sind und somit verändert/gelöscht werden können
     @GetMapping("/changableMessage/{chatId}")
@@ -127,12 +121,12 @@ public class ChatController {
 
 
     /*Verändert den Content einer UNGELESENEN "UNREAD" Nachricht
-    Hier ist zu verstehen, dass getOldContent verglichen wird mit der Nachricht, die in der DB zu finden ist.
+    Hier ist zu verstehen, dass getContent verglichen wird mit der Nachricht, die in der DB zu finden ist.
     Bei einer übereinstimmung, wird diese zu getNewContent verändert
      */
     @PostMapping("/changeMessage/{chatId}")
     public ResponseEntity<Boolean> changeMessage(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto){
-        boolean check = chatService.setChangeMessage(chatId, chatRequestDto.getOldContent(), chatRequestDto.getNewContent());
+        boolean check = chatService.setChangeMessage(chatId, chatRequestDto.getContent(), chatRequestDto.getNewContent());
         if(check){
             return new ResponseEntity<>(check, HttpStatus.OK);
         }else{
@@ -142,12 +136,12 @@ public class ChatController {
 
 
     /*Löscht eine UNGELESENEN "UNREAD" Nachricht
-    Hier ist zu verstehen, dass getOldContent verglichen wird mit der Nachricht, die in der DB zu finden ist.
+    Hier ist zu verstehen, dass getContent verglichen wird mit der Nachricht, die in der DB zu finden ist.
     Bei einer übereinstimmung, wird diese gelöscht
      */
     @PostMapping("/deleteMessage/{chatId}")
     public ResponseEntity<Boolean> deleteMessage(@PathVariable long chatId, @RequestBody ChatRequestDto chatRequestDto){
-        boolean check = chatService.deleteMessage(chatId, chatRequestDto.getOldContent());
+        boolean check = chatService.deleteMessage(chatId, chatRequestDto.getContent());
         if(check){
             return new ResponseEntity<>(check, HttpStatus.OK);
         }else{
@@ -155,20 +149,29 @@ public class ChatController {
         }
     }
 
-    //Gibt die Nachrichten aus, die in einer Unterhaltung (Gruppe oder Private) sind
-    @GetMapping("/getMessages/{chatId}")
-    public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId){
-        return ResponseEntity.ok(chatService.findChatMessagesOf(chatId));
-    }
+
 
 
 
 
 
     ///////////////Verworfene Methoden//////////////////////////////////
-    @PostMapping("/leaveGroup")
-    public ResponseEntity<Boolean> leaveGroupChat(@RequestBody ChatRequestDto user) {
-        boolean check = chatService.leaveGroupChat(user.getPrivateGroupName());
+
+    //Gibt die Nachrichten aus, die in einer Unterhaltung (Gruppe oder Private) sind
+    @GetMapping("/getMessages/{chatId}")
+    public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId){
+        return ResponseEntity.ok(chatService.findChatMessagesOf(chatId));
+    }
+
+    //Gibt neuste Nachricht(en) zurück
+    @GetMapping("/latest/{chatId}/{time}")
+    public ResponseEntity<List<ChatMessage>> findLatestMessage(@PathVariable long chatId, @PathVariable long time){
+        return ResponseEntity.ok(chatService.getNewMessage(chatId, time));
+    }
+
+    @GetMapping("/leaveGroup/{privateGroupName}")
+    public ResponseEntity<Boolean> leaveGroupChat(@PathVariable String privateGroupName) {
+        boolean check = chatService.leaveGroupChat(privateGroupName);
         if (check) {
             return new ResponseEntity<>(check, HttpStatus.OK);
         } else {

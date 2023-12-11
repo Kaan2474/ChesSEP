@@ -26,7 +26,6 @@ public class ChatRequestDto {
     private String chatMessageStatus;
     private long senderId;
     private String newContent;
-    private String oldContent;
     private long time;
 
 }

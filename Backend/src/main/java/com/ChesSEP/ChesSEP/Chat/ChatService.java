@@ -41,9 +41,13 @@ public class ChatService {
         if (chatRepository.getPrivateChat(getSender().getId(), friendId) != null) {
             return false;
         } else {
+            List<Long> list = new ArrayList<>();
+            list.add(friendId);
+            list.add(getSender().getId());
 
             chatRepository.save(Chat.builder()
                     .ownerId(getSender().getId())
+                            .user(list)
                     .recipientId(friendId)
                     .type(ChatType.PRIVATE)
                     .build());
@@ -146,9 +150,9 @@ public class ChatService {
 
 
     //Für das schreiben von Nachrichten in Privaten Unterhaltungen (1 zu 1)
-    //findByChatIDAndUserId -> Buggy
+    //findByChatIDAndUserId -> Buggy -> ggfs im Controller die frienId mit schicken und dann im chatrepo nach getPrivateChat filtern
     public boolean writeMessage(String content, long chatId) {
-        if (content == null || chatRepository.findChatByChatId(chatId) == null){ // || chatRepository.findByChatIdAndUserId(chatId, getSender().getId()) == null) {
+        if (content == null || chatRepository.findChatByChatId(chatId) == null){  // || chatRepository.findByChatIdAndUserId(chatId, getSender().getId()) == null) {
             return false;
         } else {
             chatMessageRepository.save(ChatMessage.builder()
@@ -180,11 +184,12 @@ public class ChatService {
     }
 
 
-    //Liste aller Nachrichten, nach newestMessageTime
-    //Sobald jemand anderes die Nachricht abruft, wird der Status der Nachricht auf ChatMessageStatus.READ gesetzt
-    public List<ChatMessage> getNewMessage(long chatId, long newestMessageTime) {
 
-        List<ChatMessage> list = chatMessageRepository.findNewMessageOf(chatId, newestMessageTime);
+
+
+    //Gibt Nachrichten aus chatId aus
+    public List<ChatMessage> findChatMessagesOf(long chatId) {
+        List<ChatMessage> list = chatMessageRepository.findChatMessagesOf(chatId);
         for (ChatMessage x : list) {
             if (x.getSenderId() != getSender().getId()) {
                 x.setChatMessageStatus(ChatMessageStatus.READ);
@@ -192,14 +197,6 @@ public class ChatService {
             }
         }
         return list;
-    }
-
-
-
-
-    //Gibt Nachrichten aus chatId aus
-    public List<ChatMessage> findChatMessagesOf(long chatId) {
-        return chatMessageRepository.findChatMessagesOf(chatId);
     }
 
 
@@ -271,10 +268,14 @@ public class ChatService {
     }
 
     public boolean leaveGroupChat(String privateGroupName) {
+
         if (chatRepository.findChatByGroupName(privateGroupName) != null && chatRepository.findChatByGroupName(privateGroupName).getUser().contains(getSender().getId())) {
             Chat leftGroup = chatRepository.findChatByGroupName(privateGroupName);
             leftGroup.getUser().remove(getSender().getId());
             chatRepository.save(leftGroup);
+            if(leftGroup.getUser().isEmpty()){
+                chatRepository.delete(chatRepository.findChatByGroupName(privateGroupName));
+            }
             return true;
         } else {
             return false;
@@ -300,6 +301,25 @@ public class ChatService {
             return false;
         }
     }
+
+
+
+    //Liste aller Nachrichten, nach newestMessageTime
+    //Sobald jemand anderes die Nachricht abruft, wird der Status der Nachricht auf ChatMessageStatus.READ gesetzt
+    public List<ChatMessage> getNewMessage(long chatId, long time) {
+
+        List<ChatMessage> list = chatMessageRepository.findNewMessageOf(chatId, time);
+        for (ChatMessage x : list) {
+            if (x.getSenderId() != getSender().getId()) {
+                x.setChatMessageStatus(ChatMessageStatus.READ);
+                chatMessageRepository.save(x);
+            }
+        }
+        return list;
+    }
+
+
+
 }
     /*
         ##Gibt alle Nachrichten aus, die vor Time geschrieben wurden##
