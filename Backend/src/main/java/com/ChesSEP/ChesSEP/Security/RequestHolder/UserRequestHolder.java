@@ -21,4 +21,5 @@ public class UserRequestHolder {
     private int elo;
     private byte[] profilbild;
     private String privacy;
+    private Long clubId;
 }

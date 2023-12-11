@@ -49,16 +49,20 @@ export class HomepageComponent {
     this.getAllChessClubs()
     this.chatService.findAllMyGroupChats().subscribe((data)=>
       this.allgroups=data);
+      this.updateClubID()
+
+  }
+
+  updateClubID(){
     this.userService.getUserbyToken().subscribe(data => {
       this.schachclubId = data.clubId; console.log(data)} )
-    console.log(this.schachclubId)
   }
 
   createClub(name: {name: string}){
     console.log(name.name)
     this.http.get(`${this.URL}/createClubV2/${name.name}`, {headers: this.header}).subscribe(data =>
 
-      {
+      { this.updateClubID()
       },
       error => {
         console.log("Schachclub konnte nicht erstellt werden", error)
@@ -74,6 +78,7 @@ export class HomepageComponent {
     console.log(name.name)
     this.http.get(`${this.URL}/joinClubV2/${name.name}`  ,{ headers: this.header }).subscribe(
       (data) => {
+        this.updateClubID()
           this.showNotification(`Du bist dem Schachclub "${name.name}" beigetreten.`);
 
       },
@@ -95,5 +100,5 @@ export class HomepageComponent {
   }
 
 
-  protected readonly scheduled = scheduled;
+
 }
