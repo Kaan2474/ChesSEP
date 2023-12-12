@@ -1,26 +1,41 @@
-/*Der ,,Partie ausblenden'' Button*/
-button {
+/*Der ,,Partie aufgeben'' Button*/
+#endgame {
   color: #FFFFFF;
   background-color: #0D99FF;
-  padding: 8px;
+  padding: 2px;
   border: 2px solid #1E1E1E;
   border-radius: 5px;
   cursor: pointer;
   width: 15%;
 }
-
-button:hover {
+#endgame:hover {
   background-color: royalblue;
 }
 
-h3 {
-  font-size: 20px;
-  color: #1E1E1E;;
+/*Schachfeld*/
+button{
+  height: 60px;
+  width: 60px;
+  padding: 0;
+  border: 0;
+  background-size: 100%;
+  cursor: pointer;
 }
 
-#chessPic {
-  width: 500px;
-  height: 450px;
+/*Felder schwarz färben*/
+.blackField {
+  background-color: cornflowerblue;
+}
+
+/*Felder schwarz färben*/
+.whiteField {
+  background-color: white;
+}
+
+/*Timer*/
+h3 {
+  font-size: 30px;
+  color: #1E1E1E;;
 }
 
 .userPics {
@@ -28,7 +43,7 @@ h3 {
   height: 100px;
 }
 
-/*Die Design Eigenschaften der Tabelle*/
+/*Die Design Eigenschaften der Tabellen*/
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -38,13 +53,18 @@ table, th, td {
   color: #1E1E1E;
 }
 
+/*Abstände der user- und rival Tabellen*/
 #user-table {
+  margin-top: 10px;
+}
+#rival-table {
   margin-bottom: 10px;
 }
 
-#rival-table {
-  margin-top: 10px;
+div {
+  display: flex;
 }
+
 
 
 
