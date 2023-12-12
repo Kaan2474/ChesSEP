@@ -94,6 +94,11 @@ export class HomepageComponent {
     alert(message);
   }
 
+  leaveGroup(groupName:String){
+    this.chatService.leaveGroupChat(groupName).subscribe(()=>
+      window.location.reload()
+    );
+  }
 
   protected readonly scheduled = scheduled;
 }
