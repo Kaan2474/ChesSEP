@@ -403,7 +403,7 @@ public class ChessBoard {
                 if(currentPiece==null)
                     continue;
 
-                if(currentPiece.getColor()==alliedColor)
+                if(currentPiece.getColor()==alliedColor||currentPiece.getType()==ChessPieceType.KOENIG)
                     continue;
 
                 List<int[]> currentValidEnemyCoords=validCoordsOf(i, j, board);
