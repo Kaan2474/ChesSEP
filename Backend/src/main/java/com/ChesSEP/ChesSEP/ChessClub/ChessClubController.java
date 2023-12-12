@@ -19,25 +19,9 @@ public class ChessClubController {
     private final ChessClubService chessClubService;
     private ObjectMapper objectMapper=new ObjectMapper();
 
-
-    @GetMapping("/getMembers")
-    public ResponseEntity<UserRequestHolder[]> getMembers(@RequestBody String clubName){
-        return ResponseEntity.ok(chessClubService.getMembers(clubName));
-    }
-
     @PostMapping("/leaveClub")
     public void leaveClub(){
         chessClubService.leaveClub();
-    }
-
-    @PostMapping("/joinClub")
-    public void joinClub(@RequestBody String clubName){
-        chessClubService.joinClub(clubName);
-    }
-
-    @PostMapping("/createClub")
-    public void createClub(@RequestBody String clubName){
-        chessClubService.createClub(clubName);
     }
 
     @GetMapping("/getAllChessClubs")
@@ -50,11 +34,11 @@ public class ChessClubController {
         return ResponseEntity.ok(objectMapper.writeValueAsString(chessClubService.getMeinChessClubName()));
     }
 
-
     @GetMapping("/joinClubV2/{clubName}")
     public void joinClubV2(@PathVariable String clubName){
-        chessClubService.joinClubByMario(clubName);
+        chessClubService.joinClub(clubName);
     }
+
     @GetMapping("/createClubV2/{clubName}")
     public ResponseEntity<Boolean> createClubV2(@PathVariable String clubName){
         boolean check = chessClubService.createClubV2(clubName);
@@ -65,8 +49,6 @@ public class ChessClubController {
         }
     }
 
-
-    //Hier mit einer @PathVariable, vielleicht einfacher fürs Frontend
     @GetMapping("/getMember/{id}")
     public ResponseEntity<UserRequestHolder[]> getMembers(@PathVariable long id){
         return ResponseEntity.ok(chessClubService.getChessClubMember(id));

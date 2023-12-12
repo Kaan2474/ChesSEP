@@ -144,6 +144,23 @@ public class ChatService {
     }
 
 
+    //Verlässt den Gruppen Chat
+    public boolean leaveGroupChat(String privateGroupName) {
+
+        if (chatRepository.findChatByGroupName(privateGroupName) != null && chatRepository.findChatByGroupName(privateGroupName).getUser().contains(getSender().getId())) {
+            Chat leftGroup = chatRepository.findChatByGroupName(privateGroupName);
+            leftGroup.getUser().remove(getSender().getId());
+            chatRepository.save(leftGroup);
+            if(leftGroup.getUser().isEmpty()){
+                chatRepository.delete(chatRepository.findChatByGroupName(privateGroupName));
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 
     //##################Alles Rund um Nachrichten###############################
@@ -267,20 +284,7 @@ public class ChatService {
         }
     }
 
-    public boolean leaveGroupChat(String privateGroupName) {
 
-        if (chatRepository.findChatByGroupName(privateGroupName) != null && chatRepository.findChatByGroupName(privateGroupName).getUser().contains(getSender().getId())) {
-            Chat leftGroup = chatRepository.findChatByGroupName(privateGroupName);
-            leftGroup.getUser().remove(getSender().getId());
-            chatRepository.save(leftGroup);
-            if(leftGroup.getUser().isEmpty()){
-                chatRepository.delete(chatRepository.findChatByGroupName(privateGroupName));
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public boolean deleteGroupChat(String privateGroupName) {
         Chat toDelete = chatRepository.findChatByGroupName(privateGroupName);
