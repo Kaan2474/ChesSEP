@@ -5,8 +5,11 @@ import {ChessClubService} from "../../Service/chess-club.service";
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ChessClub} from "../../Modules/ChessClub";
-
-
+import {ChatService} from "../../Service/chat.service";
+import {Chat} from "../../Modules/Chat";
+import {UserService} from "../../Service/user.service";
+import {scheduled} from "rxjs";
+import {User} from "../../Modules/User";
 
 @Component({
   selector: 'app-homepage',
@@ -15,9 +18,9 @@ import {ChessClub} from "../../Modules/ChessClub";
 })
 export class HomepageComponent {
 
-  public allgroups: Friends[] = [];
-
+  public allgroups: Chat[] = [];
   allChessClubs: ChessClub[] = [];
+  schachclubId : any;
 
 
   URL = "http://localhost:8080/ChessClub"
@@ -29,9 +32,10 @@ export class HomepageComponent {
 
   constructor(private matchmakingservice:MatchmakingService,
               private chessclubservice: ChessClubService,
+              private chatService: ChatService,
               private http: HttpClient,
+              private userService: UserService,
               private router: Router){
-
   }
 
   ngOnInit(){
@@ -43,14 +47,22 @@ export class HomepageComponent {
       localStorage.setItem("Waited","0");
     }
     this.getAllChessClubs()
+    this.chatService.findAllMyGroupChats().subscribe((data)=>
+      this.allgroups=data);
+      this.updateClubID()
+
+  }
+
+  updateClubID(){
+    this.userService.getUserbyToken().subscribe(data => {
+      this.schachclubId = data.clubId; console.log(data)} )
   }
 
   createClub(name: {name: string}){
     console.log(name.name)
     this.http.get(`${this.URL}/createClubV2/${name.name}`, {headers: this.header}).subscribe(data =>
 
-      {
-        this.showNotification("Der Schachclub wurde erstellt");
+      { this.updateClubID()
       },
       error => {
         console.log("Schachclub konnte nicht erstellt werden", error)
@@ -58,6 +70,7 @@ export class HomepageComponent {
       }
     );
     window.location.reload();
+    this.showNotification("Der Schachclub wurde erstellt");
   }
 
 
@@ -65,6 +78,7 @@ export class HomepageComponent {
     console.log(name.name)
     this.http.get(`${this.URL}/joinClubV2/${name.name}`  ,{ headers: this.header }).subscribe(
       (data) => {
+        this.updateClubID()
           this.showNotification(`Du bist dem Schachclub "${name.name}" beigetreten.`);
 
       },
@@ -81,13 +95,15 @@ export class HomepageComponent {
 
   }
 
-
-
-
-
-
   showNotification(message:string){
     alert(message);
   }
+
+  leaveGroup(groupName:String){
+    this.chatService.leaveGroupChat(groupName).subscribe(()=>
+      window.location.reload()
+    );
+  }
+
 
 }

@@ -5,10 +5,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-@Embeddable
-@NoArgsConstructor
-@AllArgsConstructor
-class MessageId implements Serializable {Long senderId; Long chatId; Long time;}
 
 @Entity
 @AllArgsConstructor
@@ -18,9 +14,20 @@ class MessageId implements Serializable {Long senderId; Long chatId; Long time;}
 @Builder
 public class ChatMessage {
 
-    @EmbeddedId
-    MessageId messageId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long messageId;
 
+    @Column
+    private long senderId;
+
+    @Column
+    private long chatId;
+
+    @Column
+    private long time;
+
+    @Column
     private String content;
 
     @Column

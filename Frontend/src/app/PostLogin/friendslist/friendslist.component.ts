@@ -3,8 +3,10 @@ import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
+import {ChatService} from "../../Service/chat.service";
+import {Chat} from "../../Modules/Chat";
 
 
 @Component({
@@ -16,14 +18,18 @@ export class FriendslistComponent implements OnInit{
   public allFriends: Friends[] = [];
   user: User;
   privacyText: any;
+  chat: any;
+  id:any;
 
 
-
-  constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute) {
+  constructor(private friendsService: FriendsService, private userService: UserService, private route: ActivatedRoute, private chatService: ChatService,private router: Router) {
     this.user = new User();
+    this.chat= new Chat();
     this.refreshUser();
   }
   ngOnInit() {
+    this.id = this.route.snapshot.params["id"];
+    console.log('userId:', this.id);
     this.getFriends();
     this.refreshUser();
   }
@@ -69,4 +75,11 @@ export class FriendslistComponent implements OnInit{
       })
       window.location.reload();
     }
+
+  createPrivateChat(friendId: number){
+
+      this.chatService.createPrivateChat(friendId).subscribe();
+      console.log("userID:" + friendId)
+      this.router.navigate(['/privateChat/' + friendId])
+  }
 }

@@ -52,7 +52,6 @@ public class UserService {
             .elo(500)
             .role(Role.USER)
             .twoFactor(999999) //Flag für null
-            .clubId(0L)
                 .FriendlistPrivacy(Privacy.OEFFENTLICH)
             .build();
 
@@ -128,6 +127,7 @@ public class UserService {
         .elo(user.getElo())
         .profilbild(picture)
         .privacy(user.getFriendlistPrivacy().name())
+                .clubId(user.getClubId())
         .build();
        
         return holder;

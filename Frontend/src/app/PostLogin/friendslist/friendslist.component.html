@@ -28,7 +28,7 @@
     <td><a [routerLink]="['/friend-profil-view', friend.id]">Profil</a></td>
     <td><a [routerLink]="['/friendlist-of-friends', friend.id]">Freunde</a></td>
     <td><button id="deleteButton" type="button" (click)="onDeleteFriend(friend)">Löschen</button></td>
-    <td><a [routerLink]="['/privateChat', friend.id]">Chat</a></td>
+    <td><button id="chatButton" type="button" (click)="createPrivateChat(friend.id)">Chat</button></td>
   </tr>
 </table>
 

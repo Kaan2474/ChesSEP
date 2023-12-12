@@ -1,14 +1,22 @@
+
 export class Chat {
   ownerId:any;
+  senderId:any;
+  senderName:any;
   recipientId:any;
   chessClubId:any;
   chessClubName:any;
-  groupName:any;
-  user?:any[];
+  privateGroupName:any;
+  user:any[]=[];
   content:any;
   chatId:any;
   chatMessageStatus:any;
-  senderId:any;
   newContent:any;
-  oldContent:any;
+  time: any;
+  messageId: MessageId = new MessageId();
+}
+export class MessageId{
+  senderId:any;
+  chatId:any;
+  time:any;
 }

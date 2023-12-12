@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Chat} from "../Modules/Chat";
 import {User} from "../Modules/User";
-import {Message} from "../Modules/Message";
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +23,11 @@ export class ChatService {
 
   }
 
-  public createPrivateChat(chat: Chat) {
-    return this.http.post(this.userURL + "/createPrivateChat", chat,{headers: this.header});
+  public createPrivateChat(friendid:number) {
+    return this.http.get(`${this.userURL}/createPrivateChat/${friendid}`,{headers: this.header});
   }
-  public createGroupChat(chat: Chat) {
-    return this.http.post(this.userURL + "/createGroupChat", chat, {headers: this.header});
+  public createGroupChat(name:String, users:any[]) {
+    return this.http.get(`${this.userURL}/createGroupChat/${name}/${users}`, {headers: this.header});
   }
   public writeMessage(chatid:bigint, chat:Chat) {
     return this.http.post(`${this.userURL}/writeMessagePrivateChat/${chatid}`, chat,{headers: this.header});
@@ -37,14 +36,14 @@ export class ChatService {
     return this.http.post(`${this.userURL}/writeMessageGroup/${chatid}`, chat,{headers: this.header});
   }
   public membersOfGroupChat(chatid:bigint) {
-    return this.http.get<User[]>(`${this.userURL}/members/${chatid}`,{headers: this.header});
+    return this.http.get<BigInt[]>(`${this.userURL}/members/${chatid}`,{headers: this.header});
   }
   public findLatestMessage(chatId:bigint,time: bigint) {
-        return this.http.get<Message[]>(`${this.userURL}/latest/${chatId}/${time}`,{headers: this.header});
+        return this.http.get<Chat[]>(`${this.userURL}/latest/${chatId}/${time}`,{headers: this.header});
   }
 
   getChangeableMessages(chatId: bigint) {
-    return this.http.get<Message[]>(`${this.userURL}/changableMessage/${chatId}`, {headers:this.header});
+    return this.http.get<Chat[]>(`${this.userURL}/changableMessage/${chatId}`, {headers:this.header});
   }
 
   changeMessage(chatId: bigint, chat: Chat) {
@@ -55,11 +54,20 @@ export class ChatService {
     return this.http.post(`${this.userURL}/deleteMessage/${chatId}`, chat, {headers:this.header});
   }
 
-  findAllMyChats() {
-    return this.http.get<Chat[]>( `${this.userURL}/allMyChats`, {headers:this.header});
+  findAllMyGroupChats() {
+    return this.http.get<Chat[]>( `${this.userURL}/allMyGroupChats`, {headers:this.header});
   }
 
   getChatMessages(chatId: bigint) {
-    return this.http.get<Message[]>(`${this.userURL}/getMessages/${chatId}`, {headers:this.header});
+    return this.http.get<Chat[]>(`${this.userURL}/getMessages/${chatId}`, {headers:this.header});
+  }
+  getMyPrivateChatWith(friendId:bigint){
+    return this.http.get<Chat>(`${this.userURL}/getMyPrivateChatWith/${friendId}`, {headers:this.header})
+  }
+  getGroupByGroupName(groupName:any){
+    return this.http.get<Chat>(`${this.userURL}/getGroupByGroupName/${groupName}`, {headers:this.header})
+  }
+  leaveGroupChat(privateGroupName:String){
+      return this.http.get(`${this.userURL}/leaveGroup/${privateGroupName}`, {headers:this.header});
   }
 }

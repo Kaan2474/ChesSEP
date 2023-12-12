@@ -1,43 +1,130 @@
 <app-header></app-header>
 
+<table id="rival-table" *ngIf="rival">
+  <tr>
+    <th>Profilbild</th>
+    <th>Name</th>
+    <th>Elo</th>
+    <th>Timer</th>
+  </tr>
+  <tr>
+    <td>
+      <img class="userPics" *ngIf="rival.profilbild" [src]="rival.profilbild" alt="Das Profilbild des Gegners">
+      <img class="userPics" *ngIf="!rival || !rival.profilbild" [src]="url" alt ="Standardprofilbild"></td>
+    <td>{{rival.vorname}} {{rival.nachname}}</td>
+    <td>{{rival.elo}}</td>
+    <td>{{timer[0]}}</td>
+  </tr>
+</table>
+
+  <div>
+    <button id="a8" class="whiteField" (click)="buttonManager('a8')" type="button"></button>
+    <button id="b8" class="blackField" (click)="buttonManager('b8')" type="button"></button>
+    <button id="c8" class="whiteField" (click)="buttonManager('c8')" type="button"></button>
+    <button id="d8" class="blackField" (click)="buttonManager('d8')" type="button"></button>
+    <button id="e8" class="whiteField" (click)="buttonManager('e8')" type="button"></button>
+    <button id="f8" class="blackField" (click)="buttonManager('f8')" type="button"></button>
+    <button id="g8" class="whiteField" (click)="buttonManager('g8')" type="button"></button>
+    <button id="h8" class="blackField" (click)="buttonManager('h8')" type="button"></button>
+  </div>
+
+  <div>
+    <button id="a7" class="blackField" (click)="buttonManager('a7')" type="button"></button>
+    <button id="b7" class="whiteField" (click)="buttonManager('b7')" type="button"></button>
+    <button id="c7" class="blackField" (click)="buttonManager('c7')" type="button"></button>
+    <button id="d7" class="whiteField" (click)="buttonManager('d7')" type="button"></button>
+    <button id="e7" class="blackField" (click)="buttonManager('e7')" type="button"></button>
+    <button id="f7" class="whiteField" (click)="buttonManager('f7')" type="button"></button>
+    <button id="g7" class="blackField" (click)="buttonManager('g7')" type="button"></button>
+    <button id="h7" class="whiteField" (click)="buttonManager('h7')" type="button"></button>
+  </div>
+
+  <div>
+    <button id="a6" class="whiteField" (click)="buttonManager('a6')" type="button"></button>
+    <button id="b6" class="blackField" (click)="buttonManager('b6')" type="button"></button>
+    <button id="c6" class="whiteField" (click)="buttonManager('c6')" type="button"></button>
+    <button id="d6" class="blackField" (click)="buttonManager('d6')" type="button"></button>
+    <button id="e6" class="whiteField" (click)="buttonManager('e6')" type="button"></button>
+    <button id="f6" class="blackField" (click)="buttonManager('f6')" type="button"></button>
+    <button id="g6" class="whiteField" (click)="buttonManager('g6')" type="button"></button>
+    <button id="h6" class="blackField" (click)="buttonManager('h6')" type="button"></button>
+  </div>
+
+  <div>
+    <button id="a5" class="blackField" (click)="buttonManager('a5')" type="button"></button>
+    <button id="b5" class="whiteField" (click)="buttonManager('b5')" type="button"></button>
+    <button id="c5" class="blackField" (click)="buttonManager('c5')" type="button"></button>
+    <button id="d5" class="whiteField" (click)="buttonManager('d5')" type="button"></button>
+    <button id="e5" class="blackField" (click)="buttonManager('e5')" type="button"></button>
+    <button id="f5" class="whiteField" (click)="buttonManager('f5')" type="button"></button>
+    <button id="g5" class="blackField" (click)="buttonManager('g5')" type="button"></button>
+    <button id="h5" class="whiteField" (click)="buttonManager('h5')" type="button"></button>
+  </div>
+  <div>
+    <button id="a4" class="whiteField" (click)="buttonManager('a4')" type="button"></button>
+    <button id="b4" class="blackField" (click)="buttonManager('b4')" type="button"></button>
+    <button id="c4" class="whiteField" (click)="buttonManager('c4')" type="button"></button>
+    <button id="d4" class="blackField" (click)="buttonManager('d4')" type="button"></button>
+    <button id="e4" class="whiteField" (click)="buttonManager('e4')" type="button"></button>
+    <button id="f4" class="blackField" (click)="buttonManager('f4')" type="button"></button>
+    <button id="g4" class="whiteField" (click)="buttonManager('g4')" type="button"></button>
+    <button id="h4" class="blackField" (click)="buttonManager('h4')" type="button"></button>
+  </div>
+
+  <div>
+    <button id="a3" class="blackField" (click)="buttonManager('a3')" type="button"></button>
+    <button id="b3" class="whiteField" (click)="buttonManager('b3')" type="button"></button>
+    <button id="c3" class="blackField" (click)="buttonManager('c3')" type="button"></button>
+    <button id="d3" class="whiteField" (click)="buttonManager('d3')" type="button"></button>
+    <button id="e3" class="blackField" (click)="buttonManager('e3')" type="button"></button>
+    <button id="f3" class="whiteField" (click)="buttonManager('f3')" type="button"></button>
+    <button id="g3" class="blackField" (click)="buttonManager('g3')" type="button"></button>
+    <button id="h3" class="whiteField" (click)="buttonManager('h3')" type="button"></button>
+  </div>
+
+  <div>
+    <button id="a2" class="whiteField" (click)="buttonManager('a2')" type="button"></button>
+    <button id="b2" class="blackField" (click)="buttonManager('b2')" type="button"></button>
+    <button id="c2" class="whiteField" (click)="buttonManager('c2')" type="button"></button>
+    <button id="d2" class="blackField" (click)="buttonManager('d2')" type="button"></button>
+    <button id="e2" class="whiteField" (click)="buttonManager('e2')" type="button"></button>
+    <button id="f2" class="blackField" (click)="buttonManager('f2')" type="button"></button>
+    <button id="g2" class="whiteField" (click)="buttonManager('g2')" type="button"></button>
+    <button id="h2" class="blackField" (click)="buttonManager('h2')" type="button"></button>
+  </div>
+
+  <div>
+    <button id="a1" class="blackField" (click)="buttonManager('a1')" type="button"></button>
+    <button id="b1" class="whiteField" (click)="buttonManager('b1')" type="button"></button>
+    <button id="c1" class="blackField" (click)="buttonManager('c1')" type="button"></button>
+    <button id="d1" class="whiteField" (click)="buttonManager('d1')" type="button"></button>
+    <button id="e1" class="blackField" (click)="buttonManager('e1')" type="button"></button>
+    <button id="f1" class="whiteField" (click)="buttonManager('f1')" type="button"></button>
+    <button id="g1" class="blackField" (click)="buttonManager('g1')" type="button"></button>
+    <button id="h1" class="whiteField" (click)="buttonManager('h1')" type="button"></button>
+  </div>
+
 <div>
   <table id="user-table" *ngIf="user">
     <tr>
       <th>Profilbild</th>
       <th>Name</th>
       <th>Elo</th>
+      <th>Timer</th>
     </tr>
     <tr>
       <td>
         <img class="userPics" *ngIf="user.profilbild" [src]="user.profilbild" alt="Das Profilbild des Users">
         <img class="userPics" *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
       </td>
-      <td>Kaan Hisiroglu</td>
-      <td>500</td>
+      <td>{{user.vorname}} {{user.nachname}}</td>
+      <td>{{user.elo}}</td>
+      <td>{{timer[1]}}</td>
     </tr>
   </table>
-  <h3>Timer: 00:00</h3>
-
-  <img id="chessPic" src="/assets/images/Schachbrett.jpg">
-
-  <table id="rival-table" *ngIf="rival">
-    <tr>
-      <th>Profilbild</th>
-      <th>Name</th>
-      <th>Elo</th>
-    </tr>
-    <tr>
-      <td>
-        <img class="userPics" *ngIf="rival.profilbild" [src]="rival.profilbild" alt="Das Profilbild des Gegners">
-        <img class="userPics" *ngIf="!rival || !rival.profilbild" [src]="url" alt ="Standardprofilbild"></td>
-      <td>Max Mustermann</td>
-      <td>500</td>
-    </tr>
-  </table>
-  <h3>Timer: 00:00</h3>
-
-  <br>
-  <button (click)="endGame()">Partie aufgeben</button>
 </div>
+
+<br>
+<button id="endgame" (click)="endGame()">Partie aufgeben</button>
 
 

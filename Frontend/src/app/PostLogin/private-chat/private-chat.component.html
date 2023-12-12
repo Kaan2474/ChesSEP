@@ -4,8 +4,36 @@
   <div class = "center">
     <h2 class="Titel" *ngIf="friend">Privater Chat mit {{friend.vorname}} {{friend.nachname}}</h2>
   </div>
+  <div class="center">
+    <!-- Your chat messages display goes here -->
+    <div id="messageContainer" class="messageContainer" style="overflow-y: auto">
+      <p class="empty center" *ngIf="messages.length === 0">Es gibt noch keine Nachrichten. Schreibe unten eine neue!</p>
+      <div class="message" *ngFor="let message of messages, let i = index">
+        <div class="messageWrapper">
+          <div>
+            <p class="sender" [ngClass]="{'senderUser': message.senderId === user.id}">{{message.senderName}}</p>
+          </div>
+          <div class="contentWrapper">
+            <p id="{{i}}" class="content" contenteditable="false">{{message.content}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="center outerInputContainer">
+    <div class="inputContainer">
+      <form class="form" (ngSubmit)="sendMessage(content)" #messageForm="ngForm">
+        <input type="text" [(ngModel)]="content"
+               id="content"
+               name="content"
+               placeholder="   Geben Sie eine Nachricht ein..."
 
+        >
+        <button type="submit" [disabled]="!messageForm.form.valid">Senden</button>
+      </form>
+    </div>
+  </div>
 
 
 

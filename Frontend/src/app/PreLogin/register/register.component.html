@@ -2,6 +2,24 @@
   <div class="container">
     <h1>Registrierung</h1>
 
+    <div class="form-group">
+
+      <a>
+        <img [src]="url" alt ="Standardprofilbild">
+        <input
+          type="file"
+          id="img"
+          style="display:none"
+          accept="image/*"
+
+          (change)="onSelect($event)"
+
+        />
+        <label for="img" class="underlined-label">Bild hochladen</label>
+      </a>
+
+    </div>
+
 
     <div class="form-group">
     <label for="vorname"><b>Vorname</b></label>

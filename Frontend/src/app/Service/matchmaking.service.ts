@@ -57,4 +57,13 @@ export class MatchmakingService {
   public endMyMatch(){
     return this.http.get(this.URL + "/endMyMatch", {headers: this.header})
   }
+
+  getCurrentFrame(id: any) {
+    return this.http.get(`${this.URL}/getMyCurrentFrame/${id}`, {headers: this.header})
+  }
+
+  makeAmove(piece:number, position: number) {
+    return this.http.get(`${this.URL}/engine/makeAMove/${piece}/${position}`, {headers: this.header});
+  }
+
 }

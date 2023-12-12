@@ -27,64 +27,55 @@ public class ChessClubService {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public UserRequestHolder[] getMembers(String clubName){
-        Long chessClubId = chessClubRepository.findChessClubByName(clubName).getId();
-        List<User> list = userRepository.getChessClubMember(chessClubId);
+    public boolean createClubV2(String clubName){
+        if(chessClubRepository.findChessClubByName(clubName)!=null){
+            return false;
+        }else {
 
-        UserRequestHolder[] arr = new UserRequestHolder[list.size()];
+            chessClubRepository.save(ChessClub.builder()
+                    .name(clubName)
+                    .build());
 
-        for (int i = 0; i < arr.length; i++) {
-            User currentUser=list.get(i);
-            arr[i] = UserRequestHolder.builder()
-                    .id(currentUser.getId())
-                    .vorname(currentUser.getVorname())
-                    .nachname(currentUser.getNachname())
-                    .elo(currentUser.getElo())
-                    .build();
+            getSender().setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(getSender());
+
+
+            chatService.createChessClubChat(clubName);
+            joinClub(clubName);
+            return true;
         }
-        return arr;
+    }
+
+    public void joinClub(String clubName) {
+        if (getSender().getClubId() == null) {
+            getSender().setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(getSender());
+            chatService.updateChessClubChat(clubName);
+        } else {
+            getSender().setClubId(chessClubRepository.findChessClubByName(clubName).getId());
+            userRepository.save(getSender());
+            deleteClubV2(clubName);
+        }
     }
 
     public void leaveClub(){
         User user = userRepository.findUserById(getSender().getId());
         ChessClub chessClub = chessClubRepository.findChessClubById(user.getClubId());
 
-        user.setClubId(null);
-        userRepository.save(user);
-
-        if(userRepository.getChessClubMember(chessClub.getId()) == null){
-            chessClubRepository.delete(chessClub);
-        }
-    }
-
-    public void joinClub(String clubName){
-        User user = userRepository.findUserById(getSender().getId());
-        ChessClub chessClub = chessClubRepository.findChessClubById(user.getClubId());
-
-        user.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
-        userRepository.save(user);
-
-        if(userRepository.getChessClubMember(chessClub.getId()) == null){
-            chessClubRepository.delete(chessClub);
-        }
-    }
-
-    public void createClub(String clubName){
-        if(chessClubRepository.findChessClubByName(clubName)!=null){
+        if(user.getClubId() == null){
             return;
         }
 
-        chessClubRepository.save(ChessClub.builder()
-                .name(clubName)
-                .build());
-
-        joinClub(clubName);
+        user.setClubId(null);
+        userRepository.save(user);
+        deleteClubV2(chessClub.getName());
     }
 
     public String getMeinChessClubName(){
 
-        if(getSender().getClubId().equals(0L))
-        return "du bist in keinem Club";
+        if(getSender().getClubId()==null){
+            return "";
+        }
 
         return chessClubRepository.findChessClubById(getSender().getClubId()).getName();
     }
@@ -104,55 +95,6 @@ public class ChessClubService {
         return arr;
     }
 
-
-
-
-    /*
-    Beim joinen wird clubId vom getSender überschrieben und er wird in die Chat Liste eingetragen
-     */
-    public void joinClubByMario(String clubname) {
-        User newMember = getSender();
-        if (getSender().getClubId() == null) {
-            newMember.setClubId(chessClubRepository.findChessClubByName(clubname).getId());
-            userRepository.save(newMember);
-            chatService.updateChessClubChat(clubname);
-        } else {
-            newMember.setClubId(chessClubRepository.findChessClubByName(clubname).getId());
-            deleteClubV2(clubname);
-        }
-    }
-
-    public boolean createClubV2(String clubName){
-        User user = userRepository.findUserById(getSender().getId());
-        if(chessClubRepository.findChessClubByName(clubName)!=null){
-            return false;
-        }else if(user.getClubId() != null){
-            return false;
-        }else {
-
-            chessClubRepository.save(ChessClub.builder()
-                    .name(clubName)
-                    .build());
-
-            user.setClubId(chessClubRepository.findChessClubByName(clubName).getId());
-            userRepository.save(user);
-
-
-            chatService.createChessClubChat(clubName);
-            joinClubByMario(clubName);
-            return true;
-        }
-    }
-
-
-    public void deleteClubV2(String clubName){
-        List<User> member = userRepository.getChessClubMember(chessClubRepository.findChessClubByName(clubName).getId());
-        if(member.isEmpty()){
-            chessClubRepository.delete(chessClubRepository.findChessClubByName(clubName));
-
-        }
-    }
-
     public UserRequestHolder[] getChessClubMember(long chessId){
         List<User> list = userRepository.getChessClubMember(chessId);
         UserRequestHolder[] x = new UserRequestHolder[list.size()];
@@ -163,5 +105,11 @@ public class ChessClubService {
         return x;
     }
 
+    public void deleteClubV2(String clubName){
+        List<User> member = userRepository.getChessClubMember(chessClubRepository.findChessClubByName(clubName).getId());
+        if(member.isEmpty()){
+            chessClubRepository.delete(chessClubRepository.findChessClubByName(clubName));
 
+        }
+    }
 }

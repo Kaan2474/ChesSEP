@@ -1,0 +1,26 @@
+<app-header></app-header>
+
+<div class ="container">
+  <div class = "center">
+    <h1>Erstelle eine Gruppe</h1>
+  </div>
+  <div class="center">
+    <div class="friendContainer" style="overflow-y: auto">
+      <div class="center">
+        <input type="text" id="gruppenname" name="gruppenname" placeholder="  GruppenName...">
+      </div>
+      <div class="friend" *ngFor="let friend of friends">
+        <p>{{friend.vorname}} {{friend.nachname}}</p>
+        <button class="profilButton" [routerLink]="['/friend-profil-view', friend.id]">Profil</button>
+        <button id="{{friend.id}}"  class="hinzufügenButton" (click)="addMembers(friend.id)">Hinzufügen</button>
+      </div>
+    </div>
+  </div>
+  <div class="center">
+    <button class="button" (click)="createGroup()">Gruppe erstellen</button>
+  </div>
+  <div class="center">
+    <button class="goBack" routerLink="/homepage">Zurück</button>
+  </div>
+
+</div>

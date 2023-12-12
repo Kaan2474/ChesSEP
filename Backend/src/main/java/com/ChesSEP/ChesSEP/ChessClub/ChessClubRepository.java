@@ -13,7 +13,7 @@ public interface ChessClubRepository extends JpaRepository<ChessClub, Long> {
     @Query("FROM ChessClub WHERE name = ?1")
     ChessClub findChessClubByName(String clubName);
 
-    @Query("FROM ChessClub WHERE name = ?1")
+    @Query("FROM ChessClub WHERE id = ?1")
     ChessClub findChessClubById(Long clubId);
 
     @Query("FROM ChessClub")

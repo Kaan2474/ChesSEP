@@ -20,6 +20,7 @@ export class UserProfilViewComponent implements OnInit {
   token = localStorage.getItem("JWT");
   selectedFile: File | null = null;
   url = "assets/images/profil-picture-icon.png"
+  schachClubname: any;
 
   constructor(
     private userService: UserService,
@@ -53,8 +54,8 @@ export class UserProfilViewComponent implements OnInit {
 
   getMyClubName(){
     this.chessclubservice.getMyChessClubname().subscribe(data=>{
-    this.user = data
-    console.log(data)})
+    this.schachClubname = data
+    console.log(this.schachClubname)})
 
   }
 
