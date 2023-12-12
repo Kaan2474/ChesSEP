@@ -108,9 +108,13 @@ public class ChatService {
     }
 
 
-    //Gibt ein Chat Objekt zurück, welches mit dem privateGroupName übereinstimmt
+    //Gibt ein Gruppenchat Objekt zurück, welches mit dem privateGroupName übereinstimmt
     public Chat getGroupByGroupName(String privateGroupName){
         return chatRepository.findChatByGroupName(privateGroupName);
+    }
+
+    public Chat getChessClubChatByName(String chessClubName){
+        return chatRepository.findChatByClubName(chessClubName);
     }
 
 

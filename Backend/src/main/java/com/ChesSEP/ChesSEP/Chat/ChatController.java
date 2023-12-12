@@ -101,6 +101,16 @@ public class ChatController {
         }
     }
 
+    @GetMapping("/getChessClubChatByName/{chessClubName}")
+    public ResponseEntity<Chat> getChessClubChatByName(@PathVariable String chessClubName){
+        Chat chat = chatService.getChessClubChatByName(chessClubName);
+        if(chat!=null){
+            return new ResponseEntity<>(chat, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(chat, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     //Gibt alle Gruppen Unterhaltungen zurück, die dem Sender zugeordnet werden können
     @GetMapping("/allMyGroupChats")
     public List<Chat> findAllMyGroupChats(){ return chatService.findAllMyGroupChats();}
