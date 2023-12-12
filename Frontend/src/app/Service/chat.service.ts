@@ -67,7 +67,7 @@ export class ChatService {
   getGroupByGroupName(groupName:any){
     return this.http.get<Chat>(`${this.userURL}/getGroupByGroupName/${groupName}`, {headers:this.header})
   }
-  leaveGroupChat(user:any){
-      return this.http.post(`${this.userURL}/leaveGroup`, user, {headers:this.header});
+  leaveGroupChat(privateGroupName:String){
+      return this.http.get(`${this.userURL}/leaveGroup/${privateGroupName}`, {headers:this.header});
   }
 }
