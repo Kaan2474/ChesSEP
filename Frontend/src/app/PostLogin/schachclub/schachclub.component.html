@@ -17,14 +17,34 @@
 
 </div>
 
-<div><h3 class="SchachClubChat">Chat mit den Mitgliedern der Gruppe {{ schachClubname}}</h3>
+<div><h3 class="SchachClubChat">Chat mit den Mitgliedern der Gruppe {{chessClubName}}</h3>
+
+  <!-- Your chat messages display goes here -->
+  <div id="messageContainer" class="messageContainer" style="overflow-y: auto">
+    <p class="empty center" *ngIf="messages.length === 0"></p>
+    <div class="message" *ngFor="let message of messages, let i = index" [class.myCustomMessage]="true">
+      <div class="messageWrapper">
+        <div>
+          <p class="sender" [ngClass]="{'senderUser': message.senderId === user.id}">{{message.senderName}}</p>
+        </div>
+        <div class="contentWrapper">
+          <p id="{{i}}" class="content" contenteditable="false">{{message.content}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div class="message-input">
-    <!-- Eingabebereich für neue Nachrichten -->
-    <input type="text" id="new-message" placeholder="Schreibe deine Nachricht...">
-    <button onclick="sendMessage()">Senden</button>
-  </div>
+    <form class="form" (ngSubmit)="writeMessage(content)" #messageForm="ngForm">
+      <input type="text" [(ngModel)]="content"
+             id="content"
+             name="content"
+             placeholder="Schreibe eine Nachricht.."
 
+      >
+      <button type="submit" [disabled]="!messageForm.form.valid">Senden</button>
+    </form>
 </div>
 
 
