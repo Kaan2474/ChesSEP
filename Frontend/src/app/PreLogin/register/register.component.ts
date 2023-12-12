@@ -12,6 +12,8 @@ export class RegisterComponent {
 
   user: User;
   passwordRepeat:any;
+  url = "assets/images/profil-picture-icon.png"
+  selectedFile: File | null = null;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -25,13 +27,52 @@ export class RegisterComponent {
       this.errorWithForm();
       return;
     }
+
       this.userService.register(this.user).subscribe(result => {
+      this.imageUpload()
         this.goToLogin()
       }, (error) => {
         this.errorWithForm();
       })
   }
 
+  onSelect(event: any) {
+    this.selectedFile = event.target.files[0];
+
+
+    this.showSelectedImage()
+
+  }
+
+  imageUpload() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append("user-profile-view", this.selectedFile);
+
+      this.userService.uploadpicture(formData,this.user).subscribe((response) => {
+
+
+          console.log('Bild erfolgreich hochgeladen', response);
+
+        },
+        error => {
+          console.error('Fehler beim Hochladen des Bildes', error);
+        }
+      );
+    }
+  }
+
+  showSelectedImage() {
+    if (this.selectedFile) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.url = e.target.result;
+      };
+
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
 
   goToLogin() {
     this.router.navigate(["/"]);
@@ -40,6 +81,8 @@ export class RegisterComponent {
   private errorWithForm() {
     alert("Ungültige Eingabe! Überprüfe deine Angabe!");
   }
+
+
 
 
 }
