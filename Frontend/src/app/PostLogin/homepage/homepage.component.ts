@@ -9,6 +9,7 @@ import {ChatService} from "../../Service/chat.service";
 import {Chat} from "../../Modules/Chat";
 import {UserService} from "../../Service/user.service";
 import {scheduled} from "rxjs";
+import {User} from "../../Modules/User";
 
 @Component({
   selector: 'app-homepage',
@@ -20,7 +21,6 @@ export class HomepageComponent {
   public allgroups: Chat[] = [];
   allChessClubs: ChessClub[] = [];
   schachclubId : any;
-
 
 
   URL = "http://localhost:8080/ChessClub"
@@ -36,7 +36,6 @@ export class HomepageComponent {
               private http: HttpClient,
               private userService: UserService,
               private router: Router){
-
   }
 
   ngOnInit(){
@@ -50,16 +49,20 @@ export class HomepageComponent {
     this.getAllChessClubs()
     this.chatService.findAllMyGroupChats().subscribe((data)=>
       this.allgroups=data);
+      this.updateClubID()
+
+  }
+
+  updateClubID(){
     this.userService.getUserbyToken().subscribe(data => {
       this.schachclubId = data.clubId; console.log(data)} )
-    console.log(this.schachclubId)
   }
 
   createClub(name: {name: string}){
     console.log(name.name)
     this.http.get(`${this.URL}/createClubV2/${name.name}`, {headers: this.header}).subscribe(data =>
 
-      {
+      { this.updateClubID()
       },
       error => {
         console.log("Schachclub konnte nicht erstellt werden", error)
@@ -75,6 +78,7 @@ export class HomepageComponent {
     console.log(name.name)
     this.http.get(`${this.URL}/joinClubV2/${name.name}`  ,{ headers: this.header }).subscribe(
       (data) => {
+        this.updateClubID()
           this.showNotification(`Du bist dem Schachclub "${name.name}" beigetreten.`);
 
       },
@@ -95,5 +99,6 @@ export class HomepageComponent {
     alert(message);
   }
 
-  protected readonly scheduled = scheduled;
+
+
 }

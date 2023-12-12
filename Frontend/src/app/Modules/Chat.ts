@@ -12,12 +12,11 @@ export class Chat {
   chatId:any;
   chatMessageStatus:any;
   newContent:any;
-  oldContent:any;
   time: any;
-  messageId: MessageId = new MessageId();  // Neues Attribut für messageId
+  messageId: MessageId = new MessageId();
 }
-export class MessageId {
-  senderId: any;
-  chatId: any;
-  time: any;
+export class MessageId{
+  senderId:any;
+  chatId:any;
+  time:any;
 }

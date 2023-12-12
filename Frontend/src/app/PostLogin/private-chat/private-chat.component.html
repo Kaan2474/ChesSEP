@@ -11,7 +11,7 @@
       <div class="message" *ngFor="let message of messages, let i = index">
         <div class="messageWrapper">
           <div>
-            <p class="sender" [ngClass]="{'senderUser': message.senderId === user.id}">{{message.messageId.senderId}}</p>
+            <p class="sender" [ngClass]="{'senderUser': message.senderId === user.id}">{{message.senderName}}</p>
           </div>
           <div class="contentWrapper">
             <p id="{{i}}" class="content" contenteditable="false">{{message.content}}</p>
