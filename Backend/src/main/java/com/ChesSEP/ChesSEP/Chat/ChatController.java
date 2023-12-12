@@ -106,7 +106,16 @@ public class ChatController {
     public List<Chat> findAllMyGroupChats(){ return chatService.findAllMyGroupChats();}
 
 
-
+    //Verlässt eine Gruppe und bei < 1 Mitglieder wird die Chat Gruppe automatisch glöscht
+    @GetMapping("/leaveGroup/{privateGroupName}")
+    public ResponseEntity<Boolean> leaveGroupChat(@PathVariable String privateGroupName) {
+        boolean check = chatService.leaveGroupChat(privateGroupName);
+        if (check) {
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     //#################Alles Rund um Nachrichten#######################
 
@@ -169,15 +178,6 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getNewMessage(chatId, time));
     }
 
-    @GetMapping("/leaveGroup/{privateGroupName}")
-    public ResponseEntity<Boolean> leaveGroupChat(@PathVariable String privateGroupName) {
-        boolean check = chatService.leaveGroupChat(privateGroupName);
-        if (check) {
-            return new ResponseEntity<>(check, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @PostMapping("/deleteGroupChat/{privateGroupName}")
     public ResponseEntity<Boolean> deleteGroupChat(@PathVariable String privateGroupName){

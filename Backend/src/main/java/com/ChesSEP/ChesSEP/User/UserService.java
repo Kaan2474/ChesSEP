@@ -127,6 +127,7 @@ public class UserService {
         .elo(user.getElo())
         .profilbild(picture)
         .privacy(user.getFriendlistPrivacy().name())
+                .clubId(user.getClubId())
         .build();
        
         return holder;
