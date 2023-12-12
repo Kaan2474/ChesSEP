@@ -80,7 +80,7 @@ public class MatchmakingController {
         return ResponseEntity.ok(matchmakingService.makeAMove(from,to));
     }
 
-    //id wich chessPiece you want the pawan to transform to
+    //id which chessPiece you want the pawn to transform to
     @GetMapping("engine/transformBauer/{id}")
     public ResponseEntity<Boolean> transformBauer(@PathVariable int id){
         return ResponseEntity.ok(matchmakingService.transformBauer(id));

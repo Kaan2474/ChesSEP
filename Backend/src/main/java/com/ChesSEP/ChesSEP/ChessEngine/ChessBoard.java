@@ -218,7 +218,7 @@ public class ChessBoard {
         if(isKingUnderAttack(color,chessBoard)==null)
             return resultBoard;
 
-        int[] kingsCoords=getKingPos(color);
+        int[] kingsCoords=getKingPos(color,chessBoard);
 
         resultBoard[kingsCoords[0]][kingsCoords[1]]=1;
 
@@ -296,11 +296,11 @@ public class ChessBoard {
 
     //EndCondition
 
-    private int[] getKingPos(Color kingsColor) {
+    private int[] getKingPos(Color kingsColor, ChessPiece[][] board) {
 
-        for (int i = 0; i < chessBoard.length; i++) {
-            for (int j = 0; j < chessBoard[i].length; j++) {
-                ChessPiece currentPiece=getPieceOn(i, j, chessBoard);
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                ChessPiece currentPiece=getPieceOn(i, j, board);
 
                 if(currentPiece==null)
                     continue;
@@ -314,7 +314,7 @@ public class ChessBoard {
     }
 
     private int[] isKingUnderAttack(Color kingsColor,ChessPiece[][] board) {
-        int[] kingPos=getKingPos(kingsColor);
+        int[] kingPos=getKingPos(kingsColor,board);
 
         if(kingPos==null)
             return null;
@@ -329,7 +329,7 @@ public class ChessBoard {
         if(attackerCoords==null)
             return false;
 
-        int[] kingPos=getKingPos(kingsColor);
+        int[] kingPos=getKingPos(kingsColor,chessBoard);
         
         if(validCoordsOf(kingPos[0], kingPos[1], chessBoard).size()!=0)
             return false;
@@ -350,7 +350,7 @@ public class ChessBoard {
      */
     private boolean isTheAttackBlockable(Color kingsColor, int attackerX, int attackerY,ChessPiece[][] board){
 
-        int[] kingsCoords=getKingPos(kingsColor);
+        int[] kingsCoords=getKingPos(kingsColor,board);
 
         ChessPiece currentKing=getPieceOn(kingsCoords[0], kingsCoords[1], board);
 
@@ -363,7 +363,7 @@ public class ChessBoard {
                 
                 ChessPiece currentPiece=getPieceOn(i, j, board);
 
-                if(currentPiece.getType()==ChessPieceType.KOENIG)
+                if(currentPiece.getType()==ChessPieceType.KOENIG&&currentPiece.getColor()==kingsColor)
                     continue;
 
                 List<int[]> currentValidCoords=validCoordsOf(i, j, board);
@@ -403,7 +403,7 @@ public class ChessBoard {
                 if(currentPiece==null)
                     continue;
 
-                if(currentPiece.getColor()==alliedColor||currentPiece.getType()==ChessPieceType.KOENIG)
+                if(currentPiece.getColor()==alliedColor)
                     continue;
 
                 List<int[]> currentValidEnemyCoords=validCoordsOf(i, j, board);
@@ -466,7 +466,7 @@ public class ChessBoard {
 
     private ChessPiece[][] getBoardWOKing(Color kingToRemove){
 
-        int[] kingToRemoveCoords=getKingPos(kingToRemove);
+        int[] kingToRemoveCoords=getKingPos(kingToRemove,chessBoard);
 
         ChessPiece[][] resultBoard=copyBoard(chessBoard);
 
@@ -689,7 +689,7 @@ public class ChessBoard {
     }
 
     private boolean isKingMovesetEqual(Color kingscolor,ChessPiece[][] board1,ChessPiece[][] board2){
-        int[] kingscoords=getKingPos(kingscolor);
+        int[] kingscoords=getKingPos(kingscolor,chessBoard);
 
         return isMovesetEqual(kingscoords[0], kingscoords[1], board1, board2);
     }
@@ -1064,7 +1064,7 @@ public class ChessBoard {
     }
 
     private int[] kleineRochade(Color kingsColor,ChessPiece[][] board){
-        int[] kingsCoords=getKingPos(kingsColor);
+        int[] kingsCoords=getKingPos(kingsColor,board);
 
         ChessPiece king=getPieceOn(kingsCoords[0], kingsCoords[1], board);
 
@@ -1083,7 +1083,7 @@ public class ChessBoard {
     }
 
     private int[] großeRochade(Color kingsColor,ChessPiece[][] board){
-        int[] kingsCoords=getKingPos(kingsColor);
+        int[] kingsCoords=getKingPos(kingsColor,board);
 
         ChessPiece king=getPieceOn(kingsCoords[0], kingsCoords[1], board);
 
@@ -1145,7 +1145,7 @@ public class ChessBoard {
             if(!isInBounds(currentx, currenty))
                 continue;
 
-            if(!isPieceOn(currentx, currenty, currentPlayer,board))
+            if(!isPieceOn(currentx, currenty,currentPiece.getColor(),board))
                 validCoords.add(new int[]{currentx,currenty});
 
         }
