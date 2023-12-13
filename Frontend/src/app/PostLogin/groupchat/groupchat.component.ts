@@ -108,13 +108,6 @@ export class GroupchatComponent implements OnInit{
     message.newContent = message.content;
   }
 
-  checkEditable(i:any):boolean{
-    if(this.messages[i].chatMessageStatus==='UNREAD'){
-      return true;
-    }
-    return false;
-  }
-
   sendEdit(message:Chat){
     if (message.editable) {
       this.chatService.changeMessage(this.groupId, message).subscribe(() => {

@@ -44,7 +44,6 @@ export class ChessClubService {
 
   getMyChessClubname(){
     return this.http.get(this.URL + "/getMeinChessClubName", {headers: this.header});
-
   }
 
   getMembers(id: any){
@@ -53,5 +52,8 @@ export class ChessClubService {
   }
   getChessClubOf(id: any){
     return this.http.get<String>(`${this.URL}/getChessClubOf/${id}`, {headers: this.header});
+  }
+  getChessClubById(id:any){
+    return this.http.get<ChessClub>(`${this.URL}/findChessClubById/${id}`,{headers: this.header});
   }
 }
