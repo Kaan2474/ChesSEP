@@ -181,6 +181,17 @@ public class ChessBoard {
 
     //ExportBoard
 
+    public int isPuzzle(){
+        if(isPuzzle){
+            return 1;
+        }
+            return 0;
+    }
+
+    public void surrender(Color color){
+        endGameFlag(color);
+    }
+
     public int[][] translateBoard(ChessPiece[][] board){
         int[][] resultBoard=new int[8][8];
 
@@ -260,6 +271,14 @@ public class ChessBoard {
         }else{
             return whiteTime;
         }
+    }
+
+    public long getCurrentTime(Color color){
+
+        if(color==currentPlayer)
+            return getTimeLong(color)-(System.currentTimeMillis()-intervallStart);
+
+        return getTimeLong(color);
     }
 
     private void setTimeLong(Color color,long value){

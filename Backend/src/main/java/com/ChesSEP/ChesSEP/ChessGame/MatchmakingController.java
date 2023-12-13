@@ -67,9 +67,9 @@ public class MatchmakingController {
         return ResponseEntity.ok(matchmakingService.getMyCurrentEnemy());
     }
 
-    @GetMapping("/endMyMatch")
-    public void  endMyMatch(){
-        matchmakingService.endMyMatch();
+    @GetMapping("/surrender")
+    public void  surrender(){
+        matchmakingService.surrender();
     }
 
     @GetMapping("/getMyCurrentFrame/{frameID}")

@@ -47,6 +47,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     this.getIdOfRival();
     this.OnGetCurrentFrame();
 
+
     this.id = this.route.snapshot.params["id"];
 
     this.refreshMatch();
@@ -108,9 +109,9 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   }
 
   endGame(){
-    this.matchmakinService.endMyMatch().subscribe();
+    this.matchmakinService.surrender().subscribe();
     alert("Du hast das Spiel aufgegeben. Das Spiel wurde beendet!");
-    this.router.navigate(["/homepage"]);
+    //this.router.navigate(["/homepage"]);
   }
 
   /*Gibt das aktuelle Spielfeld aus*/
@@ -127,12 +128,16 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       console.log(this.currentBoard[0][1][0])
       console.log(this.currentBoard[0][1][1])
       this.interval.unsubscribe();
+
       if (this.currentBoard[0][0][0] % 2 === 0) {
         this.setTimer(this.currentBoard[0][1][0]);
+        this.timer[0]=Math.round(this.currentBoard[0][1][1]/1000);
       }
       else {
         this.setTimer(this.currentBoard[0][1][1]);
+        this.timer[1]=Math.round(this.currentBoard[0][1][0]/1000);
       }
+
       this.placeFigures(this.currentBoard);
     })
   }
@@ -347,16 +352,21 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   checkForWinner() {
     if(this.currentBoard[0][2][0] === 1) {
       alert("Spieler weiß hat gewonnen!");
+      this.router.navigate(["/homepage"]);
     }
     else if(this.currentBoard[0][2][0] === 2) {
       alert("Spieler schwarz hat gewonnen!");
+      this.router.navigate(["/homepage"]);
     }
     else if(this.currentBoard[0][2][0] === 3) {
       alert("Unentschieden!");
+      this.router.navigate(["/homepage"]);
     }
-    else if(this.currentBoard[0][1][0] === 0 || this.currentBoard[0][1][1] === 0) {
+    else if((this.currentBoard[0][1][0] === 0 || this.currentBoard[0][1][1] === 0)&&this.currentBoard[0][3][0]==0) {
       alert("Der Timer ist abgelaufen");
+      this.router.navigate(["/homepage"]);
     }
+    
   }
 
   setTimer(currentTimer: number) {

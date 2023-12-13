@@ -52,7 +52,8 @@ public class UserService {
             .elo(500)
             .role(Role.USER)
             .twoFactor(999999) //Flag für null
-                .FriendlistPrivacy(Privacy.OEFFENTLICH)
+            .FriendlistPrivacy(Privacy.OEFFENTLICH)
+            .compleatedPuzzles(0L)
             .build();
 
         userRepository.save(assembledUser);
@@ -127,7 +128,8 @@ public class UserService {
         .elo(user.getElo())
         .profilbild(picture)
         .privacy(user.getFriendlistPrivacy().name())
-                .clubId(user.getClubId())
+        .clubId(user.getClubId())
+        .compleatedPuzzles(user.getCompleatedPuzzles())
         .build();
        
         return holder;
