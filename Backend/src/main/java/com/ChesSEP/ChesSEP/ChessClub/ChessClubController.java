@@ -34,6 +34,16 @@ public class ChessClubController {
         return ResponseEntity.ok(objectMapper.writeValueAsString(chessClubService.getMeinChessClubName()));
     }
 
+    @GetMapping("/getChessClubOf/{userId}")
+    public ResponseEntity<ChessClub> getChessClubOf(@PathVariable long userId) throws JsonProcessingException {
+    ChessClub chessClub = chessClubService.getChessClubOf(userId);
+    if(chessClub!=null){
+        return new ResponseEntity<>(chessClub, HttpStatus.OK);
+    }else{
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    }
+
     @GetMapping("/joinClubV2/{clubName}")
     public void joinClubV2(@PathVariable String clubName){
         chessClubService.joinClub(clubName);
@@ -43,9 +53,9 @@ public class ChessClubController {
     public ResponseEntity<Boolean> createClubV2(@PathVariable String clubName){
         boolean check = chessClubService.createClubV2(clubName);
         if(check) {
-            return new ResponseEntity<>(check, HttpStatus.CREATED);
+            return new ResponseEntity<>(true, HttpStatus.CREATED);
         }else{
-            return new ResponseEntity<>(check, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
 
