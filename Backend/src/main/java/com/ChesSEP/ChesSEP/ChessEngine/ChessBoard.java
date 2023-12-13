@@ -355,6 +355,7 @@ public class ChessBoard {
         ChessPiece currentKing=getPieceOn(kingsCoords[0], kingsCoords[1], board);
 
         List<int[]> validAttackerCoords=validCoordsOf(attackerX, attackerY, board);
+        validAttackerCoords.add(new int[]{attackerX,attackerY});
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
