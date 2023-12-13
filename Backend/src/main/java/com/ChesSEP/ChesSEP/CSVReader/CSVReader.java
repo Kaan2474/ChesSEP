@@ -3,10 +3,34 @@ package com.ChesSEP.ChesSEP.CSVReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
+
+    public String[] splitStringIntoPuzzles(String fileContent) throws IOException{
+        List<String> puzzles=new ArrayList<>();
+
+        BufferedReader reader= new BufferedReader(new StringReader(fileContent));
+
+        String line=reader.readLine();
+
+        while (line!=null) {
+            puzzles.add(line);
+            line=reader.readLine();
+        }
+
+        String[] result=new String[puzzles.size()];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i]=puzzles.get(i);
+        }
+
+        reader.close();
+
+        return result;
+    }
 
     public int[][][] CSVtoBoard(int puzzleNr,String filePath) throws IOException{
         return CSVtoBoard(puzzleNr, importFile(filePath));

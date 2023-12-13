@@ -30,4 +30,11 @@ public class ChessGame {
 
     @Column
     private Long startTime;
+
+    @Column
+    private boolean whiteLastFrameSeen;
+
+    @Column
+    private boolean blackLastFrameSeen;
+
 }
