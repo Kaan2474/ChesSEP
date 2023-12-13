@@ -25,7 +25,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   currentBoard: any;
   lastHighlight: number = -1;
   lastPosition: string = "";
-  zugID = 0;
+  zugID = -1;
   timer: number[] = [];
 
 
@@ -40,6 +40,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
 
   sub:Subscription = new Subscription;
+  interval: Subscription = new Subscription;
 
   ngOnInit() {
     this.getMyCurrentMatch();
@@ -121,16 +122,24 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
         return;
       }
       this.currentBoard = data;
+      console.log(this.currentBoard);
       this.checkForWinner();
       this.zugID = this.currentBoard[0][0][0];
-        console.log(this.currentBoard);
+      console.log(this.currentBoard[0][1][0])
+      console.log(this.currentBoard[0][1][1])
+      this.interval.unsubscribe();
+      if (this.currentBoard[0][0][0] % 2 === 0) {
+        this.setTimer(this.currentBoard[0][1][0]);
+      }
+      else {
+        this.setTimer(this.currentBoard[0][1][1]);
+      }
       this.placeFigures(this.currentBoard);
-      this.timer[0] = (this.currentBoard[0][1][1] / 1000 / 60);
-      this.timer[1] = (this.currentBoard[0][1][1] / 1000 / 60);
     })
   }
 
-  /*Speichert die IDs der Buttons in ein Array*/
+  /*Gibt die Position der Notation zurück
+  * z.B: Notation: a1 --> Position 7 0*/
   translateCoordinatesFromNotation(notation: string) {
     let numbers = [];
     switch(notation.charAt(0)) {
@@ -147,23 +156,24 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
         numbers[1] = 3;
         break;
       case 'e':
-        numbers[1] =4;
+        numbers[1] = 4;
         break;
       case 'f':
-        numbers[1] =5;
+        numbers[1] = 5;
         break;
       case 'g':
-        numbers[1] =6;
+        numbers[1] = 6;
         break;
       case 'h':
-        numbers[1] =7;
+        numbers[1] = 7;
         break;
     }
     numbers[0] = 8 - Number(notation.charAt(1));
     return numbers;
   }
 
-  /*Speichert die IDs der Buttons in ein Array*/
+  /*Gibt anhand der Position die Notation zurück
+  * z.B 1 */
   translateNotationFromCoordinates(cords: number[]) {
     let notation = "";
     switch(cords[1]) {
@@ -197,7 +207,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   }
 
 
-  //Platziert die Figuren
+  //Platziert die Figuren auf das Spielfeld
   placeFigures(board: number[][][]) {
     let field;
     let numbers: number[] = [];
@@ -274,6 +284,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
 
+  /*Zeigt an, in welche Felder sich eine Figur bewegen kann, wenn man auf eine Figur klickt*/
   showHighlight(cords: string) {
     this.clearAll();
     let coordinates = this.translateCoordinatesFromNotation(cords);
@@ -284,7 +295,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     for(let i = 0; i<this.currentBoard[index].length;i++) {
       for(let j = 0; j<this.currentBoard[index][i].length; j++) {
         if(this.currentBoard[index][i][j] != 0) {
-          this.setFieldColour(this.translateNotationFromCoordinates([i,j]));
+          this.setBorder(this.translateNotationFromCoordinates([i,j]));
         }
       }
     }
@@ -298,11 +309,13 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     this.makeMove(cords);
   }
 
-  setFieldColour(notation: string) {
+  /*Fügt einen Border an die Felder hinzu, in die eine Figur sich bewegen kann*/
+  setBorder(notation: string) {
     let field = document.getElementById(notation);
     field!.style.border = "solid 3px green";
   }
 
+  /*Entfernt die Border an den Feldern*/
   clearAll() {
     for(let i = 0; i<8; i++) {
       for(let j = 0; j<8; j++) {
@@ -312,6 +325,8 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
 
+  /*Bewegt eine Figur in ein Feld, welches man anklickt
+  * Bedingung: Feld muss einen Border haben*/
   makeMove(cords: string) {
     if(this.lastHighlight === -1) {
       return;
@@ -322,6 +337,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
 
+  /*Prüft, ob das Spiel zu Ende ist*/
   checkForWinner() {
     if(this.currentBoard[0][2][0] === 1) {
       alert("Spieler weiß hat gewonnen!");
@@ -332,6 +348,28 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     else if(this.currentBoard[0][2][0] === 3) {
       alert("Unentschieden!");
     }
+    else if(this.currentBoard[0][1][0] === 0 || this.currentBoard[0][1][1] === 0) {
+      alert("Der Timer ist abgelaufen");
+    }
   }
 
+  setTimer(currentTimer: number) {
+    currentTimer /= 1000;
+    if(this.currentBoard[0][0][0] % 2 === 0) {
+      this.timer[1] = Math.round(currentTimer);
+      this.interval = interval(1000).subscribe(() => {
+        if(this.timer[1] > 0) {
+          this.timer[1]--;
+        }
+      })
+    }
+    else {
+      this.timer[0] = Math.round(currentTimer);;
+      this.interval = interval(1000).subscribe(() => {
+        if (this.timer[0] > 0) {
+          this.timer[0]--;
+        }
+      })
+    }
+  }
 }

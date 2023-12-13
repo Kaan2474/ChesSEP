@@ -204,7 +204,7 @@ public class MatchmakingService {
 
         BoardManager board=boards.get(game.getGameID());
 
-        if(board.getManagedBoard().getZugId()==frameID&&frameID!=0)
+        if(board.getManagedBoard().getZugId()==frameID&&frameID!= -1)
             return new int[0][0][0];
 
         int[][][] frame=board.getMatchFrame(thisPlayerColor);
