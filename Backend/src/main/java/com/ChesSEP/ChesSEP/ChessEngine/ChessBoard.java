@@ -928,8 +928,8 @@ public class ChessBoard {
                 movingDirection=-1;
             }
 
-            preveiousPiece=getPieceOn(gotoX, gotoY+movingDirection, chessBoard);
-            chessBoard[x][y+movingDirection]=null;
+            preveiousPiece=getPieceOn(gotoX-movingDirection, gotoY, chessBoard);
+            chessBoard[gotoX-movingDirection][gotoY]=null;
         }
 
         enPassantSquare=new int[]{-1,-1};
@@ -990,7 +990,7 @@ public class ChessBoard {
                 movingDirection=-1;
             }
 
-            board[x][y+movingDirection]=null;
+            board[gotoX-movingDirection][gotoY]=null;
         }
 
         board[x][y]=null;
