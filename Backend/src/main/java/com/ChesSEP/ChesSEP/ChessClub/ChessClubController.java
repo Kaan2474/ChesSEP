@@ -38,7 +38,11 @@ public class ChessClubController {
     public ResponseEntity<String> getChessClubOf(@PathVariable long userId) throws JsonProcessingException {
     String chessClub = chessClubService.getChessClubOf(userId);
         return new ResponseEntity<>(chessClub, HttpStatus.OK);
+    }
 
+    @GetMapping("/findChessClubById/{chessClubId}")
+    public ChessClub findChessClubById(@PathVariable long chessClubId){
+        return chessClubService.findChessClubById(chessClubId);
     }
 
     @GetMapping("/joinClubV2/{clubName}")
