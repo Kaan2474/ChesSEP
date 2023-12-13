@@ -80,6 +80,14 @@ public class ChessClubService {
         return chessClubRepository.findChessClubById(getSender().getClubId()).getName();
     }
 
+    public ChessClub getChessClubOf(long  userId){
+        User user = userRepository.findUserById(userId);
+        if(user.getClubId()==null){
+            return null;
+        }
+        return chessClubRepository.findChessClubById(user.getClubId());
+    }
+
     public ChessClub[] getAllChessClubs(){
         List<ChessClub> list = chessClubRepository.getAllChessClubs();
 
