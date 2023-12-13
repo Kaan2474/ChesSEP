@@ -59,6 +59,9 @@ public class User implements UserDetails {
     @Column
     private Long clubId;
 
+    @Column
+    private Long compleatedPuzzles;
+
     //Friendlist friendlist
 
     @Override

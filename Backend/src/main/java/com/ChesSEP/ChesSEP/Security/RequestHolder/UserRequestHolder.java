@@ -22,4 +22,5 @@ public class UserRequestHolder {
     private byte[] profilbild;
     private String privacy;
     private Long clubId;
+    private Long compleatedPuzzles;
 }

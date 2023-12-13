@@ -181,6 +181,17 @@ public class ChessBoard {
 
     //ExportBoard
 
+    public int isPuzzle(){
+        if(isPuzzle){
+            return 1;
+        }
+            return 0;
+    }
+
+    public void surrender(Color color){
+        endGameFlag(color);
+    }
+
     public int[][] translateBoard(ChessPiece[][] board){
         int[][] resultBoard=new int[8][8];
 
@@ -260,6 +271,14 @@ public class ChessBoard {
         }else{
             return whiteTime;
         }
+    }
+
+    public long getCurrentTime(Color color){
+
+        if(color==currentPlayer)
+            return getTimeLong(color)-(System.currentTimeMillis()-intervallStart);
+
+        return getTimeLong(color);
     }
 
     private void setTimeLong(Color color,long value){
@@ -909,8 +928,8 @@ public class ChessBoard {
                 movingDirection=-1;
             }
 
-            preveiousPiece=getPieceOn(gotoX, gotoY+movingDirection, chessBoard);
-            chessBoard[x][y+movingDirection]=null;
+            preveiousPiece=getPieceOn(gotoX-movingDirection, gotoY, chessBoard);
+            chessBoard[gotoX-movingDirection][gotoY]=null;
         }
 
         enPassantSquare=new int[]{-1,-1};
@@ -971,7 +990,7 @@ public class ChessBoard {
                 movingDirection=-1;
             }
 
-            board[x][y+movingDirection]=null;
+            board[gotoX-movingDirection][gotoY]=null;
         }
 
         board[x][y]=null;

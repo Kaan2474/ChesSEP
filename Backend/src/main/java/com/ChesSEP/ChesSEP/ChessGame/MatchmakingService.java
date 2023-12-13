@@ -221,6 +221,10 @@ public class MatchmakingService {
             game.setWhiteLastFrameSeen(true);
         }    
 
+        if(game.getPlayerBlackID()==game.getPlayerWhiteID())
+            endMyMatch();
+
+
         return frame;
     }
 
@@ -276,6 +280,47 @@ public class MatchmakingService {
             .collect(Collectors.toList()).get(0);
 
         onGoingGame.remove(game);
+
+        BoardManager board=boards.get(game.getGameID());
+
+        boards.remove(game.getGameID());
+
+        int status=board.getManagedBoard().getWinner();
+
+        switch (status) {
+            case 1:
+                User winner=userRepository.findUserById(game.getPlayerWhiteID());
+                User loser=userRepository.findUserById(game.getPlayerBlackID());
+
+                if(board.getManagedBoard().isPuzzle()==1){
+                    winner.setCompleatedPuzzles(winner.getCompleatedPuzzles()+1);
+                }else{
+                    winner.setElo(winner.getElo()+10);
+                    loser.setElo(loser.getElo()-10);
+                }
+
+                userRepository.save(winner);
+                userRepository.save(loser);
+
+                break;
+            case 2:
+                winner=userRepository.findUserById(game.getPlayerBlackID());
+                loser=userRepository.findUserById(game.getPlayerWhiteID());
+
+                if(board.getManagedBoard().isPuzzle()==1){
+                    winner.setCompleatedPuzzles(winner.getCompleatedPuzzles()+1);
+                }else{
+                    winner.setElo(winner.getElo()+10);
+                    loser.setElo(loser.getElo()-10);
+                }
+
+                userRepository.save(winner);
+                userRepository.save(loser);
+
+                break;
+            default:
+                break;
+        }
     }
 
     public int[][][] getTestBoard() {
@@ -322,5 +367,18 @@ public class MatchmakingService {
         boardManager.startNewChessPuzzle(csvReader.getStatus(id, puzzles), csvReader.CSVtoBoard(id, puzzles), csvReader.MovesToArr(id,puzzles));
 
         onGoingGame.add(thisGame);
+    }
+
+    public void surrender() {
+        ChessGame game=getMyCurrentMatch();
+        BoardManager board=boards.get(game.getGameID());
+
+        if(game.getPlayerBlackID()==getSender().getId()){
+            board.getManagedBoard().surrender(Color.BLACK);
+        }else{
+            board.getManagedBoard().surrender(Color.WHITE);
+        }
+
+        endMyMatch();
     }
 }
