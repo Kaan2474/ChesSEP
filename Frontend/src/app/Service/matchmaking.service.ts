@@ -66,4 +66,13 @@ export class MatchmakingService {
     return this.http.get(`${this.URL}/engine/makeAMove/${piece}/${position}`, {headers: this.header});
   }
 
+  public getPuzzleInfo(fileContent:String){
+    return this.http.post(this.URL+"/engine/getPuzzleInfo",fileContent,{headers: this.header});
+  }
+
+  public startPuzzle(fileContent:String,id:number){
+    return this.http.post(this.URL+"/engine/startPuzzle/"+id,fileContent,{headers: this.header});
+  }
+
+
 }

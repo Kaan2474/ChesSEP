@@ -68,11 +68,6 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
      this.chatService.getChatMessages(this.chatid).subscribe((data) => {
        this.messages = data;
        for (let i = 0; i < data.length; i++) {
-         this.messages[i].messageId={
-           senderId: data[i].senderId,
-             chatId: data[i].chatId,
-             time:   data[i].time
-         }
          this.userService.getUser(data[i].senderId).subscribe( res=>
            this.messages[i].senderName = res.vorname)
        }

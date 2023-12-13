@@ -2,6 +2,9 @@ package com.ChesSEP.ChesSEP.ChessGame;
 
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import lombok.RequiredArgsConstructor;
+
+import java.io.IOException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,4 +94,14 @@ public class MatchmakingController {
     public ResponseEntity<int[][][]>getTestBoard(){
         return ResponseEntity.ok(matchmakingService.getTestBoard());
     }
+
+    @PostMapping("engine/getPuzzleInfo")
+    public ResponseEntity<String[]>getChessPuzzleInfo(@RequestBody String fileContent) throws IOException{
+        return ResponseEntity.ok(matchmakingService.getCSVFileInfo(fileContent));
+    }
+
+    @PostMapping("engine/startPuzzle/{id}")
+    public void startPuzzle(@RequestBody String fileContent,@PathVariable int id) throws IOException{
+        matchmakingService.startPuzzle(fileContent,id);
+    }   
 }

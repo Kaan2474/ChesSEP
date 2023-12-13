@@ -75,7 +75,7 @@
           <div class="groupContent">
             <p>{{group.privateGroupName}}</p>
             <button class="innerButton" [routerLink]="['/groupchat', group.privateGroupName]">Chat</button>
-            <button class="innerRedButton" (click)="leaveGroup(group.privateGroupName)">Verlassen</button>
+            <button (click)="leaveGroup(group.privateGroupName)">Verlassen</button>
           </div>
         </div>
       </div>

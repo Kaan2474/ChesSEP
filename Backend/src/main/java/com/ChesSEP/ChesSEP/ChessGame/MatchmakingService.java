@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
+import com.ChesSEP.ChesSEP.CSVReader.CSVReader;
 import com.ChesSEP.ChesSEP.ChessEngine.BoardManager;
 import com.ChesSEP.ChesSEP.ChessEngine.ChessBoard;
 import com.ChesSEP.ChesSEP.ChessEngine.Color;
@@ -35,6 +37,8 @@ public class MatchmakingService {
     public Queue<Long> matchmaking=new LinkedList<Long>();
 
     public Map<Long,BoardManager> boards=new HashMap<Long,BoardManager>();
+
+    public CSVReader csvReader=new CSVReader();
 
     private User getSender(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -189,9 +193,7 @@ public class MatchmakingService {
 
     public int[][][] getMyCurrentFrame(int frameID){
         User sender=getSender();
-
-        ChessGame game =getMyCurrentMatch();
-
+        ChessGame game=getMyCurrentMatch();
         Color thisPlayerColor;
 
         if(game.getPlayerBlackID()==sender.getId()){
@@ -202,10 +204,22 @@ public class MatchmakingService {
 
         BoardManager board=boards.get(game.getGameID());
 
-        if(board.getManagedBoard().getZugId()==frameID&&frameID!=0)
+        if(board.getManagedBoard().getZugId()==frameID&&frameID!= -1)
             return new int[0][0][0];
 
         int[][][] frame=board.getMatchFrame(thisPlayerColor);
+
+        if(frame[0][2][0]==0)
+            return frame;
+
+        if(game.isBlackLastFrameSeen()&&game.isWhiteLastFrameSeen())
+            endMyMatch();
+
+        if(game.getPlayerBlackID()==sender.getId()){
+            game.setBlackLastFrameSeen(true);
+        }else{
+            game.setWhiteLastFrameSeen(true);
+        }    
 
         return frame;
     }
@@ -236,6 +250,8 @@ public class MatchmakingService {
                         .playerBlackID(playerBlack)
                         .matchLength(matchLength)
                         .name(name)
+                        .blackLastFrameSeen(false)
+                        .whiteLastFrameSeen(false)
                         .startTime(time)
                 .build();
 
@@ -267,5 +283,44 @@ public class MatchmakingService {
         boardManager.startNewMatch(200, 5L, boardManager.getDefaultStartConfig());
 
         return boardManager.getMatchFrame(Color.WHITE);
+    }
+
+
+    //ChessPuzzle
+
+    public String[] getCSVFileInfo(String fileContent) throws IOException{
+        String[] puzzles=csvReader.splitStringIntoPuzzles(fileContent);
+        String[] puzzleInfo=csvReader.getPuzzleInfo(puzzles);
+
+        return puzzleInfo;
+    }
+
+    public void startPuzzle(String fileContent, int id) throws IOException{
+        String[] puzzles=csvReader.splitStringIntoPuzzles(fileContent);
+
+        User sender=getSender();
+
+        Long time=System.currentTimeMillis();
+        ChessGame newGame=ChessGame.builder()
+                        .playerWhiteID(sender.getId())
+                        .playerBlackID(sender.getId())
+                        .matchLength(-1L)
+                        .name("ChessPuzzle von"+sender.getVorname())
+                        .blackLastFrameSeen(false)
+                        .whiteLastFrameSeen(false)
+                        .startTime(time)
+                .build();
+
+        chessgameRepository.save(newGame);
+
+        ChessGame thisGame=chessgameRepository.findGame(sender.getId(), sender.getId(), time);
+
+        boards.put(thisGame.getGameID(),new BoardManager());
+
+        BoardManager boardManager=boards.get(thisGame.getGameID());
+
+        boardManager.startNewChessPuzzle(csvReader.getStatus(id, puzzles), csvReader.CSVtoBoard(id, puzzles), csvReader.MovesToArr(id,puzzles));
+
+        onGoingGame.add(thisGame);
     }
 }

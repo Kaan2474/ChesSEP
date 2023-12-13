@@ -35,7 +35,7 @@ export class UserService {
     return this.http.post<User>(this.userURL + "/twoFactor", user);
   }
 
-  public getUser(userId : string) {
+  public getUser(userId : any) {
     return this.http.get<User>(`${this.userURL}/${userId}`,{headers:this.header} );
   }
 

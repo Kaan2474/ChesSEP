@@ -13,10 +13,5 @@ export class Chat {
   chatMessageStatus:any;
   newContent:any;
   time: any;
-  messageId: MessageId = new MessageId();
-}
-export class MessageId{
-  senderId:any;
-  chatId:any;
-  time:any;
+  editable:any;
 }

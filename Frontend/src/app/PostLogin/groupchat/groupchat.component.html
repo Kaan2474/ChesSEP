@@ -5,8 +5,7 @@
     <h2>GruppenChat</h2>
   </div>
   <div class="center">
-    <!-- Your chat messages display goes here -->
-    <div id="messageContainer" class="messageContainer" style="overflow-y: auto">
+    <div #scrollContainer id="messageContainer" class="messageContainer" style="overflow-y: auto">
       <p class="empty center" *ngIf="messages.length === 0">Es gibt noch keine Nachrichten. Schreibe unten eine neue!</p>
       <div class="message" *ngFor="let message of messages, let i = index">
         <div class="messageWrapper">
@@ -17,9 +16,26 @@
             <p id="{{i}}" class="content" contenteditable="false">{{message.content}}</p>
           </div>
         </div>
+        <!--<p *ngIf="message.senderId == user.id && message.chatMessageStatus == 'UNREAD'" ><button class="edit" >Bearbeiten</button> oder <button class="edit" (click)="deleteGroupMessage(message, i)">Löschen</button></p>
+        <p *ngIf="message.senderId == user.id && message.chatMessageStatus == 'UNREAD'" ><button class="edit" >Senden</button></p>-->
+        <p *ngIf="message.senderId == user.id && message.chatMessageStatus == 'UNREAD'" >
+          <button class="edit" (click)="edit(message, i)">Bearbeiten</button> oder
+          <button class="edit" (click)="deleteGroupMessage(message, i)">Löschen</button>
+        </p>
+        <div *ngIf="message.editable">
+          <!--<textarea [(ngModel)]="message.newContent" rows="1"></textarea>
+          <button class="edit" (click)="sendEdit(message, i)">Senden</button>-->
+          <form class="form" (ngSubmit)="sendEdit(message)" #messageEditForm="ngForm">
+            <input type="text" [(ngModel)]="message.newContent"
+                   id="newContent"
+                   name="newContent"
+            >
+            <button type="submit" [disabled]="!messageEditForm.form.valid">Senden</button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+    </div>
 
   <div class="center outerInputContainer">
     <div class="inputContainer">
@@ -35,9 +51,9 @@
     </div>
   </div>
 
-  <div class="friendContainer" style="overflow-y: auto">
-    <div id="{{member.id}}" class="friend" *ngFor="let member of members; let i = index">
-      <p>{{member.firstName}} {{member.lastName}}</p>
+  <div class="memberContainer" style="overflow-y: auto">
+    <div id="{{member.id}}" class="member" *ngFor="let member of members">
+      <p>{{member.vorname}} {{member.nachname}}</p>
       <button [routerLink]="['/friend-profil-view', member.id]">Profil</button>
     </div>
   </div>
@@ -46,7 +62,6 @@
 
 
   <div class="center">
-    <button class="goBack" routerLink="/friendslist">Zurück</button>
+    <button class="goBack" routerLink="/homepage">Zurück</button>
   </div>
-
 </div>
