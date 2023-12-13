@@ -21,7 +21,7 @@ export class FriendProfilViewComponent implements OnInit {
               private route: ActivatedRoute,
               private chessclubservice: ChessClubService) {
               this.user = new User()
-              this.chessClub = new ChessClub()
+
 
 
   }
@@ -29,7 +29,6 @@ export class FriendProfilViewComponent implements OnInit {
     this.id = this.route.snapshot.params["id"];
     console.log('userId:', this.id);
     this.getProfileFriend();
-    this.getChessClubOf();
 
 
 }
@@ -40,14 +39,18 @@ export class FriendProfilViewComponent implements OnInit {
       if(this.user.profilbild!=null) {
         this.user.profilbild = 'data:image/png;base64,' + this.user.profilbild;
       }
+      this.getChessClubOf();
       },
     );
   }
   getChessClubOf(){
     this.chessclubservice.getChessClubOf(this.id).subscribe(date =>{
-      this.chessClub = date;
-      console.log(this.chessClub.name)
-    })
+      if(date === null){
+        this.chessClub =this.user.vorname + " gehört keinem Club an";
+      }else {
+        this.chessClub = date;
+        console.log(this.chessClub)
+      }})
 
   }
 }
