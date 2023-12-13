@@ -35,21 +35,18 @@ public class ChessBoard {
     private final int SpringerOffset[][]={{1,2},{-1,2},{1,-2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
-    private long timebuffer;
-
     private boolean isPuzzle;
     private int[][] puzzleMoves;
     private Color puzzlePlayerColor;
 
     private int[] enPassantSquare;
 
-    public ChessBoard(double timeInMin,long timebuffer,int[][][] Board){
+    public ChessBoard(double timeInMin,int[][][] Board){
         chessBoard=constructBoard(Board);
         isPuzzle=false;
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
         blackTime=(long)timeInMin*60*1000;
-        this.timebuffer=timebuffer;
 
         zuege=new ArrayList<ChessOperation>();
         intervallStart=System.currentTimeMillis();
@@ -845,10 +842,7 @@ public class ChessBoard {
     private void timeManager(){
         long currentTime=getTimeLong(currentPlayer);
 
-        long differenz=System.currentTimeMillis()-(intervallStart+timebuffer);
-
-        if(differenz>0)
-        currentTime-=differenz;
+        currentTime-=System.currentTimeMillis()-intervallStart;
         
         intervallStart=System.currentTimeMillis();
 

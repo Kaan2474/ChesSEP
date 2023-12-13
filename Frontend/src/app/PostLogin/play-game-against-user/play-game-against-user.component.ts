@@ -23,7 +23,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
 
   chessGame : any= new Chess();
   currentBoard: any;
-  lastHighlight: number = -1;
+  lastHighlight: number[][] = [];
   lastPosition: string = "";
   zugID = -1;
   timer: number[] = [];
@@ -33,7 +33,6 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private matchmakinService: MatchmakingService,
-    private http: HttpClient,
     private router: Router) {
       this.user = new User();
       this.rival = new User();
@@ -118,7 +117,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   OnGetCurrentFrame() {
     this.matchmakinService.getCurrentFrame(this.zugID).subscribe(data => {
       let board: any = data;
-      if(board.length === 0) {
+      if(board.length < 2) {
         return;
       }
       this.currentBoard = data;
@@ -285,34 +284,39 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   }
 
   /*Zeigt an, in welche Felder sich eine Figur bewegen kann, wenn man auf eine Figur klickt*/
-  showHighlight(cords: string) {
+  showHighlight(cords: string):boolean {
     this.clearAll();
     let coordinates = this.translateCoordinatesFromNotation(cords);
     let index = this.currentBoard[6][coordinates[0]][coordinates[1]];
+
     if(index == 0) {
-      return;
+      return false;
     }
+
     for(let i = 0; i<this.currentBoard[index].length;i++) {
       for(let j = 0; j<this.currentBoard[index][i].length; j++) {
         if(this.currentBoard[index][i][j] != 0) {
-          this.setBorder(this.translateNotationFromCoordinates([i,j]));
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"green");
         }
       }
     }
+
     this.lastPosition = String(coordinates[0]) + String(coordinates[1]);
-    this.lastHighlight = index;
+    this.lastHighlight = this.currentBoard[index];
+    return true;
   }
 
   buttonManager(cords: string) {
     this.clearAll();
-    this.showHighlight(cords);
-    this.makeMove(cords);
+    if(!this.showHighlight(cords)){
+      this.makeMove(cords);
+    }
   }
 
   /*Fügt einen Border an die Felder hinzu, in die eine Figur sich bewegen kann*/
-  setBorder(notation: string) {
+  setBorder(notation: string,color:string) {
     let field = document.getElementById(notation);
-    field!.style.border = "solid 3px green";
+    field!.style.border = "solid 3px "+color;
   }
 
   /*Entfernt die Border an den Feldern*/
@@ -328,11 +332,13 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   /*Bewegt eine Figur in ein Feld, welches man anklickt
   * Bedingung: Feld muss einen Border haben*/
   makeMove(cords: string) {
-    if(this.lastHighlight === -1) {
+    if(this.lastHighlight.length==0) {
       return;
     }
+
     let coordinates = this.translateCoordinatesFromNotation(cords);
-    if(this.currentBoard[this.lastHighlight][coordinates[0]][coordinates[1]] === 1) {
+    
+    if(this.lastHighlight[coordinates[0]][coordinates[1]] === 1) {
       this.matchmakinService.makeAmove(Number(this.lastPosition), (coordinates[0] * 10) + coordinates[1]).subscribe();
     }
   }

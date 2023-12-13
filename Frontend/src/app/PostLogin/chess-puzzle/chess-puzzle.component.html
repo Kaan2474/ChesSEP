@@ -9,15 +9,13 @@
 
 <table>
     <tr>
-      <th>PuzzleNr</th>
       <th>PuzzleTags</th>
       <th>Aktion</th>
     </tr>
   
     <tr *ngFor="let info of Allinfo; let i=index">
-      <td>{{ i }}</td>
       <td>{{ info }}</td>
-      <td><button id="chatButton" (click)="buttonManager(i)" type="button">Chat</button></td>
+      <td><button id="spielenButton" (click)="buttonManager(i)" type="button">Spielen</button></td>
     </tr>
 
 <img id="chessPic" src="/assets/images/Schachbrett.jpg">

@@ -7,12 +7,8 @@ public class BoardManager {
 
     private ChessBoard Board;
 
-    public BoardManager(){
-
-    }
-
-    public void startNewMatch(double time,long timeBuffer,int[][][] startConfig){
-        Board = new ChessBoard(time,timeBuffer, startConfig);
+    public void startNewMatch(double time,int[][][] startConfig){
+        Board = new ChessBoard(time, startConfig);
     }
 
     public void startNewChessPuzzle(int[] status, int[][][] startConfig,int[][] moves){
@@ -148,7 +144,7 @@ public class BoardManager {
 
     public static void main(String[] args) {
         BoardManager boardManager = new BoardManager();
-        boardManager.startNewMatch(5,10L, boardManager.getDefaultStartConfig());
+        boardManager.startNewMatch(5, boardManager.getDefaultStartConfig());
         //boardManager.getManagedBoard().toggleCurrentPlayer();
         int[][][] frame= boardManager.getMatchFrame(Color.BLACK);
 

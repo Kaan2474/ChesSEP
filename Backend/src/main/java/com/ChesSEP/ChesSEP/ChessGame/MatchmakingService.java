@@ -205,7 +205,7 @@ public class MatchmakingService {
         BoardManager board=boards.get(game.getGameID());
 
         if(board.getManagedBoard().getZugId()==frameID&&frameID!= -1)
-            return new int[0][0][0];
+            return new int[][][]{{{board.getManagedBoard().getWinner()}}};
 
         int[][][] frame=board.getMatchFrame(thisPlayerColor);
 
@@ -263,7 +263,7 @@ public class MatchmakingService {
 
         BoardManager thisBoard=boards.get(thisGame.getGameID());
 
-        thisBoard.startNewMatch(matchLength,10L, thisBoard.getDefaultStartConfig());
+        thisBoard.startNewMatch(matchLength,thisBoard.getDefaultStartConfig());
 
         onGoingGame.add(thisGame);
     }
@@ -280,7 +280,7 @@ public class MatchmakingService {
 
     public int[][][] getTestBoard() {
         BoardManager boardManager=new BoardManager();
-        boardManager.startNewMatch(200, 5L, boardManager.getDefaultStartConfig());
+        boardManager.startNewMatch(200, boardManager.getDefaultStartConfig());
 
         return boardManager.getMatchFrame(Color.WHITE);
     }

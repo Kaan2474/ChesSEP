@@ -58,6 +58,7 @@ public class MatchmakingController {
 
     @GetMapping("/getMyMatchRequest")
     public ResponseEntity<UserRequestHolder> getMyMatchRequest(){
+        
         return ResponseEntity.ok(matchmakingService.getMyMatchRequest());
     }
 
