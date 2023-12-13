@@ -35,13 +35,14 @@ public class ChessClubController {
     }
 
     @GetMapping("/getChessClubOf/{userId}")
-    public ResponseEntity<ChessClub> getChessClubOf(@PathVariable long userId) throws JsonProcessingException {
-    ChessClub chessClub = chessClubService.getChessClubOf(userId);
-    if(chessClub!=null){
+    public ResponseEntity<String> getChessClubOf(@PathVariable long userId) throws JsonProcessingException {
+    String chessClub = chessClubService.getChessClubOf(userId);
         return new ResponseEntity<>(chessClub, HttpStatus.OK);
-    }else{
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
+
+    @GetMapping("/findChessClubById/{chessClubId}")
+    public ChessClub findChessClubById(@PathVariable long chessClubId){
+        return chessClubService.findChessClubById(chessClubId);
     }
 
     @GetMapping("/joinClubV2/{clubName}")

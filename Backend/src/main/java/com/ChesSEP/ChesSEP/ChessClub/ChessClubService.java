@@ -80,12 +80,12 @@ public class ChessClubService {
         return chessClubRepository.findChessClubById(getSender().getClubId()).getName();
     }
 
-    public ChessClub getChessClubOf(long  userId){
+    public String getChessClubOf(long userId){
         User user = userRepository.findUserById(userId);
         if(user.getClubId()==null){
             return null;
         }
-        return chessClubRepository.findChessClubById(user.getClubId());
+        return chessClubRepository.findChessClubById(user.getClubId()).getName();
     }
 
     public ChessClub[] getAllChessClubs(){
@@ -101,6 +101,11 @@ public class ChessClubService {
                     .build();
         }
         return arr;
+    }
+
+    //Ausgeben von Chessclub anhand von ID
+    public ChessClub findChessClubById(long chessClubId){
+        return chessClubRepository.findChessClubById(chessClubId);
     }
 
     public UserRequestHolder[] getChessClubMember(long chessId){
