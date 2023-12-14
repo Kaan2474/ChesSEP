@@ -179,7 +179,7 @@ public class ChatController {
     //Gibt die Nachrichten aus, die in einer Unterhaltung (Gruppe oder Private) sind
     @GetMapping("/getMessages/{chatId}/{lastMessageTime}")
     public ResponseEntity<List<ChatMessage>> messages (@PathVariable long chatId,@PathVariable long lastMessageTime){
-        return ResponseEntity.ok(chatService.findChatMessagesOf(chatId,lastMessageTime,1L));
+        return ResponseEntity.ok(chatService.findChatMessagesOf(chatId,lastMessageTime));
     }
 
     //Gibt neuste Nachricht(en) zurück
