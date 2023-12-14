@@ -215,6 +215,9 @@ public class ChatService {
     //Gibt Nachrichten aus chatId aus
     public List<ChatMessage> findChatMessagesOf(long chatId,long lastMessageTime) {
         List<ChatMessage> list = chatMessageRepository.findChatMessagesOf(chatId);
+        if(list.isEmpty()){
+            return new ArrayList<>();
+        }
 
         if(lastMessageTime>=list.get(list.size()-1).getTime())
             return new ArrayList<>();

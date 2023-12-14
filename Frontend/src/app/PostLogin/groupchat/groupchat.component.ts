@@ -75,18 +75,17 @@ export class GroupchatComponent implements OnInit, OnDestroy{
         return true;
       }
       this.changedMessages=messages;
-      
+
       for (let i = 0; i < this.messages.length; i++) {
         for (let j = 0; j < messages.length; j++) {
           if(this.messages[i].messageId!=messages[j].messageId)
             continue;
-          
+
           if(this.messages[i].content!=messages[j].content){
             console.log("ungelicher Content gefunden")
             this.loadChatMessages(BigInt(0));
             return true;
           }
-            
         }
       }
       return false;
@@ -107,7 +106,7 @@ export class GroupchatComponent implements OnInit, OnDestroy{
           this.userService.getUser(data[i].senderId).subscribe(res =>
               this.messages[i].senderName = res.vorname)
       }
-      console.log('Loaded messages:', this.messages); // Füge diese Zeile hinzu
+      console.log('Loaded messages:', this.messages);
       this.chatService.getChangeableMessages(this.groupId).subscribe(data=>{
         this.changeableMessages = data;
         console.log("Neue Nachrichten: " + this.changeableMessages)
@@ -164,9 +163,7 @@ export class GroupchatComponent implements OnInit, OnDestroy{
   }
   refreshChat(){
     this.refreshTimer = interval(1000).subscribe(()=>{
-
       this.checkForMessageChange()
-        
       this.loadChatMessages(this.lastMessageTime);
     })
   }
