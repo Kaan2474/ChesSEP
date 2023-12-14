@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
 
 
 @Component({
@@ -8,13 +9,21 @@ import { Router } from '@angular/router';
   templateUrl: './chess-puzzle.component.html',
   styleUrls: ['./chess-puzzle.component.css']
 })
-export class ChessPuzzleComponent {
+export class ChessPuzzleComponent implements OnInit {
   Allinfo:any;
   fileContent:any;
 
   constructor(private matchmakingService:MatchmakingService,private router:Router){
     
   }
+
+  ngOnInit(){
+    this.matchmakingService.getMyCurrentMatch().subscribe(data=>{
+      if(data!=null)
+      this.router.navigate(["/play-game-against-user"]);
+    })
+  }
+
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
 

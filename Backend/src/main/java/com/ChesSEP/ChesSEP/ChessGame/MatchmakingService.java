@@ -221,8 +221,8 @@ public class MatchmakingService {
             game.setWhiteLastFrameSeen(true);
         }    
 
-        if(game.getPlayerBlackID()==game.getPlayerWhiteID())
-            endMyMatch();
+        if(game.getPlayerBlackID()==-1L||game.getPlayerWhiteID()==-1L)
+            endPuzzle();
 
 
         return frame;
@@ -233,7 +233,10 @@ public class MatchmakingService {
 
         ChessBoard board=boards.get(game.getGameID()).getManagedBoard();
 
-        return board.nextStep(from, to);
+        if(game.getPlayerBlackID()==getSender().getId())
+            return board.nextStep(from, to, Color.BLACK);
+
+        return board.nextStep(from, to, Color.WHITE);
     }
 
     public boolean transformBauer(int id){
@@ -292,12 +295,8 @@ public class MatchmakingService {
                 User winner=userRepository.findUserById(game.getPlayerWhiteID());
                 User loser=userRepository.findUserById(game.getPlayerBlackID());
 
-                if(board.getManagedBoard().isPuzzle()==1){
-                    winner.setCompleatedPuzzles(winner.getCompleatedPuzzles()+1);
-                }else{
-                    winner.setElo(winner.getElo()+10);
-                    loser.setElo(loser.getElo()-10);
-                }
+                winner.setElo(winner.getElo()+10);
+                loser.setElo(loser.getElo()-10);
 
                 userRepository.save(winner);
                 userRepository.save(loser);
@@ -307,12 +306,8 @@ public class MatchmakingService {
                 winner=userRepository.findUserById(game.getPlayerBlackID());
                 loser=userRepository.findUserById(game.getPlayerWhiteID());
 
-                if(board.getManagedBoard().isPuzzle()==1){
-                    winner.setCompleatedPuzzles(winner.getCompleatedPuzzles()+1);
-                }else{
-                    winner.setElo(winner.getElo()+10);
-                    loser.setElo(loser.getElo()-10);
-                }
+                winner.setElo(winner.getElo()+10);
+                loser.setElo(loser.getElo()-10);
 
                 userRepository.save(winner);
                 userRepository.save(loser);
@@ -345,26 +340,48 @@ public class MatchmakingService {
 
         User sender=getSender();
 
+        BoardManager boardManager=new BoardManager();
+        boardManager.startNewChessPuzzle(csvReader.getStatus(id, puzzles), csvReader.CSVtoBoard(id, puzzles), csvReader.MovesToArr(id,puzzles));
+
+        Color player=boardManager.getManagedBoard().getPuzzlePlayerColor();
+
         Long time=System.currentTimeMillis();
-        ChessGame newGame=ChessGame.builder()
-                        .playerWhiteID(sender.getId())
-                        .playerBlackID(sender.getId())
-                        .matchLength(-1L)
-                        .name("ChessPuzzle von"+sender.getVorname())
-                        .blackLastFrameSeen(false)
-                        .whiteLastFrameSeen(false)
-                        .startTime(time)
+
+        ChessGame newGame;
+
+        if(player==Color.WHITE){  
+            newGame=ChessGame.builder()
+                .playerWhiteID(sender.getId())
+                .playerBlackID(-1L)
+                .matchLength(-1L)
+                .name("ChessPuzzle von"+sender.getVorname())
+                .blackLastFrameSeen(false)
+                .whiteLastFrameSeen(false)
+                .startTime(time)
                 .build();
+        }else{
+            newGame=ChessGame.builder()
+                .playerWhiteID(-1L)
+                .playerBlackID(sender.getId())
+                .matchLength(-1L)
+                .name("ChessPuzzle von"+sender.getVorname())
+                .blackLastFrameSeen(false)
+                .whiteLastFrameSeen(false)
+                .startTime(time)
+                .build();
+        }
 
         chessgameRepository.save(newGame);
 
-        ChessGame thisGame=chessgameRepository.findGame(sender.getId(), sender.getId(), time);
+        ChessGame thisGame;
 
-        boards.put(thisGame.getGameID(),new BoardManager());
+        if(player==Color.WHITE){
+            thisGame=chessgameRepository.findGame(sender.getId(), -1L, time);
+        }else{
+            thisGame=chessgameRepository.findGame(-1L, sender.getId(), time);
+        }
 
-        BoardManager boardManager=boards.get(thisGame.getGameID());
-
-        boardManager.startNewChessPuzzle(csvReader.getStatus(id, puzzles), csvReader.CSVtoBoard(id, puzzles), csvReader.MovesToArr(id,puzzles));
+        boards.put(thisGame.getGameID(), boardManager);
 
         onGoingGame.add(thisGame);
     }
@@ -379,6 +396,34 @@ public class MatchmakingService {
             board.getManagedBoard().surrender(Color.WHITE);
         }
 
-        endMyMatch();
+        if(board.getManagedBoard().isPuzzle()==1){
+            endPuzzle();
+        }else{
+            endMyMatch();
+        } 
+    }
+
+    public void endPuzzle(){
+        User sender=getSender();
+
+        ChessGame game=getMyCurrentMatch();
+        BoardManager board=boards.get(game.getGameID());
+
+        Color thisPlayer;
+
+        if(game.getPlayerWhiteID()==-1L){
+            thisPlayer=Color.BLACK;
+        }else{
+            thisPlayer=Color.WHITE;
+        }
+
+        if(board.getManagedBoard().getWinner()==thisPlayer.getId()){
+            sender.setCompleatedPuzzles(sender.getCompleatedPuzzles()+1);
+            userRepository.save(sender);
+        }
+
+        boards.remove(game.getGameID());
+        onGoingGame.remove(game);
+        
     }
 }
