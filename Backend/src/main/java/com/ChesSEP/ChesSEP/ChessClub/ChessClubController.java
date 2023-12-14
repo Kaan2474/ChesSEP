@@ -19,9 +19,9 @@ public class ChessClubController {
     private final ChessClubService chessClubService;
     private ObjectMapper objectMapper=new ObjectMapper();
 
-    @PostMapping("/leaveClub")
-    public void leaveClub(){
-        chessClubService.leaveClub();
+    @GetMapping("/leaveClub{chessclubId}")
+    public void leaveClub(@PathVariable long chessclubId){
+        chessClubService.leaveClub(chessclubId);
     }
 
     @GetMapping("/getAllChessClubs")

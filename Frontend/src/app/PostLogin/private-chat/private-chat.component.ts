@@ -88,5 +88,24 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
          this.content = "";
        });
     }
-          }
+  }
+  deleteMessage(message:Chat){
+    this.chatService.deleteMessage(this.chatid,message).subscribe(()=> {
+      this.loadChatMessages();
+      window.location.reload();
+    });
+  }
+  edit(message: Chat) {
+    message.editable = true;
+    message.newContent = message.content;
+  }
+
+  sendEdit(message:Chat){
+    if (message.editable) {
+      this.chatService.changeMessage(this.chatid, message).subscribe(() => {
+        message.editable = false;
+        this.loadChatMessages();
+      });
+    }
+  }
 }

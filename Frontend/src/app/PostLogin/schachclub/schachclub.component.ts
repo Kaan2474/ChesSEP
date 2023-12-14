@@ -3,7 +3,7 @@ import {UserService} from "../../Service/user.service";
 import {ChessClubService} from "../../Service/chess-club.service";
 import {ChessClub} from "../../Modules/ChessClub";
 import {User} from "../../Modules/User";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Chat} from "../../Modules/Chat";
 import {ChatService} from "../../Service/chat.service";
 import {Subscription} from "rxjs";
@@ -32,7 +32,8 @@ export class SchachclubComponent implements OnInit{
     private chessclubservice: ChessClubService,
     private route: ActivatedRoute,
     private chatService: ChatService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.user= new User();
     this.chessClubId = this.route.snapshot.params["id"];
@@ -114,6 +115,10 @@ export class SchachclubComponent implements OnInit{
         this.loadChatMessages();
       });
     }
+  }
+  leaveChessClub(){
+    this.chessclubservice.leaveChessClub(this.chessClubId).subscribe(()=>
+      this.router.navigate(['/homepage']))
   }
 }
 
