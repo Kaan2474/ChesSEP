@@ -75,7 +75,7 @@ public class ChessTest {
 
             int[] pieceCH = translateFromChessNotation(piece);
 
-            int[][] highlight=board.checkedGetHighlightOf(pieceCH[1], pieceCH[0]);
+            int[][] highlight=board.checkedGetHighlightOf(pieceCH[1], pieceCH[0],Color.WHITE);
 
             if (highlight==null) {
                 continue;

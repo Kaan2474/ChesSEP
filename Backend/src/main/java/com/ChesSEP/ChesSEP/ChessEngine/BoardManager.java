@@ -45,19 +45,19 @@ public class BoardManager {
         frame.add(status);
 
         //Board
-        frame.add(board.translateBoard(board.chessBoard));
+        frame.add(board.translateBoard(board.chessBoard,color));
 
         //Color
-        frame.add(board.translateColorBoard(board.chessBoard));
+        frame.add(board.translateColorBoard(board.chessBoard,color));
 
         //schach
-        frame.add(mergeArrays(board.getKingBoard(Color.WHITE), board.getKingBoard(Color.BLACK)));
+        frame.add(mergeArrays(board.getKingBoard(Color.WHITE,color), board.getKingBoard(Color.BLACK,color)));
 
         //BauerTransformEvent
-        frame.add(board.getBauerTransformEvent());
+        frame.add(board.getBauerTransformEvent(color));
 
         //LetzterZug    1=from 2=to
-        frame.add(board.getLastMove()); 
+        frame.add(board.getLastMove(color)); 
 
         //Hightlights
         int counter=0;
@@ -69,10 +69,15 @@ public class BoardManager {
         for (int i = 0; i < frame.get(frame.size()-1).length; i++) {
             for (int j = 0; j < frame.get(frame.size()-1)[i].length; j++) {
                 if(frame.get(2)[i][j]==color.getId()){
-                    int[][] arr=board.checkedGetHighlightOf(i, j);
+                    int[][] arr;
+                    if(color==Color.BLACK){
+                        arr=board.checkedGetHighlightOf(7-i, 7-j,color);
+                    }else{
+                        arr=board.checkedGetHighlightOf(i, j,color);
+                    }
 
                     if(!isTwoDArrayEmpty(arr)){
-                        frame.add(board.checkedGetHighlightOf(i, j));
+                        frame.add(arr);
 
                         //HiglightStatus
                         frame.get(headerLength-1)[i][j]=headerLength+counter;

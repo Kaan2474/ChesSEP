@@ -196,7 +196,7 @@ public class ChessBoard {
         return puzzlePlayerColor;
     }
 
-    public int[][] translateBoard(ChessPiece[][] board){
+    public int[][] translateBoard(ChessPiece[][] board,Color color){
         int[][] resultBoard=new int[8][8];
 
         for (int i = 0; i < resultBoard.length; i++) {
@@ -207,10 +207,26 @@ public class ChessBoard {
                 resultBoard[i][j]=board[i][j].getIdFromType();
             }
         }
+
+        if(color==Color.BLACK)
+            return rotateleft(rotateleft(resultBoard));
+
         return resultBoard;
     }
 
-    public int[][] translateColorBoard(ChessPiece[][] board){
+    private int[][] rotateleft(int[][] toRotate) {
+
+		int[][] rotated = new int[toRotate[0].length][toRotate.length];
+
+		for (int i = 0; i < toRotate.length; i++) {
+			for (int j = toRotate[i].length - 1; j >= 0; j--) {
+				rotated[j][i] = toRotate[i][toRotate[i].length - 1 - j];
+			}
+		}
+		return rotated;
+	}
+
+    public int[][] translateColorBoard(ChessPiece[][] board,Color color){
         int[][] resultBoard=new int[8][8];
 
         for (int i = 0; i < resultBoard.length; i++) {
@@ -221,23 +237,30 @@ public class ChessBoard {
                 resultBoard[i][j]=board[i][j].getColor().getId();
             }
         }
+
+        if(color==Color.BLACK)
+            return rotateleft(rotateleft(resultBoard));
+
         return resultBoard;
     }
 
-    public int[][] getKingBoard(Color color){
+    public int[][] getKingBoard(Color kingsColor,Color color){
         int[][] resultBoard=new int[8][8];
 
-        if(isKingUnderAttack(color,chessBoard)==null)
+        if(isKingUnderAttack(kingsColor,chessBoard)==null)
             return resultBoard;
 
-        int[] kingsCoords=getKingPos(color,chessBoard);
+        int[] kingsCoords=getKingPos(kingsColor,chessBoard);
 
         resultBoard[kingsCoords[0]][kingsCoords[1]]=1;
 
+        if(color==Color.BLACK)
+            return rotateleft(rotateleft(resultBoard));
+
         return resultBoard;
     }
 
-    public int[][] getLastMove(){
+    public int[][] getLastMove(Color color){
         int[][] resultBoard=new int[8][8];
 
         if(zuege.size()==0)
@@ -249,10 +272,13 @@ public class ChessBoard {
 
         resultBoard[lastMove.newX][lastMove.newY]=2;
 
+        if(color==Color.BLACK)
+            return rotateleft(rotateleft(resultBoard));
+
         return resultBoard;
     }
 
-    public int[][] getBauerTransformEvent(){
+    public int[][] getBauerTransformEvent(Color color){
         int[][] resultBoard=new int[8][8];
 
         int[] bauerCoords=getBauerToTransform();
@@ -261,6 +287,9 @@ public class ChessBoard {
             return resultBoard;
 
         resultBoard[bauerCoords[0]][bauerCoords[1]]=1;
+
+        if(color==Color.BLACK)
+            return rotateleft(rotateleft(resultBoard));
 
         return resultBoard;
     }
@@ -557,7 +586,11 @@ public class ChessBoard {
 
     //MakeAMove
 
-    public boolean nextStep(int from,int to){
+    public boolean nextStep(int from,int to,Color color){
+
+        if(color==Color.BLACK)
+            return nextStep(7-((from-(from%10))/10),7-(from%10),7-((to-(to%10))/10),7-(to%10));
+
         return nextStep((from-(from%10))/10,from%10,(to-(to%10))/10,to%10);
     }
 
@@ -1267,7 +1300,7 @@ public class ChessBoard {
         return fillCoordsIntoArray(validCoords);
     }*/
 
-    public int[][] checkedGetHighlightOf(int x, int y){
+    public int[][] checkedGetHighlightOf(int x, int y,Color color){
 
         ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
 
@@ -1277,6 +1310,9 @@ public class ChessBoard {
         List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
 
         validCoords=testMovesForCheckMate(x, y, validCoords);
+
+        if(color==Color.BLACK)
+            return rotateleft(rotateleft(fillCoordsIntoArray(validCoords)));
 
         return fillCoordsIntoArray(validCoords);
     }

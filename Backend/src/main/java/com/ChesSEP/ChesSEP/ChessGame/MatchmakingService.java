@@ -233,7 +233,10 @@ public class MatchmakingService {
 
         ChessBoard board=boards.get(game.getGameID()).getManagedBoard();
 
-        return board.nextStep(from, to);
+        if(game.getPlayerBlackID()==getSender().getId())
+            return board.nextStep(from, to, Color.BLACK);
+
+        return board.nextStep(from, to, Color.WHITE);
     }
 
     public boolean transformBauer(int id){
