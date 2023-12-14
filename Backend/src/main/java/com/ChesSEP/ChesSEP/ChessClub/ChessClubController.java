@@ -37,7 +37,7 @@ public class ChessClubController {
     @GetMapping("/getChessClubOf/{userId}")
     public ResponseEntity<String> getChessClubOf(@PathVariable long userId) throws JsonProcessingException {
     String chessClub = chessClubService.getChessClubOf(userId);
-        return new ResponseEntity<>(chessClub, HttpStatus.OK);
+        return new ResponseEntity<>(objectMapper.writeValueAsString(chessClub), HttpStatus.OK);
     }
 
     @GetMapping("/findChessClubById/{chessClubId}")
