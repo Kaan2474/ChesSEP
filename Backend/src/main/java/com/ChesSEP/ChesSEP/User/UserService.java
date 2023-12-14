@@ -1,8 +1,10 @@
 package com.ChesSEP.ChesSEP.User;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.ChesSEP.ChesSEP.TwoFactorAuthentication.OtpService;
+import com.ChesSEP.ChesSEP.User.ProfilePicture.Picture;
 import com.ChesSEP.ChesSEP.User.ProfilePicture.ProfilePictureRepository;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,12 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ChesSEP.ChesSEP.Security.JWT.TokenService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 
@@ -36,7 +38,7 @@ public class UserService {
         return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public String registerUser(@NonNull UserRequestHolder user){
+    public String registerUser(UserRequestHolder user, MultipartFile bild) throws IOException{
 
         if((userRepository.findByEmail(user.getEmail())!=null)||!emailValidator.isEmailValid(user.getEmail())){
             return "Die Email existiert bereits oder ist falsch!";
@@ -57,6 +59,15 @@ public class UserService {
             .build();
 
         userRepository.save(assembledUser);
+
+        if(bild!=null){
+            pictureRepository.save(Picture.builder()
+                .id(userRepository.findByEmail(user.getEmail()).getId())
+                .fileName(bild.getOriginalFilename())
+                .type(bild.getContentType())
+                .imageData(bild.getBytes())
+                .build());
+        }
 
         return "Der User wurde erstellt!";
     }
