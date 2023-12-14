@@ -59,12 +59,12 @@ public class ChessClubService {
         }
     }
 
-    public void leaveClub(long chessclubId){
+    public void leaveClub(long clubId){
         User user = getSender();
-        chatService.updateChessClubChat(chessClubRepository.findChessClubById(chessclubId).getChatId());
+        chatService.updateChessClubChat(chessClubRepository.findChessClubById(clubId).getChatId());
         user.setClubId(null);
         userRepository.save(user);
-        deleteClubV2(chessClubRepository.findChessClubById(chessclubId).getName());
+        deleteClubV2(chessClubRepository.findChessClubById(clubId).getName());
 
     }
 

@@ -19,7 +19,7 @@ public class ChessClubController {
     private final ChessClubService chessClubService;
     private ObjectMapper objectMapper=new ObjectMapper();
 
-    @GetMapping("/leaveClub{chessclubId}")
+    @GetMapping("/leaveClub/{chessclubId}")
     public void leaveClub(@PathVariable long chessclubId){
         chessClubService.leaveClub(chessclubId);
     }

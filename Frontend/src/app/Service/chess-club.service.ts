@@ -57,6 +57,6 @@ export class ChessClubService {
     return this.http.get<ChessClub>(`${this.URL}/findChessClubById/${id}`,{headers: this.header});
   }
   leaveChessClub(chessclubId:any){
-    return this.http.get(`${this.URL}/findChessClubById/${chessclubId}`, {headers: this.header});
+    return this.http.get(`${this.URL}/leaveClub/${chessclubId}`, {headers: this.header});
   }
 }
