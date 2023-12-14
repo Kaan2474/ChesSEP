@@ -457,6 +457,18 @@ public class ChessBoard {
                     continue;
 
                 List<int[]> currentValidEnemyCoords=validCoordsOf(i, j, board);
+
+                if(currentPiece.getType()==ChessPieceType.BAUER){
+                    List<int[]> bauerValidAttackCoords=new ArrayList<>();
+
+                    for (int k = 0; k < currentValidEnemyCoords.size(); k++) {
+                        int[] currentCoord=currentValidEnemyCoords.get(k);
+
+                        if(currentCoord[0]==i||currentCoord[1]!=j)
+                            bauerValidAttackCoords.add(currentCoord);
+                    }
+                    currentValidEnemyCoords=bauerValidAttackCoords;
+                }
                 
                 if(doesListContainCoords(x, y, currentValidEnemyCoords))
                     return new int[]{i,j};
