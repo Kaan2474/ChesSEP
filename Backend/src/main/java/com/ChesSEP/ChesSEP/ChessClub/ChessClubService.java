@@ -23,6 +23,7 @@ public class ChessClubService {
 
 
 
+
     private User getSender(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
@@ -66,9 +67,11 @@ public class ChessClubService {
             return;
         }
 
+        chatService.updateChessClubChat(chessClub.getChatId());
         user.setClubId(null);
         userRepository.save(user);
         deleteClubV2(chessClub.getName());
+
     }
 
     public String getMeinChessClubName(){

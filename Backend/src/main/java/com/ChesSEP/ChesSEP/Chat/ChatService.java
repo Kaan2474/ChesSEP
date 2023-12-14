@@ -164,7 +164,11 @@ public class ChatService {
         }
     }
 
-
+    public void updateChessClubChat(long chatId){
+        Chat chat = chatRepository.findChatByChatId(chatId);
+        chat.getUser().remove(getSender().getId());
+        chatRepository.save(chat);
+    }
 
 
     //##################Alles Rund um Nachrichten###############################
