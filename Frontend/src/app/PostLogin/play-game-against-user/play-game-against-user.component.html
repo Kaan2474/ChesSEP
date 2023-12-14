@@ -123,6 +123,20 @@
   </table>
 </div>
 
+<table id="bauertable" *ngIf="this.bauerTransform==true">
+  <tr>
+    <th>Turm</th>
+    <th>Springer</th>
+    <th>Läufer</th>
+    <th>Königin</th>
+  </tr>
+  <tr>
+    <td><button id="turm" (click)="doTransformBauer(2)"></button></td>
+    <td><button id="springer" (click)="doTransformBauer(3)"></button></td>
+    <td><button id="laufer" (click)="doTransformBauer(4)"></button></td>
+    <td><button id="konigin" (click)="doTransformBauer(5)"></button></td>
+  </tr>
+</table>
 <br>
 <button id="endgame" (click)="endGame()">Partie aufgeben</button>
 

@@ -65,6 +65,22 @@ div {
   display: flex;
 }
 
+#turm{
+  background-image: url("/assets/figures/turm_w.png");
+}
+
+#laufer{
+  background-image: url("/assets/figures/laeufer_w.png");
+}
+
+#konigin{
+  background-image: url("/assets/figures/dame_w.png");
+}
+
+#springer{
+  background-image: url("/assets/figures/springer_w.png");
+}
+
 
 
 
