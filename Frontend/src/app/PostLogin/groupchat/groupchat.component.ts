@@ -27,6 +27,8 @@ export class GroupchatComponent implements OnInit, OnDestroy{
   members:User[]=[];
   private refreshTimer:Subscription;
   private changeableMessages: any;
+  lastMessageTime:bigint=BigInt(0);
+  changedMessages:any[]=[];
 
   constructor(private userService: UserService,
               private chatService: ChatService,
@@ -58,26 +60,58 @@ export class GroupchatComponent implements OnInit, OnDestroy{
       this.groupChat=data;
       this.groupId=data.chatId;
       console.log('Chat details:', this.groupChat);
-      this.loadChatMessages();
+      this.loadChatMessages(BigInt(0));
       this.getMemberList();
     })
   }
-  loadChatMessages() {
-    this.chatService.getChatMessages(this.groupId).subscribe((data) => {
 
-        if(data.length<=this.messages.length){
-          return;
+  checkForMessageChange():boolean{
+    console.log("suchenachContent")
+    this.chatService.getChangeableMessages(this.groupId).subscribe(messages=>{
+
+      if(this.changedMessages.length!=messages.length){
+        this.loadChatMessages(BigInt(0));
+        this.changedMessages=messages;
+        return true;
+      }
+      this.changedMessages=messages;
+      
+      for (let i = 0; i < this.messages.length; i++) {
+        for (let j = 0; j < messages.length; j++) {
+          if(this.messages[i].messageId!=messages[j].messageId)
+            continue;
+          
+          if(this.messages[i].content!=messages[j].content){
+            console.log("ungelicher Content gefunden")
+            this.loadChatMessages(BigInt(0));
+            return true;
+          }
+            
         }
-        this.messages = data;
-        for (let i = 0; i < data.length; i++) {
-            this.userService.getUser(data[i].senderId).subscribe(res =>
-                this.messages[i].senderName = res.vorname)
-        }
-        console.log('Loaded messages:', this.messages); // Füge diese Zeile hinzu
+      }
+      return false;
+    })
+
+    return false;
+  }
+  loadChatMessages(lastMessageTime:bigint) {
+    this.chatService.getChatMessages(this.groupId,lastMessageTime).subscribe((data) => {
+      if(data.length==0)
+        return;
+
+      this.messages = data;
+
+      this.lastMessageTime=this.messages[this.messages.length-1].time;
+
+      for (let i = 0; i < data.length; i++) {
+          this.userService.getUser(data[i].senderId).subscribe(res =>
+              this.messages[i].senderName = res.vorname)
+      }
+      console.log('Loaded messages:', this.messages); // Füge diese Zeile hinzu
       this.chatService.getChangeableMessages(this.groupId).subscribe(data=>{
         this.changeableMessages = data;
         console.log("Neue Nachrichten: " + this.changeableMessages)
-      })
+      });
     });
   }
     getMemberList(){
@@ -104,14 +138,14 @@ export class GroupchatComponent implements OnInit, OnDestroy{
         content: this.content
       };
       this.chatService.writeMessageGroup(this.groupId, this.newMessage).subscribe(() => {
-        this.loadChatMessages();
+        this.loadChatMessages(this.lastMessageTime);
         this.content = "";
       });
     }
   }
   deleteGroupMessage(message:Chat){
     this.chatService.deleteMessage(this.groupId,message).subscribe(()=> {
-      this.loadChatMessages();
+      this.loadChatMessages(this.lastMessageTime);
       window.location.reload();
     });
   }
@@ -124,13 +158,16 @@ export class GroupchatComponent implements OnInit, OnDestroy{
     if (message.editable) {
       this.chatService.changeMessage(this.groupId, message).subscribe(() => {
         message.editable = false;
-        this.loadChatMessages();
+        this.loadChatMessages(this.lastMessageTime);
       });
     }
   }
   refreshChat(){
     this.refreshTimer = interval(1000).subscribe(()=>{
-      this.loadChatMessages();
+
+      this.checkForMessageChange()
+        
+      this.loadChatMessages(this.lastMessageTime);
     })
   }
 }

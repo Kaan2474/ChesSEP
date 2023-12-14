@@ -26,6 +26,7 @@ export class SchachclubComponent implements OnInit{
   chessClubName: any;
   groupchatId:any;
   sub:Subscription = new Subscription;
+  lastMessageTime:bigint=BigInt(0);
 
 
   constructor(
@@ -72,7 +73,7 @@ export class SchachclubComponent implements OnInit{
     })
   }
   loadChatMessages() {
-    this.chatService.getChatMessages(this.groupchatId).subscribe((data) => {
+    this.chatService.getChatMessages(this.groupchatId,this.lastMessageTime).subscribe((data) => {
       this.messages = data;
       for (let i = 0; i < data.length; i++) {
         this.userService.getUser(data[i].senderId).subscribe(res =>
