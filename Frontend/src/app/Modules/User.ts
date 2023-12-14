@@ -11,4 +11,6 @@ export class User{
   privacy: any;
   clubId: any;
   multipartBild:any;
+  compleatedPuzzles: any;
+  achievement: any;
 }

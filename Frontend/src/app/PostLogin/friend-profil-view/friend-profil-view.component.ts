@@ -39,6 +39,11 @@ export class FriendProfilViewComponent implements OnInit {
       if(this.user.profilbild!=null) {
         this.user.profilbild = 'data:image/png;base64,' + this.user.profilbild;
       }
+      if(this.user.compleatedPuzzles >= 3){
+        this.user.achievement = "Schachexperte";
+      }else{
+        this.user.achievement= "kein Achievement";
+      }
       this.getChessClubOf();
       },
     );
