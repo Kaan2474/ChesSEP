@@ -192,6 +192,10 @@ public class ChessBoard {
         endGameFlag(color);
     }
 
+    public Color getPuzzlePlayerColor(){
+        return puzzlePlayerColor;
+    }
+
     public int[][] translateBoard(ChessPiece[][] board){
         int[][] resultBoard=new int[8][8];
 
