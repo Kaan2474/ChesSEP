@@ -55,7 +55,9 @@ export class HomepageComponent {
 
   updateClubID(){
     this.userService.getUserbyToken().subscribe(data => {
-      this.schachclubId = data.clubId; console.log(data)} )
+      this.schachclubId = data.clubId; console.log(data)
+      localStorage.setItem("SchachclubId", this.schachclubId);
+    } )
   }
 
   createClub(name: {name: string}){

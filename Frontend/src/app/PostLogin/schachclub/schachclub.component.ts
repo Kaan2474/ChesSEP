@@ -6,6 +6,7 @@ import {User} from "../../Modules/User";
 import {ActivatedRoute} from "@angular/router";
 import {Chat} from "../../Modules/Chat";
 import {ChatService} from "../../Service/chat.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-schachclub',
@@ -14,36 +15,37 @@ import {ChatService} from "../../Service/chat.service";
 })
 export class SchachclubComponent implements OnInit{
 
+  token = localStorage.getItem("JWT");
   chessClubMembers: User[] = [];
   chessClubId: any;
-  groupName: any;
   content : any;
   user: User;
   newMessage: any = {};
-  groupChat: any;
   id:any[]=[];
   messages: Chat[] = [];
-  membersIds:any[]=[];
-  chessClubName: any = "testtt222";
-
+  chessClubName: any;
+  groupchatId:any;
+  sub:Subscription = new Subscription;
 
 
   constructor(
     private chessclubservice: ChessClubService,
     private route: ActivatedRoute,
-    private chatservice: ChatService,
+    private chatService: ChatService,
     private userService: UserService
   ) {
     this.user= new User();
+    this.chessClubId = this.route.snapshot.params["id"];
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.chessClubId = +params['id'];
-    this.getAllMemberList()
-      this.getGroupChatId()
-      this.getMyClubName()
-    });
+    this.getAllMemberList();
+      this.getGroupChatId();
+      this.getMyClubName();
+    console.log(this.chessClubId)
+    this.userService.getUserbyToken().subscribe(data=>
+      this.user = data
+    )
   }
 
   getAllMemberList() {
@@ -62,25 +64,24 @@ export class SchachclubComponent implements OnInit{
       console.log(this.chessClubName)})
 
   }
-
-
   getGroupChatId(){
-    this.chatservice.getChesClubChatByName(this.chessClubName).subscribe(data =>{
-      this.groupChat=data;
-      this.chessClubId=data.chatId;
-      console.log('Chat details:', this.groupChat);
+    this.chessclubservice.getChessClubById(this.chessClubId).subscribe(data =>{
+      this.groupchatId=data.chatId;
       this.loadChatMessages();
-      this.getAllMemberList()
-      this.chatservice.membersOfGroupChat(this.chessClubId).subscribe(res=>{
-        this.membersIds=res;
-        for (let i= 0;  i<res.length ; i++) {
-
-        }
-      })
     })
   }
+  loadChatMessages() {
+    this.chatService.getChatMessages(this.groupchatId).subscribe((data) => {
+      this.messages = data;
+      for (let i = 0; i < data.length; i++) {
+        this.userService.getUser(data[i].senderId).subscribe(res =>
+          this.messages[i].senderName = res.vorname)
+      }
+      console.log('Loaded messages:', this.messages); // Füge diese Zeile hinzu
+    });
+  }
 
-  writeMessage(content: String){
+  sendMessage(content:String) {
     if (content === undefined || content === "") {
       alert("Sie können keine leere Nachricht senden!");
     } else {
@@ -89,23 +90,30 @@ export class SchachclubComponent implements OnInit{
         user: this.id,
         content: this.content
       };
-      this.chatservice.writeMessageGroup(this.chessClubId, this.newMessage).subscribe(() => {
+      this.chatService.writeMessageGroup(this.groupchatId, this.newMessage).subscribe(() => {
         this.loadChatMessages();
         this.content = "";
       });
     }
   }
-
-
-  loadChatMessages() {
-    this.chatservice.getChatMessages(this.chessClubId).subscribe((data) => {
-      this.messages = data;
-      for (let i = 0; i < data.length; i++) {
-        this.userService.getUser(data[i].senderId).subscribe(res =>
-          this.messages[i].senderName = res.vorname)
-      }
-      console.log('Loaded messages:', this.messages);
+  deleteGroupMessage(message:Chat){
+    this.chatService.deleteMessage(this.groupchatId,message).subscribe(()=> {
+      this.loadChatMessages();
+      window.location.reload();
     });
+  }
+  edit(message: Chat) {
+    message.editable = true;
+    message.newContent = message.content;
+  }
+
+  sendEdit(message:Chat){
+    if (message.editable) {
+      this.chatService.changeMessage(this.groupchatId, message).subscribe(() => {
+        message.editable = false;
+        this.loadChatMessages();
+      });
+    }
   }
 }
 

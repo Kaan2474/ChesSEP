@@ -41,8 +41,8 @@ public class ChessClubController {
     }
 
     @GetMapping("/findChessClubById/{chessClubId}")
-    public ChessClub findChessClubById(@PathVariable long chessClubId){
-        return chessClubService.findChessClubById(chessClubId);
+    public ResponseEntity<ChessClub> findChessClubById(@PathVariable long chessClubId){
+        return new ResponseEntity<>(chessClubService.findChessClubById(chessClubId),HttpStatus.OK);
     }
 
     @GetMapping("/joinClubV2/{clubName}")
