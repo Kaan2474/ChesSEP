@@ -1,0 +1,21 @@
+.container{
+  margin-top: 20px;
+}
+.center{
+  display: flex;
+  justify-content: center;
+}
+.memberContainer{
+  display: flex;
+  justify-content: right;
+}
+button{
+  cursor: pointer;
+}
+.goBack{
+  margin-top: 20px;
+  width: 250px;
+  height: 25px;
+  background-color: white;
+  border-radius: 5px;
+}

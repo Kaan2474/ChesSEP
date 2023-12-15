@@ -55,18 +55,6 @@ button{
   margin-bottom: 10px;
   margin-left: 3px;
 }
-.entfernenButton{
-  width: 25%;
-  margin-right: 10px;
-  background-color: red;
-  color: white;
-  border-radius: 5px;
-  border-color: darkred;
-}
-.entfernenButton:hover{
-  background-color: rgb(238, 90, 94);
-  border-color: rgb(238, 90, 94);
-}
 .hinzufügenButton{
   width: 25%;
   margin-right: 20px;

@@ -84,11 +84,8 @@ export class SchachclubComponent implements OnInit,OnDestroy{
     this.chatService.getChatMessages(this.groupchatId,lastMessageTime).subscribe((data) => {
       if(data.length==0)
         return;
-
       this.messages = data;
-
       this.lastMessageTime=this.messages[this.messages.length-1].time;
-
       for (let i = 0; i < data.length; i++) {
         this.userService.getUser(data[i].senderId).subscribe(res =>
           this.messages[i].senderName = res.vorname)
@@ -135,7 +132,7 @@ export class SchachclubComponent implements OnInit,OnDestroy{
       this.newMessage = {
         senderId: this.user.id,
         user: this.id,
-        content: this.content
+        content: content
       };
       this.chatService.writeMessageGroup(this.groupchatId, this.newMessage).subscribe(() => {
         this.loadChatMessages(this.lastMessageTime);
@@ -151,7 +148,6 @@ export class SchachclubComponent implements OnInit,OnDestroy{
   }
   edit(message: Chat) {
     message.editable = true;
-    message.newContent = message.content;
   }
 
   sendEdit(message:Chat){

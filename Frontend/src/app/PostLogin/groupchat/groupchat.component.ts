@@ -52,7 +52,7 @@ export class GroupchatComponent implements OnInit, OnDestroy{
   getUserDetail() {
     this.userService.getUserbyToken().subscribe((data) => {
       this.user = data;
-      console.log('User details:', this.user); // Füge diese Zeile hinzu
+      console.log('User details:', this.user);
     },);
   }
   getGroupChatId(){
@@ -134,7 +134,7 @@ export class GroupchatComponent implements OnInit, OnDestroy{
       this.newMessage = {
         senderId: this.user.id,
         user: this.id,
-        content: this.content
+        content: content
       };
       this.chatService.writeMessageGroup(this.groupId, this.newMessage).subscribe(() => {
         this.loadChatMessages(this.lastMessageTime);
@@ -150,7 +150,6 @@ export class GroupchatComponent implements OnInit, OnDestroy{
   }
   edit(message: Chat) {
     message.editable = true;
-    message.newContent = message.content;
   }
 
   sendEdit(message:Chat){

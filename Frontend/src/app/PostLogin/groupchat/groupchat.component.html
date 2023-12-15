@@ -5,14 +5,14 @@
     <h2>GruppenChat</h2>
   </div>
   <div class="center">
-    <div #scrollContainer id="messageContainer" class="messageContainer" style="overflow-y: auto">
-      <p class="empty center" *ngIf="messages.length === 0">Es gibt noch keine Nachrichten. Schreibe unten eine neue!</p>
+    <div id="messageContainer" class="messageContainer" style="overflow-y: auto">
+      <p class="empty message" *ngIf="messages.length === 0">Es gibt noch keine Nachrichten. Schreibe unten eine neue!</p>
       <div class="message" *ngFor="let message of messages, let i = index">
-        <div class="messageWrapper">
+        <div class="messageSender">
           <div>
             <p class="sender" [ngClass]="{'senderUser': message.senderId === user.id}">{{message.senderName}}</p>
           </div>
-          <div class="contentWrapper">
+          <div class="Content">
             <p id="{{i}}" class="content" contenteditable="false">{{message.content}}</p>
           </div>
         </div>
@@ -33,8 +33,7 @@
     </div>
     </div>
 
-  <div class="center outerInputContainer">
-    <div class="inputContainer">
+  <div class="center Send">
       <form class="form" (ngSubmit)="sendMessage(content)" #messageForm="ngForm">
         <input type="text" [(ngModel)]="content"
                id="content"
@@ -44,7 +43,6 @@
         >
         <button type="submit" [disabled]="!messageForm.form.valid">Senden</button>
       </form>
-    </div>
   </div>
 
   <div class="memberContainer" style="overflow-y: auto">
@@ -53,9 +51,6 @@
       <button [routerLink]="['/friend-profil-view', member.id]">Profil</button>
     </div>
   </div>
-
-
-
 
   <div class="center">
     <button class="goBack" routerLink="/homepage">Zurück</button>

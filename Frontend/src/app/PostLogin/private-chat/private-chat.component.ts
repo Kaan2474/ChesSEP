@@ -123,7 +123,7 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
       this.newMessage = {
         senderId: this.user.id,
         recipientId: this.friend.id,
-        content: this.content
+        content: content
       };
       this.chatService.writeMessage(this.chatid, this.newMessage).subscribe(() => {
         this.loadChatMessages(this.lastMessageTime);
@@ -139,7 +139,6 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
   }
   edit(message: Chat) {
     message.editable = true;
-    message.newContent = message.content;
   }
 
   sendEdit(message:Chat){
