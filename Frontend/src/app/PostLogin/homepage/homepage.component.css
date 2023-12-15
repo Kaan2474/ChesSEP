@@ -34,7 +34,31 @@ th{
 
 .ÜbersichtSchachclub{
   margin-top: 20%;
-  margin-left: -10%;
+  margin-left: -300px;
+  margin-right: 150px;
   margin-top: 30%;
+}
+
+.SchachclubErstellenButton {
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  border: 2px solid #1E1E1E;
+  margin-left: 3%;
+  cursor: pointer;
 
 }
+
+.SchachclubBeitretenButton{
+
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  border: 2px solid #1E1E1E;
+  margin-left: 3%;
+  cursor: pointer;
+
+}
+
+
+
+
+
