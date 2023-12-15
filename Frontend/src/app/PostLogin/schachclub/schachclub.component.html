@@ -20,20 +20,20 @@
 
 <div class="SchachClubChat"><h3 class="SchachClubChat">Chat mit den Mitgliedern der Gruppe "{{chessClubName}}"</h3>
 
-  <div #scrollContainer id="messageContainer" class="messageContainer" style="overflow-y: auto">
+  <div  id="messageContainer" class="messageContainer" style="overflow-y: auto">
     <p class="empty center" *ngIf="messages.length === 0">Es gibt noch keine Nachrichten. Schreibe unten eine neue!</p>
     <div class="message" *ngFor="let message of messages">
-      <div class="messageWrapper">
+      <div class="messageSender">
         <div>
           <p class="sender" [ngClass]="{'senderUser': message.senderId === user.id}">{{message.senderName}}</p>
         </div>
-        <div class="contentWrapper">
+        <div class="Content">
           <p  class="content">{{message.content}}</p>
         </div>
       </div>
-      <p *ngIf="message.senderId == user.id && message.chatMessageStatus == 'UNREAD'" >
-        <button class="edit" (click)="edit(message)">Bearbeiten</button> oder
-        <button class="edit" (click)="deleteGroupMessage(message)">Löschen</button>
+      <p class = "editDelete" *ngIf="message.senderId == user.id && message.chatMessageStatus == 'UNREAD'" >
+        <button class="beLÖ" (click)="edit(message)">Bearbeiten</button> oder
+        <button class="beLÖ" (click)="deleteGroupMessage(message)">Löschen</button>
       </p>
       <div *ngIf="message.editable">
         <form class="form" (ngSubmit)="sendEdit(message)" #messageEditForm="ngForm">
@@ -47,8 +47,8 @@
     </div>
   </div>
 
-<div class="center outerInputContainer">
-  <div class="inputContainer">
+<div class="center">
+  <div class="input">
     <form class="form" (ngSubmit)="sendMessage(content)" #messageForm="ngForm">
       <input type="text" [(ngModel)]="content"
              id="content"

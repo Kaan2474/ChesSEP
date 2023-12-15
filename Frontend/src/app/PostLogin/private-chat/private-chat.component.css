@@ -1,29 +1,15 @@
 .container{
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .center{
   display: flex;
   justify-content: center;
-}
-button{
-  cursor: pointer;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.friendContainer{
-  overscroll-behavior-y: contain;
-  width:30%;
-  height: 500px;
-  border: solid 1px black;
-  border-radius: 4px;
-  scroll-behavior: smooth;
-}
-.scroll{
-  scroll-behavior: smooth;
-}
-.friend{
-  height: 60px;
-  border-bottom: solid 2px black;
-}
 .button{
   margin-top: 20px;
   width: 250px;
@@ -36,66 +22,83 @@ button{
 .button:hover{
   background-color: royalblue;
 }
+.messageContainer{
+  position: relative;
+  overscroll-behavior-y: contain;
+  width:30%;
+  height: 500px;
+  border: solid 1px black;
+  border-radius: 4px;
+  scroll-behavior: smooth;
+}
 
-.profilButton{
-  width: 25%;
-  margin-right: 3px;
+.input{
+  height: 40px;
+  width: 30%;
+}
+.form input{
+  margin-left: 4.5%;
+  margin-top: 5px;
+  width: 70%;
+  height: 25px;
+  border: solid 2px royalblue;
+  border-radius: 5px;
+}
+
+.form button{
+  height: 30px;
+  width: 20%;
+  margin-left: 2px;
   background-color: dodgerblue;
   color: white;
   border-radius: 5px;
   border-color: dodgerblue;
-  margin-left: 1px;
-
 }
-.profilButton:hover{
+.form button:hover{
   background-color: royalblue;
 }
-.friend p{
+.empty{
+  margin-top: 25%;
   font-family: Arial;
-  margin-bottom: 10px;
-  margin-left: 3px;
 }
-.entfernenButton{
-  width: 25%;
+.sender{
+  margin-left: 10px;
+  margin-bottom: 0;
+  font-family: Arial;
+  color: dodgerblue;
+  font-weight: bold;
+}
+.content{
+  margin-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  max-width: 75%;
+  border-radius: 10px;
+}
+.messageSender p {
+  font-family: Arial;
+  font-size: 15px;
+  margin-top: 5px;
   margin-right: 10px;
-  background-color: red;
-  color: white;
-  border-radius: 5px;
-  border-color: darkred;
 }
-.entfernenButton:hover{
-  background-color: rgb(238, 90, 94);
-  border-color: rgb(238, 90, 94);
+.editDelete{
+  font-family: Arial;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 0;
 }
-.hinzufügenButton{
-  width: 25%;
-  margin-right: 20px;
-  background-color: green;
-  color: white;
-  border-radius: 5px;
-  border-color: darkgreen;
+.editDelete b:hover{
+  cursor: pointer;
 }
-.hinzufügenButton:hover{
-  background-color: rgb(74, 190, 53);
-  border-color: rgb(74, 190, 53);
+.beLÖ{
+  color: royalblue;
 }
-.buttonMargin{
-  width: 10px;
-}
+
 .goBack{
   margin-top: 20px;
   width: 250px;
   height: 25px;
   background-color: white;
   border-radius: 5px;
-}
-
-#gruppenname{
-  font-size: 17px;
-  display: inline-block;
-  border-color: royalblue;
-  border-radius: 5px;
-  width: 100%;
-  margin: 3px;
 }
 
