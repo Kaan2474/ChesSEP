@@ -2,6 +2,10 @@
   display: flex;
   text-align: center;
 }
+button{
+  cursor: pointer;
+}
+
 .Schachclub{
   width: 33%;
 }
@@ -58,7 +62,67 @@ th{
 
 }
 
-
-
-
-
+.groupContainer{
+  width: 98%;
+  margin-left: auto;
+  height: 500px;
+  border: solid 1px black;
+  border-radius: 4px;
+}
+.group{
+  height: 65px;
+  border-bottom: solid 1px black;
+}
+.group p {
+  font-family: Arial;
+  margin-bottom: 3px;
+}
+.groupContent{
+  margin-left: 10px;
+}
+.button{
+  margin-top: 20px;
+  width: 250px;
+  height: 25px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  border-color: dodgerblue;
+}
+.button:hover{
+  background-color: royalblue;
+}
+.buttonGruppen{
+  width: 30%;
+  float: left;
+  margin-left: 5px;
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  border-color: dodgerblue;
+}
+.buttonGruppen:hover{
+  background-color: royalblue;
+}
+.buttonVerlassen{
+  float: right;
+  margin-right: 5px;
+  width: 18%;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  border-color: red;
+}
+.buttonVerlassen:hover{
+  background-color: rgb(238, 90, 94);
+  border-color: rgb(238, 90, 94);
+}
+.groupContent p{
+  font-family: Arial;
+  font-size: 18px;
+  font-weight: bold;
+}
+.empty{
+  margin-top: 25%;
+  font-family: Arial;
+}

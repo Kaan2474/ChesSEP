@@ -69,15 +69,16 @@
 
   <div class = "GruppenChat">
     <div class="center">
-      <h2>Gruppen</h2>
+      <h2>Gruppenchats</h2>
     </div>
     <div class="center">
       <div class="groupContainer" style="overflow-y: auto">
+        <p class="empty message" *ngIf="allgroups.length === 0">Aktuell bist du kein Mitglied eines Gruppenchats</p>
         <div id="{{group.chatId}}" class="group" *ngFor="let group of allgroups">
           <div class="groupContent">
             <p>{{group.privateGroupName}}</p>
-            <button class="innerButton" [routerLink]="['/groupchat', group.privateGroupName]">Chat</button>
-            <button (click)="leaveGroup(group.privateGroupName)">Verlassen</button>
+            <button class="buttonGruppen" [routerLink]="['/groupchat', group.privateGroupName]">Chat</button>
+            <button class="buttonVerlassen" (click)="leaveGroup(group.privateGroupName)">Verlassen</button>
           </div>
         </div>
       </div>
