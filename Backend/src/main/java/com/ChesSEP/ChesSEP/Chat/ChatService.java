@@ -118,7 +118,7 @@ public class ChatService {
     }
 
 
-    // Hinzufügen von Teilnehmer in Gruppenchats --> ChessClub Bedingung fehlt
+    // Hinzufügen von Teilnehmer in Gruppenchats
     public boolean addMemberToGroupChat(long chatId, long newMemberId) {
         Chat chat = chatRepository.findChatByChatId(chatId);
         if (chat.getUser().contains(newMemberId)) {
