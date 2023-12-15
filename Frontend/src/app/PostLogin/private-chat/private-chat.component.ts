@@ -40,10 +40,6 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.getUserDetail();
-    this.getFriendDetails();
-    this.getChatId();
-    this.refreshChat();
-
   }
   ngOnDestroy(): void {
     this.refreshTimer.unsubscribe();
@@ -52,7 +48,7 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
     this.userService.getUserbyToken().subscribe((data) => {
       this.user = data;
       console.log('User details:', this.user); // Füge diese Zeile hinzu
-
+      this.getFriendDetails();
     },);
   }
   getFriendDetails(){
@@ -60,6 +56,7 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
     this.userService.getUser(this.id).subscribe((data) => {
       this.friend = data;
       console.log('Friend details:', this.friend); // Füge diese Zeile hinzu
+      this.getChatId();
     },);
   }
   getChatId(){
@@ -68,6 +65,7 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
       this.chatid=data.chatId;
       console.log('Chat details:', this.chat)
       this.loadChatMessages(BigInt(0));
+      this.refreshChat();
     })
   }
   checkForMessageChange():boolean{
@@ -126,8 +124,10 @@ export class PrivateChatComponent implements OnInit,OnDestroy {
         content: content
       };
       this.chatService.writeMessage(this.chatid, this.newMessage).subscribe(() => {
+        this.refreshChat();
         this.loadChatMessages(this.lastMessageTime);
          this.content = "";
+
        });
     }
   }
