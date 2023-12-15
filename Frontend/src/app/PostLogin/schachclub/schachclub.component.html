@@ -6,7 +6,8 @@
 
 <table>
   <tr>
-    <th>Name</th>
+    <th>Vorname</th>
+    <th>Nachname</th>
   </tr>
 
   <tr *ngFor="let user of chessClubMembers" >
@@ -17,7 +18,7 @@
 
 </div>
 
-<div class="SchachClubChat"><h3 class="SchachClubChat">Chat mit den Mitgliedern der Gruppe {{chessClubName}}</h3>
+<div class="SchachClubChat"><h3 class="SchachClubChat">Chat mit den Mitgliedern der Gruppe "{{chessClubName}}"</h3>
 
   <div #scrollContainer id="messageContainer" class="messageContainer" style="overflow-y: auto">
     <p class="empty center" *ngIf="messages.length === 0">Es gibt noch keine Nachrichten. Schreibe unten eine neue!</p>
@@ -52,7 +53,7 @@
       <input type="text" [(ngModel)]="content"
              id="content"
              name="content"
-             placeholder="   Geben Sie eine Nachricht ein..."
+             placeholder="Geben Sie eine Nachricht ein..."
 
       >
       <button type="submit" [disabled]="!messageForm.form.valid">Senden</button>
@@ -62,7 +63,7 @@
 
 </div>
 <div class = "leaveChessClub">
-  <button (click)="leaveChessClub()">
+  <button class="VerlassenButton" (click)="leaveChessClub()">
     SchachClub verlassen
   </button>
 

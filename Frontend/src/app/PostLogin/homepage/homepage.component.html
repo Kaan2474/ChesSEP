@@ -4,7 +4,7 @@
   <div class ="form-group" *ngIf="!schachclubId">
     <form (ngSubmit)="createClub(createClubForm.value)"  #createClubForm="ngForm">
 
-    <h3>Schachclub erstellen </h3>
+    <h3> Schachclub erstellen </h3>
     <label for="createClub">Gebe einen Namen für den Schachclub ein:</label>
     <br>
     <input
@@ -14,6 +14,7 @@
       ngModel
       >
       <input
+        class="SchachclubErstellenButton"
         type="submit"
         id="createClubButton"
         value="Erstellen">
@@ -30,6 +31,7 @@
       id="joinClub"
       ngModel>
     <input
+      class="SchachclubBeitretenButton"
       type="submit"
       id="joinClubButton"
       value="Beitreten">
