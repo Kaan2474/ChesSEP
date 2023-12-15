@@ -191,8 +191,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     return numbers;
   }
 
-  /*Gibt anhand der Position die Notation zurück
-  * z.B 1 */
+  /*Gibt anhand der Position die Notation zurück*/
   translateNotationFromCoordinates(cords: number[]) {
     let notation = "";
     switch(cords[1]) {
@@ -317,8 +316,8 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   }
 
   /*Zeigt an, in welche Felder sich eine Figur bewegen kann, wenn man auf eine Figur klickt*/
-  showHighlight(cords: string):boolean {
-    let coordinates = this.translateCoordinatesFromNotation(cords);
+  showHighlight(notation: string):boolean {
+    let coordinates = this.translateCoordinatesFromNotation(notation);
     let index = this.currentBoard[6][coordinates[0]][coordinates[1]];
 
     if(index == 0) {
@@ -338,13 +337,13 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     return true;
   }
 
-  buttonManager(cords: string) {
+  buttonManager(notation: string) {
     this.clearAll();
     this.showLastMove();
     this.showCheck();
     this.checkForBauerTransform();
-    if(!this.showHighlight(cords)&&!this.bauerTransform){
-      this.makeMove(cords);
+    if(!this.showHighlight(notation)&&!this.bauerTransform){
+      this.makeMove(notation);
     }
   }
 
@@ -365,6 +364,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
 
+  /*Signalisiert, ob der König angegriffen wird bzw. in Gefahr ist*/
   showCheck(){
     var lastMove=this.currentBoard[3];
 
@@ -394,13 +394,12 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
 
   /*Bewegt eine Figur in ein Feld, welches man anklickt
   * Bedingung: Feld muss einen Border haben*/
-  makeMove(cords: string) {
+  makeMove(notation: string) {
     if(this.lastHighlight.length==0) {
       return;
     }
 
-    let coordinates = this.translateCoordinatesFromNotation(cords);
-    
+    let coordinates = this.translateCoordinatesFromNotation(notation);
     if(this.lastHighlight[coordinates[0]][coordinates[1]] === 1) {
       this.matchmakinService.makeAmove(Number(this.lastPosition), (coordinates[0] * 10) + coordinates[1]).subscribe();
     }
@@ -420,11 +419,11 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       alert("Unentschieden!");
       this.router.navigate(["/homepage"]);
     }
-    else if((this.currentBoard[0][1][0] === 0 || this.currentBoard[0][1][1] === 0)&&this.currentBoard[0][3][0]==0) {
+    else if((this.currentBoard[0][1][0] < 0 || this.currentBoard[0][1][1] < 0)&&this.currentBoard[0][3][0]==0) {
       alert("Der Timer ist abgelaufen");
       this.router.navigate(["/homepage"]);
     }
-    
+
   }
 
   setTimer(currentTimer: number) {
