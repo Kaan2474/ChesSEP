@@ -1,9 +1,13 @@
 package com.ChesSEP.ChesSEP.User;
 
+import java.io.IOException;
+import java.sql.Date;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
@@ -22,8 +26,23 @@ public class UserController {
     private ObjectMapper objectMapper=new ObjectMapper();
 
     @PostMapping("/register")
-    public ResponseEntity<String> resgisterUser(@RequestBody UserRequestHolder  user)throws JsonProcessingException{
-        String result=userService.registerUser(user);
+    public ResponseEntity<String> resgisterUser(@RequestParam("vorname") String vorname,
+                                                @RequestParam("nachname")String nachname,
+                                                @RequestParam("email")String email,
+                                                @RequestParam("passwort")String passwort,
+                                                @RequestParam("geburtsdatum")Date geburtsdatum,
+                                                @RequestParam(value = "bild", required=false)MultipartFile bild
+    )throws IOException{
+
+        UserRequestHolder user = UserRequestHolder.builder()
+            .vorname(vorname)
+            .nachname(nachname)
+            .email(email)
+            .passwort(passwort)
+            .geburtsdatum(geburtsdatum)
+            .build();
+
+        String result=userService.registerUser(user,bild);
 
         if(result.equals("Der User wurde erstellt!")){
             return new ResponseEntity<>(objectMapper.writeValueAsString(result),HttpStatus.CREATED);

@@ -23,8 +23,8 @@ export class UserService {
 
   }
 
-  public register(user: User) {
-    return this.http.post(this.userURL + "/register", user);
+  public register(formData:FormData) {
+    return this.http.post(this.userURL + "/register", formData);
   }
 
   public login(user: User) {

@@ -27,6 +27,8 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   lastPosition: string = "";
   zugID = -1;
   timer: number[] = [];
+  bauerTransform:boolean=false;
+  PlayerColor:number=1;
 
 
   constructor(
@@ -36,13 +38,13 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     private router: Router) {
       this.user = new User();
       this.rival = new User();
+      this.bauerTransform=false;
     }
 
   sub:Subscription = new Subscription;
   interval: Subscription = new Subscription;
 
   ngOnInit() {
-    this.getMyCurrentMatch();
     this.getUserDetail();
     this.getIdOfRival();
     this.OnGetCurrentFrame();
@@ -76,6 +78,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
         if(this.user.profilbild != null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
         }
+        this.getMyCurrentMatch();
       },
       error => {
         console.error("Fehler beim Laden der Benutzerdaten");
@@ -105,6 +108,11 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     this.matchmakinService.getMyCurrentMatch().subscribe(data =>{
       this.chessGame = data;
       console.log(this.chessGame);
+      if(this.chessGame.playerWhiteID==this.user.id){
+        this.PlayerColor=1;
+      }else{
+        this.PlayerColor=2;
+      }
     })
   }
 
@@ -129,16 +137,23 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       console.log(this.currentBoard[0][1][1])
       this.interval.unsubscribe();
 
-      if (this.currentBoard[0][0][0] % 2 === 0) {
+      /*if (this.currentBoard[0][0][0] % 2 === 0) {
         this.setTimer(this.currentBoard[0][1][0]);
         this.timer[0]=Math.round(this.currentBoard[0][1][1]/1000);
       }
       else {
         this.setTimer(this.currentBoard[0][1][1]);
         this.timer[1]=Math.round(this.currentBoard[0][1][0]/1000);
-      }
+      }*/
+      console.log("color"+this.PlayerColor)
+      this.timer[this.PlayerColor-1]=Math.round(this.currentBoard[0][1][1]/1000);
+      this.setTimer(this.currentBoard[0][1][this.PlayerColor-1]);
 
       this.placeFigures(this.currentBoard);
+      this.clearAll();
+      this.showLastMove();
+      this.showCheck()
+      this.checkForBauerTransform();
     })
   }
 
@@ -288,9 +303,21 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
 
+  checkForBauerTransform(){
+    var bauerT=this.currentBoard[4];
+
+    for (let i = 0; i < bauerT.length; i++) {
+      for (let j = 0; j < bauerT[i].length; j++) {
+        if(bauerT[i][j]!=0&&this.currentBoard[2][i][j]==this.PlayerColor){
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"blue")
+          this.bauerTransform=true;
+        }
+      }
+    }
+  }
+
   /*Zeigt an, in welche Felder sich eine Figur bewegen kann, wenn man auf eine Figur klickt*/
   showHighlight(cords: string):boolean {
-    this.clearAll();
     let coordinates = this.translateCoordinatesFromNotation(cords);
     let index = this.currentBoard[6][coordinates[0]][coordinates[1]];
 
@@ -313,8 +340,39 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
 
   buttonManager(cords: string) {
     this.clearAll();
-    if(!this.showHighlight(cords)){
+    this.showLastMove();
+    this.showCheck();
+    this.checkForBauerTransform();
+    if(!this.showHighlight(cords)&&!this.bauerTransform){
       this.makeMove(cords);
+    }
+  }
+
+  doTransformBauer(id:number){
+    this.matchmakinService.transformBauer(id).subscribe(()=>{
+      this.bauerTransform=false;
+    })
+  }
+
+  showLastMove(){
+    var lastMove=this.currentBoard[5];
+
+    for (let i = 0; i < lastMove.length; i++) {
+      for (let j = 0; j < lastMove[i].length; j++) {
+        if(lastMove[i][j]!=0)
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"yellow")
+      }
+    }
+  }
+
+  showCheck(){
+    var lastMove=this.currentBoard[3];
+
+    for (let i = 0; i < lastMove.length; i++) {
+      for (let j = 0; j < lastMove[i].length; j++) {
+        if(lastMove[i][j]!=0)
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"red")
+      }
     }
   }
 

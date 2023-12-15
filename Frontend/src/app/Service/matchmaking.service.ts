@@ -58,12 +58,16 @@ export class MatchmakingService {
     return this.http.get(this.URL + "/surrender", {headers: this.header})
   }
 
-  getCurrentFrame(id: any) {
+  public getCurrentFrame(id: any) {
     return this.http.get(`${this.URL}/getMyCurrentFrame/${id}`, {headers: this.header})
   }
 
-  makeAmove(piece:number, position: number) {
+  public makeAmove(piece:number, position: number) {
     return this.http.get(`${this.URL}/engine/makeAMove/${piece}/${position}`, {headers: this.header});
+  }
+
+  public transformBauer(id:number){
+    return this.http.get(this.URL+"/engine/transformBauer/"+id,{headers: this.header});
   }
 
   public getPuzzleInfo(fileContent:String){

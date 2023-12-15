@@ -14,4 +14,5 @@ export class Chat {
   newContent:any;
   time: any;
   editable:any;
+  messageId:any;
 }

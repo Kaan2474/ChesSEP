@@ -23,6 +23,7 @@ public class ChessClubService {
 
 
 
+
     private User getSender(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
@@ -58,17 +59,13 @@ public class ChessClubService {
         }
     }
 
-    public void leaveClub(){
-        User user = userRepository.findUserById(getSender().getId());
-        ChessClub chessClub = chessClubRepository.findChessClubById(user.getClubId());
-
-        if(user.getClubId() == null){
-            return;
-        }
-
+    public void leaveClub(long clubId){
+        User user = getSender();
+        chatService.updateChessClubChat(chessClubRepository.findChessClubById(clubId).getChatId());
         user.setClubId(null);
         userRepository.save(user);
-        deleteClubV2(chessClub.getName());
+        deleteClubV2(chessClubRepository.findChessClubById(clubId).getName());
+
     }
 
     public String getMeinChessClubName(){

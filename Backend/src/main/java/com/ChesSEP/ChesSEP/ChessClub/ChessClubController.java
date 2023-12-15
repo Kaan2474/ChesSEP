@@ -19,9 +19,9 @@ public class ChessClubController {
     private final ChessClubService chessClubService;
     private ObjectMapper objectMapper=new ObjectMapper();
 
-    @PostMapping("/leaveClub")
-    public void leaveClub(){
-        chessClubService.leaveClub();
+    @GetMapping("/leaveClub/{chessclubId}")
+    public void leaveClub(@PathVariable long chessclubId){
+        chessClubService.leaveClub(chessclubId);
     }
 
     @GetMapping("/getAllChessClubs")
@@ -37,12 +37,12 @@ public class ChessClubController {
     @GetMapping("/getChessClubOf/{userId}")
     public ResponseEntity<String> getChessClubOf(@PathVariable long userId) throws JsonProcessingException {
     String chessClub = chessClubService.getChessClubOf(userId);
-        return new ResponseEntity<>(chessClub, HttpStatus.OK);
+        return new ResponseEntity<>(objectMapper.writeValueAsString(chessClub), HttpStatus.OK);
     }
 
     @GetMapping("/findChessClubById/{chessClubId}")
-    public ChessClub findChessClubById(@PathVariable long chessClubId){
-        return chessClubService.findChessClubById(chessClubId);
+    public ResponseEntity<ChessClub> findChessClubById(@PathVariable long chessClubId){
+        return new ResponseEntity<>(chessClubService.findChessClubById(chessClubId),HttpStatus.OK);
     }
 
     @GetMapping("/joinClubV2/{clubName}")

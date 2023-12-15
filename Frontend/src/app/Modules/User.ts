@@ -10,4 +10,7 @@ export class User{
   profilbild:any;
   privacy: any;
   clubId: any;
+  multipartBild:any;
+  compleatedPuzzles: any;
+  achievement: any;
 }

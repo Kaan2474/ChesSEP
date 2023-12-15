@@ -28,20 +28,28 @@ export class RegisterComponent {
       return;
     }
 
-      this.userService.register(this.user).subscribe(result => {
+    const formData = new FormData();
+      formData.append("vorname", this.user.vorname);
+      formData.append("nachname", this.user.nachname);
+      formData.append("email", this.user.email);
+      formData.append("passwort", this.user.passwort);
+      formData.append("geburtsdatum", this.user.geburtsdatum);
+
+    if(this.selectedFile!=null)
+      formData.append("bild",this.selectedFile);
+
+    this.userService.register(formData).subscribe(result => {
       this.imageUpload()
         this.goToLogin()
       }, (error) => {
         this.errorWithForm();
-      })
+    })
+    
   }
 
   onSelect(event: any) {
     this.selectedFile = event.target.files[0];
-
-
     this.showSelectedImage()
-
   }
 
   imageUpload() {
