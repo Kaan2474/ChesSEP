@@ -41,9 +41,8 @@ export class GroupchatComponent implements OnInit, OnDestroy{
   }
   ngOnInit() {
     this.getUserDetail();
-    this.getGroupChatId();
     console.log(this.groupName);
-    this.refreshChat();
+
   }
   ngOnDestroy(): void {
     this.refreshTimer.unsubscribe();
@@ -53,6 +52,7 @@ export class GroupchatComponent implements OnInit, OnDestroy{
     this.userService.getUserbyToken().subscribe((data) => {
       this.user = data;
       console.log('User details:', this.user);
+      this.getGroupChatId();
     },);
   }
   getGroupChatId(){
@@ -62,6 +62,7 @@ export class GroupchatComponent implements OnInit, OnDestroy{
       console.log('Chat details:', this.groupChat);
       this.loadChatMessages(BigInt(0));
       this.getMemberList();
+      this.refreshChat();
     })
   }
 
