@@ -133,8 +133,6 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       console.log(this.currentBoard);
       this.checkForWinner();
       this.zugID = this.currentBoard[0][0][0];
-      console.log(this.currentBoard[0][1][0])
-      console.log(this.currentBoard[0][1][1])
       this.interval.unsubscribe();
 
       /*if (this.currentBoard[0][0][0] % 2 === 0) {
@@ -401,7 +399,11 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
 
     let coordinates = this.translateCoordinatesFromNotation(notation);
     if(this.lastHighlight[coordinates[0]][coordinates[1]] === 1) {
-      this.matchmakinService.makeAmove(Number(this.lastPosition), (coordinates[0] * 10) + coordinates[1]).subscribe();
+      this.matchmakinService.makeAmove(Number(this.lastPosition), (coordinates[0] * 10) + coordinates[1]).subscribe(data => {
+        if(data === false) {
+          alert("Das ist nicht der bestmögliche Zug!");
+        }
+      });
     }
   }
 
