@@ -41,6 +41,8 @@ public class ChessBoard {
 
     private int[] enPassantSquare;
 
+    private ChessOperation letzterZug;
+
     public ChessBoard(double timeInMin,int[][][] Board){
         chessBoard=constructBoard(Board);
         isPuzzle=false;
@@ -59,6 +61,7 @@ public class ChessBoard {
         remisPattern=new HashMap<>();
         remisPatternStatus=new HashMap<>();
         enPassantSquare=new int[]{-1,-1};
+        letzterZug=null;
         
         remisPatternManager();
     }
@@ -89,6 +92,7 @@ public class ChessBoard {
         enPassantSquare=new int[]{-1,-1};;
 
         puzzleMoves=moves;
+        letzterZug=null;
 
         nextEnemyStep();
     }
@@ -457,6 +461,18 @@ public class ChessBoard {
                     continue;
 
                 List<int[]> currentValidEnemyCoords=validCoordsOf(i, j, board);
+
+                if(currentPiece.getType()==ChessPieceType.BAUER){
+                    List<int[]> bauerValidAttackCoords=new ArrayList<>();
+
+                    for (int k = 0; k < currentValidEnemyCoords.size(); k++) {
+                        int[] currentCoord=currentValidEnemyCoords.get(k);
+
+                        if(currentCoord[0]==i||currentCoord[1]!=j)
+                            bauerValidAttackCoords.add(currentCoord);
+                    }
+                    currentValidEnemyCoords=bauerValidAttackCoords;
+                }
                 
                 if(doesListContainCoords(x, y, currentValidEnemyCoords))
                     return new int[]{i,j};
@@ -624,6 +640,8 @@ public class ChessBoard {
 
         if(getBauerToTransform()!=null){
             bauerTransform=true;
+            letzterZug=zuege.get(zuege.size()-1);
+            zuege.remove(letzterZug);
         }else{
             timeManager();
             toggleCurrentPlayer();
@@ -632,6 +650,7 @@ public class ChessBoard {
         //usavable Situation
         if(isKingCheckmate(currentPlayer))
             endGameFlag(currentPlayer);
+
 
         isRemis=remisManager();
 
@@ -867,6 +886,9 @@ public class ChessBoard {
 
         timeManager();
         toggleCurrentPlayer();
+
+        letzterZug.movingPiece=new ChessPiece(id, currentPiece.getColor().getId());
+        zuege.add(letzterZug);
 
         bauerTransform=false;
         return true;
@@ -1220,7 +1242,7 @@ public class ChessBoard {
             movingDirection=-1;
         }
 
-        if(!isPieceOn(x+movingDirection, y, board)){
+        if(!isPieceOn(x+movingDirection, y, board)&&isInBounds(x+movingDirection, y)){
 
             resultValidCoords.add(new int[]{x+movingDirection,y});
 

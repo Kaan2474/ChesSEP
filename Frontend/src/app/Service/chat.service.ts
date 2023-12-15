@@ -58,8 +58,8 @@ export class ChatService {
     return this.http.get<Chat[]>( `${this.userURL}/allMyGroupChats`, {headers:this.header});
   }
 
-  getChatMessages(chatId: bigint) {
-    return this.http.get<Chat[]>(`${this.userURL}/getMessages/${chatId}`, {headers:this.header});
+  getChatMessages(chatId: bigint,lastMessageTime:bigint) {
+    return this.http.get<Chat[]>(`${this.userURL}/getMessages/${chatId}/${lastMessageTime}`, {headers:this.header});
   }
   getMyPrivateChatWith(friendId:bigint){
     return this.http.get<Chat>(`${this.userURL}/getMyPrivateChatWith/${friendId}`, {headers:this.header})

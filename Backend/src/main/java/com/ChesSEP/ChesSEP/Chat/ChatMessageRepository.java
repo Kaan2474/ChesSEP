@@ -18,10 +18,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     ChatMessage findLatestMessage(long chatId);
     */
 
-    //Gibt alle Nachrichten aus, die vor max.Time gepostet wurden
-    @Query("SELECT cm FROM ChatMessage cm WHERE cm.time = (SELECT max(cm2.time) FROM ChatMessage cm2)")
-    ChatMessage findLatestMessage(long chatId);
-
 
     //Gibt nur die letzte(n) Nachricht aus, die nach "time" geschrieben wurden
     @Query("FROM ChatMessage WHERE chatId = ?1 AND ?2 < time")

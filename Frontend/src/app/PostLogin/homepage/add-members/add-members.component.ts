@@ -65,6 +65,8 @@ export class AddMembersComponent implements OnInit{
         alert(`Gruppenchat: ${groupname} wurde erfolgreich erstellt`);
         this.router.navigate(['/groupchat/' + this.groupName]);
         localStorage.setItem("GroupName", this.groupName);
+        }, error =>{
+          alert("Gruppe existiert bereits")
         }
       );
     }

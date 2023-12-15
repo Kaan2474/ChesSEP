@@ -3,9 +3,6 @@ package com.ChesSEP.ChesSEP.Chat;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

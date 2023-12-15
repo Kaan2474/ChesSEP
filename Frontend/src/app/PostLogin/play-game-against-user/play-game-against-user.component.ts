@@ -27,6 +27,8 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   lastPosition: string = "";
   zugID = -1;
   timer: number[] = [];
+  bauerTransform:boolean=false;
+  PlayerColor:number=1;
 
 
   constructor(
@@ -36,13 +38,13 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     private router: Router) {
       this.user = new User();
       this.rival = new User();
+      this.bauerTransform=false;
     }
 
   sub:Subscription = new Subscription;
   interval: Subscription = new Subscription;
 
   ngOnInit() {
-    this.getMyCurrentMatch();
     this.getUserDetail();
     this.getIdOfRival();
     this.OnGetCurrentFrame();
@@ -76,6 +78,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
         if(this.user.profilbild != null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
         }
+        this.getMyCurrentMatch();
       },
       error => {
         console.error("Fehler beim Laden der Benutzerdaten");
@@ -105,6 +108,11 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     this.matchmakinService.getMyCurrentMatch().subscribe(data =>{
       this.chessGame = data;
       console.log(this.chessGame);
+      if(this.chessGame.playerWhiteID==this.user.id){
+        this.PlayerColor=1;
+      }else{
+        this.PlayerColor=2;
+      }
     })
   }
 
@@ -125,20 +133,25 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       console.log(this.currentBoard);
       this.checkForWinner();
       this.zugID = this.currentBoard[0][0][0];
-      console.log(this.currentBoard[0][1][0])
-      console.log(this.currentBoard[0][1][1])
       this.interval.unsubscribe();
 
-      if (this.currentBoard[0][0][0] % 2 === 0) {
+      /*if (this.currentBoard[0][0][0] % 2 === 0) {
         this.setTimer(this.currentBoard[0][1][0]);
         this.timer[0]=Math.round(this.currentBoard[0][1][1]/1000);
       }
       else {
         this.setTimer(this.currentBoard[0][1][1]);
         this.timer[1]=Math.round(this.currentBoard[0][1][0]/1000);
-      }
+      }*/
+      console.log("color"+this.PlayerColor)
+      this.timer[this.PlayerColor-1]=Math.round(this.currentBoard[0][1][1]/1000);
+      this.setTimer(this.currentBoard[0][1][this.PlayerColor-1]);
 
       this.placeFigures(this.currentBoard);
+      this.clearAll();
+      this.showLastMove();
+      this.showCheck()
+      this.checkForBauerTransform();
     })
   }
 
@@ -176,8 +189,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     return numbers;
   }
 
-  /*Gibt anhand der Position die Notation zurück
-  * z.B 1 */
+  /*Gibt anhand der Position die Notation zurück*/
   translateNotationFromCoordinates(cords: number[]) {
     let notation = "";
     switch(cords[1]) {
@@ -288,10 +300,22 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
 
+  checkForBauerTransform(){
+    var bauerT=this.currentBoard[4];
+
+    for (let i = 0; i < bauerT.length; i++) {
+      for (let j = 0; j < bauerT[i].length; j++) {
+        if(bauerT[i][j]!=0&&this.currentBoard[2][i][j]==this.PlayerColor){
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"blue")
+          this.bauerTransform=true;
+        }
+      }
+    }
+  }
+
   /*Zeigt an, in welche Felder sich eine Figur bewegen kann, wenn man auf eine Figur klickt*/
-  showHighlight(cords: string):boolean {
-    this.clearAll();
-    let coordinates = this.translateCoordinatesFromNotation(cords);
+  showHighlight(notation: string):boolean {
+    let coordinates = this.translateCoordinatesFromNotation(notation);
     let index = this.currentBoard[6][coordinates[0]][coordinates[1]];
 
     if(index == 0) {
@@ -311,10 +335,42 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     return true;
   }
 
-  buttonManager(cords: string) {
+  buttonManager(notation: string) {
     this.clearAll();
-    if(!this.showHighlight(cords)){
-      this.makeMove(cords);
+    this.showLastMove();
+    this.showCheck();
+    this.checkForBauerTransform();
+    if(!this.showHighlight(notation)&&!this.bauerTransform){
+      this.makeMove(notation);
+    }
+  }
+
+  doTransformBauer(id:number){
+    this.matchmakinService.transformBauer(id).subscribe(()=>{
+      this.bauerTransform=false;
+    })
+  }
+
+  showLastMove(){
+    var lastMove=this.currentBoard[5];
+
+    for (let i = 0; i < lastMove.length; i++) {
+      for (let j = 0; j < lastMove[i].length; j++) {
+        if(lastMove[i][j]!=0)
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"yellow")
+      }
+    }
+  }
+
+  /*Signalisiert, ob der König angegriffen wird bzw. in Gefahr ist*/
+  showCheck(){
+    var lastMove=this.currentBoard[3];
+
+    for (let i = 0; i < lastMove.length; i++) {
+      for (let j = 0; j < lastMove[i].length; j++) {
+        if(lastMove[i][j]!=0)
+          this.setBorder(this.translateNotationFromCoordinates([i,j]),"red")
+      }
     }
   }
 
@@ -336,15 +392,18 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
 
   /*Bewegt eine Figur in ein Feld, welches man anklickt
   * Bedingung: Feld muss einen Border haben*/
-  makeMove(cords: string) {
+  makeMove(notation: string) {
     if(this.lastHighlight.length==0) {
       return;
     }
 
-    let coordinates = this.translateCoordinatesFromNotation(cords);
-    
+    let coordinates = this.translateCoordinatesFromNotation(notation);
     if(this.lastHighlight[coordinates[0]][coordinates[1]] === 1) {
-      this.matchmakinService.makeAmove(Number(this.lastPosition), (coordinates[0] * 10) + coordinates[1]).subscribe();
+      this.matchmakinService.makeAmove(Number(this.lastPosition), (coordinates[0] * 10) + coordinates[1]).subscribe(data => {
+        if(data === false) {
+          alert("Das ist nicht der bestmögliche Zug!");
+        }
+      });
     }
   }
 
@@ -362,11 +421,11 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       alert("Unentschieden!");
       this.router.navigate(["/homepage"]);
     }
-    else if((this.currentBoard[0][1][0] === 0 || this.currentBoard[0][1][1] === 0)&&this.currentBoard[0][3][0]==0) {
+    else if((this.currentBoard[0][1][0] < 0 || this.currentBoard[0][1][1] < 0)&&this.currentBoard[0][3][0]==0) {
       alert("Der Timer ist abgelaufen");
       this.router.navigate(["/homepage"]);
     }
-    
+
   }
 
   setTimer(currentTimer: number) {
