@@ -312,10 +312,19 @@ public class ChessBoard {
 
     public long getCurrentTime(Color color){
 
-        if(color==currentPlayer)
-            return getTimeLong(color)-(System.currentTimeMillis()-intervallStart);
+        long resultTime;
 
-        return getTimeLong(color);
+        if(color==currentPlayer){
+            resultTime = getTimeLong(color)-(System.currentTimeMillis()-intervallStart);
+            if(resultTime<0&&!isPuzzle)
+                endGameFlag(color);
+        }else{
+            resultTime = getTimeLong(color);
+            if(resultTime<0&&!isPuzzle)
+                endGameFlag(color);
+        }
+
+        return resultTime;
     }
 
     private void setTimeLong(Color color,long value){

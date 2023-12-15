@@ -203,17 +203,16 @@ public class MatchmakingService {
         }
 
         BoardManager board=boards.get(game.getGameID());
+        int[][][] frame;
 
-        if((board.getManagedBoard().getZugId()==frameID&&frameID!= -1)&&!board.getManagedBoard().hasBauerToTransform())
-            return new int[][][]{{{board.getManagedBoard().getWinner()}}};
-
-        int[][][] frame=board.getMatchFrame(thisPlayerColor);
+        if((board.getManagedBoard().getZugId()==frameID&&frameID!= -1)&&!board.getManagedBoard().hasBauerToTransform()){
+            frame=board.getOnlyMatchStatus();
+        }else{
+            frame=board.getMatchFrame(thisPlayerColor);
+        }
 
         if(frame[0][2][0]==0)
             return frame;
-
-        if(game.isBlackLastFrameSeen()&&game.isWhiteLastFrameSeen())
-            endMyMatch();
 
         if(game.getPlayerBlackID()==sender.getId()){
             game.setBlackLastFrameSeen(true);
@@ -224,6 +223,8 @@ public class MatchmakingService {
         if(game.getPlayerBlackID()==-1L||game.getPlayerWhiteID()==-1L)
             endPuzzle();
 
+        if(game.isBlackLastFrameSeen()&&game.isWhiteLastFrameSeen())
+            endMyMatch();
 
         return frame;
     }

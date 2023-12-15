@@ -125,27 +125,21 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   /*Gibt das aktuelle Spielfeld aus*/
   OnGetCurrentFrame() {
     this.matchmakinService.getCurrentFrame(this.zugID).subscribe(data => {
-      let board: any = data;
-      if(board.length < 2) {
+
+      if((data as number[][][]).length < 2) {
+        var currentStatus:number[][][]=data as number[][][];
+        this.currentBoard[0]=currentStatus[0];
+        this.setTimer();
+        this.checkForWinner();
         return;
       }
+
       this.currentBoard = data;
       console.log(this.currentBoard);
+      this.setTimer();
       this.checkForWinner();
       this.zugID = this.currentBoard[0][0][0];
       this.interval.unsubscribe();
-
-      /*if (this.currentBoard[0][0][0] % 2 === 0) {
-        this.setTimer(this.currentBoard[0][1][0]);
-        this.timer[0]=Math.round(this.currentBoard[0][1][1]/1000);
-      }
-      else {
-        this.setTimer(this.currentBoard[0][1][1]);
-        this.timer[1]=Math.round(this.currentBoard[0][1][0]/1000);
-      }*/
-      console.log("color"+this.PlayerColor)
-      this.timer[this.PlayerColor-1]=Math.round(this.currentBoard[0][1][1]/1000);
-      this.setTimer(this.currentBoard[0][1][this.PlayerColor-1]);
 
       this.placeFigures(this.currentBoard);
       this.clearAll();
@@ -428,23 +422,14 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
 
   }
 
-  setTimer(currentTimer: number) {
-    currentTimer /= 1000;
-    if(this.currentBoard[0][0][0] % 2 === 0) {
-      this.timer[1] = Math.round(currentTimer);
-      this.interval = interval(1000).subscribe(() => {
-        if(this.timer[1] > 0) {
-          this.timer[1]--;
-        }
-      })
+  setTimer() {
+    if(this.PlayerColor==1) {
+      this.timer[1]=Math.round(this.currentBoard[0][1][1]/1000);
+      this.timer[0]=Math.round(this.currentBoard[0][1][0]/1000);
     }
     else {
-      this.timer[0] = Math.round(currentTimer);;
-      this.interval = interval(1000).subscribe(() => {
-        if (this.timer[0] > 0) {
-          this.timer[0]--;
-        }
-      })
+      this.timer[0]=Math.round(this.currentBoard[0][1][1]/1000);
+      this.timer[1]=Math.round(this.currentBoard[0][1][0]/1000);
     }
   }
 }
