@@ -159,6 +159,54 @@ public class BoardManager {
         return resultArr;
     }
 
+
+
+    //Streaming
+
+    public int[][][] streamingBoard(Color color){
+
+        ChessBoard board=getManagedBoard();
+
+        List<int[][]> frame = new ArrayList<int[][]>();
+
+        //Status Array
+        int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
+                {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
+                {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
+                {board.isPuzzle()}};// is Puzzle 1=ja 0=nein
+
+        frame.add(status);
+
+        //Board
+        frame.add(board.translateBoard(board.chessBoard,color));
+
+        //Color
+        frame.add(board.translateColorBoard(board.chessBoard,color));
+
+        //schach
+        frame.add(mergeArrays(board.getKingBoard(Color.WHITE,color), board.getKingBoard(Color.BLACK,color)));
+
+        //BauerTransformEvent
+        frame.add(board.getBauerTransformEvent(color));
+
+        //LetzterZug    1=from 2=to
+        frame.add(board.getLastMove(color));
+
+        int[][][] frameArr;
+
+        frameArr=new int[frame.size()][8][8];
+
+
+        for (int i = 0; i < frame.size(); i++) {
+            frameArr[i]=frame.get(i);
+        }
+
+        frame=null;
+
+        return frameArr;
+
+    }
+
     public static void main(String[] args) {
         BoardManager boardManager = new BoardManager();
         boardManager.startNewMatch(5, boardManager.getDefaultStartConfig());

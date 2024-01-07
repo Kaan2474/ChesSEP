@@ -104,5 +104,11 @@ public class MatchmakingController {
     @PostMapping("engine/startPuzzle/{id}")
     public void startPuzzle(@RequestBody String fileContent,@PathVariable int id) throws IOException{
         matchmakingService.startPuzzle(fileContent,id);
-    }   
+    }
+
+    //Streaming
+    @GetMapping("/getCurrentStreamingFrame/{gameId}/{userId}/{frameId}")
+    public ResponseEntity<int[][][]> getCurrentStreamingFrame(@PathVariable long gameId, @PathVariable long userId, @PathVariable int frameId){
+        return ResponseEntity.ok(matchmakingService.getCurrentStreamingFrame(frameId, gameId, userId));
+    }
 }

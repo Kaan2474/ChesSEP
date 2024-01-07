@@ -427,4 +427,55 @@ public class MatchmakingService {
         onGoingGame.remove(game);
         
     }
+
+    //Streaming
+    public int[][][] getCurrentStreamingFrame(int frameID, long gameID, long userId){
+
+        ChessGame game = liveMatch(gameID);
+
+        Color thisPlayerColor;
+
+        if(game.getPlayerBlackID()==userId){
+            thisPlayerColor=Color.BLACK;
+        }else{
+            thisPlayerColor=Color.WHITE;
+        }
+
+        BoardManager board=boards.get(gameID);
+        int[][][] frame;
+
+
+        if((board.getManagedBoard().getZugId()==frameID&&frameID!= -1)&&!board.getManagedBoard().hasBauerToTransform()){
+            frame=board.getOnlyMatchStatus();
+        }else{
+            frame=board.streamingBoard(thisPlayerColor);
+        }
+
+        if(frame[0][2][0]==0)
+            return frame;
+
+        if(game.getPlayerBlackID()==userId){
+            game.setBlackLastFrameSeen(true);
+        }else{
+            game.setWhiteLastFrameSeen(true);
+        }
+
+        if(game.getPlayerBlackID()==-1L||game.getPlayerWhiteID()==-1L)
+            endPuzzle();
+
+        if(game.isBlackLastFrameSeen()&&game.isWhiteLastFrameSeen())
+            endMyMatch();
+
+        return frame;
+    }
+
+    private ChessGame liveMatch(long gameId) {
+        ChessGame game = null;
+        for (ChessGame x : onGoingGame) {
+            if (x.getGameID() == gameId)
+                game = x;
+        }
+        return game;
+    }
+
 }
