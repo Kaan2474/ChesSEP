@@ -4,6 +4,7 @@ import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -110,5 +111,10 @@ public class MatchmakingController {
     @GetMapping("/getCurrentStreamingFrame/{gameId}/{userId}/{frameId}")
     public ResponseEntity<int[][][]> getCurrentStreamingFrame(@PathVariable long gameId, @PathVariable long userId, @PathVariable int frameId){
         return ResponseEntity.ok(matchmakingService.getCurrentStreamingFrame(frameId, gameId, userId));
+    }
+
+    @GetMapping("/allMatches")
+    public ResponseEntity<List<ChessGame>> allMatches(){
+        return ResponseEntity.ok(matchmakingService.allMatches());
     }
 }

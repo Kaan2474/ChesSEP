@@ -478,4 +478,8 @@ public class MatchmakingService {
         return game;
     }
 
+    public List<ChessGame> allMatches(){
+        return onGoingGame;
+    }
+
 }
