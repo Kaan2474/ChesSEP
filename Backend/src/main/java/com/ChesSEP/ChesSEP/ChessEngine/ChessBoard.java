@@ -11,7 +11,7 @@ public class ChessBoard {
 
     public ChessPiece[][] chessBoard;
 
-    private List<ChessOperation> zuege;
+    public List<ChessOperation> zuege;
 
     private Color currentPlayer;
 

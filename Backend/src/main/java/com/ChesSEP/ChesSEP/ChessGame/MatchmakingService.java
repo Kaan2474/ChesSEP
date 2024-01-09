@@ -1,5 +1,6 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
+import com.ChesSEP.ChesSEP.ChessEngine.ChessOperation;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
@@ -8,12 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.sql.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ChesSEP.ChesSEP.CSVReader.CSVReader;
@@ -261,6 +258,7 @@ public class MatchmakingService {
                         .blackLastFrameSeen(false)
                         .whiteLastFrameSeen(false)
                         .startTime(time)
+                        .result("")
                 .build();
 
         chessgameRepository.save(newGame);
@@ -302,6 +300,9 @@ public class MatchmakingService {
                 userRepository.save(winner);
                 userRepository.save(loser);
 
+                game.setResult("1-0");
+                chessgameRepository.save(game);
+
                 break;
             case 2:
                 winner=userRepository.findUserById(game.getPlayerBlackID());
@@ -313,8 +314,15 @@ public class MatchmakingService {
                 userRepository.save(winner);
                 userRepository.save(loser);
 
+                game.setResult("0-1");
+                chessgameRepository.save(game);
+
                 break;
             default:
+
+                game.setResult("1/2-1/2");
+                chessgameRepository.save(game);
+
                 break;
         }
     }
@@ -480,6 +488,34 @@ public class MatchmakingService {
 
     public List<ChessGame> allMatches(){
         return onGoingGame;
+    }
+
+    //PGN
+
+    public String createPGNinfo(ChessGame chessGame, ChessBoard board){
+        User white = userRepository.findUserById(chessGame.getPlayerWhiteID());
+        User black = userRepository.findUserById(chessGame.getPlayerBlackID());
+        /*String winner = "";
+        if(board.getWinner() == 1){
+            winner = "1-0";
+        } else if (board.getWinner() == 2) {
+            winner = "0-1";
+        }
+        else {
+            winner = "1/2-1/2";
+        }
+
+         */
+
+        return "[Event \""+chessGame.getName()+"\"]"+
+               "[Site \"ChesSEP\"]"+
+               "[Date \"??\"]"+
+               "[Round \"-1\"]"+
+               "[White \""+white.getVorname()+" "+white.getNachname()+"\"]"+
+               "[Black \""+black.getVorname()+" "+black.getNachname()+"\"]"+
+               "[Result \""+chessGame.getResult()+"\"]";
+
+        //board.zuege
     }
 
 }

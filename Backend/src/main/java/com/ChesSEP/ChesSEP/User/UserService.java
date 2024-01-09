@@ -3,6 +3,8 @@ package com.ChesSEP.ChesSEP.User;
 import java.io.IOException;
 import java.util.List;
 
+import com.ChesSEP.ChesSEP.ChessGame.ChessGame;
+import com.ChesSEP.ChesSEP.ChessGame.ChessgameRepository;
 import com.ChesSEP.ChesSEP.TwoFactorAuthentication.OtpService;
 import com.ChesSEP.ChesSEP.User.ProfilePicture.Picture;
 import com.ChesSEP.ChesSEP.User.ProfilePicture.ProfilePictureRepository;
@@ -31,6 +33,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final OtpService otpService;
     private final ProfilePictureRepository pictureRepository;
+    private final ChessgameRepository  chessgameRepository;
     private EmailValidator emailValidator=new EmailValidator();
 
 
@@ -170,5 +173,11 @@ public class UserService {
             arr[i] = convetToRequestHolder(list.get(i));
         }
         return arr;
+    }
+
+    public List<ChessGame> letztenDreiGames(){
+        User user = getSender();
+        return chessgameRepository.letztenDreiGames(user.getId());
+
     }
 }

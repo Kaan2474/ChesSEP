@@ -32,6 +32,9 @@ public class ChessGame {
     private Long startTime;
 
     @Column
+    private String result;
+
+    @Column
     private boolean whiteLastFrameSeen;
 
     @Column

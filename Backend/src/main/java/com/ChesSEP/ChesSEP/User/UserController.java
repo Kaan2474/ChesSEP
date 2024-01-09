@@ -2,7 +2,9 @@ package com.ChesSEP.ChesSEP.User;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
+import com.ChesSEP.ChesSEP.ChessGame.ChessGame;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -106,6 +108,10 @@ public class UserController {
         userService.changeFriendListPrivacy();
     }
 
+    @GetMapping("/history")
+    public ResponseEntity<List<ChessGame>> history(){
+        return ResponseEntity.ok(userService.letztenDreiGames());
+    }
 
 
     //For Testing
