@@ -21,7 +21,7 @@
 
 </div>
 
-<div class ="container">
+<div class ="container">s
 <h2>Spiele gegen einen Benutzer</h2>
 
 
@@ -29,5 +29,20 @@
 
 
 
+</div>
+
+<div class="scroll">
+  <h2>Streaming Spiele</h2>
+  <table>
+    <tr>
+      <th>Streamer</th>
+      <th>Stream beitreten</th>
+    </tr>
+    <tr *ngFor="let chessgame of allChessGames" >
+      <td>{{ chessgame.name }}</td>
+      <td><button (click)="setGameID(chessgame.gameID)">Jetzt beitreten</button></td>
+    </tr>
+  </table>
+  <button (click)="refresh()">Streaming Liste refreshen</button>
 </div>
 
