@@ -24,6 +24,7 @@ import {ChessPuzzleComponent} from "./PostLogin/chess-puzzle/chess-puzzle.compon
 import {SchachclubComponent} from "./PostLogin/schachclub/schachclub.component";
 import {AddMembersComponent} from "./PostLogin/homepage/add-members/add-members.component";
 import {GroupchatComponent} from "./PostLogin/groupchat/groupchat.component";
+import {StreamingAnsichtComponent} from "./PostLogin/streaming-ansicht/streaming-ansicht.component";
 
 const routes: Routes = [
   {path: "", title:"ChesSSEP", component: LoginComponent},
@@ -46,7 +47,8 @@ const routes: Routes = [
   {path: "chess-puzzle", title:"ChesSEP", component: ChessPuzzleComponent},
   {path: "schachclub/:id", title:"ChesSEP", component:SchachclubComponent},
   {path: "addmembers", title:"ChesSEP", component:AddMembersComponent},
-  {path: "groupchat/:id", title:"ChesSEP", component:GroupchatComponent}
+  {path: "groupchat/:id", title:"ChesSEP", component:GroupchatComponent},
+  {path: "stream/:id", title:"ChesSEP", component:StreamingAnsichtComponent}
 
 
 ];

@@ -77,6 +77,11 @@ export class MatchmakingService {
   public startPuzzle(fileContent:String,id:number){
     return this.http.post(this.URL+"/engine/startPuzzle/"+id,fileContent,{headers: this.header});
   }
+  public getallMatches(){
+    return this.http.get(this.URL+"/allMatches",{headers: this.header});
+  }
 
-
+  public joinStreamMatch(gameId:any, userId:any, frameId:any){
+    return this.http.get(this.URL+"/getCurrentStreamingFrame"+gameId+"/" + userId + "/" + frameId,{headers: this.header});
+  }
 }

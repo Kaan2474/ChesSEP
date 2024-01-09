@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FriendsService} from "../../Service/friends.service";
 import {Friends} from "../../Modules/Friends";
 import { MatchmakingService } from 'src/app/Service/matchmaking.service';
+import {UserService} from "../../Service/user.service";
 import {interval, Observable, Subscription} from "rxjs";
 import {Chess} from "../../Modules/Chess";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -24,10 +25,12 @@ export class CreatePlayAgainstUserComponent implements OnInit{
     .set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
   chessGame:any; //soll einfach die JSON file in der Console anzeigen {"gameid", "match-length", "name", "blackid", "whiteid", "timeStamp"}
-
+  allChessGames:any;
+  user: any;
   constructor(private http: HttpClient,
   private friendsService: FriendsService,
   private matchmakingservice:MatchmakingService,
+  private userService: UserService,
   private router: Router)
 
   {
@@ -36,16 +39,21 @@ export class CreatePlayAgainstUserComponent implements OnInit{
 
 
   ngOnInit() {
-    
+
     var waited=localStorage.getItem("Waited");
     if(waited=="1"){
       this.matchmakingservice.cancelMatchRequest().subscribe();
       this.matchmakingservice.dequeueMatch().subscribe();
-      
+
       localStorage.setItem("Waited","0");
     }
-
+    this.userService.getUserbyToken().subscribe(data=>
+    this.user = data);
     this.getFriendsList()
+    this.matchmakingservice.getallMatches().subscribe(data=>{
+      this.allChessGames=data;
+    })
+
   }
 
 
@@ -65,7 +73,7 @@ export class CreatePlayAgainstUserComponent implements OnInit{
         this.waitForMatch(this.chessGame)
         console.log(data)
       });
-    this.showNotification("Die Einlladung wurde erfolgreich versendet")
+    this.showNotification("Die Einladung wurde erfolgreich versendet")
   }
 
   queueForMatch() {
@@ -79,10 +87,15 @@ export class CreatePlayAgainstUserComponent implements OnInit{
     this.router.navigate(["/waiting"]);
   }
 
-
-
   showNotification(message:string){
     alert(message);
+  }
+  refresh(){
+  window.location.reload();
+  }
+  setGameID(gameId:any){
+    localStorage.setItem("GameID:", gameId);
+    this.router.navigate(["/stream/" + gameId]);
   }
 }
 
