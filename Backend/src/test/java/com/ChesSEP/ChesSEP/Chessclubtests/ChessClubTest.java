@@ -2,10 +2,8 @@ package com.ChesSEP.ChesSEP.Chessclubtests;
 
 import com.ChesSEP.ChesSEP.Chat.Chat;
 import com.ChesSEP.ChesSEP.Chat.ChatRepository;
-import com.ChesSEP.ChesSEP.Chat.ChatService;
 import com.ChesSEP.ChesSEP.ChessClub.ChessClub;
 import com.ChesSEP.ChesSEP.ChessClub.ChessClubRepository;
-import com.ChesSEP.ChesSEP.ChessClub.ChessClubService;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 import com.ChesSEP.ChesSEP.User.Role;
 import com.ChesSEP.ChesSEP.User.User;
@@ -101,9 +99,8 @@ public class ChessClubTest {
 
 
         //ACT
-
-        MvcResult joinClub_Testclub=mockMvc
-                .perform(get("/ChessClub/joinClubV2/Testclub")
+        
+        mockMvc.perform(get("/ChessClub/joinClubV2/Testclub")
                         .header("Authorization", JWT))
                 .andReturn();
 
@@ -158,8 +155,7 @@ public class ChessClubTest {
 
         //ACT
 
-        MvcResult joinClub_Testclub=mockMvc
-                .perform(get("/ChessClub/leaveClub/1L")
+        mockMvc.perform(get("/ChessClub/leaveClub/1L")
                         .header("Authorization", JWT))
                 .andReturn();
 

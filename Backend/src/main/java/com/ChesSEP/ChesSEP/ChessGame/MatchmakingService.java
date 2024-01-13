@@ -1,6 +1,5 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
-import com.ChesSEP.ChesSEP.ChessEngine.ChessOperation;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
@@ -9,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 

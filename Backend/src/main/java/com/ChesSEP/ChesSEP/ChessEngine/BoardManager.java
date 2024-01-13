@@ -15,6 +15,10 @@ public class BoardManager {
         Board = new ChessBoard(status, startConfig, moves);
     }
 
+    public void startNewTest (String FEN){
+        Board = new ChessBoard(FEN);
+    }
+
     public int[][][] getDefaultStartConfig(){
         int[][][] defaultBoard={
             {{2,2},{3,2},{4,2},{5,2},{6,2},{4,2},{3,2},{2,2}},
@@ -28,6 +32,10 @@ public class BoardManager {
         };
 
         return defaultBoard;
+    }
+
+    public String getDefaultFEN(){
+        return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     }
 
     public int[][][] getOnlyMatchStatus(){
