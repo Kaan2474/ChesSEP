@@ -258,6 +258,8 @@ public class ChessBoard {
 
         resultBoard[kingsCoords[0]][kingsCoords[1]]=1;
 
+        zuege.get(zuege.size()-1).specialEvent="+";
+
         if(color==Color.BLACK)
             return rotateleft(rotateleft(resultBoard));
 
@@ -640,7 +642,7 @@ public class ChessBoard {
         if(!moveIsValid(x, y, gotoX, gotoY))
             return false;
 
-        movePiece(x, y, gotoX, gotoY);
+        movePiece(x, y, gotoX, gotoY, "");
 
         //kign can be slain without resistance next Turn SOLLTE NICHT EINTREFFEN
         if(isKingUnderAttack(currentPlayer,chessBoard)!=null)
@@ -657,8 +659,10 @@ public class ChessBoard {
         }
 
         //usavable Situation
-        if(isKingCheckmate(currentPlayer))
+        if(isKingCheckmate(currentPlayer)) {
             endGameFlag(currentPlayer);
+            zuege.get(zuege.size()-1).specialEvent="#";
+        }
 
 
         isRemis=remisManager();
@@ -679,7 +683,7 @@ public class ChessBoard {
         if(y!=(currentMove[0]-(currentMove[0]%10))/10||x!=currentMove[0]%10||gotoY!=(currentMove[1]-(currentMove[1]%10))/10||gotoX!=currentMove[1]%10)
             return false;
 
-        movePiece(x, y, gotoX, gotoY);
+        movePiece(x, y, gotoX, gotoY,"");
 
         if(isKingUnderAttack(currentPlayer,chessBoard)!=null)
             endGameFlag(currentPlayer);
@@ -707,7 +711,7 @@ public class ChessBoard {
 
         int[] currentMove=puzzleMoves[zuege.size()];
         
-        movePiece(currentMove[0]%10,(currentMove[0]-(currentMove[0]%10))/10,currentMove[1]%10,(currentMove[1]-(currentMove[1]%10))/10);
+        movePiece(currentMove[0]%10,(currentMove[0]-(currentMove[0]%10))/10,currentMove[1]%10,(currentMove[1]-(currentMove[1]%10))/10,"");
 
         toggleCurrentPlayer();
     }
@@ -897,6 +901,7 @@ public class ChessBoard {
         toggleCurrentPlayer();
 
         letzterZug.movingPiece=new ChessPiece(id, currentPiece.getColor().getId());
+        letzterZug.specialEvent="="+letzterZug.movingPiece.getType();
         zuege.add(letzterZug);
 
         bauerTransform=false;
@@ -962,7 +967,7 @@ public class ChessBoard {
     }
 
 
-    private void movePiece(int x, int y, int gotoX, int gotoY){
+    private void movePiece(int x, int y, int gotoX, int gotoY, String specialEvent){
 
         ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
 
@@ -972,7 +977,7 @@ public class ChessBoard {
         if((gotoY-y>1)&&currentPiece.getType()==ChessPieceType.KOENIG){
             ChessPiece turm=getPieceOn(x, y+3,chessBoard);
             turm.sethasMovedTrue(zuege.size());
-
+            specialEvent = "O-O";
             chessBoard[x][y+3]=null;
             chessBoard[x][y+1]=turm;
         }
@@ -981,7 +986,7 @@ public class ChessBoard {
         if((y-gotoY>1)&&currentPiece.getType()==ChessPieceType.KOENIG){
             ChessPiece turm=getPieceOn(x, y-4,chessBoard);
             turm.sethasMovedTrue(zuege.size());
-
+            specialEvent = "O-O-O";
             chessBoard[x][y-4]=null;
             chessBoard[x][y-1]=turm;
         }   
@@ -1018,7 +1023,7 @@ public class ChessBoard {
         chessBoard[x][y]=null;
         chessBoard[gotoX][gotoY]=currentPiece;
 
-        ChessOperation currentOperation=new ChessOperation(x, y, gotoX, gotoY, currentPiece, preveiousPiece);
+        ChessOperation currentOperation=new ChessOperation(x, y, gotoX, gotoY, currentPiece, preveiousPiece, specialEvent);
         zuege.add(currentOperation);
 
         currentPiece.sethasMovedTrue(zuege.size());
@@ -1411,4 +1416,5 @@ public class ChessBoard {
         result+="    "+"      A      "+"      B      "+"      C      "+"      D      "+"      E      "+"      F      "+"      G      "+"     H     \n";
         return result;
     }
+
 }

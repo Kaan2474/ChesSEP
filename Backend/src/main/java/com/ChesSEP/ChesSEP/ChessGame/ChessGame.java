@@ -40,4 +40,7 @@ public class ChessGame {
     @Column
     private boolean blackLastFrameSeen;
 
+    @Column
+    private long pgnId;
+
 }
