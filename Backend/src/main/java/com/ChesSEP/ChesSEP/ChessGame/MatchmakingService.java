@@ -23,6 +23,7 @@ public class MatchmakingService {
     private final ChessgameRepository chessgameRepository;
     private final MatchRequestRepository matchRequestRepository;
     private final UserRepository userRepository;
+    private final PgnRepository pgnRepository;
 
     //public boolean test;
     //zum Testen der Methode acceptMatchRequest
@@ -300,6 +301,7 @@ public class MatchmakingService {
 
                 game.setResult("1-0");
                 chessgameRepository.save(game);
+                savePGN(game, board);
 
                 break;
             case 2:
@@ -314,12 +316,14 @@ public class MatchmakingService {
 
                 game.setResult("0-1");
                 chessgameRepository.save(game);
+                savePGN(game, board);
 
                 break;
             default:
 
                 game.setResult("1/2-1/2");
                 chessgameRepository.save(game);
+                savePGN(game, board);
 
                 break;
         }
@@ -397,6 +401,7 @@ public class MatchmakingService {
         ChessGame game=getMyCurrentMatch();
         BoardManager board=boards.get(game.getGameID());
 
+        savePGN(game, board);
         if(game.getPlayerBlackID()==getSender().getId()){
             board.getManagedBoard().surrender(Color.BLACK);
         }else{
@@ -490,30 +495,31 @@ public class MatchmakingService {
 
     //PGN
 
+    private void savePGN(ChessGame game, BoardManager board){
+        PGN pgnGame = PGN.builder()
+                .pgnInfo(createPGNinfo(game, board.getManagedBoard()))
+                .build();
+        pgnRepository.save(pgnGame);
+
+        game.setPgnId(pgnGame.getPgnId());
+        chessgameRepository.save(game);
+    }
+
+    public PGN findPGNByPgnId(long pgnId){
+        return pgnRepository.findPGNByPgnId(pgnId);
+    }
+
     public String createPGNinfo(ChessGame chessGame, ChessBoard board){
         User white = userRepository.findUserById(chessGame.getPlayerWhiteID());
         User black = userRepository.findUserById(chessGame.getPlayerBlackID());
-        /*String winner = "";
-        if(board.getWinner() == 1){
-            winner = "1-0";
-        } else if (board.getWinner() == 2) {
-            winner = "0-1";
-        }
-        else {
-            winner = "1/2-1/2";
-        }
-
-         */
-
-        return "[Event \""+chessGame.getName()+"\"]"+
-               "[Site \"ChesSEP\"]"+
-               "[Date \"??\"]"+
-               "[Round \"-1\"]"+
-               "[White \""+white.getVorname()+" "+white.getNachname()+"\"]"+
-               "[Black \""+black.getVorname()+" "+black.getNachname()+"\"]"+
-               "[Result \""+chessGame.getResult()+"\"]";
-
-        //board.zuege
+        return "[Event \""+chessGame.getName()+"\"]\n"+
+               "[Site \"ChesSEP\"]\n"+
+               "[Date \"??\"]\n"+
+               "[Round \"-1\"]\n"+
+               "[White \""+white.getVorname()+" "+white.getNachname()+"\"]\n"+
+               "[Black \""+black.getVorname()+" "+black.getNachname()+"\"]\n"+
+               "[Result \""+chessGame.getResult()+"\"]\n"+
+               "\n"+board.pgnList()+chessGame.getResult()+"\n";
     }
 
 }

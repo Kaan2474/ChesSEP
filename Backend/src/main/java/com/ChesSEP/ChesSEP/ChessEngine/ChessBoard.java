@@ -1571,4 +1571,21 @@ public class ChessBoard {
         return result;
     }
 
+    public String pgnList() {
+        StringBuilder pgn = new StringBuilder();
+        int zugNummer = 1;
+        for (int i = 0; i < zuege.size(); i++) {
+            String zug = zuege.get(i).toStringKomprimiert();
+            pgn.append(zugNummer).append(". ");
+            pgn.append(zug).append(" ");
+            if (i + 1 < zuege.size()) {
+                pgn.append(zuege.get(i + 1).toStringKomprimiert()).append(" ");
+                i++;
+                zugNummer++;
+            } else {
+                return pgn.toString();
+            }
+        }
+        return pgn.toString();
+    }
 }

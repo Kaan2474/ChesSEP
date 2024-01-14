@@ -117,4 +117,10 @@ public class MatchmakingController {
     public ResponseEntity<List<ChessGame>> allMatches(){
         return ResponseEntity.ok(matchmakingService.allMatches());
     }
+
+    //PGN
+    @GetMapping("/pgn/{pgnId}")
+    public ResponseEntity<PGN> pgn(@PathVariable long pgnId){
+        return ResponseEntity.ok(matchmakingService.findPGNByPgnId(pgnId));
+    }
 }
