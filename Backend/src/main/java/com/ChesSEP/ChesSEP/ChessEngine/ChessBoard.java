@@ -67,7 +67,7 @@ public class ChessBoard {
     }
 
     public ChessBoard(int[] status,int[][][] Board,int[][] moves){
-        chessBoard=constructBoard(Board,status);
+        chessBoard=constructBoard(Board);
         setStatusToBoard(status, chessBoard);
 
         isPuzzle=true;
@@ -97,6 +97,20 @@ public class ChessBoard {
         nextEnemyStep();
     }
 
+
+    //ForTestingAndBots
+    public ChessBoard(String FEN){
+        chessBoard=constructBoardFromFEN(FEN);
+        isPuzzle=false;
+        currentPlayer=Color.WHITE;
+
+        bauerTransform=false;
+        winner=null;
+       
+        enPassantSquare=new int[]{-1,-1};
+        letzterZug=null;
+    }
+
     //ImportBoard
 
     public ChessPiece[][] constructBoard(int[][][] boardToConstruct){
@@ -112,19 +126,159 @@ public class ChessBoard {
         return constructedBoard;
     }
 
-    public ChessPiece[][] constructBoard(int[][][] boardToConstruct,int[] status){
+    public ChessPiece[][] constructBoardFromFEN(String FEN){
         ChessPiece[][] constructedBoard = new ChessPiece[8][8];
+        String[] FENarr=FEN.split("/|\s");
 
-        for (int i = 0; i < boardToConstruct.length; i++) {
-            for (int j = 0; j < boardToConstruct[i].length; j++) {
-                if(boardToConstruct[i][j][0]!=0){
-                    constructedBoard[i][j] = new ChessPiece(boardToConstruct[i][j][0], boardToConstruct[i][j][1]);
+        for (int i = 0; i < 8; i++) {
+            String currentLine=FENarr[i];
+            int offset=0;
+            for (int j = 0; j < currentLine.length(); j++) {
+                String currentChar=""+currentLine.charAt(j);
+
+                if(currentChar.matches("[1-8]")){
+                    for (int k = 0; k <= Integer.parseInt(currentChar); k++) {
+                        offset++;
+                    }
+                    continue;
                 }
+
+                int[] currentPieceIDs=translateToIdNotation(currentChar.charAt(0));
+                
+                constructedBoard[i][j+offset]=new ChessPiece(currentPieceIDs[0],currentPieceIDs[1]);
             }
         }
 
+        setStatusToBoard(extractStatusFromFEN(FEN), constructedBoard);
+
         return constructedBoard;
     }
+
+    private int[] extractStatusFromFEN(String FEN){
+        String[] statusArr=FEN.split("\s");
+
+        int[] castlingAvailability=parseCastlingAvailability(statusArr[2]);
+
+        int[] resultArr=new int[]{
+            translateColorToId(statusArr[1]),   //ActiveColor  
+            castlingAvailability[0],    //Castling Availability Q
+            castlingAvailability[1],    //K
+            castlingAvailability[2],    //q
+            castlingAvailability[3],    //k
+            translateCoord(statusArr[3])};   //En Passnat TargetSquare
+
+        return resultArr;
+    }
+
+    private int translateColorToId(String x){
+        if(x.equals("w")){
+            return 1;
+        }
+
+        return 2;
+    }
+
+    private int translateCoord(String x){
+        int result=0;
+
+        switch (x.charAt(0)) {
+            case 'a':
+                result=0;
+                break;
+            case 'b':
+                result=1;
+                break;
+            case 'c':
+                result=2;
+                break;
+            case 'd':
+                result=3;
+                break;
+            case 'e':
+                result=4;
+                break;
+            case 'f':
+                result=5;
+                break;
+            case 'g':
+                result=6;
+                break;
+            case 'h':
+                result=7;
+                break;
+            default:
+                return -1;
+        }
+
+        result=result*10;
+        result=result+(7-(Integer.parseInt(""+x.charAt(1))-1));
+
+        return result;
+    }
+
+    private int[] parseCastlingAvailability(String castlingAvailability){
+        int[] result = new int[4];
+        if(castlingAvailability.contains("Q"))
+            result[0]=1;
+
+        if(castlingAvailability.contains("K"))
+            result[1]=1;
+
+        if(castlingAvailability.contains("q"))
+            result[2]=1;
+
+        if(castlingAvailability.contains("k"))
+            result[3]=1;
+
+        return result;
+    }
+
+    public int[] translateToIdNotation(char piece){
+        String stPiece=""+piece;
+        int[] result=new int[2];
+
+        if(stPiece.toLowerCase()==stPiece){
+            result[1]=2;
+        }else{
+            result[1]=1;
+        }
+
+        stPiece=stPiece.toLowerCase();
+
+        switch (stPiece) {
+            case "k":
+                result[0] = 6;
+                break;
+
+            case "q":
+                result[0] = 5;
+                break;
+
+            case "r":
+                result[0] = 2;
+                break;
+
+            case "b":
+                result[0] = 4;
+                break;
+
+            case "n":
+                result[0] = 3;
+                break;
+
+            case "p":
+                result[0] = 1;
+                break;
+            default:
+                result[0]=0;
+                result[1]=0;
+                break;
+        }
+
+        return result;
+    }
+
+    
 
     private void setStatusToBoard(int[] status,ChessPiece[][] board){
 
@@ -440,7 +594,7 @@ public class ChessBoard {
                         if(!doesListContainCoords(currentAlliedCoords[0], currentAlliedCoords[1], validAttackerCoords))
                             continue;
 
-                        ChessPiece[][] testBoard=createNextBoard(i, j, currentAlliedCoords[0], currentAlliedCoords[1]);
+                        ChessPiece[][] testBoard=createNextBoard(i, j, currentAlliedCoords[0], currentAlliedCoords[1],board);
 
                         if(isKingUnderAttack(kingsColor, testBoard)==null)
                             return true;
@@ -451,9 +605,9 @@ public class ChessBoard {
         return false;
     }
 
-    private ChessPiece[][] createNextBoard(int x, int y, int gotoX, int gotoY){
+    public ChessPiece[][] createNextBoard(int x, int y, int gotoX, int gotoY,ChessPiece[][] board){
 
-        ChessPiece[][] nextBoard=copyBoard(chessBoard);
+        ChessPiece[][] nextBoard=copyBoard(board);
 
         testMovePieceOnBoard(x, y, gotoX, gotoY, nextBoard);
 
@@ -961,7 +1115,7 @@ public class ChessBoard {
 
         List<int[]> validCoordsOfcurrentPiece=validCoordsOf(x, y, chessBoard);
 
-        validCoordsOfcurrentPiece=testMovesForCheckMate(x, y, validCoordsOfcurrentPiece);
+        validCoordsOfcurrentPiece=testMovesForCheckMate(x, y,chessBoard, validCoordsOfcurrentPiece);
 
         return doesListContainCoords(gotoX, gotoY, validCoordsOfcurrentPiece);
     }
@@ -1188,9 +1342,9 @@ public class ChessBoard {
         return new int[]{kingsCoords[0], kingsCoords[1]-2};
     }
 
-    private List<int[]> testMovesForCheckMate(int x,int y,List<int[]> potentiallyValidMoves){
+    private List<int[]> testMovesForCheckMate(int x,int y,ChessPiece[][] board,List<int[]> potentiallyValidMoves){
         
-        ChessPiece currentPiece=getPieceOn(x, y, chessBoard);
+        ChessPiece currentPiece=getPieceOn(x, y, board);
 
         if(currentPiece==null)
             return null;
@@ -1202,7 +1356,7 @@ public class ChessBoard {
         for (int i = 0; i < potentiallyValidMoves.size(); i++) {
             int[] currentPos=potentiallyValidMoves.get(i);
 
-            testBoard=copyBoard(chessBoard);
+            testBoard=copyBoard(board);
 
             testMovePieceOnBoard(x, y, currentPos[0], currentPos[1], testBoard);
 
@@ -1322,19 +1476,19 @@ public class ChessBoard {
         return resultValidCoords;
     }
 
-    /*private int[][] getHighlightOf(int x, int y,ChessPiece[][] board){
+    public int[][] exportMoves(int x, int y,ChessPiece[][] board,Color currentPlayerColor){
 
         ChessPiece currentPiece=getPieceOn(x, y, board);
 
-        if(currentPiece==null)
-            return null;
+        if(currentPiece==null||currentPiece.getColor()!=currentPlayerColor)
+            return new int[8][8];
 
         List<int[]> validCoords=validCoordsOf(x, y, board);
 
-        validCoords=testMovesForCheckMate(x, y, validCoords);
+        //validCoords=testMovesForCheckMate(x, y, chessBoard,validCoords);
 
         return fillCoordsIntoArray(validCoords);
-    }*/
+    }
 
     public int[][] checkedGetHighlightOf(int x, int y,Color color){
 
@@ -1345,7 +1499,7 @@ public class ChessBoard {
         
         List<int[]> validCoords=validCoordsOf(x, y, chessBoard);
 
-        validCoords=testMovesForCheckMate(x, y, validCoords);
+        validCoords=testMovesForCheckMate(x, y, chessBoard,validCoords);
 
         if(color==Color.BLACK)
             return rotateleft(rotateleft(fillCoordsIntoArray(validCoords)));
