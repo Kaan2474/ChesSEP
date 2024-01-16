@@ -1,0 +1,64 @@
+<mxfile host="Electron" modified="2024-01-12T10:21:04.255Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="JOqdcuKXPFM8QTMoyuZr" version="22.0.3" type="device">
+  <diagram name="Seite-1" id="0ednidC240dtAkmAIVFa">
+    <mxGraphModel dx="1098" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-1" value="Interaction Watch Livestream&amp;nbsp;" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=160;" vertex="1" parent="1">
+          <mxGeometry x="30" y="30" width="720" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="urNfE2F5-KBbVhQSUrjj-1" source="urNfE2F5-KBbVhQSUrjj-13" target="urNfE2F5-KBbVhQSUrjj-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-3" value="1. allMatches()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="urNfE2F5-KBbVhQSUrjj-2">
+          <mxGeometry x="-0.1633" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="urNfE2F5-KBbVhQSUrjj-1" source="urNfE2F5-KBbVhQSUrjj-13" target="urNfE2F5-KBbVhQSUrjj-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="35" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-5" value="2. getCurrentStreamingFrame(gameId:long, userId:long, frameId:long)&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="urNfE2F5-KBbVhQSUrjj-4">
+          <mxGeometry x="0.1408" y="-2" relative="1" as="geometry">
+            <mxPoint x="-7" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="urNfE2F5-KBbVhQSUrjj-1" source="urNfE2F5-KBbVhQSUrjj-8" target="urNfE2F5-KBbVhQSUrjj-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-7" value="1.2. allMatches()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="urNfE2F5-KBbVhQSUrjj-6">
+          <mxGeometry x="-0.2481" y="1" relative="1" as="geometry">
+            <mxPoint x="6" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-8" value="MatchmakingController" style="fontStyle=0;html=1;whiteSpace=wrap;" vertex="1" parent="urNfE2F5-KBbVhQSUrjj-1">
+          <mxGeometry x="150" y="55" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-9" value="MatchmakingService" style="fontStyle=0;html=1;whiteSpace=wrap;" vertex="1" parent="urNfE2F5-KBbVhQSUrjj-1">
+          <mxGeometry x="410" y="55" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="urNfE2F5-KBbVhQSUrjj-1" source="urNfE2F5-KBbVhQSUrjj-12" target="urNfE2F5-KBbVhQSUrjj-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-11" value="2.1. getCurrentStramingFrame(frameId:long, gameId:long, userId:long)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="urNfE2F5-KBbVhQSUrjj-10">
+          <mxGeometry x="-0.1917" y="1" relative="1" as="geometry">
+            <mxPoint x="44" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-12" value="MatchmakingController" style="fontStyle=0;html=1;whiteSpace=wrap;" vertex="1" parent="urNfE2F5-KBbVhQSUrjj-1">
+          <mxGeometry x="420" y="150" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-13" value="User1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="urNfE2F5-KBbVhQSUrjj-1">
+          <mxGeometry x="20" y="45" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="urNfE2F5-KBbVhQSUrjj-14" value="MatchmakingService" style="fontStyle=0;html=1;whiteSpace=wrap;" vertex="1" parent="urNfE2F5-KBbVhQSUrjj-1">
+          <mxGeometry x="420" y="280" width="150" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
