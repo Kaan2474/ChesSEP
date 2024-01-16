@@ -368,7 +368,7 @@ public class ChessOperation {
                     convKoord += "1";
                     break;
             }
-            return zug + convKoord + oldKoord(y,x);
+            return zug + convKoord;
         }
     }
 

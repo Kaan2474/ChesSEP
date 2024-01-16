@@ -16,7 +16,8 @@ public class PGN {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long pgnId;
 
-    @Column
+
+    @Column (length = 1000000000)
     private String pgnInfo;
 
 }
