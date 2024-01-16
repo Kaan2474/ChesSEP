@@ -16,6 +16,63 @@ public class ChessOperation {
         this.specialEvent = specialEvent;
     }
 
+    private String oldKoord(int y, int x){
+        String oldKoord="";
+        switch (y) {
+            case 0:
+                oldKoord += "a";
+                break;
+            case 1:
+                oldKoord += "b";
+                break;
+            case 2:
+                oldKoord += "c";
+                break;
+            case 3:
+                oldKoord += "d";
+                break;
+            case 4:
+                oldKoord += "e";
+                break;
+            case 5:
+                oldKoord += "f";
+                break;
+            case 6:
+                oldKoord += "g";
+                break;
+            case 7:
+                oldKoord += "h";
+                break;
+        }
+        switch (x) {
+            case 0:
+                oldKoord += "8";
+                break;
+            case 1:
+                oldKoord += "7";
+                break;
+            case 2:
+                oldKoord += "6";
+                break;
+            case 3:
+                oldKoord += "5";
+                break;
+            case 4:
+                oldKoord += "4";
+                break;
+            case 5:
+                oldKoord += "3";
+                break;
+            case 6:
+                oldKoord += "2";
+                break;
+            case 7:
+                oldKoord += "1";
+                break;
+        }
+        return oldKoord;
+    }
+
     private String normalMove() {
         String zug ="";
         String convKoord = "";
@@ -92,7 +149,7 @@ public class ChessOperation {
                 convKoord += "1";
                 break;
         }
-        return zug + convKoord;
+        return zug + oldKoord(y,x) + convKoord;
     }
 
     private String schlagMoveBauerTransform() {
@@ -100,28 +157,28 @@ public class ChessOperation {
         String convKoord = "";
         switch (y) {
             case 0:
-                bauerSchlag += "ax";
+                bauerSchlag += "a" + oldKoord(y,x) + "x";
                 break;
             case 1:
-                bauerSchlag += "bx";
+                bauerSchlag += "b" + oldKoord(y,x) + "x";
                 break;
             case 2:
-                bauerSchlag += "cx";
+                bauerSchlag += "c" + oldKoord(y,x) + "x";
                 break;
             case 3:
-                bauerSchlag += "dx";
+                bauerSchlag += "d" + oldKoord(y,x) + "x";
                 break;
             case 4:
-                bauerSchlag += "ex";
+                bauerSchlag += "e" + oldKoord(y,x) + "x";
                 break;
             case 5:
-                bauerSchlag += "fx";
+                bauerSchlag += "f" + oldKoord(y,x) + "x";
                 break;
             case 6:
-                bauerSchlag += "gx";
+                bauerSchlag += "g" + oldKoord(y,x) + "x";
                 break;
             case 7:
-                bauerSchlag += "hx";
+                bauerSchlag += "h" + oldKoord(y,x) + "x";
                 break;
         }
         switch (newY) {
@@ -176,7 +233,7 @@ public class ChessOperation {
                 convKoord += "1";
                 break;
         }
-        return bauerSchlag + convKoord;
+        return bauerSchlag + convKoord + oldKoord(y,x);
 
     }
 
@@ -185,32 +242,7 @@ public class ChessOperation {
         String zug ="";
         String convKoord = "";
         if (movingPiece.getType() == ChessPieceType.BAUER && deletedPiece != null) {
-            switch (y) {
-                case 0:
-                    bauerSchlag += "ax";
-                    break;
-                case 1:
-                    bauerSchlag += "bx";
-                    break;
-                case 2:
-                    bauerSchlag += "cx";
-                    break;
-                case 3:
-                    bauerSchlag += "dx";
-                    break;
-                case 4:
-                    bauerSchlag += "ex";
-                    break;
-                case 5:
-                    bauerSchlag += "fx";
-                    break;
-                case 6:
-                    bauerSchlag += "gx";
-                    break;
-                case 7:
-                    bauerSchlag += "hx";
-                    break;
-            }
+            bauerSchlag += oldKoord(y,x) + "x";
             switch (newY) {
                 case 0:
                     convKoord += "a";
@@ -268,19 +300,19 @@ public class ChessOperation {
         } else {
             switch (movingPiece.getType()) {
                 case TURM:
-                    zug += "Rx";
+                    zug += "R" + oldKoord(y,x) + "x";
                     break;
                 case SPRINGER:
-                    zug += "Nx";
+                    zug += "N" + oldKoord(y,x) + "x";
                     break;
                 case LAUFER:
-                    zug += "Bx";
+                    zug += "B" + oldKoord(y,x) + "x";
                     break;
                 case KOENIGIN:
-                    zug += "Qx";
+                    zug += "Q" + oldKoord(y,x) + "x";
                     break;
                 case KOENIG:
-                    zug += "Kx";
+                    zug += "K" + oldKoord(y,x) + "x";
                     break;
             }
             switch (newY) {
@@ -336,7 +368,7 @@ public class ChessOperation {
                     convKoord += "1";
                     break;
             }
-            return zug + convKoord;
+            return zug + convKoord + oldKoord(y,x);
         }
     }
 
