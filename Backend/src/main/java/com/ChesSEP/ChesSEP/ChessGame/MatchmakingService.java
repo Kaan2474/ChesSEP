@@ -1,6 +1,7 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
+import com.ChesSEP.ChesSEP.User.Privacy;
 import com.ChesSEP.ChesSEP.User.User;
 import com.ChesSEP.ChesSEP.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -440,6 +441,19 @@ public class MatchmakingService {
     }
 
     //Streaming
+
+    public void streamingPrivacy(){
+        User user = getSender();
+
+        if(user.getStreaming() == Privacy.OEFFENTLICH){
+            user.setStreaming(Privacy.PRIVAT);
+        }
+        else{
+            user.setStreaming(Privacy.OEFFENTLICH);
+        }
+        userRepository.save(user);
+    }
+
     public int[][][] getCurrentStreamingFrame(int frameID, long gameID, long userId){
 
         ChessGame game = liveMatch(gameID);
@@ -490,7 +504,21 @@ public class MatchmakingService {
     }
 
     public List<ChessGame> allMatches(){
-        return onGoingGame;
+        List<ChessGame> streamingGames = new ArrayList<>();
+        User white;
+        User black;
+        ChessGame game;
+
+        for (int i = 0; i< onGoingGame.size(); i++) {
+            game = onGoingGame.get(i);
+            white = userRepository.findUserById(game.getPlayerWhiteID());
+            black = userRepository.findUserById(game.getPlayerBlackID());
+
+            if(white.getStreaming() == Privacy.OEFFENTLICH || black.getStreaming() == Privacy.OEFFENTLICH){
+                streamingGames.add(game);
+            }
+        }
+        return streamingGames;
     }
 
     //PGN
