@@ -62,6 +62,10 @@ public class User implements UserDetails {
     @Column
     private Long compleatedPuzzles;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Privacy streaming;
+
     //Friendlist friendlist
 
     @Override

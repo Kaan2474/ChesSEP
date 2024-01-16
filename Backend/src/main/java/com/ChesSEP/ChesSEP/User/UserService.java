@@ -59,6 +59,7 @@ public class UserService {
             .twoFactor(999999) //Flag für null
             .FriendlistPrivacy(Privacy.OEFFENTLICH)
             .compleatedPuzzles(0L)
+            .streaming(Privacy.OEFFENTLICH)
             .build();
 
         userRepository.save(assembledUser);
