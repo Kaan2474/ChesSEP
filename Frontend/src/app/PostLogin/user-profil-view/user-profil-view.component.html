@@ -64,3 +64,18 @@
   </table>
 </table>
 
+<h2>Spielhistorie</h2>
+<table class="Spielhistorie" id="history">
+  <tr>
+    <th>Teilnehmer</th>
+    <th>Punkte</th>
+    <th>Spielergebnis</th>
+  </tr>
+
+  <tr *ngFor="let game of lastThreeGames">
+    <td>{{ game.name }}</td>
+    <td>{{ game.playerBlackID }} vs {{ game.playerWhiteID }}</td>
+    <td>{{ game.result }}</td>
+  </tr>
+</table>
+

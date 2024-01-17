@@ -5,4 +5,5 @@ export class Chess{
   playerBlackID:any;
   matchLength:any;
   startTime:any;
+  result: any;
 }

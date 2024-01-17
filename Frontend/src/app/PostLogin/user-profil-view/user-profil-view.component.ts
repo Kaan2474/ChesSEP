@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
-import {ActivatedRoute} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 import {ChessClubService} from "../../Service/chess-club.service";
+import {Chess} from "../../Modules/Chess";
+import {forkJoin} from "rxjs";
+
 
 
 
@@ -21,19 +21,54 @@ export class UserProfilViewComponent implements OnInit {
   selectedFile: File | null = null;
   url = "assets/images/profil-picture-icon.png"
   schachClubname: any;
+  lastThreeGames: Chess[];
+
+
 
   constructor(
     private userService: UserService,
     private chessclubservice: ChessClubService
   ) {
     this.user = new User()
+    this.lastThreeGames = [];
 
   }
 
   ngOnInit() {
     this.getUserDetail();
     this.getMyClubName()
+    this.getLastThreeGames();
   }
+
+  getLastThreeGames() {
+    this.userService.getPlayHistory().subscribe(data => {
+      this.lastThreeGames = data;
+      this.getElo()
+    });
+  }
+
+  getElo() {
+    const elo = this.lastThreeGames.map(data => {
+      const playerWhite = this.userService.getUser(data.playerWhiteID);
+      const playerBlack = this.userService.getUser(data.playerBlackID);
+      return forkJoin([playerWhite, playerBlack]);
+    });
+    forkJoin(elo).subscribe(data => {
+      data.forEach((userArray, index) => {
+        const whiteUser = userArray[0];
+        const blackUser = userArray[1];
+
+        if (whiteUser) {
+          this.lastThreeGames[index].playerWhiteID = whiteUser.elo;
+        }
+
+        if (blackUser) {
+          this.lastThreeGames[index].playerBlackID = blackUser.elo;
+        }
+      });
+    });
+  }
+
 
   getUserDetail() {
     this.userService.getUserbyToken().subscribe((data) => {
@@ -81,7 +116,6 @@ export class UserProfilViewComponent implements OnInit {
         );
     }
   }
-
 
 }
 

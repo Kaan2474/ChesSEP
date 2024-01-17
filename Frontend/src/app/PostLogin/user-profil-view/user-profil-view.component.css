@@ -1,11 +1,11 @@
-.table {
+.table-striped {
   display: block;
   flex-direction: column;
   width: 40vw;
   margin-left: 570px;
   margin-top: 170px;
 
-  font-size: 22pt;
+  font-size: 25pt;
 }
 
 img {
@@ -24,6 +24,36 @@ font-size: 20px;
 
 
  }
+
+.Spielhistorie{
+  padding: 100px;
+  text-align: center;
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-left: 460px;
+  margin-top: 40px;
+  font-size: 150%;
+  width: 50%;
+  }
+
+.Spielhistorie th, .Spielhistorie td {
+  border: 1px solid grey;
+  padding: 8px;
+  text-align: left;
+}
+
+.Spielhistorie th {
+  background-color: darkgreen;
+}
+
+h2{
+  margin-left: 460px;
+  margin-top: 150px;
+  font-size: 250%;
+}
+
+
+
 
 
 
