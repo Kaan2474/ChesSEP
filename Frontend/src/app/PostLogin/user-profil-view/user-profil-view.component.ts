@@ -3,7 +3,7 @@ import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
 import {ChessClubService} from "../../Service/chess-club.service";
 import {Chess} from "../../Modules/Chess";
-import {forkJoin} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 
 
 
@@ -48,22 +48,18 @@ export class UserProfilViewComponent implements OnInit {
   }
 
   getElo() {
-    const elo = this.lastThreeGames.map(data => {
-      const playerWhite = this.userService.getUser(data.playerWhiteID);
-      const playerBlack = this.userService.getUser(data.playerBlackID);
-      return forkJoin([playerWhite, playerBlack]);
-    });
-    forkJoin(elo).subscribe(data => {
-      data.forEach((userArray, index) => {
-        const whiteUser = userArray[0];
-        const blackUser = userArray[1];
+    this.lastThreeGames.forEach(data => {
+      forkJoin([
+        this.userService.getUser(data.playerWhiteID),
+        this.userService.getUser(data.playerBlackID)
+      ]).subscribe(([playerWhite, playerBlack]) => {
 
-        if (whiteUser) {
-          this.lastThreeGames[index].playerWhiteID = whiteUser.elo;
+        if (playerWhite) {
+          data.playerWhiteID = playerWhite.elo;
         }
 
-        if (blackUser) {
-          this.lastThreeGames[index].playerBlackID = blackUser.elo;
+        if (playerBlack) {
+          data.playerBlackID = playerBlack.elo;
         }
       });
     });
