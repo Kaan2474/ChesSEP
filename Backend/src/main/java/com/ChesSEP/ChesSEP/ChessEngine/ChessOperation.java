@@ -1,7 +1,5 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-
 public class ChessOperation {
     int x,y,newX,newY;
 
@@ -15,7 +13,7 @@ public class ChessOperation {
         this.newY=newY;
         this.movingPiece=movingPiece;
         this.deletedPiece=deletedPiece;
-        this.specialEvent = specialEvent;
+        this.specialEvent = specialEvent == null? "" : specialEvent;
     }
 
     private String oldKoord(int y, int x){
@@ -478,14 +476,14 @@ public class ChessOperation {
                 }
                 break;
             case "check":
-                if (deletedPiece != null) {
+                if (deletedPiece != null && !specialEvent.contains("=")) {
                     output = schlagMove() + "+";
                 } else {
                     output = normalMove() + "+";
                 }
                 break;
             case "checkMate":
-                if (deletedPiece != null) {
+                if (deletedPiece != null && !specialEvent.contains("=")) {
                     output = schlagMove() + "#";
                 } else {
                     output = normalMove() + "#";

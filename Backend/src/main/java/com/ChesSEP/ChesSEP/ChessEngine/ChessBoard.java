@@ -412,7 +412,7 @@ public class ChessBoard {
 
         resultBoard[kingsCoords[0]][kingsCoords[1]]=1;
 
-        zuege.get(zuege.size()-1).specialEvent="+";
+        zuege.get(zuege.size()-1).specialEvent+="+";
 
         if(color==Color.BLACK)
             return rotateleft(rotateleft(resultBoard));
@@ -815,7 +815,7 @@ public class ChessBoard {
         //usavable Situation
         if(isKingCheckmate(currentPlayer)) {
             endGameFlag(currentPlayer);
-            zuege.get(zuege.size()-1).specialEvent="#";
+            zuege.get(zuege.size()-1).specialEvent +="#";
         }
 
 
@@ -1054,8 +1054,10 @@ public class ChessBoard {
         timeManager();
         toggleCurrentPlayer();
 
-        letzterZug.movingPiece=new ChessPiece(id, currentPiece.getColor().getId());
-        letzterZug.specialEvent="="+letzterZug.movingPiece.getType();
+       isKingUnderAttack(getEnemyColorOf(currentPiece), chessBoard);
+            letzterZug.specialEvent+="="+letzterZug.movingPiece.getType();
+
+
         zuege.add(letzterZug);
 
         bauerTransform=false;

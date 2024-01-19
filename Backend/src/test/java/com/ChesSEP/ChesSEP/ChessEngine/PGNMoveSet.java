@@ -1,14 +1,12 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
-import org.junit.Assert;
+
 import org.junit.jupiter.api.*;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -475,6 +473,7 @@ public class PGNMoveSet {
 
     }
 
+    //transform with capture
     @Test
     @Order(7)
     public void bauerTransformMoveWithCapture(){
@@ -501,6 +500,7 @@ public class PGNMoveSet {
 
     }
 
+    //transform with capture and check
     @Test
     @Order(8)
     public void bauerTransformMoveWithCaptureAndCheck(){
@@ -527,6 +527,7 @@ public class PGNMoveSet {
 
     }
 
+    //transform with capture and checkmate
     @Test
     @Order(9)
     public void bauerTransformMoveWithCaptureAndCheckmate(){
