@@ -93,9 +93,9 @@ export class CreatePlayAgainstUserComponent implements OnInit{
   refresh(){
   window.location.reload();
   }
-  setGameID(gameId:any){
-    localStorage.setItem("GameID:", gameId);
-    this.router.navigate(["/stream/" + gameId]);
+  setGameID(game:any){
+    localStorage.setItem("Game", game);
+    this.router.navigate(["/stream/" + game.gameID]);
   }
 }
 
