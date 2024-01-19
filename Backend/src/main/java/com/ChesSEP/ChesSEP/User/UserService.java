@@ -145,6 +145,7 @@ public class UserService {
         .privacy(user.getFriendlistPrivacy().name())
         .clubId(user.getClubId())
         .compleatedPuzzles(user.getCompleatedPuzzles())
+        .streaming(user.getStreaming())
         .build();
        
         return holder;
