@@ -6,9 +6,6 @@ import {Chess} from "../../Modules/Chess";
 import {forkJoin, Observable} from "rxjs";
 
 
-
-
-
 @Component({
   selector: 'app-user-profil-view',
   templateUrl: './user-profil-view.component.html',
@@ -92,9 +89,7 @@ export class UserProfilViewComponent implements OnInit {
     this.chessclubservice.getMyChessClubname().subscribe(data=>{
     this.schachClubname = data
     console.log(this.schachClubname)})
-
   }
-
   imageUpload() {
     if (this.selectedFile) {
       const formData = new FormData();

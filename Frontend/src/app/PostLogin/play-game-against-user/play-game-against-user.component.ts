@@ -432,4 +432,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
       this.timer[1]=Math.round(this.currentBoard[0][1][0]/1000);
     }
   }
+  useBot(){
+
+  }
 }
