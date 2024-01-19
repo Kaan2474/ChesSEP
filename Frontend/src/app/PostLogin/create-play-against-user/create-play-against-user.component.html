@@ -41,7 +41,7 @@
     </tr>
     <tr *ngFor="let chessgame of allChessGames" >
       <td>{{ chessgame.name }}</td>
-      <td><button (click)="setGameID(chessgame)">Jetzt beitreten</button></td>
+      <td><button (click)="setGameID(chessgame.gameID, chessgame.playerWhiteID, chessgame.playerBlackID)">Jetzt beitreten</button></td>
     </tr>
   </table>
   <button (click)="refresh()" class="refresh-button">Streaming Liste refreshen</button>

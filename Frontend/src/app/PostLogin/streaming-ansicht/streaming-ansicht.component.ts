@@ -11,7 +11,9 @@ import {Subscription, interval, of} from 'rxjs';
   styleUrls: ['./streaming-ansicht.component.css']
 })
 export class StreamingAnsichtComponent implements OnInit,OnDestroy{
-  game:any;
+  gameID:any;
+  playerID:any;
+  rivalID:any
   id:any;
   user: User;
   rival: User;
@@ -43,16 +45,19 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
 
   ngOnInit() {
     this.userService.getUserbyToken().subscribe(data=> this.user = data);
-    this.game = localStorage.getItem("Game");
-    console.log(this.game);
+    this.gameID = localStorage.getItem("GameID");
+    this.playerID = localStorage.getItem("PlayerID");
+    this.rivalID = localStorage.getItem("GegnerplayerID")
+    console.log("GameID: " + this.gameID);
+    console.log("GameID: " + this.playerID);
+
     this.getUserDetail();
-    this.getIdOfRival();
+    this.getRival();
     this.OnGetCurrentFrame();
 
 
     this.id = this.route.snapshot.params["id"];
-
-    this.refreshMatch();
+  this.refreshMatch();
   }
 
   ngOnDestroy(){
@@ -63,7 +68,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
 
   refreshMatch() {
     this.sub = interval(500).subscribe(data => {
-      this.matchmakinService.joinStreamMatch(this.game.gameID, this.game.playerWhiteID, this.zugID).subscribe(chess => {;
+      this.matchmakinService.joinStreamMatch(this.gameID, this.playerID, this.zugID).subscribe(chess => {;
         if(chess==null){
           this.router.navigate(["/homepage"]);
         }
@@ -73,7 +78,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
   }
 
   getUserDetail() {
-    this.userService.getUserbyToken().subscribe(data => {
+    this.userService.getUser(this.playerID).subscribe(data => {
         this.user = data;
         if(this.user.profilbild != null){
           this.user.profilbild='data:image/png;base64,'+this.user.profilbild;
@@ -85,17 +90,10 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
       });
   }
 
-  //Gibt die ID des Gegners zurück
-  getIdOfRival(){
-    this.matchmakinService.getMyCurrentEnemy().subscribe(data=> {
-      this.rival.id = data;
-      this.getRival();
-    })
-  }
 
   //Speichert den Gegner in der Variable rival anhand der ID
   getRival(){
-    this.userService.getUser(this.rival.id).subscribe(data=> {
+    this.userService.getUser(this.rivalID).subscribe(data=> {
         this.rival = data;
         if(this.rival.profilbild!=null) {
           this.rival.profilbild = 'data:image/png;base64,' + this.rival.profilbild;
@@ -105,7 +103,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
   }
 
   getMyCurrentMatch(){
-    this.matchmakinService.joinStreamMatch(this.game.gameID, this.game.playerWhiteID, this.zugID).subscribe(data => {;
+    this.matchmakinService.joinStreamMatch(this.gameID, this.playerID, this.zugID).subscribe(data => {;
       this.chessGame = data;
       console.log(this.chessGame);
       if(this.chessGame.playerWhiteID==this.user.id){
@@ -124,7 +122,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
 
   /*Gibt das aktuelle Spielfeld aus*/
   OnGetCurrentFrame() {
-    this.matchmakinService.getCurrentFrame(this.zugID).subscribe(data => {
+      this.matchmakinService.joinStreamMatch(this.gameID, this.playerID, this.zugID).subscribe(data => {;
 
       if((data as number[][][]).length < 2) {
         var currentStatus:number[][][]=data as number[][][];

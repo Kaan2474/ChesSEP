@@ -12,7 +12,7 @@
       <img class="userPics" *ngIf="!rival || !rival.profilbild" [src]="url" alt ="Standardprofilbild"></td>
     <td>{{rival.vorname}} {{rival.nachname}}</td>
     <td>{{rival.elo}}</td>
-    <td>{{timer[1]}}</td>
+    <td>{{timer[0]}}</td>
   </tr>
 </table>
 
@@ -118,7 +118,7 @@
       </td>
       <td>{{user.vorname}} {{user.nachname}}</td>
       <td>{{user.elo}}</td>
-      <td>{{timer[0]}}</td>
+      <td>{{timer[1]}}</td>
     </tr>
   </table>
 </div>
