@@ -128,4 +128,10 @@ public class MatchmakingController {
     public ResponseEntity<PGN> pgn(@PathVariable long pgnId){
         return ResponseEntity.ok(matchmakingService.findPGNByPgnId(pgnId));
     }
+
+    //PVE
+    @GetMapping("/pve/{difficulty}")
+    public void startPVEMatch(@PathVariable int difficulty){
+        matchmakingService.startPVEMatch(difficulty);
+    }
 }

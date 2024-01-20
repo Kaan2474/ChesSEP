@@ -1,5 +1,6 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
+import com.ChesSEP.ChesSEP.ChessEngine.ChessGameType;
 import com.ChesSEP.ChesSEP.ChessGame.ChessGame;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,5 +43,9 @@ public class ChessGame {
 
     @Column
     private long pgnId;
+    
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ChessGameType type;
 
 }

@@ -1,15 +1,20 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChessPiece {
 
     private ChessPieceType type;
     private Color color;
     private boolean hasMoved;
+    public List<int[]> validMoves;
 
     public ChessPiece(ChessPieceType type, Color color){
         this.type=type;
         this.color=color;
         hasMoved=false;
+        validMoves=new ArrayList<>();
     }
 
     public ChessPiece(int id, int color){
@@ -23,6 +28,7 @@ public class ChessPiece {
         type=getTypeFromId(id);
 
         this.hasMoved=false;
+        validMoves=new ArrayList<>();
     }
 
     public ChessPieceType getTypeFromId(int id ){

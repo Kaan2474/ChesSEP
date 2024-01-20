@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import com.ChesSEP.ChesSEP.CSVReader.CSVReader;
 import com.ChesSEP.ChesSEP.ChessEngine.BoardManager;
 import com.ChesSEP.ChesSEP.ChessEngine.ChessBoard;
+import com.ChesSEP.ChesSEP.ChessEngine.ChessGameType;
 import com.ChesSEP.ChesSEP.ChessEngine.Color;
 
 @Service
@@ -247,21 +248,55 @@ public class MatchmakingService {
         return board.bauerTransform(id);
     }
 
-    
+    public void startPVEMatch(int difficulty){
+
+        User sender=getSender();
+
+        Long time=System.currentTimeMillis();
+
+        ChessGame newGame;
+
+        newGame=ChessGame.builder()
+            .playerWhiteID(sender.getId())
+            .playerBlackID(-1L)
+            .matchLength(-1L)
+            .name(sender.getVorname()+" "+sender.getNachname()+"vs Bot")
+            .blackLastFrameSeen(false)
+            .whiteLastFrameSeen(false)
+            .startTime(time)
+            .type(ChessGameType.PVE)
+            .result("")
+        .build();
+
+        chessgameRepository.save(newGame);
+
+        ChessGame thisGame;
+
+        thisGame=chessgameRepository.findGame(sender.getId(), -1L, time);
+
+        BoardManager boardManager=new BoardManager();
+
+        boardManager.startNewPVEMatch(difficulty, boardManager.getDefaultStartConfig());
+
+        boards.put(thisGame.getGameID(), boardManager);
+
+        onGoingGame.add(thisGame);
+    }
 
     private void startMatch(Long playerWhite, Long playerBlack, String name, Long matchLength){
 
         Long time=System.currentTimeMillis();
         ChessGame newGame=ChessGame.builder()
-                        .playerWhiteID(playerWhite)
-                        .playerBlackID(playerBlack)
-                        .matchLength(matchLength)
-                        .name(name)
-                        .blackLastFrameSeen(false)
-                        .whiteLastFrameSeen(false)
-                        .startTime(time)
-                        .result("")
-                .build();
+            .playerWhiteID(playerWhite)
+            .playerBlackID(playerBlack)
+            .matchLength(matchLength)
+            .name(name)
+            .blackLastFrameSeen(false)
+            .whiteLastFrameSeen(false)
+            .startTime(time)
+            .type(ChessGameType.PVP)
+            .result("")
+        .build();
 
         chessgameRepository.save(newGame);
 
@@ -372,6 +407,7 @@ public class MatchmakingService {
                 .blackLastFrameSeen(false)
                 .whiteLastFrameSeen(false)
                 .startTime(time)
+                .type(ChessGameType.PUZZLE)
                 .build();
         }else{
             newGame=ChessGame.builder()
@@ -382,6 +418,7 @@ public class MatchmakingService {
                 .blackLastFrameSeen(false)
                 .whiteLastFrameSeen(false)
                 .startTime(time)
+                .type(ChessGameType.PUZZLE)
                 .build();
         }
 
@@ -411,7 +448,7 @@ public class MatchmakingService {
             board.getManagedBoard().surrender(Color.WHITE);
         }
 
-        if(board.getManagedBoard().isPuzzle()==1){
+        if(board.getManagedBoard().getGameType()==1){
             endPuzzle();
         }else{
             endMyMatch();

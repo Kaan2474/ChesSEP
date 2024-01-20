@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 public class ChessBoard {
 
     public ChessPiece[][] chessBoard;
@@ -35,7 +34,7 @@ public class ChessBoard {
     private final int SpringerOffset[][]={{1,2},{-1,2},{1,-2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
     private final int KönigOffset[][]={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
-    private boolean isPuzzle;
+    private ChessGameType gameType;
     private int[][] puzzleMoves;
     private Color puzzlePlayerColor;
 
@@ -43,9 +42,13 @@ public class ChessBoard {
 
     private ChessOperation letzterZug;
 
+    private ChessBot bot;
+    private difficulty gameDifficulty;
+
     public ChessBoard(double timeInMin,int[][][] Board){
         chessBoard=constructBoard(Board);
-        isPuzzle=false;
+        bot=new ChessBot();
+        gameType=ChessGameType.PVP;
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
         blackTime=(long)timeInMin*60*1000;
@@ -60,7 +63,7 @@ public class ChessBoard {
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternStatus=new HashMap<>();
-        enPassantSquare=new int[]{-1,-1};
+        enPassantSquare=new int[]{-1,-1,-1};
         letzterZug=null;
         
         remisPatternManager();
@@ -70,7 +73,7 @@ public class ChessBoard {
         chessBoard=constructBoard(Board);
         setStatusToBoard(status, chessBoard);
 
-        isPuzzle=true;
+        gameType=ChessGameType.PUZZLE;
 
         if(status[0]==1){
             currentPlayer=Color.WHITE;
@@ -89,7 +92,7 @@ public class ChessBoard {
         remisCounterBlack=0;
         remisPattern=new HashMap<>();
         remisPatternStatus=new HashMap<>();
-        enPassantSquare=new int[]{-1,-1};;
+        enPassantSquare=new int[]{-1,-1,-1};;
 
         puzzleMoves=moves;
         letzterZug=null;
@@ -101,13 +104,50 @@ public class ChessBoard {
     //ForTestingAndBots
     public ChessBoard(String FEN){
         chessBoard=constructBoardFromFEN(FEN);
-        isPuzzle=false;
+        gameType=ChessGameType.PVP;
         currentPlayer=Color.WHITE;
 
         bauerTransform=false;
         winner=null;
        
-        enPassantSquare=new int[]{-1,-1};
+        enPassantSquare=new int[]{-1,-1,-1};
+        letzterZug=null;
+    }
+
+    //ForChessBot
+    public ChessBoard(){
+        gameType=ChessGameType.PVP;
+        currentPlayer=Color.WHITE;
+
+        bauerTransform=false;
+        winner=null;
+       
+        enPassantSquare=new int[]{-1,-1,-1};
+        zuege=new ArrayList<ChessOperation>();
+        letzterZug=null;
+    }
+
+    //PVE
+    public ChessBoard(int[][][] Board,int difficulty){
+        chessBoard=constructBoard(Board);
+        bot=new ChessBot();
+
+        gameDifficulty=setDifficulty(difficulty);
+        currentPlayer=Color.WHITE;
+
+        gameType=ChessGameType.PVE;
+
+        zuege=new ArrayList<ChessOperation>();
+        bauerTransform=false;
+
+        winner=null;
+        isRemis=false;
+        remisCounterWhite=0;
+        remisCounterBlack=0;
+        remisPattern=new HashMap<>();
+        remisPatternStatus=new HashMap<>();
+        enPassantSquare=new int[]{-1,-1,-1};;
+
         letzterZug=null;
     }
 
@@ -124,6 +164,17 @@ public class ChessBoard {
         }
 
         return constructedBoard;
+    }
+
+    private difficulty setDifficulty(int id){
+        switch (id) {
+            case 0:
+                return difficulty.EASY;
+            case 1:
+                return difficulty.MEDIUM;
+            default:
+                return difficulty.HARD;
+        }
     }
 
     public ChessPiece[][] constructBoardFromFEN(String FEN){
@@ -339,11 +390,8 @@ public class ChessBoard {
 
     //ExportBoard
 
-    public int isPuzzle(){
-        if(isPuzzle){
-            return 1;
-        }
-            return 0;
+    public int getGameType(){
+        return gameType.getid();
     }
 
     public void surrender(Color color){
@@ -472,11 +520,11 @@ public class ChessBoard {
 
         if(color==currentPlayer){
             resultTime = getTimeLong(color)-(System.currentTimeMillis()-intervallStart);
-            if(resultTime<0&&!isPuzzle)
+            if(resultTime<0&&gameType!=ChessGameType.PUZZLE)
                 endGameFlag(color);
         }else{
             resultTime = getTimeLong(color);
-            if(resultTime<0&&!isPuzzle)
+            if(resultTime<0&&gameType!=ChessGameType.PUZZLE)
                 endGameFlag(color);
         }
 
@@ -695,11 +743,11 @@ public class ChessBoard {
         return currentPiece.getColor()==colorOfThePiece;
     }
 
-    private ChessPiece[][] getBoardWOKing(Color kingToRemove){
+    private ChessPiece[][] getBoardWOKing(Color kingToRemove,ChessPiece[][] board){
 
-        int[] kingToRemoveCoords=getKingPos(kingToRemove,chessBoard);
+        int[] kingToRemoveCoords=getKingPos(kingToRemove,board);
 
-        ChessPiece[][] resultBoard=copyBoard(chessBoard);
+        ChessPiece[][] resultBoard=copyBoard(board);
 
         resultBoard[kingToRemoveCoords[0]][kingToRemoveCoords[1]]=null;
 
@@ -776,7 +824,7 @@ public class ChessBoard {
     }
 
     public boolean nextStep(int x, int y, int gotoX, int gotoY){
-        if(isPuzzle)
+        if(gameType==ChessGameType.PUZZLE)
             return nextPuzzleStep(x, y, gotoX, gotoY);
 
         if(isRemis)
@@ -784,7 +832,7 @@ public class ChessBoard {
 
         long currentTime=getTimeLong(currentPlayer);
 
-        if(currentTime-(System.currentTimeMillis()-intervallStart)<=0)
+        if((currentTime-(System.currentTimeMillis()-intervallStart)<=0)&&gameType!=ChessGameType.PVE)
             endGameFlag(currentPlayer);
 
         if(winner!=null)
@@ -808,7 +856,9 @@ public class ChessBoard {
             letzterZug=zuege.get(zuege.size()-1);
             zuege.remove(letzterZug);
         }else{
-            timeManager();
+            if(gameType!=ChessGameType.PVE)
+                timeManager();
+
             toggleCurrentPlayer();
         }
 
@@ -821,7 +871,23 @@ public class ChessBoard {
 
         isRemis=remisManager();
 
+        if(gameType==ChessGameType.PVE) 
+            doBotMove();
+
         return true;
+    }
+
+    private void doBotMove(){
+
+        int[] genratedMove=generateBotMove(Color.BLACK, gameDifficulty);
+
+        chessBoard=createNextBoard(genratedMove[1], genratedMove[2], genratedMove[3], genratedMove[4], chessBoard);
+        
+        toggleCurrentPlayer();
+    }
+
+    public int[] generateBotMove(Color color,difficulty difficulty){
+        return bot.getBestMove(chessBoard, color, difficulty);
     }
 
     private boolean nextPuzzleStep(int x, int y, int gotoX, int gotoY){
@@ -1173,7 +1239,7 @@ public class ChessBoard {
                 movingDirection=-1;
             }
 
-            enPassantSquare=new int[]{x+movingDirection,y};
+            enPassantSquare=new int[]{x+movingDirection,y,currentPiece.getColor().getId()};
         }
 
         chessBoard[x][y]=null;
@@ -1227,6 +1293,24 @@ public class ChessBoard {
     }
 
     //ValidMoves
+
+    public ChessPiece[][] getAllCoords(ChessPiece[][] board,Color color){
+        ChessPiece[][] resultBoard=copyBoard(board);
+
+        for (int i = 0; i < resultBoard.length; i++) {
+            for (int j = 0; j < resultBoard[i].length; j++) {
+                if(resultBoard[i][j]==null)
+                    continue;
+
+                if(resultBoard[i][j].getColor()!=color)
+                    continue;
+
+                resultBoard[i][j].validMoves=validCoordsOf(i, j, resultBoard);
+            }
+        }
+
+        return resultBoard;
+    }
 
     private List<int[]> validCoordsOf(int x,int y,ChessPiece[][] board){
 
@@ -1286,7 +1370,7 @@ public class ChessBoard {
                         resultValidCoords.add(großeRohade);
                 }
 
-                ChessPiece[][] boardWOcurrentKing=getBoardWOKing(currentChessPiece.getColor());
+                ChessPiece[][] boardWOcurrentKing=getBoardWOKing(currentChessPiece.getColor(),board);
 
                 for (int i = 0; i < resultValidCoords.size(); i++) {
                     int currentX=resultValidCoords.get(i)[0];
@@ -1426,10 +1510,10 @@ public class ChessBoard {
             }
         }
 
-        if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board)||isEnPassantSquare(x+movingDirection, y+1))
+        if(isPieceOn(x+movingDirection, y+1,getEnemyColorOf(currentPiece), board)||(isEnPassantSquare(x+movingDirection, y+1)&&enPassantSquare[2]!=currentPiece.getColor().getId()))
             resultValidCoords.add(new int[]{x+movingDirection,y+1});
 
-        if(isPieceOn(x+movingDirection, y-1,getEnemyColorOf(currentPiece), board)||isEnPassantSquare(x+movingDirection, y-1))
+        if(isPieceOn(x+movingDirection, y-1,getEnemyColorOf(currentPiece), board)||(isEnPassantSquare(x+movingDirection, y-1)&&enPassantSquare[2]!=currentPiece.getColor().getId()))
         resultValidCoords.add(new int[]{x+movingDirection,y-1});
 
         return resultValidCoords;

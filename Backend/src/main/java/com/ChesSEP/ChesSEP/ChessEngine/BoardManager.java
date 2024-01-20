@@ -19,6 +19,10 @@ public class BoardManager {
         Board = new ChessBoard(FEN);
     }
 
+    public void startNewPVEMatch (int difficulty,int[][][] startConfig){
+        Board = new ChessBoard(startConfig,difficulty);
+    }
+
     public int[][][] getDefaultStartConfig(){
         int[][][] defaultBoard={
             {{2,2},{3,2},{4,2},{5,2},{6,2},{4,2},{3,2},{2,2}},
@@ -44,7 +48,7 @@ public class BoardManager {
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
                         {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
-                        {board.isPuzzle()}};// is Puzzle 1=ja 0=nein
+                        {board.getGameType()}};// 0=PVP,1=Puzzle,2=PVE
 
         return new int[][][]{status};
     }
@@ -59,7 +63,7 @@ public class BoardManager {
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
                         {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
-                        {board.isPuzzle()}};// is Puzzle 1=ja 0=nein
+                        {board.getGameType()}};// 0=PVP,1=Puzzle,2=PVE
 
         frame.add(status);
 
@@ -181,7 +185,7 @@ public class BoardManager {
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                 {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
                 {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
-                {board.isPuzzle()}};// is Puzzle 1=ja 0=nein
+                {board.getGameType()}};// 0=PVP,1=Puzzle,2=PVE
 
         frame.add(status);
 
