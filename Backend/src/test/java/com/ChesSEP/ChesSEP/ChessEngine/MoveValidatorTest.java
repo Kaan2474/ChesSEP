@@ -24,6 +24,7 @@ public class MoveValidatorTest {
         //Act
         int counter1=countMoves(chessboard.chessBoard, 1,Color.WHITE);
         int counter2=countMoves(chessboard.chessBoard, 2,Color.WHITE);
+        int counter3=countMoves(chessboard.chessBoard, 3,Color.WHITE);
         //int counter4=countMoves(chessboard.chessBoard, 4,Color.WHITE);
         //int counter5=countMoves(chessboard.chessBoard, 5,Color.WHITE);
         //int counter6=countMoves(chessboard.chessBoard, 6,Color.WHITE);
@@ -32,7 +33,7 @@ public class MoveValidatorTest {
 
         Assertions.assertEquals(20,counter1);
         Assertions.assertEquals(400,counter2);
-        //Assertions.assertEquals(8902,counter3);
+        Assertions.assertEquals(8902,counter3);
         //Assertions.assertEquals(197.281,counter4);
         //Assertions.assertEquals(4865609,counter5);
         //Assertions.assertEquals(119060324,counter6);
@@ -50,6 +51,9 @@ public class MoveValidatorTest {
                 continue;
 
                 int[][] validCoords=chessboard.exportMoves(i,j,board,currentPlayerColor);
+
+                if(validCoords==null)
+                    continue;
 
                 for (int k = 0; k < validCoords.length; k++) {
                     for (int k2 = 0; k2 < validCoords[k].length; k2++) {

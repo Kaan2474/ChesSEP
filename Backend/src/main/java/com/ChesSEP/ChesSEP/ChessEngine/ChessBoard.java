@@ -1481,7 +1481,7 @@ public class ChessBoard {
         ChessPiece currentPiece=getPieceOn(x, y, board);
 
         if(currentPiece==null||currentPiece.getColor()!=currentPlayerColor)
-            return new int[8][8];
+            return null;
 
         List<int[]> validCoords=validCoordsOf(x, y, board);
 

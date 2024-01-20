@@ -29,6 +29,8 @@ public class MatchmakingService {
     //public boolean test;
     //zum Testen der Methode acceptMatchRequest
 
+    private final long matchLength=60L;
+
     public List<ChessGame> onGoingGame=new ArrayList<ChessGame>();
 
     public Queue<Long> matchmaking=new LinkedList<Long>();
@@ -65,7 +67,7 @@ public class MatchmakingService {
         User white=userRepository.findUserById(matchmaking.remove());
         User black=userRepository.findUserById(matchmaking.remove());
         
-        startMatch(white.getId(), black.getId(), white.getVorname()+" "+white.getNachname()+" vs "+black.getVorname()+" "+black.getNachname(), 5L);
+        startMatch(white.getId(), black.getId(), white.getVorname()+" "+white.getNachname()+" vs "+black.getVorname()+" "+black.getNachname(), matchLength);
     }
 
     public void dequeueMatch(){
@@ -97,7 +99,7 @@ public class MatchmakingService {
         if(request != null){
             dequeueMatch();
             startMatch(sender.getId(), friendId,
-                    sender.getVorname()+"vs"+userRepository.findUserById(friendId).getVorname(), 5L);
+                    sender.getVorname()+"vs"+userRepository.findUserById(friendId).getVorname(), matchLength);
             matchRequestRepository.delete(request);
             //test = true;
             return;
