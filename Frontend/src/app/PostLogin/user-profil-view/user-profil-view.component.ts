@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../Modules/User";
 import {UserService} from "../../Service/user.service";
-import {ActivatedRoute} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import { MatchmakingService } from 'src/app/Service/matchmaking.service';
 import {ChessClubService} from "../../Service/chess-club.service";
-
-
+import {Chess} from "../../Modules/Chess";
+import {forkJoin, Observable} from "rxjs";
 
 
 @Component({
@@ -21,19 +18,50 @@ export class UserProfilViewComponent implements OnInit {
   selectedFile: File | null = null;
   url = "assets/images/profil-picture-icon.png"
   schachClubname: any;
+  lastThreeGames: Chess[];
+
+
 
   constructor(
     private userService: UserService,
     private chessclubservice: ChessClubService
   ) {
     this.user = new User()
+    this.lastThreeGames = [];
 
   }
 
   ngOnInit() {
     this.getUserDetail();
     this.getMyClubName()
+    this.getLastThreeGames();
   }
+
+  getLastThreeGames() {
+    this.userService.getPlayHistory().subscribe(data => {
+      this.lastThreeGames = data;
+      this.getElo()
+    });
+  }
+
+  getElo() {
+    this.lastThreeGames.forEach(data => {
+      forkJoin([
+        this.userService.getUser(data.playerWhiteID),
+        this.userService.getUser(data.playerBlackID)
+      ]).subscribe(([playerWhite, playerBlack]) => {
+
+        if (playerWhite) {
+          data.playerWhiteID = playerWhite.elo;
+        }
+
+        if (playerBlack) {
+          data.playerBlackID = playerBlack.elo;
+        }
+      });
+    });
+  }
+
 
   getUserDetail() {
     this.userService.getUserbyToken().subscribe((data) => {
@@ -61,9 +89,7 @@ export class UserProfilViewComponent implements OnInit {
     this.chessclubservice.getMyChessClubname().subscribe(data=>{
     this.schachClubname = data
     console.log(this.schachClubname)})
-
   }
-
   imageUpload() {
     if (this.selectedFile) {
       const formData = new FormData();
@@ -81,7 +107,6 @@ export class UserProfilViewComponent implements OnInit {
         );
     }
   }
-
 
 }
 

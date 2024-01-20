@@ -13,7 +13,7 @@ public class ChessOperation {
         this.newY=newY;
         this.movingPiece=movingPiece;
         this.deletedPiece=deletedPiece;
-        this.specialEvent = specialEvent;
+        this.specialEvent = specialEvent == null? "" : specialEvent;
     }
 
     private String oldKoord(int y, int x){
@@ -153,34 +153,9 @@ public class ChessOperation {
     }
 
     private String schlagMoveBauerTransform() {
-        String bauerSchlag = "";
+        String bauerSchlag = oldKoord(y,x)+"x";
         String convKoord = "";
-        switch (y) {
-            case 0:
-                bauerSchlag += "a" + oldKoord(y,x) + "x";
-                break;
-            case 1:
-                bauerSchlag += "b" + oldKoord(y,x) + "x";
-                break;
-            case 2:
-                bauerSchlag += "c" + oldKoord(y,x) + "x";
-                break;
-            case 3:
-                bauerSchlag += "d" + oldKoord(y,x) + "x";
-                break;
-            case 4:
-                bauerSchlag += "e" + oldKoord(y,x) + "x";
-                break;
-            case 5:
-                bauerSchlag += "f" + oldKoord(y,x) + "x";
-                break;
-            case 6:
-                bauerSchlag += "g" + oldKoord(y,x) + "x";
-                break;
-            case 7:
-                bauerSchlag += "h" + oldKoord(y,x) + "x";
-                break;
-        }
+
         switch (newY) {
             case 0:
                 convKoord += "a";
@@ -233,7 +208,7 @@ public class ChessOperation {
                 convKoord += "1";
                 break;
         }
-        return bauerSchlag + convKoord + oldKoord(y,x);
+        return bauerSchlag + convKoord;
 
     }
 
@@ -372,25 +347,57 @@ public class ChessOperation {
         }
     }
 
-    private String eventHandler() {
-
-        if (specialEvent.equals("O-O")) {
-            return "kleineRochade";
-        } else if (specialEvent.equals("O-O-O")) {
-            return "großeRochade";
-        } else if (specialEvent.contains("=")) {
-            if(deletedPiece!=null) {
-                return "bauerTransformMitSchlag";
-            }else{
-                return "bauerTransformOhneSchlag";
+    private String bauerTransformPossibilities() {
+        if (deletedPiece != null) {
+            if (specialEvent.contains("=") && specialEvent.contains("#")) {
+                return "transformCaptureAndCheckmate"; //=a7xa8=Q#
+            } else if (specialEvent.contains("=") && specialEvent.contains("+")) {
+                return "transformCaptureAndCheck"; //=a7xa8=Q+
+            } else if(specialEvent.contains("=")){
+                return "transformAndCapture"; //=a7xa8=Q
+            }else {
+                return "";
             }
-        } else if (specialEvent.equals("+")) {
-            return "check";
-        } else if (specialEvent.equals("#")) {
-            return "checkMate";
         } else {
-            return "";
+            if (specialEvent.contains("=") && specialEvent.contains("#")) {
+                return "transformAndCheckmate"; //=a7a8=Q#
+            } else if (specialEvent.contains("=") && specialEvent.contains("+")) {
+                return "transformAndCheck"; //=a7a8=Q+
+            } else if(specialEvent.contains("=")){
+                return "transform"; //=a7a8=Q
+            }else{
+                return "";
+            }
         }
+    }
+
+
+    public String eventHandler(){
+        switch (specialEvent) {
+            case "O-O":
+                return "kleineRochade";
+            case "O-O-O":
+                return "großeRochade";
+            case "+":
+                return "check";
+            case "#":
+                return "checkMate";
+            }
+        switch (bauerTransformPossibilities()) {
+            case "transformCaptureAndCheckmate":
+                return "transformCaptureAndCheckmate";
+            case "transformCaptureAndCheck":
+                return "transformCaptureAndCheck";
+            case "transformAndCapture":
+                return "transformAndCapture";
+            case "transformAndCheckmate":
+                return "transformAndCheckmate";
+            case "transformAndCheck":
+                return "transformAndCheck";
+            case "transform":
+                return "transform";
+        }
+        return "";
     }
 
     public String toStringKomprimiert(){
@@ -402,7 +409,7 @@ public class ChessOperation {
             case "großeRochade":
                 output = "O-O-O";
                 break;
-            case "bauerTransformMitSchlag":
+            case "transformAndCapture":
                 if(specialEvent.startsWith("=TU")){
                     output = schlagMoveBauerTransform() + "=R";
                 }else if(specialEvent.startsWith("=SP")) {
@@ -413,26 +420,70 @@ public class ChessOperation {
                     output = schlagMoveBauerTransform() + "=Q";
                 }
                 break;
-            case "bauerTransformOhneSchlag":
+            case "transformCaptureAndCheck":
                 if(specialEvent.startsWith("=TU")){
-                    output = normalMove().substring(1) + "=R";
+                    output = schlagMoveBauerTransform() + "=R+";
                 }else if(specialEvent.startsWith("=SP")) {
-                    output = normalMove().substring(1) + "=N";
+                    output = schlagMoveBauerTransform() + "=N+";
                 }else if(specialEvent.startsWith("=LA")) {
-                    output = normalMove().substring(1) + "=B";
+                    output = schlagMoveBauerTransform() + "=B+";
                 }else{
-                    output = normalMove().substring(1) + "=Q";
+                    output = schlagMoveBauerTransform() + "=Q+";
+                }
+                break;
+            case "transformCaptureAndCheckmate":
+                if(specialEvent.startsWith("=TU")){
+                    output = schlagMoveBauerTransform() + "=R#";
+                }else if(specialEvent.startsWith("=SP")) {
+                    output = schlagMoveBauerTransform() + "=N#";
+                }else if(specialEvent.startsWith("=LA")) {
+                    output = schlagMoveBauerTransform() + "=B#";
+                }else{
+                    output = schlagMoveBauerTransform() + "=Q#";
+                }
+                break;
+            case "transform":
+                if(specialEvent.startsWith("=TU")){
+                    output = normalMove() + "=R";
+                }else if(specialEvent.startsWith("=SP")) {
+                    output = normalMove() + "=N";
+                }else if(specialEvent.startsWith("=LA")) {
+                    output = normalMove() + "=B";
+                }else{
+                    output = normalMove() + "=Q";
+                }
+                break;
+            case "transformAndCheckmate":
+                if(specialEvent.startsWith("=TU")){
+                    output = normalMove() + "=R#";
+                }else if(specialEvent.startsWith("=SP")) {
+                    output = normalMove() + "=N#";
+                }else if(specialEvent.startsWith("=LA")) {
+                    output = normalMove() + "=B#";
+                }else{
+                    output = normalMove() + "=Q#";
+                }
+                break;
+            case "transformAndCheck":
+                if(specialEvent.startsWith("=TU")){
+                    output = normalMove() + "=R+";
+                }else if(specialEvent.startsWith("=SP")) {
+                    output = normalMove() + "=N+";
+                }else if(specialEvent.startsWith("=LA")) {
+                    output = normalMove() + "=B+";
+                }else{
+                    output = normalMove() + "=Q+";
                 }
                 break;
             case "check":
-                if (deletedPiece != null) {
+                if (deletedPiece != null && !specialEvent.contains("=")) {
                     output = schlagMove() + "+";
                 } else {
                     output = normalMove() + "+";
                 }
                 break;
             case "checkMate":
-                if (deletedPiece != null) {
+                if (deletedPiece != null && !specialEvent.contains("=")) {
                     output = schlagMove() + "#";
                 } else {
                     output = normalMove() + "#";
@@ -448,3 +499,35 @@ public class ChessOperation {
         return output;
     }
 }
+
+
+
+
+    /*private String eventHandler2() {
+
+        if (specialEvent.equals("O-O")) {
+            return "kleineRochade";
+        } else if (specialEvent.equals("O-O-O")) {
+            return "großeRochade";
+        } else if (bauerTransformPossibilities().equals("transformCaptureAndCheckmate")) {
+            return "transformCaptureAndCheckmate";
+        }else if(bauerTransformPossibilities().equals("transformCaptureAndCheck")){
+            return "transformCaptureAndCheck";
+        }else if(bauerTransformPossibilities().equals("transformAndCapture")) {
+            return "transformAndCapture";
+        }else if(bauerTransformPossibilities().equals("transformAndCheckmate")) {
+            return "transformAndCheckmate";
+        }else if(bauerTransformPossibilities().equals("transformAndCheck")) {
+            return "transformAndCheck";
+        }else if(bauerTransformPossibilities().equals("transform")){
+            return "transform";
+        } else if (specialEvent.equals("+")) {
+            return "check";
+        } else if (specialEvent.equals("#")) {
+            return "checkMate";
+        } else {
+            return "";
+        }
+    }
+
+     */

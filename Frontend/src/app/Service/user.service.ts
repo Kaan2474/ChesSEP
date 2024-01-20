@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../Modules/User";
+import {Chess} from "../Modules/Chess";
 
 
 
@@ -53,6 +54,10 @@ export class UserService {
 
   public getLeaderboard(){
     return this.http.get<User[]>(this.userURL+"/getLeaderboard", {headers: this.header});
+  }
+
+  public getPlayHistory(){
+    return this.http.get<Chess[]>(this.userURL + "/history", {headers: this.header} )
   }
 
   putPrivacy() {

@@ -1,0 +1,86 @@
+/*Der ,,Partie aufgeben'' Button*/
+#endgame {
+    color: #FFFFFF;
+    background-color: #0D99FF;
+    padding: 2px;
+    border: 2px solid #1E1E1E;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 15%;
+}
+#endgame:hover {
+    background-color: royalblue;
+}
+
+/*Schachfeld*/
+button{
+    height: 60px;
+    width: 60px;
+    padding: 0;
+    border: 0;
+    background-size: 100%;
+    cursor: pointer;
+}
+
+/*Felder schwarz färben*/
+.blackField {
+    background-color: cornflowerblue;
+}
+
+/*Felder schwarz färben*/
+.whiteField {
+    background-color: white;
+}
+
+/*Timer*/
+h3 {
+    font-size: 30px;
+    color: #1E1E1E;;
+}
+
+.userPics {
+    width: 100px;
+    height: 100px;
+}
+
+/*Die Design Eigenschaften der Tabellen*/
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    color: #1E1E1E;
+}
+
+/*Abstände der user- und rival Tabellen*/
+#user-table {
+    margin-top: 10px;
+}
+#rival-table {
+    margin-bottom: 10px;
+}
+
+div {
+    display: flex;
+}
+
+#turm{
+    background-image: url("/assets/figures/turm_w.png");
+}
+
+#laufer{
+    background-image: url("/assets/figures/laeufer_w.png");
+}
+
+#konigin{
+    background-image: url("/assets/figures/dame_w.png");
+}
+
+#springer{
+    background-image: url("/assets/figures/springer_w.png");
+}
+
+
+
+

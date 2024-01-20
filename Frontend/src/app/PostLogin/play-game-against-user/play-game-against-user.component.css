@@ -81,6 +81,17 @@ div {
   background-image: url("/assets/figures/springer_w.png");
 }
 
+.Assistentenbot{
+  width: auto;
+  color: white;
+  border-radius: 5px;
+  background-color: dodgerblue;
+  border: 2px solid #1E1E1E;
+
+  cursor: pointer;
+
+}
+
 
 
 

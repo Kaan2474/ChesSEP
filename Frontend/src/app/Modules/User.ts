@@ -13,4 +13,5 @@ export class User{
   multipartBild:any;
   compleatedPuzzles: any;
   achievement: any;
+  streaming:any;
 }
