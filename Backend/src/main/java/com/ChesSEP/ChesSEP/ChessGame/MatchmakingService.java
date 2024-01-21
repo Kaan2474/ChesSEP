@@ -501,11 +501,15 @@ public class MatchmakingService {
 
         Color thisPlayerColor;
 
-        if(game.getPlayerBlackID()==userId){
-            thisPlayerColor=Color.BLACK;
-        }else{
-            thisPlayerColor=Color.WHITE;
-        }
+        try{
+            if(game.getPlayerBlackID()==userId){
+                thisPlayerColor=Color.BLACK;
+            }else{
+                thisPlayerColor=Color.WHITE;
+            }
+        }catch(NullPointerException e){
+                return null;
+            }
 
         BoardManager board=boards.get(gameID);
         int[][][] frame;
