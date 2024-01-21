@@ -295,6 +295,8 @@ public class MatchmakingService {
             .whiteLastFrameSeen(false)
             .startTime(time)
             .type(ChessGameType.PVP)
+            .whiteElo(userRepository.findUserById(playerWhite).getElo())
+            .blackElo(userRepository.findUserById(playerBlack).getElo())
             .result("")
         .build();
 
