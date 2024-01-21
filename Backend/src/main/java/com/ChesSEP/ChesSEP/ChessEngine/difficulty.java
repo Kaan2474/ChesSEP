@@ -3,8 +3,8 @@ package com.ChesSEP.ChesSEP.ChessEngine;
 public enum difficulty {
 
     EASY(2),
-    MEDIUM(4),
-    HARD(6);
+    MEDIUM(3),
+    HARD(4);
     
     private int depth;
 

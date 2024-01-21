@@ -30,7 +30,7 @@ public class MatchmakingService {
     //public boolean test;
     //zum Testen der Methode acceptMatchRequest
 
-    private final long matchLength=60L;
+    private final long matchLength=5L;
 
     public List<ChessGame> onGoingGame=new ArrayList<ChessGame>();
 
