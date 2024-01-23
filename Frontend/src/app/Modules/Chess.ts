@@ -6,4 +6,6 @@ export class Chess{
   matchLength:any;
   startTime:any;
   result: any;
+  whiteElo: any;
+  blackElo: any;
 }

@@ -77,8 +77,10 @@
 
   <tr *ngFor="let game of lastThreeGames">
     <td>{{ game.name }}</td>
-    <td>{{ game.playerWhiteID }} vs {{ game.playerBlackID }}</td>
+    <td>{{ game.whiteElo }} vs {{ game.blackElo }}</td>
     <td>{{ game.result }}</td>
   </tr>
 </table>
-
+<form>
+  <input id="private" name="privacy" type="button" value="Privatsphäre ändern" (click) = changePrivacy()>
+</form>

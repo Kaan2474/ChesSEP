@@ -4,7 +4,7 @@ import {UserService} from "../../Service/user.service";
 import {ChessClubService} from "../../Service/chess-club.service";
 import {Chess} from "../../Modules/Chess";
 import {forkJoin, Observable} from "rxjs";
-
+import {MatchmakingService} from "../../Service/matchmaking.service";
 
 @Component({
   selector: 'app-user-profil-view',
@@ -24,7 +24,8 @@ export class UserProfilViewComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private chessclubservice: ChessClubService
+    private chessclubservice: ChessClubService,
+    private matchmakingService :MatchmakingService
   ) {
     this.user = new User()
     this.lastThreeGames = [];
@@ -40,7 +41,7 @@ export class UserProfilViewComponent implements OnInit {
   getLastThreeGames() {
     this.userService.getPlayHistory().subscribe(data => {
       this.lastThreeGames = data;
-      this.getElo()
+
     });
   }
 
@@ -95,8 +96,6 @@ export class UserProfilViewComponent implements OnInit {
       const formData = new FormData();
       formData.append("user-profile-view", this.selectedFile);
 
-
-
       this.userService.uploadpicture(formData,this.user).subscribe((response) => {
             console.log('Bild erfolgreich hochgeladen', response);
             this.getUserDetail();
@@ -106,6 +105,19 @@ export class UserProfilViewComponent implements OnInit {
           }
         );
     }
+  }
+  changePrivacy() {
+    this.userService.putStreamPrivacy().subscribe(() => {
+        this.refreshUser();
+      })
+  }
+  refreshUser() {
+    this.userService.getUserbyToken()
+      .subscribe(data => {
+        this.user = data;
+        window.location.reload();
+      });
+
   }
 
 }

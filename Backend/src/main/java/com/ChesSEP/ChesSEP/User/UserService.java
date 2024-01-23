@@ -182,4 +182,15 @@ public class UserService {
         return chessgameRepository.letztenDreiGames(user.getId());
 
     }
+    public void streamingPrivacy(){
+        User user = getSender();
+
+        if(user.getStreaming() == Privacy.OEFFENTLICH){
+            user.setStreaming(Privacy.PRIVAT);
+        }
+        else{
+            user.setStreaming(Privacy.OEFFENTLICH);
+        }
+        userRepository.save(user);
+    }
 }

@@ -127,4 +127,9 @@ public class UserController {
         User user=(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(user.getId());
     }
+    @GetMapping("/streamingPrivacy")
+    public void streamingPrivacy(){
+        userService.streamingPrivacy();
+    }
+
 }
