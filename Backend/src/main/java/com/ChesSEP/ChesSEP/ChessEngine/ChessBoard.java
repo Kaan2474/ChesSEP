@@ -520,11 +520,11 @@ public class ChessBoard {
 
         if(color==currentPlayer){
             resultTime = getTimeLong(color)-(System.currentTimeMillis()-intervallStart);
-            if(resultTime<0&&gameType!=ChessGameType.PUZZLE)
+            if(resultTime<0&&gameType == ChessGameType.PVP)
                 endGameFlag(color);
         }else{
             resultTime = getTimeLong(color);
-            if(resultTime<0&&gameType!=ChessGameType.PUZZLE)
+            if(resultTime<0  && gameType == ChessGameType.PVP )
                 endGameFlag(color);
         }
 
@@ -880,8 +880,8 @@ public class ChessBoard {
     private void doBotMove(){
 
         int[] genratedMove=generateBotMove(Color.BLACK, gameDifficulty);
+        movePiece(genratedMove[1], genratedMove[2], genratedMove[3], genratedMove[4],"");
 
-        chessBoard=createNextBoard(genratedMove[1], genratedMove[2], genratedMove[3], genratedMove[4], chessBoard);
         
         toggleCurrentPlayer();
     }
