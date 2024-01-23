@@ -25,6 +25,7 @@ import {SchachclubComponent} from "./PostLogin/schachclub/schachclub.component";
 import {AddMembersComponent} from "./PostLogin/homepage/add-members/add-members.component";
 import {GroupchatComponent} from "./PostLogin/groupchat/groupchat.component";
 import {StreamingAnsichtComponent} from "./PostLogin/streaming-ansicht/streaming-ansicht.component";
+import {ReplayMovesComponent} from "./PostLogin/replay-moves/replay-moves.component";
 
 const routes: Routes = [
   {path: "", title:"ChesSSEP", component: LoginComponent},
@@ -48,8 +49,8 @@ const routes: Routes = [
   {path: "schachclub/:id", title:"ChesSEP", component:SchachclubComponent},
   {path: "addmembers", title:"ChesSEP", component:AddMembersComponent},
   {path: "groupchat/:id", title:"ChesSEP", component:GroupchatComponent},
-  {path: "stream/:id", title:"ChesSEP", component:StreamingAnsichtComponent}
-
+  {path: "stream/:id", title:"ChesSEP", component:StreamingAnsichtComponent},
+  {path: "replay-moves", title:"ChesSEP", component:ReplayMovesComponent},
 
 ];
 

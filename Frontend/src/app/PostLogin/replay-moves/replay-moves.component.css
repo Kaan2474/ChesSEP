@@ -1,0 +1,40 @@
+
+/*Schachfeld*/
+button{
+  height: 60px;
+  width: 60px;
+  padding: 0;
+  border: 0;
+  background-size: 100%;
+}
+
+/*Felder schwarz färben*/
+.blackField {
+  background-color: cornflowerblue;
+}
+
+/*Felder weiß färben*/
+.whiteField {
+  background-color: white;
+}
+
+.moves {
+  width: 100px;
+  height: 30px;
+  background-color: dodgerblue;
+  color: white;
+  cursor: pointer;
+}
+
+.moves:hover{
+  background-color: royalblue;
+}
+
+#preMove {
+  margin-left: 50px;
+}
+
+#nextMove {
+  margin-left: 100px;
+}
+
