@@ -1,9 +1,5 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class ChessBot {
 
     private final double bauerValue=100;
@@ -14,69 +10,69 @@ public class ChessBot {
     private final double koenigValue=300;
 
     private final double[][] springermulti=new double[][]{
-        {0.5,0.65,0.75,0.75,0.75,0.75,0.65,0.5},
-        {0.65,0.75,1,1,1,1,0.75,0.65},
-        {0.65,1,1,1,1,1,1,0.65},
-        {0.65,1,1,1,1,1,1,0.65},
-        {0.65,1,1,1,1,1,1,0.65},
-        {0.65,1,1,1,1,1,1,0.65},
-        {0.65,0.75,1,1,1,1,0.75,0.65},
-        {0.5,0.65,0.75,0.75,0.75,0.75,0.65,0.5},
+        {-50,-40,-30,-30,-30,-30,-40,-50},
+        {-40,-20,  0,  0,  0,  0,-20,-40},
+        {-30,  0, 10, 15, 15, 10,  0,-30},
+        {-30,  5, 15, 20, 20, 15,  5,-30},
+        {-30,  0, 15, 20, 20, 15,  0,-30},
+        {-30,  5, 10, 15, 15, 10,  5,-30},
+        {-40,-20,  0,  5,  5,  0,-20,-40},
+        {-50,-40,-30,-30,-30,-30,-40,-50}
     };
 
     private final double[][] koenigmulti=new double[][]{
-        {0.75,0.65,0.65,0.5,0.5,0.65,0.65,0.75},
-        {0.75,0.65,0.65,0.5,0.5,0.65,0.65,0.75},
-        {0.75,0.65,0.65,0.5,0.5,0.65,0.65,0.75},
-        {0.65,0.5,0.5,0.5,0.5,0.5,0.5,0.65},
-        {0.65,0.5,0.5,0.5,0.5,0.5,0.5,0.65},
-        {0.75,0.65,0.65,0.5,0.5,0.65,0.65,0.75},
-        {0.75,0.65,0.65,0.5,0.5,0.65,0.65,0.75},
-        {0.75,0.65,0.65,0.5,0.5,0.65,0.65,0.75},
+        {-30,-40,-40,-50,-50,-40,-40,-30},
+        {-30,-40,-40,-50,-50,-40,-40,-30},
+        {-30,-40,-40,-50,-50,-40,-40,-30},
+        {-30,-40,-40,-50,-50,-40,-40,-30},
+        {-20,-30,-30,-40,-40,-30,-30,-20},
+        {-10,-20,-20,-20,-20,-20,-20,-10},
+        { 20, 20,  0,  0,  0,  0, 20, 20},
+        { 20, 30, 10,  0,  0, 10, 30, 20}
     };
 
     private final double[][] laeufermulti=new double[][]{
-        {0.5,0.65,0.65,0.65,0.65,0.65,0.65,0.5},
-        {0.65,0.75,0.75,0.75,0.75,0.75,0.75,0.65},
-        {0.65,0.75,1,1,1,1,0.75,0.65},
-        {0.65,0.75,1,1,1,1,0.75,0.65},
-        {0.65,0.75,1,1,1,1,0.75,0.65},
-        {0.65,0.75,1,1,1,1,0.75,0.65},
-        {0.65,0.75,0.75,0.75,0.75,0.75,0.75,0.65},
-        {0.5,0.65,0.65,0.65,0.65,0.65,0.65,0.5}
+        {-20,-10,-10,-10,-10,-10,-10,-20},
+        {-10,  0,  0,  0,  0,  0,  0,-10},
+        {-10,  0,  5, 10, 10,  5,  0,-10},
+        {-10,  5,  5, 10, 10,  5,  5,-10},
+        {-10,  0, 10, 10, 10, 10,  0,-10},
+        {-10, 10, 10, 10, 10, 10, 10,-10},
+        {-10,  5,  0,  0,  0,  0,  5,-10},
+        {-20,-10,-10,-10,-10,-10,-10,-20}
     };
 
     private final double[][] damemulti = new double[][]{
-        {0.65,0.75,0.75,0.75,0.75,0.75,0.75,0.65},
-        {0.75,0.85,0.85,0.85,0.85,0.85,0.85,0.75},
-        {0.75,0.85,1,1,1,1,0.85,0.75},
-        {0.75,0.85,1,1,1,1,0.85,0.75},
-        {0.75,0.85,1,1,1,1,0.85,0.75},
-        {0.75,0.85,1,1,1,1,0.85,0.75},
-        {0.75,0.85,0.85,0.85,0.85,0.85,0.85,0.75},
-        {0.65,0.75,0.75,0.75,0.75,0.75,0.75,0.65}
-        };
+        {-20,-10,-10, -5, -5,-10,-10,-20},
+        {-10,  0,  0,  0,  0,  0,  0,-10},
+        {-10,  0,  5,  5,  5,  5,  0,-10},
+        { -5,  0,  5,  5,  5,  5,  0, -5},
+        {  0,  0,  5,  5,  5,  5,  0, -5},
+        {-10,  5,  5,  5,  5,  5,  0,-10},
+        {-10,  0,  5,  0,  0,  0,  0,-10},
+        {-20,-10,-10, -5, -5,-10,-10,-20}
+    };
 
     private final double[][] bauermulti=new double[][]{
-        {1,1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1,1},
-        {0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.75},
-        {0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.75},
-        {0.65,0.65,0.65,0.65,0.65,0.65,0.65,0.65},
-        {0.65,0.5,0.5,0.65,0.65,0.5,0.5,0.65},
-        {0.65,0.65,0.65,0.5,0.5,0.65,0.65,0.65},
-        {0.65,0.65,0.65,0.65,0.65,0.65,0.65,0.65}
+        { 0,  0,  0,  0,  0,  0,  0,  0},
+        {50, 50, 50, 50, 50, 50, 50, 50},
+        {10, 10, 20, 30, 30, 20, 10, 10},
+        { 5,  5, 10, 25, 25, 10,  5,  5},
+        { 0,  0,  0, 20, 20,  0,  0,  0},
+        { 5, -5,-10,  0,  0,-10, -5,  5},
+        { 5, 10, 10,-20,-20, 10, 10,  5},
+        { 0,  0,  0,  0,  0,  0,  0,  0}
     };
 
     private final double[][] turmmulti=new double[][]{
-        {0.65,0.65,0.65,0.65,0.65,0.65,0.65,0.65},
-        {0.65,1,1,1,1,1,1,0.65},
-        {0.5,0.65,0.65,0.65,0.65,0.65,0.65,0.5},
-        {0.5,0.65,0.65,0.65,0.65,0.65,0.65,0.5},
-        {0.5,0.65,0.65,0.65,0.65,0.65,0.65,0.5},
-        {0.5,0.65,0.65,0.65,0.65,0.65,0.65,0.5},
-        {0.65,1,1,1,1,1,1,0.65},
-        {0.65,0.65,0.65,0.65,0.65,0.65,0.65,0.65}
+        { 0,  0,  0,  0,  0,  0,  0,  0},
+        { 5, 10, 10, 10, 10, 10, 10,  5},
+        {-5,  0,  0,  0,  0,  0,  0, -5},
+        {-5,  0,  0,  0,  0,  0,  0, -5},
+        {-5,  0,  0,  0,  0,  0,  0, -5},
+        {-5,  0,  0,  0,  0,  0,  0, -5},
+        {-5,  0,  0,  0,  0,  0,  0, -5},
+        { 0,  0,  0,  5,  5,  0,  0,  0}
     };
 
     ChessBoard moveGen;
@@ -99,7 +95,7 @@ public class ChessBot {
 
         ChessPiece[][] moveBoard=moveGen.getAllCoords(initialBoard, playerColor);
 
-        List<int[]> scoreList=new ArrayList<>();
+        int[] score=null;
 
         for (int i = 0; i < moveBoard.length; i++) {
             for (int j = 0; j < moveBoard[i].length; j++) {
@@ -119,12 +115,16 @@ public class ChessBot {
                         localDiference=scoreOfMove[1]-scoreOfMove[0];
                     }
 
-                    scoreList.add(new int[]{localDiference,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]});
+                    if(score==null){
+                        score=new int[]{localDiference,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]};
+                    }else if(score[0]-localDiference>0){
+                        score=new int[]{localDiference,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]};
+                    }   
                 }
             }
         }
 
-        return Collections.min(scoreList,(x,y)->x[0]-y[0]);
+        return score;
     }
 
     private int[] boardScorer(ChessPiece[][] testBoard){
@@ -139,44 +139,44 @@ public class ChessBot {
                 switch (testBoard[i][j].getType()) {
                     case BAUER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=bauerValue*bauermulti[i][j];
+                            scoreW+=bauerValue+bauermulti[i][j];
                         }else{
-                            scoreB+=bauerValue*bauermulti[7-i][j];
+                            scoreB+=bauerValue+bauermulti[7-i][7-j];
                         }
                         break;
                     case SPRINGER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=springerValue*springermulti[i][j];
+                            scoreW+=springerValue+springermulti[i][j];
                         }else{
-                            scoreB+=springerValue*springermulti[i][j];
+                            scoreB+=springerValue+springermulti[7-i][7-j];
                         }
                         break;
                     case LAUFER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=laeuferValue*laeufermulti[i][j];
+                            scoreW+=laeuferValue+laeufermulti[i][j];
                         }else{
-                            scoreB+=laeuferValue*laeufermulti[i][j];
+                            scoreB+=laeuferValue+laeufermulti[7-i][7-j];
                         }
                         break;
                     case TURM:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=turmValue*turmmulti[i][j];
+                            scoreW+=turmValue+turmmulti[i][j];
                         }else{
-                            scoreB+=turmValue*turmmulti[i][j];
+                            scoreB+=turmValue+turmmulti[7-i][7-j];
                         }
                         break;
                     case KOENIGIN:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=koeniginValue*damemulti[i][j];
+                            scoreW+=koeniginValue+damemulti[i][j];
                         }else{
-                            scoreB+=koeniginValue*damemulti[i][j];
+                            scoreB+=koeniginValue+damemulti[7-i][7-j];
                         }
                         break;
                     case KOENIG:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=koenigValue*koenigmulti[i][j];
+                            scoreW+=koenigValue+koenigmulti[i][j];
                         }else{
-                            scoreB+=koenigValue*koenigmulti[i][j];
+                            scoreB+=koenigValue+koenigmulti[7-i][7-j];
                         }
                         break;
                     default:

@@ -48,4 +48,7 @@ public class ChessGame {
     @Enumerated(EnumType.STRING)
     private ChessGameType type;
 
+    private int whiteElo;
+    private int blackElo;
+
 }

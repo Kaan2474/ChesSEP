@@ -213,7 +213,6 @@ public class BoardManager {
             frameArr[i]=frame.get(i);
         }
 
-        frame=null;
 
         return frameArr;
 

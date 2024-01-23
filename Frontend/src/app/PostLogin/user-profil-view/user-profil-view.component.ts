@@ -41,7 +41,7 @@ export class UserProfilViewComponent implements OnInit {
   getLastThreeGames() {
     this.userService.getPlayHistory().subscribe(data => {
       this.lastThreeGames = data;
-      this.getElo()
+
     });
   }
 
