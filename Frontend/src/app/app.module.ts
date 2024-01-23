@@ -31,6 +31,7 @@ import { SchachclubComponent } from './PostLogin/schachclub/schachclub.component
 import { AddMembersComponent } from './PostLogin/homepage/add-members/add-members.component';
 import { GroupchatComponent } from './PostLogin/groupchat/groupchat.component';
 import { StreamingAnsichtComponent } from './PostLogin/streaming-ansicht/streaming-ansicht.component';
+import { ReplayMovesComponent } from './PostLogin/replay-moves/replay-moves.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { StreamingAnsichtComponent } from './PostLogin/streaming-ansicht/streami
     SchachclubComponent,
     AddMembersComponent,
     GroupchatComponent,
-    StreamingAnsichtComponent
+    StreamingAnsichtComponent,
+    ReplayMovesComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,10 +12,9 @@
       <th>PuzzleTags</th>
       <th>Aktion</th>
     </tr>
-  
+
     <tr *ngFor="let info of Allinfo; let i=index">
       <td>{{ info }}</td>
       <td><button id="spielenButton" (click)="buttonManager(i)" type="button">Spielen</button></td>
     </tr>
-
-<img id="chessPic" src="/assets/images/Schachbrett.jpg">
+</table>
