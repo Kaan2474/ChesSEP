@@ -108,9 +108,9 @@ public class MatchmakingController {
     }
 
     //Streaming
-    @GetMapping("/getCurrentStreamingFrame/{gameId}/{userId}/{frameId}")
-    public ResponseEntity<int[][][]> getCurrentStreamingFrame(@PathVariable long gameId, @PathVariable long userId, @PathVariable int frameId){
-        return ResponseEntity.ok(matchmakingService.getCurrentStreamingFrame(frameId, gameId, userId));
+    @GetMapping("/getCurrentStreamingFrame/{gameId}/{frameId}")
+    public ResponseEntity<int[][][]> getCurrentStreamingFrame(@PathVariable long gameId, @PathVariable int frameId){
+        return ResponseEntity.ok(matchmakingService.getCurrentStreamingFrame(frameId, gameId));
     }
 
     @GetMapping("/allMatches")

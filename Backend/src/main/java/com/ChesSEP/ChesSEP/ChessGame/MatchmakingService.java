@@ -487,48 +487,23 @@ public class MatchmakingService {
 
     //Streaming
 
-    public int[][][] getCurrentStreamingFrame(int frameID, long gameID, long userId){
+    public int[][][] getCurrentStreamingFrame(int frameID, long gameID) {
 
-        ChessGame game = liveMatch(gameID);
-
-        Color thisPlayerColor;
-
-        try{
-            if(game.getPlayerBlackID()==userId){
-                thisPlayerColor=Color.BLACK;
-            }else{
-                thisPlayerColor=Color.WHITE;
-            }
-        }catch(NullPointerException e){
-                return null;
-            }
-
-        BoardManager board=boards.get(gameID);
+        Optional<BoardManager> board = Optional.ofNullable(boards.get(gameID));
         int[][][] frame;
 
-
-        if((board.getManagedBoard().getZugId()==frameID&&frameID!= -1)&&!board.getManagedBoard().hasBauerToTransform()){
-            frame=board.getOnlyMatchStatus();
+        if(board.isPresent()){
+            if ((board.get().getManagedBoard().getZugId() == frameID && frameID != -1) && !board.get().getManagedBoard().hasBauerToTransform()) {
+                frame = board.get().getOnlyMatchStatus();
+            } else {
+                frame = board.get().streamingBoard(Color.WHITE);
+            }
         }else{
-            frame=board.streamingBoard(thisPlayerColor);
+            return null;
         }
-
-        if(frame[0][2][0]==0)
-            return frame;
-
-        if(game.getPlayerBlackID()==userId){
-            game.setBlackLastFrameSeen(true);
-        }else{
-            game.setWhiteLastFrameSeen(true);
-        }
-
-        if(game.getPlayerBlackID()==-1L||game.getPlayerWhiteID()==-1L)
-            endPuzzle();
-
-        if(game.isBlackLastFrameSeen()&&game.isWhiteLastFrameSeen())
-            endMyMatch();
 
         return frame;
+
     }
 
     private ChessGame liveMatch(long gameId) {

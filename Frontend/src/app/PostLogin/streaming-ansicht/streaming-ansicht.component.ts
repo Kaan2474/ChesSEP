@@ -68,7 +68,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
 
   refreshMatch() {
     this.sub = interval(500).subscribe(data => {
-      this.matchmakinService.joinStreamMatch(this.gameID, this.playerID, this.zugID).subscribe(chess => {;
+      this.matchmakinService.joinStreamMatch(this.gameID, this.zugID).subscribe(chess => {;
         if(chess==null){
           this.router.navigate(["/homepage"]);
         }
@@ -103,7 +103,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
   }
 
   getMyCurrentMatch(){
-    this.matchmakinService.joinStreamMatch(this.gameID, this.playerID, this.zugID).subscribe(data => {;
+    this.matchmakinService.joinStreamMatch(this.gameID, this.zugID).subscribe(data => {;
       this.chessGame = data;
       console.log(this.chessGame);
       if(this.chessGame.playerWhiteID==this.user.id){
@@ -122,7 +122,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
 
   /*Gibt das aktuelle Spielfeld aus*/
   OnGetCurrentFrame() {
-      this.matchmakinService.joinStreamMatch(this.gameID, this.playerID, this.zugID).subscribe(data => {;
+      this.matchmakinService.joinStreamMatch(this.gameID, this.zugID).subscribe(data => {;
 
       if((data as number[][][]).length < 2) {
         var currentStatus:number[][][]=data as number[][][];

@@ -81,8 +81,8 @@ export class MatchmakingService {
     return this.http.get(this.URL+"/allMatches",{headers: this.header});
   }
 
-  public joinStreamMatch(gameId:any, userId:any, frameId:any){
-    return this.http.get<any[][][]>(this.URL+"/getCurrentStreamingFrame/"+gameId+"/" + userId + "/" + frameId,{headers: this.header});
+  public joinStreamMatch(gameId:any, frameId:any){
+    return this.http.get<any[][][]>(this.URL+"/getCurrentStreamingFrame/"+gameId+"/" + frameId,{headers: this.header});
   }
 
   public difficulty(stufe: any){
