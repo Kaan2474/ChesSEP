@@ -196,10 +196,14 @@ public class MatchmakingService {
         ChessGame game=getMyCurrentMatch();
         Color thisPlayerColor;
 
-        if(game.getPlayerBlackID()==sender.getId()){
-            thisPlayerColor=Color.BLACK;
-        }else{
-            thisPlayerColor=Color.WHITE;
+        try {
+            if (game.getPlayerBlackID() == sender.getId()) {
+                thisPlayerColor = Color.BLACK;
+            } else {
+                thisPlayerColor = Color.WHITE;
+            }
+        }catch(NullPointerException e){
+            return null;
         }
 
         BoardManager board=boards.get(game.getGameID());
