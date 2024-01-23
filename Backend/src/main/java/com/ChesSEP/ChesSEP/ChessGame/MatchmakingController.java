@@ -118,10 +118,6 @@ public class MatchmakingController {
         return ResponseEntity.ok(matchmakingService.allMatches());
     }
 
-    @PostMapping("/streamingPrivacy")
-    public void streamingPrivacy(){
-        matchmakingService.streamingPrivacy();
-    }
 
     //PGN
     @GetMapping("/pgn/{pgnId}")

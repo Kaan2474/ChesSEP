@@ -481,18 +481,6 @@ public class MatchmakingService {
 
     //Streaming
 
-    public void streamingPrivacy(){
-        User user = getSender();
-
-        if(user.getStreaming() == Privacy.OEFFENTLICH){
-            user.setStreaming(Privacy.PRIVAT);
-        }
-        else{
-            user.setStreaming(Privacy.OEFFENTLICH);
-        }
-        userRepository.save(user);
-    }
-
     public int[][][] getCurrentStreamingFrame(int frameID, long gameID, long userId){
 
         ChessGame game = liveMatch(gameID);

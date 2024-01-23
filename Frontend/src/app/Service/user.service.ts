@@ -63,6 +63,8 @@ export class UserService {
   putPrivacy() {
     return this.http.get(this.userURL + "/privacy" , {headers: this.header})
   }
-
+  public putStreamPrivacy() {
+    return this.http.get(this.userURL + "/streamingPrivacy", {headers: this.header})
+  }
 }
 
