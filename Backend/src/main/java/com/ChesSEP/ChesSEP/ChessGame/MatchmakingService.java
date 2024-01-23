@@ -489,14 +489,14 @@ public class MatchmakingService {
 
     public int[][][] getCurrentStreamingFrame(int frameID, long gameID) {
 
-        Optional<BoardManager> board = Optional.ofNullable(boards.get(gameID));
+       BoardManager board = boards.get(gameID);
         int[][][] frame;
 
-        if(board.isPresent()){
-            if ((board.get().getManagedBoard().getZugId() == frameID && frameID != -1) && !board.get().getManagedBoard().hasBauerToTransform()) {
-                frame = board.get().getOnlyMatchStatus();
+        if(board != null){
+            if ((board.getManagedBoard().getZugId() == frameID && frameID != -1) && !board.getManagedBoard().hasBauerToTransform()) {
+                frame = board.getOnlyMatchStatus();
             } else {
-                frame = board.get().streamingBoard(Color.WHITE);
+                frame = board.streamingBoard(Color.WHITE);
             }
         }else{
             return null;
