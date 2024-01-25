@@ -25,7 +25,8 @@ export class ReplayMovesComponent {
     this.placeFigures(this.currentChessMove);
   }
 
-  //Kreiert die ersten Chessboards
+
+  //Erstellt das erste Schachbrett
   createFirstChessBoard() {
     let startPosition: string[][] =
       //klein --> weiß
@@ -42,11 +43,10 @@ export class ReplayMovesComponent {
       ];
 
     this.chessBoards.push(startPosition);
-    console.log(this.chessBoards);
   }
 
 
-  //Kopiert ein chessboard aus allen chessboards
+  //Erstellt eine Kopie eines Schachbretts  --> z.B position = 3 das 4. Schachbrett aus allen Schachbrettern
   copyChessBoard(position: number) {
     let copy: string[][] =
       [
@@ -96,6 +96,66 @@ export class ReplayMovesComponent {
           copy[i][j] = "K";
         }
         else if(this.chessBoards[position][i][j] === "P") {
+          copy[i][j] = "P";
+        }
+        else {
+          copy[i][j] = " ";
+        }
+      }
+    }
+    return copy;
+  }
+
+  //Erstelle eine Kopie eines zweidimensionalen Arrays
+  copyTwoDimensionalArray(chessBoard: string[][]) {
+    let copy: string[][] =
+      [
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+      ];
+
+    for(let i = 0; i<chessBoard.length; i++) {
+      for(let j = 0; j<chessBoard[i].length; j++) {
+        if(chessBoard[i][j] === "r") {
+          copy[i][j] = "r";
+        }
+        else if(chessBoard[i][j] === "n") {
+          copy[i][j] = "n";
+        }
+        else if(chessBoard[i][j] === "b") {
+          copy[i][j] = "b";
+        }
+        else if(chessBoard[i][j] === "q") {
+          copy[i][j] = "q";
+        }
+        else if(chessBoard[i][j] === "k") {
+          copy[i][j] = "k";
+        }
+        else if(chessBoard[i][j] === "p") {
+          copy[i][j] = "p";
+        }
+        else if(chessBoard[i][j] === "R") {
+          copy[i][j] = "R";
+        }
+        else if(chessBoard[i][j] === "N") {
+          copy[i][j] = "N";
+        }
+        else if(chessBoard[i][j] === "B") {
+          copy[i][j] = "B";
+        }
+        else if(chessBoard[i][j] === "Q") {
+          copy[i][j] = "Q";
+        }
+        else if(chessBoard[i][j] === "K") {
+          copy[i][j] = "K";
+        }
+        else if(chessBoard[i][j] === "P") {
           copy[i][j] = "P";
         }
         else {
@@ -182,58 +242,58 @@ export class ReplayMovesComponent {
 
 
   //Platziert alle Figuren anhand des jeweiligen Zuges
-  placeFigures(move: number) {
+  placeFigures(currentChessBoard: number) {
     let field;
-    for(let i = 0; i<this.chessBoards[move].length; i++) {
-      for(let j = 0; j<this.chessBoards[move][i].length; j++) {
+    for(let i = 0; i<this.chessBoards[currentChessBoard].length; i++) {
+      for(let j = 0; j<this.chessBoards[currentChessBoard][i].length; j++) {
         //Weiße Figuren
-        if(this.chessBoards[move][i][j] === "p") {
+        if(this.chessBoards[currentChessBoard][i][j] === "p") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/bauer_w.png)";
         }
-        else if(this.chessBoards[move][i][j] === "r") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "r") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/turm_w.png)";
         }
-        else if(this.chessBoards[move][i][j] === "n") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "n") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/springer_w.png)";
         }
-        else if(this.chessBoards[move][i][j] === "b") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "b") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/laeufer_w.png)";
         }
-        else if(this.chessBoards[move][i][j] === "q") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "q") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/dame_w.png)";
         }
-        else if(this.chessBoards[move][i][j] === "k") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "k") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/koenig_w.png)";
         }
 
         //Schwarze Figuren
-        else if(this.chessBoards[move][i][j] === "P") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "P") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/bauer_s.png)";
         }
-        else if(this.chessBoards[move][i][j] === "R") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "R") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/turm_s.png)";
         }
-        else if(this.chessBoards[move][i][j] === "N") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "N") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/springer_s.png)";
         }
-        else if(this.chessBoards[move][i][j] === "B") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "B") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/laeufer_s.png)";
         }
-        else if(this.chessBoards[move][i][j] === "Q") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "Q") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/dame_s.png)";
         }
-        else if(this.chessBoards[move][i][j] === "K") {
+        else if(this.chessBoards[currentChessBoard][i][j] === "K") {
           field = document.getElementById(this.getNotation(i,j));
           field!.style.backgroundImage = "url(assets/figures/koenig_s.png)";
         }
@@ -246,19 +306,20 @@ export class ReplayMovesComponent {
     }
   }
 
+
+  //Funktion für Button: Nächster Zug
   nextChessMove() {
     if(this.currentChessMove < this.allMoves.length) {
-      console.log(this.currentChessMove);
       this.currentChessMove++;
-      console.log(this.currentChessMove);
+      console.log("Aktueller Zug: " + this.currentChessMove);
       this.placeFigures(this.currentChessMove);
     }
   }
 
+  //Funktion für Button: Vorheriger Zug
   prevChessMove() {
-    console.log(this.currentChessMove);
     this.currentChessMove--;
-    console.log(this.currentChessMove);
+    console.log("Aktueller Zug: " + this.currentChessMove);
     this.placeFigures(this.currentChessMove);
   }
 
@@ -288,7 +349,7 @@ export class ReplayMovesComponent {
     }
   }
 
-  //Analysiere den Zug wie
+  //Analysiere den Zug
   checkMove(move: string) {
     //Figur wird geschlagen
     if(move.includes("x")) {
@@ -296,7 +357,6 @@ export class ReplayMovesComponent {
     }
     //Rochade
     else if(move.includes("O")) {
-
     }
     //Normaler Zug
     else {
@@ -305,49 +365,30 @@ export class ReplayMovesComponent {
   }
 
 
+  //Spaltet den Zug auf
   splitFigureBeaten(move: string) {
+    // z.B exd4 --> e d4 oder Q d4
     move = move.replace("x", " ");
+    // z.B e d4 --> [e, d4]
     return move.split(" ");
   }
 
 
+  //Wenn eine Figur geschlagen wird
   figureBeaten(move: string) {
     let turn = this.getTurn();
     if(move[0] === "K") {
 
     }
+
     else if(move[0] === "Q") {
-
-    }
-    else if(move[0] === "R") {
-
-    }
-    else if(move[0] === "B") {
-
-    }
-    else if(move[0] === "N") {
-
-    }
-    else {
       let parameters = this.splitFigureBeaten(move);
-      if(turn === "wei0") {
-
+      if(turn === "weiß") {
+        this.updateFigureBeaten(parameters, "q");
       }
       else {
-
+        this.updateFigureBeaten(parameters, "Q");
       }
-    }
-  }
-
-
-  //Ein normaler Zug
-  standardMove(move: string) {
-    let turn = this.getTurn();
-    console.log(turn);
-    if(move[0] === "K") {
-
-    }
-    else if(move[0] === "Q") {
 
     }
     else if(move[0] === "R") {
@@ -360,61 +401,195 @@ export class ReplayMovesComponent {
 
     }
     else {
-      let positions = this.getPositions(move);
+      //z.B exd4 --> [e,d4]
+      let parameters = this.splitFigureBeaten(move);
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "p");
+        this.updateFigureBeaten(parameters, "p");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "P");
+        this.updateFigureBeaten(parameters, "P");
       }
     }
   }
 
 
-  updateChessBoard(position1: number, position2: number, figure: string) {
-    //Verändere eine Kopie des aktuellen chessboards
+  //Ändert eine geschlagene Figur
+  updateFigureBeaten(parameters: string[], figure: string) {
     let prevChessBoard = this.copyChessBoard(this.currentChessBoard);
-    prevChessBoard[position1][position2] = figure;
-    //Entferne die entsprechende Figur
-    this.removeFigure(prevChessBoard, position1, position2, figure);
-    //Füge das fertige chessboard allen chessboards hinzu und  gehe zum nächsten chessboard
+    //z.B parameters = [e,d4] --> Figur auf d4 wird geschlagen --> d4 wird auf entsprechende Figur geändert
+    let positions = this.getPositions(parameters[1]);
+    prevChessBoard[positions[0]][positions[1]] = figure;
+    //Entferne die entsprechende Figur in dem aktuellen Schachfeld
+    this.removeFigureBeaten(prevChessBoard , parameters, figure);
+    //Füge das fertige Schachfeld allen Schachfeldern hinzu und gehe zum nächsten Schachfeld
     this.chessBoards.push(prevChessBoard);
     this.currentChessBoard++;
     console.log(this.chessBoards)
   }
 
-  //Entfernt eine Figur in der Matrix
+  //Vertikale Entfernung einer Figur
+  verticalRemoval(halfNotation: string, chessBoard: string[][], figure: string) {
+    for(let i = 1; i<9;i++) {
+      halfNotation += i;
+      let positions = this.getPositions(halfNotation);
+      if(chessBoard[positions[0]][positions[1]] === figure) {
+        chessBoard[positions[0]][positions[1]] = " ";
+        break;
+      }
+      else {
+        halfNotation = halfNotation[0];
+      }
+    }
+  }
+
+  //Entfernt eine geschlagene Figur
+  removeFigureBeaten(chessBoard: string[][], parameters: string[], figure: string) {
+    let halfNotation = parameters[0];
+    //Alle Figuren ausschließlich Bauer werden entfernt
+    if(halfNotation.toUpperCase() === halfNotation) {
+      halfNotation = parameters[1];
+      halfNotation = halfNotation[0];
+      //Dame entfernen
+      if(figure === "Q" || figure === "q") {
+        this.verticalRemoval(halfNotation, chessBoard, figure);
+      }
+    }
+    //Bauer wird entfernt
+    else {
+      halfNotation = parameters[0];
+      this.verticalRemoval(halfNotation, chessBoard, figure);
+    }
+  }
+
+
+  //Entfernt eine Figur bei einem normalen Zug
+  removeFigure(chessBoard: string[][], parameter: string, figure: string) {
+    //Bauer werden vertikal entfernt
+    if(figure === "p" || figure === "P") {
+      this.verticalRemoval(parameter, chessBoard, figure);
+    }
+  }
+
+
+
+  //Ein normaler Zug: z.B Ke6 oder a5
+  standardMove(move: string) {
+    let turn = this.getTurn();
+    //König wird bewegt
+    if(move[0] === "K") {
+      //z.B Ke6 --> e6
+      move = move.replace("K", "");
+      //Positionen für den gemachten Zug
+      let positions = this.getPositions(move);
+      //z.B e6 --> e
+      move = move[0];
+      if(turn === "weiß") {
+        this.updateChessBoard(positions[0], positions[1], "k", move);
+      }
+      else {
+        this.updateChessBoard(positions[0], positions[1], "K", move);
+      }
+    }
+    //Dame wird bewegt
+    else if(move[0] === "Q") {
+      move = move.replace("Q", "");
+      let positions = this.getPositions(move);
+      move = move[0];
+      if(turn === "weiß") {
+        this.updateChessBoard(positions[0], positions[1], "q", move);
+      }
+      else {
+        this.updateChessBoard(positions[0], positions[1], "Q", move);
+      }
+    }
+    //Turm wird bewegt
+    else if(move[0] === "R") {
+      move = move.replace("R", "");
+      let positions = this.getPositions(move);
+      move = move[0];
+      if(turn === "weiß") {
+        this.updateChessBoard(positions[0], positions[1], "r", move);
+      }
+      else {
+        this.updateChessBoard(positions[0], positions[1], "R", move);
+      }
+    }
+    //Läufer wird bewegt
+    else if(move[0] === "B") {
+      move = move.replace("B", "");
+      let positions = this.getPositions(move);
+      move = move[0];
+      if(turn === "weiß") {
+        this.updateChessBoard(positions[0], positions[1], "B", move);
+      }
+      else {
+        this.updateChessBoard(positions[0], positions[1], "b", move);
+      }
+    }
+    //Springer wird bewegt
+    else if(move[0] === "N") {
+      move = move.replace("N", "");
+      let positions = this.getPositions(move);
+      move = move[0];
+      if(turn === "weiß") {
+        this.updateChessBoard(positions[0], positions[1], "n", move);
+      }
+      else {
+        this.updateChessBoard(positions[0], positions[1], "N", move);
+      }
+    }
+    else {
+      let positions = this.getPositions(move);
+      move = move[0];
+      if(turn === "weiß") {
+        this.updateChessBoard(positions[0], positions[1], "p", move);
+      }
+      else {
+        this.updateChessBoard(positions[0], positions[1], "P", move);
+      }
+    }
+  }
+
+
+  updateChessBoard(position1: number, position2: number, figure: string, parameter: string) {
+    //Entferne die entsprechende Figur in dem aktuellen Schachfeld
+    let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
+    this.removeFigure(chessBoard1, parameter, figure);
+    //Füge die entfernte Schachfigur an eine andere Position ein
+    let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
+    chessBoard2[position1][position2] = figure;
+    //Füge das fertige Schachfeld allen Schachfeldern hinzu
+    this.chessBoards.push(chessBoard2);
+    //Gehe zum nächsten Schachfeld
+    this.currentChessBoard++;
+    console.log(this.chessBoards)
+  }
+
+/*
+  //Entfernt eine Figur in einem übergebenen Schachfeld
   removeFigure(chessBoard: string[][], position1: number, position2: number, figure: string) {
     //Entferne einen weißen Bauer
-    if(figure === "p") {
-      if(chessBoard[position1 - 1][position2] === "p") {
-        chessBoard[position1 - 1][position2] = " ";
-      }
-      else if(chessBoard[position1 - 2][position2] === "p") {
-        chessBoard[position1 - 2][position2] = " ";
-      }
+    if(chessBoard[position1 - 1][position2] === figure) {
+      chessBoard[position1 - 1][position2] = " ";
+    }
+    else if(chessBoard[position1 - 2][position2] === figure) {
+      chessBoard[position1 - 2][position2] = " ";
     }
     //Entferne einen schwarzen Bauer
-    else if(figure === "P") {
-      if(chessBoard[position1 + 1][position2] === "P") {
-        chessBoard[position1 + 1][position2] = " ";
-      }
-      else if(chessBoard[position1 + 2][position2] === "P") {
-        chessBoard[position1 + 2][position2] = " ";
-      }
+    else if(chessBoard[position1 + 1][position2] === figure) {
+      chessBoard[position1 + 1][position2] = " ";
     }
-  }
+    else if(chessBoard[position1 + 2][position2] === figure) {
+        chessBoard[position1 + 2][position2] = " ";
+    }
 
-  removeBeatenFigure() {
-
   }
+*/
 
   evaluateMoves() {
-    console.log(this.allMoves[0]);
-    console.log(this.allMoves[1]);
-    this.checkMove(this.allMoves[0]);
-    this.checkMove(this.allMoves[1]);
-    this.checkMove(this.allMoves[2]);
+    for(let i = 0; i<6; i++) {
+      this.checkMove(this.allMoves[i]);
+    }
   }
 
 }
