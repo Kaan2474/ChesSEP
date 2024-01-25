@@ -88,4 +88,8 @@ export class MatchmakingService {
   public difficulty(stufe: any){
     return this.http.get(this.URL+"/pve/"+stufe, {headers: this.header} )
   }
+
+  public pgn(pgnId:any){
+    return this.http.get(this.URL+"/pgn/"+pgnId, {headers: this.header})
+  }
 }
