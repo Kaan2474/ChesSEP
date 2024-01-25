@@ -315,13 +315,21 @@ export class ReplayMovesComponent {
       console.log("Aktueller Zug: " + this.currentChessMove);
       this.placeFigures(this.currentChessMove);
     }
+    else {
+      alert("Es gibt keine weiteren nächsten Züge!");
+    }
   }
 
   //Funktion für Button: Vorheriger Zug
   prevChessMove() {
-    this.currentChessMove--;
-    console.log("Aktueller Zug: " + this.currentChessMove);
-    this.placeFigures(this.currentChessMove);
+    if(this.currentChessMove === 0) {
+      alert("Es gibt keine vorherigen Züge!");
+    }
+    else {
+      this.currentChessMove--;
+      console.log("Aktueller Zug: " + this.currentChessMove);
+      this.placeFigures(this.currentChessMove);
+    }
   }
 
 
@@ -358,11 +366,54 @@ export class ReplayMovesComponent {
     }
     //Rochade
     else if(move.includes("O")) {
+      this.castling(move);
     }
     //Normaler Zug
     else {
       this.standardMove(move);
     }
+  }
+
+  castling(move: string) {
+    let turn = this.getTurn();
+    let chessBoard: string[][] = this.copyChessBoard(this.currentChessBoard);
+    if(turn === "weiß") {
+      //Lange Rochade
+      if(move === "O-O-O") {
+        chessBoard[0][2] = "k";
+        chessBoard[0][3] = "r";
+        chessBoard[0][0] = " ";
+        chessBoard[0][4] = " ";
+      }
+      //Kurze Rochade
+      else {
+        chessBoard[0][5] = "r";
+        chessBoard[0][6] = "k";
+        chessBoard[0][4] = " ";
+        chessBoard[0][7] = " ";
+      }
+    }
+
+    else {
+      //Lange Rochade
+      if(move === "O-O-O") {
+        chessBoard[7][2] = "K";
+        chessBoard[7][3] = "R";
+        chessBoard[7][0] = " ";
+        chessBoard[7][4] = " ";
+      }
+      //Kurze Rochade
+      else {
+        chessBoard[7][5] = "R";
+        chessBoard[7][6] = "K";
+        chessBoard[7][4] = " ";
+        chessBoard[7][7] = " ";
+      }
+    }
+    //Füge das überarbeitete Schachbrett hinzu
+    this.chessBoards.push(chessBoard);
+    //Gehe zum nächsten Schachbrett
+    this.currentChessBoard++;
   }
 
 
@@ -521,20 +572,19 @@ export class ReplayMovesComponent {
     }
     //Weiße Dame wird entfernt
     else if(figure === "q") {
-      this.removeHorizontal(chessBoard, position1, position2, figure)
-      this.removeVertical(chessBoard, position1, position2, figure);
+      this.removeDiagonal(chessBoard, position1, position2, figure);
     }
     //Schwarze Dame wird entfernt
     else if(figure === "Q") {
-
+      this.removeDiagonal(chessBoard, position1, position2, figure);
     }
     //Weißer Läufer wird entfernt
     else if(figure === "b") {
-
+      this.removeDiagonal(chessBoard, position1, position2, figure);
     }
     //Schwarzer Läufer wird entfernt
     else if(figure === "B") {
-
+      this.removeDiagonal(chessBoard, position1, position2, figure);
     }
     //Weißer Turm wird entfernt
     else if(figure === "r") {
@@ -587,7 +637,7 @@ export class ReplayMovesComponent {
       //Wenn man ganz oben ist
       for(let i = position1; i<8; i++) {
         if(chessBoard[i][position2] === figure) {
-          return [position1, position2];
+          chessBoard[i][position2] = " ";
         }
       }
     }
@@ -595,31 +645,55 @@ export class ReplayMovesComponent {
     else if(position1 === 7) {
       for(let i = position1; i>0; i--) {
         if(chessBoard[i][position2] === figure) {
-          return [position1, position2];
+          chessBoard[i][position2] = " ";
         }
       }
     }
     //Wenn man in der Mitte ist
     else {
       //Suche unten
-      for(let i = position1; i>0; i--) {
+      for(let i = position1; i>=0; i--) {
         if(chessBoard[i][position2] === figure) {
-          return [position1, position2];
+          chessBoard[i][position2] = " ";
         }
       }
       //Suche oben
       for(let i = position1; i<8; i++) {
         if(chessBoard[i][position2] === figure) {
-          return [position1, position2];
+          chessBoard[i][position2] = " ";
         }
       }
     }
-    return -1;
   }
 
   removeDiagonal(chessBoard: string[][], position1: number, position2: number, figure: string) {
-    if(position1 === 0) {
-
+    //links oben
+    for(let i = position1 + 1, j = position2 - 1; i <= 7 && j >= 0; i++, j--) {
+      if(chessBoard[i][j] === figure) {
+        chessBoard[i][j] = " ";
+        break;
+      }
+    }
+    //rechts oben
+    for(let i = position1 + 1, j = position2 + 1; i <= 7 && j <= 7; i++, j++) {
+      if(chessBoard[i][j] === figure) {
+        chessBoard[i][j] = " ";
+        break;
+      }
+    }
+    //rechts unten
+    for(let i = position1 - 1, j = position2 + 1; i >= 0 && j <= 7; i--, j++) {
+      if(chessBoard[i][j] === figure) {
+        chessBoard[i][j] = " ";
+        break;
+      }
+    }
+    //links unten
+    for(let i = position1 - 1, j = position2 - 1; i >= 0 && j >= 0; i--, j--) {
+      if(chessBoard[i][j] === figure) {
+        chessBoard[i][j] = " ";
+        break;
+      }
     }
   }
 
@@ -634,8 +708,6 @@ export class ReplayMovesComponent {
       move = move.replace("K", "");
       //Positionen für den gemachten Zug
       let positions = this.getPositions(move);
-      //z.B e6 --> e
-      move = move[0];
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "k");
       }
@@ -647,7 +719,6 @@ export class ReplayMovesComponent {
     else if(move[0] === "Q") {
       move = move.replace("Q", "");
       let positions = this.getPositions(move);
-      move = move[0];
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "q");
       }
@@ -659,7 +730,6 @@ export class ReplayMovesComponent {
     else if(move[0] === "R") {
       move = move.replace("R", "");
       let positions = this.getPositions(move);
-      move = move[0];
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "r");
       }
@@ -671,7 +741,6 @@ export class ReplayMovesComponent {
     else if(move[0] === "B") {
       move = move.replace("B", "");
       let positions = this.getPositions(move);
-      move = move[0];
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "b");
       }
@@ -683,7 +752,6 @@ export class ReplayMovesComponent {
     else if(move[0] === "N") {
       move = move.replace("N", "");
       let positions = this.getPositions(move);
-      move = move[0];
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "n");
       }
@@ -693,7 +761,6 @@ export class ReplayMovesComponent {
     }
     else {
       let positions = this.getPositions(move);
-      move = move[0];
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "p");
       }
@@ -740,7 +807,7 @@ export class ReplayMovesComponent {
 */
 
   evaluateMoves() {
-    for(let i = 0; i<11; i++) {
+    for(let i = 0; i<13; i++) {
       this.checkMove(this.allMoves[i]);
     }
   }
