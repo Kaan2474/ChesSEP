@@ -1,6 +1,8 @@
 package com.ChesSEP.ChesSEP.ChessGame;
 
 import com.ChesSEP.ChesSEP.Security.RequestHolder.UserRequestHolder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class MatchmakingController {
 
     private final MatchmakingService matchmakingService;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/queueMatch")
     public void queueMatch(){
@@ -121,8 +125,8 @@ public class MatchmakingController {
 
     //PGN
     @GetMapping("/pgn/{pgnId}")
-    public ResponseEntity<PGN> pgn(@PathVariable long pgnId){
-        return ResponseEntity.ok(matchmakingService.findPGNByPgnId(pgnId));
+    public ResponseEntity<String> pgn(@PathVariable long pgnId) throws JsonProcessingException {
+        return ResponseEntity.ok(objectMapper.writeValueAsString(matchmakingService.findPGNByPgnId(pgnId)));
     }
 
     //PVE

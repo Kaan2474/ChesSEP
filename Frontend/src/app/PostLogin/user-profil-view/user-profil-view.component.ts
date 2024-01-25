@@ -19,6 +19,7 @@ export class UserProfilViewComponent implements OnInit {
   url = "assets/images/profil-picture-icon.png"
   schachClubname: any;
   lastThreeGames: Chess[];
+  pgnString: any;
 
 
 
@@ -118,6 +119,20 @@ export class UserProfilViewComponent implements OnInit {
         window.location.reload();
       });
 
+  }
+
+  exportPgn(pgnId:any){
+    this.matchmakingService.pgn(pgnId).subscribe(data => {
+        this.pgnString = data;
+        const link = document.createElement('a');
+        link.download = 'ChesSepPgn.txt';
+        const pgn = new Blob([this.pgnString], {type:'text/plain;charset=utf-8'});
+        link.href = window.URL.createObjectURL(pgn);
+        link.click();
+
+        console.log(this.pgnString)
+      }
+    )
   }
 
 }

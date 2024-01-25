@@ -7,5 +7,6 @@ export class Chess{
   startTime:any;
   result: any;
   whiteElo: any;
-  blackElo: any;
+  blackElo: any
+  pgnId: any;
 }

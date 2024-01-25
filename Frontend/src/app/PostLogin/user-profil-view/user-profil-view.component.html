@@ -73,12 +73,14 @@
     <th>Teilnehmer</th>
     <th>Punkte</th>
     <th>Spielergebnis</th>
+    <th>Export</th>
   </tr>
 
   <tr *ngFor="let game of lastThreeGames">
     <td>{{ game.name }}</td>
     <td>{{ game.whiteElo }} vs {{ game.blackElo }}</td>
     <td>{{ game.result }}</td>
+    <td><button id="pgnExportButton" type="button" (click)="exportPgn(game.pgnId)">PGN</button></td>
   </tr>
 </table>
 <form>

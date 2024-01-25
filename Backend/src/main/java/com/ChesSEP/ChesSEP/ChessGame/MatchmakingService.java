@@ -545,7 +545,7 @@ public class MatchmakingService {
         chessgameRepository.save(game);
     }
 
-    public PGN findPGNByPgnId(long pgnId){
+    public String findPGNByPgnId(long pgnId){
         return pgnRepository.findPGNByPgnId(pgnId);
     }
 
