@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
 
 @Component({
   selector: 'app-replay-moves',
@@ -415,14 +416,17 @@ export class ReplayMovesComponent {
 
   //Ändert eine geschlagene Figur
   updateFigureBeaten(parameters: string[], figure: string) {
-    let prevChessBoard = this.copyChessBoard(this.currentChessBoard);
-    //z.B parameters = [e,d4] --> Figur auf d4 wird geschlagen --> d4 wird auf entsprechende Figur geändert
-    let positions = this.getPositions(parameters[1]);
-    prevChessBoard[positions[0]][positions[1]] = figure;
     //Entferne die entsprechende Figur in dem aktuellen Schachfeld
-    this.removeFigureBeaten(prevChessBoard , parameters, figure);
+    let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
+    this.removeFigureBeaten(chessBoard1, parameters, figure);
+    let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
+    //z.B parameters[1] = d4 --> Figur auf d4 wird geschlagen --> d4 wird auf entsprechende Figur geändert
+    let positions = this.getPositions(parameters[1]);
+    //Füge die entfernte Schachfigur an eine andere Position ein
+    chessBoard2[positions[0]][positions[1]] = figure;
     //Füge das fertige Schachfeld allen Schachfeldern hinzu und gehe zum nächsten Schachfeld
-    this.chessBoards.push(prevChessBoard);
+    this.chessBoards.push(chessBoard2);
+    //Gehe zum nächsten Schachfeld
     this.currentChessBoard++;
     console.log(this.chessBoards)
   }
@@ -441,6 +445,7 @@ export class ReplayMovesComponent {
       }
     }
   }
+
 
   //Entfernt eine geschlagene Figur
   removeFigureBeaten(chessBoard: string[][], parameters: string[], figure: string) {
@@ -462,11 +467,159 @@ export class ReplayMovesComponent {
   }
 
 
+
+
   //Entfernt eine Figur bei einem normalen Zug
-  removeFigure(chessBoard: string[][], parameter: string, figure: string) {
-    //Bauer werden vertikal entfernt
-    if(figure === "p" || figure === "P") {
-      this.verticalRemoval(parameter, chessBoard, figure);
+  removeFigure(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    //Weißer Bauer wird entfernt
+    if(figure === "p") {
+      if(chessBoard[position1-1][position2] === "p") {
+        chessBoard[position1-1][position2] = " ";
+      }
+      else if(chessBoard[position1-2][position2] === "p") {
+        chessBoard[position1-2][position2] = " ";
+      }
+    }
+    //Schwarzer Bauer wird entfernt
+    else if(figure === "P") {
+      if(chessBoard[position1+1][position2] === "P") {
+        chessBoard[position1+1][position2] = " ";
+      }
+      else if(chessBoard[position1+2][position2] === "P") {
+        chessBoard[position1+2][position2] = " ";
+      }
+    }
+    //Weißer Springer wird entfernt
+    else if(figure === "n") {
+      if(chessBoard[position1+2][position2-1] === "n") {
+        chessBoard[position1+2][position2-1] = " ";
+      }
+      else if(chessBoard[position1+2][position2+1] === "n") {
+        chessBoard[position1+2][position2+1] = " ";
+      }
+      else if(chessBoard[position1-2][position2-1] === "n") {
+        chessBoard[position1-2][position2-1] = " ";
+      }
+      else if(chessBoard[position1-2][position2+1] === "n") {
+        chessBoard[position1-2][position2+1] = " ";
+      }
+    }
+    //Schwarzer Springer wird entfernt
+    else if(figure === "N") {
+      if(chessBoard[position1+2][position2-1] === "N") {
+        chessBoard[position1+2][position2-1] = " ";
+      }
+      else if(chessBoard[position1+2][position2+1] === "N") {
+        chessBoard[position1+2][position2+1] = " ";
+      }
+      else if(chessBoard[position1-2][position2-1] === "N") {
+        chessBoard[position1-2][position2-1] = " ";
+      }
+      else if(chessBoard[position1-2][position2+1] === "N") {
+        chessBoard[position1-2][position2+1] = " ";
+      }
+    }
+    //Weiße Dame wird entfernt
+    else if(figure === "q") {
+      this.removeHorizontal(chessBoard, position1, position2, figure)
+      this.removeVertical(chessBoard, position1, position2, figure);
+    }
+    //Schwarze Dame wird entfernt
+    else if(figure === "Q") {
+
+    }
+    //Weißer Läufer wird entfernt
+    else if(figure === "b") {
+
+    }
+    //Schwarzer Läufer wird entfernt
+    else if(figure === "B") {
+
+    }
+    //Weißer Turm wird entfernt
+    else if(figure === "r") {
+
+    }
+    //Schwarzer Turm wird entfernt
+    else if(figure === "R") {
+
+    }
+  }
+
+  //Entfernt eine bestimmte Figur horizontal
+  removeHorizontal(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    if(position2 === 0) {
+      //Wenn man ganz links ist
+      for(let i = position2; i<8; i++) {
+        if(chessBoard[position1][i] === figure) {
+          chessBoard[position1][i] = " ";
+        }
+      }
+    }
+    //Wenn man ganz rechts ist
+    else if(position2 === 7) {
+      for(let i = position2; i>0; i--) {
+        if(chessBoard[position1][i] === figure) {
+          chessBoard[position1][i] = " ";
+        }
+      }
+    }
+    //Wenn man in der Mitte ist
+    else {
+      //Suche links
+      for(let i = position2; i>0; i--) {
+        if(chessBoard[position1][i] === figure) {
+          chessBoard[position1][i] = " ";
+        }
+      }
+      //Suche rechts
+      for(let i = position2; i<8; i++) {
+        if(chessBoard[position1][i] === figure) {
+          chessBoard[position1][i] = " ";
+        }
+      }
+    }
+  }
+
+  //Entfernt eine bestimmte Figur vertikal
+  removeVertical(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    if(position1 === 0) {
+      //Wenn man ganz oben ist
+      for(let i = position1; i<8; i++) {
+        if(chessBoard[i][position2] === figure) {
+          return [position1, position2];
+        }
+      }
+    }
+    //Wenn man ganz unten ist
+    else if(position1 === 7) {
+      for(let i = position1; i>0; i--) {
+        if(chessBoard[i][position2] === figure) {
+          return [position1, position2];
+        }
+      }
+    }
+    //Wenn man in der Mitte ist
+    else {
+      //Suche unten
+      for(let i = position1; i>0; i--) {
+        if(chessBoard[i][position2] === figure) {
+          return [position1, position2];
+        }
+      }
+      //Suche oben
+      for(let i = position1; i<8; i++) {
+        if(chessBoard[i][position2] === figure) {
+          return [position1, position2];
+        }
+      }
+    }
+    return -1;
+  }
+
+  removeDiagonal(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    if(position1 === 0) {
+
     }
   }
 
@@ -484,10 +637,10 @@ export class ReplayMovesComponent {
       //z.B e6 --> e
       move = move[0];
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "k", move);
+        this.updateChessBoard(positions[0], positions[1], "k");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "K", move);
+        this.updateChessBoard(positions[0], positions[1], "K");
       }
     }
     //Dame wird bewegt
@@ -496,10 +649,10 @@ export class ReplayMovesComponent {
       let positions = this.getPositions(move);
       move = move[0];
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "q", move);
+        this.updateChessBoard(positions[0], positions[1], "q");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "Q", move);
+        this.updateChessBoard(positions[0], positions[1], "Q");
       }
     }
     //Turm wird bewegt
@@ -508,10 +661,10 @@ export class ReplayMovesComponent {
       let positions = this.getPositions(move);
       move = move[0];
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "r", move);
+        this.updateChessBoard(positions[0], positions[1], "r");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "R", move);
+        this.updateChessBoard(positions[0], positions[1], "R");
       }
     }
     //Läufer wird bewegt
@@ -520,10 +673,10 @@ export class ReplayMovesComponent {
       let positions = this.getPositions(move);
       move = move[0];
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "B", move);
+        this.updateChessBoard(positions[0], positions[1], "b");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "b", move);
+        this.updateChessBoard(positions[0], positions[1], "B");
       }
     }
     //Springer wird bewegt
@@ -532,29 +685,29 @@ export class ReplayMovesComponent {
       let positions = this.getPositions(move);
       move = move[0];
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "n", move);
+        this.updateChessBoard(positions[0], positions[1], "n");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "N", move);
+        this.updateChessBoard(positions[0], positions[1], "N");
       }
     }
     else {
       let positions = this.getPositions(move);
       move = move[0];
       if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "p", move);
+        this.updateChessBoard(positions[0], positions[1], "p");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "P", move);
+        this.updateChessBoard(positions[0], positions[1], "P");
       }
     }
   }
 
 
-  updateChessBoard(position1: number, position2: number, figure: string, parameter: string) {
+  updateChessBoard(position1: number, position2: number, figure: string) {
     //Entferne die entsprechende Figur in dem aktuellen Schachfeld
     let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
-    this.removeFigure(chessBoard1, parameter, figure);
+    this.removeFigure(chessBoard1, position1, position2, figure);
     //Füge die entfernte Schachfigur an eine andere Position ein
     let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
     chessBoard2[position1][position2] = figure;
@@ -587,7 +740,7 @@ export class ReplayMovesComponent {
 */
 
   evaluateMoves() {
-    for(let i = 0; i<6; i++) {
+    for(let i = 0; i<11; i++) {
       this.checkMove(this.allMoves[i]);
     }
   }
