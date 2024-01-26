@@ -119,7 +119,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   endGame(){
     this.matchmakinService.surrender().subscribe();
     alert("Du hast das Spiel aufgegeben. Das Spiel wurde beendet!");
-    //this.router.navigate(["/homepage"]);
+    this.router.navigate(["/homepage"]);
   }
 
   /*Gibt das aktuelle Spielfeld aus*/
