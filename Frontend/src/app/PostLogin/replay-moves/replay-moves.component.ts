@@ -363,13 +363,18 @@ export class ReplayMovesComponent {
 
   //Evaluiere jeden Zug
   evaluateMoves() {
-    for(let i = 0; i<30; i++) {
+    for(let i = 0; i<48; i++) {
       this.checkMove(this.allMoves[i]);
     }
   }
 
   //Analysiere den Zug
   checkMove(move: string) {
+    //Entferne das + --> irrelevant
+    if(move.includes("+")) {
+      move = move.replace("+", "");
+      console.log(move);
+    }
     //Figur wird geschlagen
     if(move.includes("x")) {
       this.figureBeaten(move);
@@ -559,7 +564,7 @@ export class ReplayMovesComponent {
       this.removeBishop(chessBoard, positions[0], positions[1], figure)
     }
     //Weißer oder schwarzer Springer wird entfernt
-    else if(figure === "r" || figure === "R") {
+    else if(figure === "n" || figure === "N") {
       this.removeKnight(chessBoard, positions[0], positions[1], figure)
     }
     //Weißer oder schwarzer König wird entfernt
@@ -788,7 +793,6 @@ export class ReplayMovesComponent {
   }
 
 
-
   //Ein normaler Zug: z.B Ke6 oder a5
   standardMove(move: string) {
     let turn = this.getTurn();
@@ -841,14 +845,22 @@ export class ReplayMovesComponent {
     //Springer wird bewegt
     else if(move[0] === "N") {
       move = move.replace("N", "");
-      let positions = this.getPositions(move);
-      if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "n");
+      //z.B move = ge2
+      if(move.length === 3) {
+        this.specialUpdate(move, turn, "N");
       }
+      //z.B move = g2
       else {
-        this.updateChessBoard(positions[0], positions[1], "N");
+        let positions = this.getPositions(move);
+        if(turn === "weiß") {
+          this.updateChessBoard(positions[0], positions[1], "n");
+        }
+        else {
+          this.updateChessBoard(positions[0], positions[1], "N");
+        }
       }
     }
+    //Bauer wird bewegt
     else {
       let positions = this.getPositions(move);
       if(turn === "weiß") {
@@ -869,6 +881,33 @@ export class ReplayMovesComponent {
     //Füge die entfernte Schachfigur an eine andere Position ein
     let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
     chessBoard2[position1][position2] = figure;
+    //Füge das fertige Schachfeld allen Schachfeldern hinzu
+    this.chessBoards.push(chessBoard2);
+    //Gehe zum nächsten Schachfeld
+    this.currentChessBoard++;
+    console.log(this.chessBoards)
+  }
+
+
+  /*Spezielle Änderung des Schachfeldes: Wenn zwei gleiche Figuren auf das selbe Feld platziert werden kann
+  --> z.B Nge2
+   */
+  specialUpdate(move: string, turn: string, figure: string) {
+    if(turn === "weiß") {
+      figure = figure.toLowerCase();
+    }
+    //Die Position zum Hinzufügen der Figur
+    let addNotation = move[1] + move[2];
+    let addPositions = this.getPositions(addNotation);
+    //Die Position zum Löschen der Figur
+    let removeNotation = move[0] + 1;
+    let removePositions = this.getPositions(removeNotation);
+    //Entferne die Figur anhand der Spalte
+    let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
+    this.removeVertical(chessBoard1, removePositions[0], removePositions[1], figure);
+    //Füge die entfernte Schachfigur an eine andere Position ein
+    let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
+    chessBoard2[addPositions[0]][addPositions[1]] = figure;
     //Füge das fertige Schachfeld allen Schachfeldern hinzu
     this.chessBoards.push(chessBoard2);
     //Gehe zum nächsten Schachfeld
