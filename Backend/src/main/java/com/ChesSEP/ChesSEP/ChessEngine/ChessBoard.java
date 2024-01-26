@@ -42,12 +42,10 @@ public class ChessBoard {
 
     private ChessOperation letzterZug;
 
-    private ChessBot bot;
     private difficulty gameDifficulty;
 
     public ChessBoard(double timeInMin,int[][][] Board){
         chessBoard=constructBoard(Board);
-        bot=new ChessBot();
         gameType=ChessGameType.PVP;
         currentPlayer=Color.WHITE;
         whiteTime=(long)timeInMin*60*1000;
@@ -130,7 +128,6 @@ public class ChessBoard {
     //PVE
     public ChessBoard(int[][][] Board,int difficulty){
         chessBoard=constructBoard(Board);
-        bot=new ChessBot();
 
         gameDifficulty=setDifficulty(difficulty);
         currentPlayer=Color.WHITE;
@@ -877,17 +874,32 @@ public class ChessBoard {
         return true;
     }
 
-    private void doBotMove(){
+    private boolean doBotMove(){
+
+        if(winner!=null)
+            return false;
 
         int[] genratedMove=generateBotMove(Color.BLACK, gameDifficulty);
+
         movePiece(genratedMove[1], genratedMove[2], genratedMove[3], genratedMove[4],"");
 
-        
+        if(bauerTransform){
+            return false;
+        }
+
         toggleCurrentPlayer();
+
+        //usavable Situation
+        if(isKingCheckmate(currentPlayer)) {
+            endGameFlag(currentPlayer);
+            zuege.get(zuege.size()-1).specialEvent +="#";
+        }
+
+        return true;
     }
 
     public int[] generateBotMove(Color color,difficulty difficulty){
-        return bot.getBestMove(chessBoard, color, difficulty);
+        return new ChessBot().getBestMove(chessBoard, color, difficulty);
     }
 
     private boolean nextPuzzleStep(int x, int y, int gotoX, int gotoY){
@@ -1127,6 +1139,10 @@ public class ChessBoard {
         zuege.add(letzterZug);
 
         bauerTransform=false;
+
+        if(gameType==ChessGameType.PVE) 
+            doBotMove();
+            
         return true;
     }
 
@@ -1305,7 +1321,10 @@ public class ChessBoard {
                 if(resultBoard[i][j].getColor()!=color)
                     continue;
 
-                resultBoard[i][j].validMoves=validCoordsOf(i, j, resultBoard);
+                List<int[]> potentiallyValidCoords = validCoordsOf(i, j, resultBoard);
+
+                resultBoard[i][j].validMoves=testMovesForCheckMate(i, j,board, potentiallyValidCoords);
+                
             }
         }
 
