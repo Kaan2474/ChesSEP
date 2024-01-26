@@ -18,6 +18,8 @@ import com.ChesSEP.ChesSEP.ChessEngine.ChessBoard;
 import com.ChesSEP.ChesSEP.ChessEngine.ChessGameType;
 import com.ChesSEP.ChesSEP.ChessEngine.Color;
 
+import static com.ChesSEP.ChesSEP.ChessEngine.ChessGameType.PUZZLE;
+
 @Service
 @RequiredArgsConstructor
 public class MatchmakingService {
@@ -373,6 +375,20 @@ public class MatchmakingService {
         }
     }
 
+    public void endMatchPVE(){
+        User user=getSender();
+
+        ChessGame game=onGoingGame.stream()
+                .filter(a->a.getPlayerBlackID()==user.getId()||a.getPlayerWhiteID()==user.getId())
+                .collect(Collectors.toList()).get(0);
+
+        onGoingGame.remove(game);
+
+        boards.remove(game.getGameID());
+
+
+    }
+
     public int[][][] getTestBoard() {
         BoardManager boardManager=new BoardManager();
         boardManager.startNewMatch(200, boardManager.getDefaultStartConfig());
@@ -413,7 +429,7 @@ public class MatchmakingService {
                 .blackLastFrameSeen(false)
                 .whiteLastFrameSeen(false)
                 .startTime(time)
-                .type(ChessGameType.PUZZLE)
+                .type(PUZZLE)
                 .build();
         }else{
             newGame=ChessGame.builder()
@@ -424,7 +440,7 @@ public class MatchmakingService {
                 .blackLastFrameSeen(false)
                 .whiteLastFrameSeen(false)
                 .startTime(time)
-                .type(ChessGameType.PUZZLE)
+                .type(PUZZLE)
                 .build();
         }
 
@@ -447,18 +463,29 @@ public class MatchmakingService {
         ChessGame game=getMyCurrentMatch();
         BoardManager board=boards.get(game.getGameID());
 
-        savePGN(game, board);
-        if(game.getPlayerBlackID()==getSender().getId()){
-            board.getManagedBoard().surrender(Color.BLACK);
-        }else{
-            board.getManagedBoard().surrender(Color.WHITE);
+
+        if(game.getType() == ChessGameType.PVP) {
+            savePGN(game, board);
+            if (game.getPlayerBlackID() == getSender().getId()) {
+                board.getManagedBoard().surrender(Color.BLACK);
+            } else {
+                board.getManagedBoard().surrender(Color.WHITE);
+            }
         }
 
-        if(board.getManagedBoard().getGameType()==1){
-            endPuzzle();
-        }else{
-            endMyMatch();
-        } 
+        switch (board.getManagedBoard().getGameType()){
+            case 0:
+                endMyMatch();
+                break;
+            case 1:
+                endPuzzle();
+                break;
+            case 2:
+                endMatchPVE();
+                break;
+        }
+
+
     }
 
     public void endPuzzle(){
@@ -526,7 +553,7 @@ public class MatchmakingService {
             white = userRepository.findUserById(game.getPlayerWhiteID());
             black = userRepository.findUserById(game.getPlayerBlackID());
 
-            if(white.getStreaming() == Privacy.OEFFENTLICH || black.getStreaming() == Privacy.OEFFENTLICH){
+            if((game.getType() == ChessGameType.PVP) && white.getStreaming() == Privacy.OEFFENTLICH || black.getStreaming() == Privacy.OEFFENTLICH){
                 streamingGames.add(game);
             }
         }
