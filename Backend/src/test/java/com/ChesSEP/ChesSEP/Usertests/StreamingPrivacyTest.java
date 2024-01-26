@@ -1,8 +1,6 @@
 package com.ChesSEP.ChesSEP.Usertests;
 
 
-import com.ChesSEP.ChesSEP.Chat.Chat;
-import com.ChesSEP.ChesSEP.ChessClub.ChessClub;
 import com.ChesSEP.ChesSEP.Security.RequestHolder.AuthUserRequestHolder;
 import com.ChesSEP.ChesSEP.User.Privacy;
 import com.ChesSEP.ChesSEP.User.Role;
@@ -19,8 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
