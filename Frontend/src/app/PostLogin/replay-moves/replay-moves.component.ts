@@ -363,7 +363,7 @@ export class ReplayMovesComponent {
 
   //Evaluiere jeden Zug
   evaluateMoves() {
-    for(let i = 0; i<26; i++) {
+    for(let i = 0; i<30; i++) {
       this.checkMove(this.allMoves[i]);
     }
   }
@@ -546,27 +546,25 @@ export class ReplayMovesComponent {
         chessBoard[positions[0]+1][positions[1]-1] = " ";
       }
     }
-    //Weiße Dame wird entfernt
-    else if(figure === "q") {
-      this.removeHorizontal(chessBoard, positions[0], positions[1], figure);
-      this.removeVertical(chessBoard, positions[0], positions[1], figure);
-      this.removeDiagonal(chessBoard, positions[0], positions[1], figure);
+    //Weiße oder schwarze Dame wird entfernt
+    else if(figure === "q" || figure === "Q") {
+      this.removeQueen(chessBoard, positions[0], positions[1], figure)
     }
-    //Schwarze Dame wird entfernt
-    else if(figure === "Q") {
-      this.removeHorizontal(chessBoard, positions[0], positions[1], figure);
-      this.removeVertical(chessBoard, positions[0], positions[1], figure);
-      this.removeDiagonal(chessBoard, positions[0], positions[1], figure);
+    //Weißer oder schwarzer Turm wird entfernt
+    else if(figure === "r" || figure === "R") {
+      this.removeRook(chessBoard, positions[0], positions[1], figure)
     }
-    //Weißer Turm wird entfernt
-    else if(figure === "r") {
-      this.removeHorizontal(chessBoard, positions[0], positions[1], figure);
-      this.removeVertical(chessBoard, positions[0], positions[1], figure);
+    //Weißer oder schwarzer Läufer wird entfernt
+    else if(figure === "b" || figure === "B") {
+      this.removeBishop(chessBoard, positions[0], positions[1], figure)
     }
-    //Schwarzer Turm wird entfernt
-    else if(figure === "R") {
-      this.removeHorizontal(chessBoard, positions[0], positions[1], figure);
-      this.removeVertical(chessBoard, positions[0], positions[1], figure);
+    //Weißer oder schwarzer Springer wird entfernt
+    else if(figure === "r" || figure === "R") {
+      this.removeKnight(chessBoard, positions[0], positions[1], figure)
+    }
+    //Weißer oder schwarzer König wird entfernt
+    else if(figure === "k" || figure === "K") {
+      console.log("Muss noch implementiert werden")
     }
   }
 
@@ -592,65 +590,76 @@ export class ReplayMovesComponent {
         chessBoard[position1+2][position2] = " ";
       }
     }
-    //Weißer Springer wird entfernt
-    else if(figure === "n") {
-      if(chessBoard[position1+2][position2-1] === "n") {
-        chessBoard[position1+2][position2-1] = " ";
-      }
-      else if(chessBoard[position1+2][position2+1] === "n") {
-        chessBoard[position1+2][position2+1] = " ";
-      }
-      else if(chessBoard[position1-2][position2-1] === "n") {
-        chessBoard[position1-2][position2-1] = " ";
-      }
-      else if(chessBoard[position1-2][position2+1] === "n") {
-        chessBoard[position1-2][position2+1] = " ";
-      }
+    //Weißer oder schwarzer Springer wird entfernt
+    else if(figure === "n" || figure === "N") {
+      this.removeKnight(chessBoard, position1, position2, figure);
     }
-    //Schwarzer Springer wird entfernt
-    else if(figure === "N") {
-      if(chessBoard[position1+2][position2-1] === "N") {
-        chessBoard[position1+2][position2-1] = " ";
-      }
-      else if(chessBoard[position1+2][position2+1] === "N") {
-        chessBoard[position1+2][position2+1] = " ";
-      }
-      else if(chessBoard[position1-2][position2-1] === "N") {
-        chessBoard[position1-2][position2-1] = " ";
-      }
-      else if(chessBoard[position1-2][position2+1] === "N") {
-        chessBoard[position1-2][position2+1] = " ";
-      }
+    //Weiße oder schwarze Dame wird entfernt
+    else if(figure === "q" || figure === "Q") {
+      this.removeQueen(chessBoard, position1, position2, figure);
     }
-    //Weiße Dame wird entfernt
-    else if(figure === "q") {
-      this.removeDiagonal(chessBoard, position1, position2, figure);
-      this.removeHorizontal(chessBoard, position1, position2, figure);
+    //Weißer oder schwarzer Läufer wird entfernt
+    else if(figure === "b" || figure === "B") {
+      this.removeBishop(chessBoard, position1, position2, figure);
     }
-    //Schwarze Dame wird entfernt
-    else if(figure === "Q") {
-      this.removeDiagonal(chessBoard, position1, position2, figure);
-      this.removeHorizontal(chessBoard, position1, position2, figure);
+    //Weißer Turm oder schwarzer Turm wird entfernt
+    else if(figure === "r" || figure === "R") {
+      this.removeRook(chessBoard, position1, position2, figure)
     }
-    //Weißer Läufer wird entfernt
-    else if(figure === "b") {
-      this.removeDiagonal(chessBoard, position1, position2, figure);
-    }
-    //Schwarzer Läufer wird entfernt
-    else if(figure === "B") {
-      this.removeDiagonal(chessBoard, position1, position2, figure);
-    }
-    //Weißer Turm wird entfernt
-    else if(figure === "r") {
-      this.removeHorizontal(chessBoard, position1, position2, figure);
-      this.removeVertical(chessBoard, position1, position2, figure);
-    }
-    //Schwarzer Turm wird entfernt
-    else if(figure === "R") {
-      this.removeHorizontal(chessBoard, position1, position2, figure);
-      this.removeVertical(chessBoard, position1, position2, figure);
+    //Weißer oder schwarzer König wird entfernt
+    else if(figure === "k" || figure === "K") {
+      console.log("Muss noch implementiert werden")
     }
   }
+
+
+  //Entferne einen weißen oder schwarzen Turm
+  removeRook(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    this.removeHorizontal(chessBoard, position1, position2, figure);
+    this.removeVertical(chessBoard, position1, position2, figure);
+  }
+
+  //Entferne einen weißen oder schwarzen Läufer
+  removeBishop(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    this.removeDiagonal(chessBoard, position1, position2, figure);
+  }
+
+  //Entferne eine weiße oder schwarze Dame
+  removeQueen(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    this.removeDiagonal(chessBoard, position1, position2, figure);
+    this.removeHorizontal(chessBoard, position1, position2, figure);
+    this.removeVertical(chessBoard, position1, position2, figure);
+  }
+
+  //Entferne einen weißen oder schwarzen Springer
+  removeKnight(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    if(chessBoard[position1+2][position2-1] === figure) {
+      chessBoard[position1+2][position2-1] = " ";
+    }
+    else if(chessBoard[position1+2][position2+1] === figure) {
+      chessBoard[position1+2][position2+1] = " ";
+    }
+    else if(chessBoard[position1-2][position2-1] === figure) {
+      chessBoard[position1-2][position2-1] = " ";
+    }
+    else if(chessBoard[position1-2][position2+1] === figure) {
+      chessBoard[position1-2][position2+1] = " ";
+    }
+    else if(chessBoard[position1+1][position2+2] === figure) {
+      chessBoard[position1+1][position2+2] = " ";
+    }
+    else if(chessBoard[position1-1][position2+2] === figure) {
+      chessBoard[position1-1][position2+2] = " ";
+    }
+    else if(chessBoard[position1+1][position2-2] === figure) {
+      chessBoard[position1+1][position2-2] = " ";
+    }
+    else if(chessBoard[position1-1][position2-2] === figure) {
+      chessBoard[position1-1][position2-2] = " ";
+    }
+  }
+
+
 
   //Entfernt eine bestimmte Figur horizontal
   removeHorizontal(chessBoard: string[][], position1: number, position2: number, figure: string) {
@@ -821,10 +830,7 @@ export class ReplayMovesComponent {
     //Läufer wird bewegt
     else if(move[0] === "B") {
       move = move.replace("B", "");
-      console.log(move);
-      console.log(turn);
       let positions = this.getPositions(move);
-      console.log(positions);
       if(turn === "weiß") {
         this.updateChessBoard(positions[0], positions[1], "b");
       }
