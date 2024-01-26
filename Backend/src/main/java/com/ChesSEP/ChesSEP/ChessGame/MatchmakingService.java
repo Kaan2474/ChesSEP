@@ -474,13 +474,13 @@ public class MatchmakingService {
         }
 
         switch (board.getManagedBoard().getGameType()){
-            case 0:
+            case PVP:
                 endMyMatch();
                 break;
-            case 1:
+            case PUZZLE:
                 endPuzzle();
                 break;
-            case 2:
+            case PVE:
                 endMatchPVE();
                 break;
         }
@@ -512,6 +512,31 @@ public class MatchmakingService {
         
     }
 
+    //AssistantBot
+
+    public int[] getAssiatance(){
+        ChessGame chessGame=getMyCurrentMatch();
+
+        BoardManager bm=boards.get(chessGame.getGameID());
+
+        ChessBoard board=bm.getManagedBoard();
+
+        if(board.getGameType()==ChessGameType.PUZZLE)
+            return new int[]{-1,-1,-1,-1,-1};
+
+        if(board.getGameType()==ChessGameType.PVE){
+            return board.getAssistance();
+        }
+
+        if(board.getCurrentActivePlyer()==Color.WHITE&&getSender().getId()==chessGame.getPlayerBlackID())
+        return new int[]{-1,-1,-1,-1,-1};
+
+        if(board.getCurrentActivePlyer()==Color.BLACK&&getSender().getId()==chessGame.getPlayerWhiteID())
+        return new int[]{-1,-1,-1,-1,-1};
+
+        return board.getAssistance();
+    }
+
     //Streaming
 
     public int[][][] getCurrentStreamingFrame(int frameID, long gameID) {
@@ -531,15 +556,6 @@ public class MatchmakingService {
 
         return frame;
 
-    }
-
-    private ChessGame liveMatch(long gameId) {
-        ChessGame game = null;
-        for (ChessGame x : onGoingGame) {
-            if (x.getGameID() == gameId)
-                game = x;
-        }
-        return game;
     }
 
     public List<ChessGame> allMatches(){

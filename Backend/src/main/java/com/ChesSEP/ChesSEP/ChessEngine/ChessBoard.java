@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class ChessBoard {
 
     public ChessPiece[][] chessBoard;
@@ -25,8 +24,9 @@ public class ChessBoard {
     private boolean requestRemisBlack;
     private Map<Integer,ChessPiece[][]> remisPattern;
     private Map<Integer,Integer[]> remisPatternStatus;
-    
 
+    public int[] AssistanceCounter={0,0};
+    
     private long intervallStart;
 
     private boolean bauerTransform;
@@ -387,8 +387,8 @@ public class ChessBoard {
 
     //ExportBoard
 
-    public int getGameType(){
-        return gameType.getid();
+    public ChessGameType getGameType(){
+        return gameType;
     }
 
     public void surrender(Color color){
@@ -896,6 +896,21 @@ public class ChessBoard {
         }
 
         return true;
+    }
+
+    public int[] getAssistance(){
+
+        if(gameType==ChessGameType.PVE&&currentPlayer==Color.WHITE)
+            return generateBotMove(currentPlayer, difficulty.HARD);
+        
+        
+        if(currentPlayer==Color.BLACK){
+            AssistanceCounter[1]++;
+        }else{
+            AssistanceCounter[0]++;
+        }
+
+        return generateBotMove(currentPlayer, difficulty.HARD);
     }
 
     public int[] generateBotMove(Color color,difficulty difficulty){

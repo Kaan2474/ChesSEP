@@ -289,6 +289,8 @@ public class ChessOperation {
                 case KOENIG:
                     zug += "K" + oldKoord(y,x) + "x";
                     break;
+                case BAUER:
+                    break;
             }
             switch (newY) {
                 case 0:

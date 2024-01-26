@@ -134,4 +134,10 @@ public class MatchmakingController {
     public void startPVEMatch(@PathVariable int difficulty){
         matchmakingService.startPVEMatch(difficulty);
     }
+
+    //AssitanceBot
+    @GetMapping("/bot/assist")
+    public ResponseEntity<int[]> getAssistance(){
+        return ResponseEntity.ok(matchmakingService.getAssiatance());
+    }
 }

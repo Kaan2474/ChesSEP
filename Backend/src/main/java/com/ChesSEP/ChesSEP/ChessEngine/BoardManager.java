@@ -48,7 +48,7 @@ public class BoardManager {
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
                         {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
-                        {board.getGameType()}};// 0=PVP,1=Puzzle,2=PVE
+                        {board.getGameType().getid()}};// 0=PVP,1=Puzzle,2=PVE
 
         return new int[][][]{status};
     }
@@ -63,7 +63,7 @@ public class BoardManager {
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                         {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
                         {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
-                        {board.getGameType()}};// 0=PVP,1=Puzzle,2=PVE
+                        {board.getGameType().getid()}};// 0=PVP,1=Puzzle,2=PVE
 
         frame.add(status);
 
@@ -185,7 +185,7 @@ public class BoardManager {
         int[][] status= {{board.getZugId(),1,2,3,4,5,6},  //ZugID PosOfBoard PosOfColor PosOfKingIFAttacked BauerTransformEvent LetzterZug PosOfHighlightStatus
                 {(int)board.getCurrentTime(Color.WHITE),(int)board.getCurrentTime(Color.BLACK)},  //WhiteTime  BlackTime both in ms
                 {board.getWinner()},// 0 keiner , 1 weis, 2 schwarz, 3 unentschieden
-                {board.getGameType()}};// 0=PVP,1=Puzzle,2=PVE
+                {board.getGameType().getid()}};// 0=PVP,1=Puzzle,2=PVE
 
         frame.add(status);
 
