@@ -363,9 +363,10 @@ export class ReplayMovesComponent {
 
   //Evaluiere jeden Zug
   evaluateMoves() {
-    for(let i = 0; i<48; i++) {
+    for(let i = 0; i<49; i++) {
       this.checkMove(this.allMoves[i]);
     }
+    console.log(this.chessBoards);
   }
 
   //Analysiere den Zug
@@ -373,7 +374,6 @@ export class ReplayMovesComponent {
     //Entferne das + --> irrelevant
     if(move.includes("+")) {
       move = move.replace("+", "");
-      console.log(move);
     }
     //Figur wird geschlagen
     if(move.includes("x")) {
@@ -525,7 +525,6 @@ export class ReplayMovesComponent {
     this.chessBoards.push(chessBoard2);
     //Gehe zum nächsten Schachfeld
     this.currentChessBoard++;
-    console.log(this.chessBoards)
   }
 
 
@@ -613,8 +612,15 @@ export class ReplayMovesComponent {
     }
     //Weißer oder schwarzer König wird entfernt
     else if(figure === "k" || figure === "K") {
-      console.log("Muss noch implementiert werden")
+      this.removeKing(chessBoard, position1, position2, figure);
     }
+  }
+
+  //Entferne einen weißen oder schwarzen König
+  removeKing(chessBoard: string[][], position1: number, position2: number, figure: string) {
+    this.removeDiagonal(chessBoard, position1, position2, figure);
+    this.removeHorizontal(chessBoard, position1, position2, figure);
+    this.removeVertical(chessBoard, position1, position2, figure);
   }
 
 
@@ -885,7 +891,6 @@ export class ReplayMovesComponent {
     this.chessBoards.push(chessBoard2);
     //Gehe zum nächsten Schachfeld
     this.currentChessBoard++;
-    console.log(this.chessBoards)
   }
 
 
@@ -912,7 +917,6 @@ export class ReplayMovesComponent {
     this.chessBoards.push(chessBoard2);
     //Gehe zum nächsten Schachfeld
     this.currentChessBoard++;
-    console.log(this.chessBoards)
   }
 
 
