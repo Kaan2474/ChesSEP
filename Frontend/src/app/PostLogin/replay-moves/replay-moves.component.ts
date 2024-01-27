@@ -327,13 +327,12 @@ export class ReplayMovesComponent {
 
   //Funktion für Button: Nächster Zug
   nextChessMove() {
-    if(this.currentChessMove < this.allMoves.length) {
+    if(this.currentChessMove < this.allMoves.length - 1) {
       this.currentChessMove++;
-      console.log("Aktueller Zug: " + this.currentChessMove);
       this.placeFigures(this.currentChessMove);
     }
-    else {
-      alert("Es gibt keine weiteren nächsten Züge!");
+    else if(this.currentChessMove === this.allMoves.length - 1) {
+      this.checkLastMove();
     }
   }
 
@@ -344,7 +343,6 @@ export class ReplayMovesComponent {
     }
     else {
       this.currentChessMove--;
-      console.log("Aktueller Zug: " + this.currentChessMove);
       this.placeFigures(this.currentChessMove);
     }
   }
@@ -363,11 +361,13 @@ export class ReplayMovesComponent {
 
   //Evaluiere jeden Zug
   evaluateMoves() {
-    for(let i = 0; i<49; i++) {
+    for(let i = 0; i<this.allMoves.length - 1; i++) {
       this.checkMove(this.allMoves[i]);
     }
     console.log(this.chessBoards);
   }
+
+
 
   //Analysiere den Zug
   checkMove(move: string) {
@@ -386,6 +386,35 @@ export class ReplayMovesComponent {
     //Normaler Zug
     else {
       this.standardMove(move);
+    }
+  }
+
+
+  //Prüfe den letzten Zug
+  checkLastMove() {
+    let lastMove = this.allMoves[this.allMoves.length - 1];
+    if(lastMove === "1-0") {
+      alert("Der weiße Spieler hat gewonnen!");
+    }
+    else if(lastMove === "0-1") {
+      alert("Der schwarze Spieler hat gewonnen!");
+    }
+    else if(lastMove === "1/2-1/2") {
+      alert("Unentschieden!");
+    }
+    else if(lastMove === "*") {
+      alert("Partie ist noch nicht beendet!!");
+    }
+  }
+
+  //Spiel vorbei: Entweder weiß oder schwarz hat gewonnen
+  gameFinished(move: string) {
+    let turn = this.getTurn();
+    if(turn === "weiß") {
+
+    }
+    else {
+
     }
   }
 
@@ -829,12 +858,17 @@ export class ReplayMovesComponent {
     //Turm wird bewegt
     else if(move[0] === "R") {
       move = move.replace("R", "");
-      let positions = this.getPositions(move);
-      if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "r");
+      if(move.length === 3) {
+        this.specialUpdate(move, turn, "R");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "R");
+        let positions = this.getPositions(move);
+        if(turn === "weiß") {
+          this.updateChessBoard(positions[0], positions[1], "r");
+        }
+        else {
+          this.updateChessBoard(positions[0], positions[1], "R");
+        }
       }
     }
     //Läufer wird bewegt
