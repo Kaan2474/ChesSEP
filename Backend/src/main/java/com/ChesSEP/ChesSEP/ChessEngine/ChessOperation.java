@@ -73,9 +73,46 @@ public class ChessOperation {
         return oldKoord;
     }
 
+    private String convKoord(int newY, int newX){
+        String convKoord ="";
+
+        switch (newY) {
+            case 0:
+                convKoord += "a";
+                break;
+            case 1:
+                convKoord += "b";
+                break;
+            case 2:
+                convKoord += "c";
+                break;
+            case 3:
+                convKoord += "d";
+                break;
+            case 4:
+                convKoord += "e";
+                break;
+            case 5:
+                convKoord += "f";
+                break;
+            case 6:
+                convKoord += "g";
+                break;
+            case 7:
+                convKoord += "h";
+                break;
+        }
+        for (int i = 0; i < 8; i++) {
+            if(newX==i) {
+                convKoord += Integer.toString(8 - i);
+            }
+        }
+
+        return convKoord;
+    }
+
     private String normalMove() {
         String zug ="";
-        String convKoord = "";
         switch (movingPiece.getType()) {
             case BAUER:
                 zug += "";
@@ -96,181 +133,23 @@ public class ChessOperation {
                 zug += "K";
                 break;
         }
-        switch (newY) {
-            case 0:
-                convKoord += "a";
-                break;
-            case 1:
-                convKoord += "b";
-                break;
-            case 2:
-                convKoord += "c";
-                break;
-            case 3:
-                convKoord += "d";
-                break;
-            case 4:
-                convKoord += "e";
-                break;
-            case 5:
-                convKoord += "f";
-                break;
-            case 6:
-                convKoord += "g";
-                break;
-            case 7:
-                convKoord += "h";
-                break;
-        }
 
-        switch (newX) {
-            case 0:
-                convKoord += "8";
-                break;
-            case 1:
-                convKoord += "7";
-                break;
-            case 2:
-                convKoord += "6";
-                break;
-            case 3:
-                convKoord += "5";
-                break;
-            case 4:
-                convKoord += "4";
-                break;
-            case 5:
-                convKoord += "3";
-                break;
-            case 6:
-                convKoord += "2";
-                break;
-            case 7:
-                convKoord += "1";
-                break;
-        }
-        return zug + oldKoord(y,x) + convKoord;
+        return zug + oldKoord(y,x) + convKoord(newY, newX);
     }
 
     private String schlagMoveBauerTransform() {
         String bauerSchlag = oldKoord(y,x)+"x";
-        String convKoord = "";
-
-        switch (newY) {
-            case 0:
-                convKoord += "a";
-                break;
-            case 1:
-                convKoord += "b";
-                break;
-            case 2:
-                convKoord += "c";
-                break;
-            case 3:
-                convKoord += "d";
-                break;
-            case 4:
-                convKoord += "e";
-                break;
-            case 5:
-                convKoord += "f";
-                break;
-            case 6:
-                convKoord += "g";
-                break;
-            case 7:
-                convKoord += "h";
-                break;
-        }
-        switch (newX) {
-            case 0:
-                convKoord += "8";
-                break;
-            case 1:
-                convKoord += "7";
-                break;
-            case 2:
-                convKoord += "6";
-                break;
-            case 3:
-                convKoord += "5";
-                break;
-            case 4:
-                convKoord += "4";
-                break;
-            case 5:
-                convKoord += "3";
-                break;
-            case 6:
-                convKoord += "2";
-                break;
-            case 7:
-                convKoord += "1";
-                break;
-        }
-        return bauerSchlag + convKoord;
+        return bauerSchlag + convKoord(newY, newX);
 
     }
 
     private String schlagMove() {
         String bauerSchlag = "";
         String zug ="";
-        String convKoord = "";
         if (movingPiece.getType() == ChessPieceType.BAUER && deletedPiece != null) {
             bauerSchlag += oldKoord(y,x) + "x";
-            switch (newY) {
-                case 0:
-                    convKoord += "a";
-                    break;
-                case 1:
-                    convKoord += "b";
-                    break;
-                case 2:
-                    convKoord += "c";
-                    break;
-                case 3:
-                    convKoord += "d";
-                    break;
-                case 4:
-                    convKoord += "e";
-                    break;
-                case 5:
-                    convKoord += "f";
-                    break;
-                case 6:
-                    convKoord += "g";
-                    break;
-                case 7:
-                    convKoord += "h";
-                    break;
-            }
-            switch (newX) {
-                case 0:
-                    convKoord += "8";
-                    break;
-                case 1:
-                    convKoord += "7";
-                    break;
-                case 2:
-                    convKoord += "6";
-                    break;
-                case 3:
-                    convKoord += "5";
-                    break;
-                case 4:
-                    convKoord += "4";
-                    break;
-                case 5:
-                    convKoord += "3";
-                    break;
-                case 6:
-                    convKoord += "2";
-                    break;
-                case 7:
-                    convKoord += "1";
-                    break;
-            }
-            return bauerSchlag + convKoord;
+
+            return bauerSchlag + convKoord(newY, newX);
 
         } else {
             switch (movingPiece.getType()) {
@@ -292,60 +171,8 @@ public class ChessOperation {
                 case BAUER:
                     break;
             }
-            switch (newY) {
-                case 0:
-                    convKoord += "a";
-                    break;
-                case 1:
-                    convKoord += "b";
-                    break;
-                case 2:
-                    convKoord += "c";
-                    break;
-                case 3:
-                    convKoord += "d";
-                    break;
-                case 4:
-                    convKoord += "e";
-                    break;
-                case 5:
-                    convKoord += "f";
-                    break;
-                case 6:
-                    convKoord += "g";
-                    break;
-                case 7:
-                    convKoord += "h";
-                    break;
-            }
 
-            switch (newX) {
-                case 0:
-                    convKoord += "8";
-                    break;
-                case 1:
-                    convKoord += "7";
-                    break;
-                case 2:
-                    convKoord += "6";
-                    break;
-                case 3:
-                    convKoord += "5";
-                    break;
-                case 4:
-                    convKoord += "4";
-                    break;
-                case 5:
-                    convKoord += "3";
-                    break;
-                case 6:
-                    convKoord += "2";
-                    break;
-                case 7:
-                    convKoord += "1";
-                    break;
-            }
-            return zug + convKoord;
+            return zug + convKoord(newY, newX);
         }
     }
 
