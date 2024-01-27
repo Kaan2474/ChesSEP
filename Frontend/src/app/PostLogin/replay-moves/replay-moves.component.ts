@@ -8,33 +8,40 @@ import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/se
 })
 export class ReplayMovesComponent {
 
-  PGN: string = "1. e4 e5 2. d4 exd4 3. Qxd4 Nc6 4. Qe3 Nf6 5. Nc3 Bb4 6. Bd2 O-O 7. O-O-O Re8 8. Qg3 Rxe4 9. a3 Rg4 10. Qh3 Bc5 11. f3 Rd4 12. g4 d5 13. Bd3 Ne5 14. Bg5 h6 15. Bxf6 Qxf6 16. Nge2 Nxd3+ 17. cxd3 c6 18. Qg3 b5 19. h4 b4 20. g5 Qg6 21. Na4 Bd6 22. f4 c5 23. Nxd4 cxd4 24. axb4 Bxb4 25. Kb1 Bd7 26. h5 Qa6 27. gxh6 Qxh6 28. Rc1 Bxa4 29. Rhg1 Bd7 30. Rc7 Bf5 31. Rb7 a5 32. Ka1 1-0";
-  allMoves: string[] = this.PGN.split(/\d+\./);
+  PGN: any;
+  allMoves: string[] = [];
   currentChessMove: number = 0;
   currentChessBoard: number = 0;
   chessBoards: string[][][] = [];
 
 
   constructor() {
-    this.removeBlanks();
-    this.splitMoves();
     this.createFirstChessBoard();
-    this.evaluateMoves();
   }
 
   ngAfterViewInit() {
     this.placeFigures(this.currentChessMove);
   }
 
-  //PGN-Datei wird hochgeladen
-  uploadPgnFile() {
-    const input = document.getElementById("pgnInput") as HTMLInputElement;
-    if(input.files && input.files.length > 0) {
-      const pgn = input.files[0];
-      //PGN-Datei lesen
+
+  x() {
+    this.allMoves = this.PGN.split(/\d+\./);
+    this.removeBlanks();
+    this.splitMoves();
+    this.evaluateMoves();
+  }
+
+  onFileChange(event: any)  {
+    const fileList: FileList = event.target.files;
+    let updatedPgn = "";
+
+    if (fileList.length > 0) {
+      const file = fileList[0];
+      // Hier können Sie den Code platzieren, der auf die hochgeladene Datei reagiert
+      console.log(file);
       const fileReader = new FileReader();
-      fileReader.onload = function (event) {
-        let pgnContent = event.target?.result as string;
+      fileReader.onload =  (e: any) => {
+        let pgnContent = e.target?.result as string;
         //PGN-Datei bearbeiten
         let index = 0;
         for(let i = 0; i<pgnContent.length; i++) {
@@ -45,17 +52,20 @@ export class ReplayMovesComponent {
             index++;
           }
         }
-        console.log(index);
-        let newPgnContent = "";
         for(let i = index; i<pgnContent.length; i++) {
-          newPgnContent += pgnContent[i];
+          updatedPgn += pgnContent[i];
         }
-        console.log(pgnContent);
-        console.log(newPgnContent);
+        this.PGN = updatedPgn;
+        console.log(this.PGN);
+        this.x();
       };
-      fileReader.readAsText(pgn);
+      fileReader.readAsText(file);
+    }
+    else {
+      console.warn('Es wurde keine Datei ausgewählt.');
     }
   }
+
 
 
   //Entfernt die Leerzeichen am Anfang und Ende aus allen Elementen von moves

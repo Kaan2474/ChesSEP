@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<input id="pgnInput" type="file" accept=".pgn" (click)="uploadPgnFile()">
+<input id="pgnInput" type="file" accept=".pgn" (change)="onFileChange($event)">
 
 <br><br><br>
 
