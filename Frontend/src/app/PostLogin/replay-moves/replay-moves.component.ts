@@ -26,6 +26,37 @@ export class ReplayMovesComponent {
     this.placeFigures(this.currentChessMove);
   }
 
+  //PGN-Datei wird hochgeladen
+  uploadPgnFile() {
+    const input = document.getElementById("pgnInput") as HTMLInputElement;
+    if(input.files && input.files.length > 0) {
+      const pgn = input.files[0];
+      //PGN-Datei lesen
+      const fileReader = new FileReader();
+      fileReader.onload = function (event) {
+        let pgnContent = event.target?.result as string;
+        //PGN-Datei bearbeiten
+        let index = 0;
+        for(let i = 0; i<pgnContent.length; i++) {
+          if(pgnContent[i] === "1" && pgnContent[i+1] === "." && pgnContent[i+2] === " ") {
+            break;
+          }
+          else {
+            index++;
+          }
+        }
+        console.log(index);
+        let newPgnContent = "";
+        for(let i = index; i<pgnContent.length; i++) {
+          newPgnContent += pgnContent[i];
+        }
+        console.log(pgnContent);
+        console.log(newPgnContent);
+      };
+      fileReader.readAsText(pgn);
+    }
+  }
+
 
   //Entfernt die Leerzeichen am Anfang und Ende aus allen Elementen von moves
   removeBlanks() {
