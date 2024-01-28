@@ -751,10 +751,6 @@ export class ReplayMovesComponent {
           chessBoard[position1][i] = " ";
           return;
         }
-        //Damit der richtige Turm entfernt wird
-        else if(chessBoard[position1][i] != figure && chessBoard[position1][i] != " ") {
-          break;
-        }
       }
     }
     //Wenn man ganz rechts ist
@@ -763,10 +759,6 @@ export class ReplayMovesComponent {
         if(chessBoard[position1][i] === figure) {
           chessBoard[position1][i] = " ";
           return;
-        }
-        //Damit der richtige Turm entfernt wird
-        else if(chessBoard[position1][i] != figure && chessBoard[position1][i] != " ") {
-          break;
         }
       }
     }
@@ -779,7 +771,7 @@ export class ReplayMovesComponent {
           return;
         }
         //Damit der richtige Turm entfernt wird
-        else if(chessBoard[position1][i] != figure && chessBoard[position1][i] != " ") {
+        else if(chessBoard[position1][i] != " ") {
           break;
         }
       }
@@ -790,7 +782,7 @@ export class ReplayMovesComponent {
           return;
         }
         //Damit der richtige Turm entfernt wird
-        else if(chessBoard[position1][i] != figure && chessBoard[position1][i] != " ") {
+        else if(chessBoard[position1][i] != " ") {
           break;
         }
       }
