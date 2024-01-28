@@ -29,7 +29,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
   timer: number[] = [];
   bauerTransform:boolean=false;
   PlayerColor:number=1;
-
+  BotMove: number[] = [];
 
   constructor(
     private userService: UserService,
@@ -337,6 +337,7 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     if(!this.showHighlight(notation)&&!this.bauerTransform){
       this.makeMove(notation);
     }
+    this.displayBotmove();
   }
 
   doTransformBauer(id:number){
@@ -433,6 +434,18 @@ export class PlayGameAgainstUserComponent implements OnInit,OnDestroy {
     }
   }
   useBot(){
-
+    this.matchmakinService.getAssistance().subscribe(data => {
+      this.BotMove = data;
+      this.displayBotmove();
+      console.log("Assistent: " + data)
+    });
+  }
+  displayBotmove(){
+    if(this.BotMove != null) {
+      const oldCoord = [this.BotMove[1], this.BotMove[2]];
+      const newCoord = [this.BotMove[3], this.BotMove[4]];
+      this.setBorder(this.translateNotationFromCoordinates(oldCoord), "purple")
+      this.setBorder(this.translateNotationFromCoordinates(newCoord), "purple")
+    }
   }
 }

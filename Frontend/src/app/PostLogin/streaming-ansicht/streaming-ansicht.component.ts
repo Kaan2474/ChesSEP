@@ -49,7 +49,7 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
     this.playerID = localStorage.getItem("PlayerID");
     this.rivalID = localStorage.getItem("GegnerplayerID")
     console.log("GameID: " + this.gameID);
-    console.log("GameID: " + this.playerID);
+    console.log("PlayerID: " + this.playerID);
 
     this.getUserDetail();
     this.getRival();
@@ -93,14 +93,13 @@ export class StreamingAnsichtComponent implements OnInit,OnDestroy{
 
   //Speichert den Gegner in der Variable rival anhand der ID
   getRival(){
-    this.userService.getUser(this.rivalID).subscribe(data=> {
-        this.rival = data;
-        if(this.rival.profilbild!=null) {
-          this.rival.profilbild = 'data:image/png;base64,' + this.rival.profilbild;
-        }
-      }
-    );
-  }
+      this.userService.getUser(this.rivalID).subscribe(data=> {
+          this.rival = data;
+          if(this.rival.profilbild!=null) {
+            this.rival.profilbild = 'data:image/png;base64,' + this.rival.profilbild;
+        }}
+      );
+    }
 
   getMyCurrentMatch(){
     this.matchmakinService.joinStreamMatch(this.gameID, this.zugID).subscribe(data => {;
