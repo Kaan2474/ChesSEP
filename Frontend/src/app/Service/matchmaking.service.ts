@@ -92,4 +92,7 @@ export class MatchmakingService {
   public pgn(pgnId:any){
     return this.http.get(this.URL+"/pgn/"+pgnId, {headers: this.header})
   }
+  public getAssistance(){
+    return this.http.get<any[]>(this.URL+"/bot/assist", {headers: this.header})
+  }
 }
