@@ -369,6 +369,7 @@ export class ReplayMovesComponent {
   //Funktion für Button: Nächster Zug
   nextChessMove() {
     if(this.currentChessMove < this.allMoves.length - 1) {
+      console.log(this.allMoves[this.currentChessMove]);
       this.currentChessMove++;
       this.placeFigures(this.currentChessMove);
     }
@@ -638,7 +639,7 @@ export class ReplayMovesComponent {
     }
     //Weißer oder schwarzer König wird entfernt
     else if(figure === "k" || figure === "K") {
-      console.log("Muss noch implementiert werden")
+      this.removeKing(chessBoard, positions[0], positions[1], figure);
     }
   }
 
@@ -746,7 +747,7 @@ export class ReplayMovesComponent {
   removeHorizontal(chessBoard: string[][], position1: number, position2: number, figure: string) {
     if(position2 === 0) {
       //Wenn man ganz links ist
-      for(let i = position2; i<8; i++) {
+      for(let i = position2 + 1; i<8; i++) {
         if(chessBoard[position1][i] === figure) {
           chessBoard[position1][i] = " ";
           return;
@@ -755,7 +756,7 @@ export class ReplayMovesComponent {
     }
     //Wenn man ganz rechts ist
     else if(position2 === 7) {
-      for(let i = position2; i>=0; i--) {
+      for(let i = position2 - 1; i>=0; i--) {
         if(chessBoard[position1][i] === figure) {
           chessBoard[position1][i] = " ";
           return;
@@ -765,23 +766,23 @@ export class ReplayMovesComponent {
     //Wenn man in der Mitte ist
     else {
       //Suche links
-      for(let i = position2; i>=0; i--) {
+      for(let i = position2 - 1; i>=0; i--) {
         if(chessBoard[position1][i] === figure) {
           chessBoard[position1][i] = " ";
           return;
         }
-        //Damit der richtige Turm entfernt wird
+        //z.B um nicht den falschen Turm zu entfernen
         else if(chessBoard[position1][i] != " ") {
           break;
         }
       }
       //Suche rechts
-      for(let i = position2; i<8; i++) {
+      for(let i = position2 + 1; i<8; i++) {
         if(chessBoard[position1][i] === figure) {
           chessBoard[position1][i] = " ";
           return;
         }
-        //Damit der richtige Turm entfernt wird
+        //z.B um nicht den falschen Turm zu entfernen
         else if(chessBoard[position1][i] != " ") {
           break;
         }
