@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-replay-moves',
@@ -25,9 +26,9 @@ export class ReplayMovesComponent {
 
 
   x() {
-    this.allMoves = this.PGN.split(/\d+\./);
+    this.allMoves = this.PGN.split(/\d+\. |\s/);
     this.removeBlanks();
-    this.splitMoves();
+    console.log(this.allMoves);
     this.evaluateMoves();
   }
 
@@ -70,14 +71,24 @@ export class ReplayMovesComponent {
 
   //Entfernt die Leerzeichen am Anfang und Ende aus allen Elementen von moves
   removeBlanks() {
+    var resultmoves:string[]=[];
+    var offset:number=0;
+
     for(let i = 0; i<this.allMoves.length; i++) {
-      this.allMoves[i] = this.allMoves[i].trim();
+      if(this.allMoves[i]==""||this.allMoves[i]==undefined){
+        offset++;
+        continue;
+      }
+
+      resultmoves[i-offset]=this.allMoves[i];
     }
+
+    this.allMoves=resultmoves;
   }
 
 
   //Trennt die weißen und die schwarzen Züge auf
-  splitMoves() {
+  /*splitMoves() {
     let temp: string[] = [];
     const splittedMoves: string[] = [];
     for(let i = 1; i<this.allMoves.length; i++) {
@@ -89,7 +100,7 @@ export class ReplayMovesComponent {
     //Verändere die globale Variable allMoves, in welcher alle Züge nun getrennt sind
     this.allMoves = splittedMoves;
     console.log(this.allMoves);
-  }
+  }*/
 
 
   //Erstellt das erste Schachbrett
@@ -164,12 +175,13 @@ export class ReplayMovesComponent {
         else if(this.chessBoards[position][i][j] === "P") {
           copy[i][j] = "P";
         }
-        else {
-          copy[i][j] = " ";
-        }
       }
     }
     return copy;
+  }
+
+  isInBounds(x:number,y:number):boolean{
+    return (x>-1&&x<8)&&(y>-1&&y<8)
   }
 
   //Erstelle eine Kopie eines zweidimensionalen Arrays
@@ -713,31 +725,21 @@ export class ReplayMovesComponent {
     this.removeVertical(chessBoard, position1, position2, figure);
   }
 
+
+  springer:number[][]=[[1,2],[-1,2],[1,-2],[-1,-2],[2,1],[-2,1],[2,-1],[-2,-1]];
+
   //Entferne einen weißen oder schwarzen Springer
   removeKnight(chessBoard: string[][], position1: number, position2: number, figure: string) {
-    if(chessBoard[position1+2][position2-1] === figure) {
-      chessBoard[position1+2][position2-1] = " ";
-    }
-    else if(chessBoard[position1+2][position2+1] === figure) {
-      chessBoard[position1+2][position2+1] = " ";
-    }
-    else if(chessBoard[position1-2][position2-1] === figure) {
-      chessBoard[position1-2][position2-1] = " ";
-    }
-    else if(chessBoard[position1-2][position2+1] === figure) {
-      chessBoard[position1-2][position2+1] = " ";
-    }
-    else if(chessBoard[position1+1][position2+2] === figure) {
-      chessBoard[position1+1][position2+2] = " ";
-    }
-    else if(chessBoard[position1-1][position2+2] === figure) {
-      chessBoard[position1-1][position2+2] = " ";
-    }
-    else if(chessBoard[position1+1][position2-2] === figure) {
-      chessBoard[position1+1][position2-2] = " ";
-    }
-    else if(chessBoard[position1-1][position2-2] === figure) {
-      chessBoard[position1-1][position2-2] = " ";
+
+    for (let i = 0; i < this.springer.length; i++) {
+      if(!this.isInBounds(position1+this.springer[i][0],position2+this.springer[i][1]))
+        continue;
+
+      if(chessBoard[position1+this.springer[i][0]][position1+this.springer[i][1]]===undefined)
+        continue;
+
+      if(chessBoard[position1+this.springer[i][0]][position1+this.springer[i][1]]===figure)
+        chessBoard[position1+this.springer[i][0]][position1+this.springer[i][1]];
     }
   }
 
