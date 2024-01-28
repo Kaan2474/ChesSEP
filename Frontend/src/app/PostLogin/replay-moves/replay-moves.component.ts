@@ -664,8 +664,10 @@ export class ReplayMovesComponent {
       if(chessBoard[position1-1][position2] === "p") {
         chessBoard[position1-1][position2] = " ";
       }
-      else if(chessBoard[position1-2][position2] === "p") {
-        chessBoard[position1-2][position2] = " ";
+      else if(this.isInBounds(position1-2,position2)){
+        if(chessBoard[position1-2][position2] === "p") {
+          chessBoard[position1-2][position2] = " ";
+        }
       }
     }
     //Schwarzer Bauer wird entfernt
@@ -673,8 +675,10 @@ export class ReplayMovesComponent {
       if(chessBoard[position1+1][position2] === "P") {
         chessBoard[position1+1][position2] = " ";
       }
-      else if(chessBoard[position1+2][position2] === "P") {
-        chessBoard[position1+2][position2] = " ";
+      else if(this.isInBounds(position1+2,position2)){
+        if(chessBoard[position1+2][position2] === "P") {
+          chessBoard[position1+2][position2] = " ";
+        }
       }
     }
     //Weißer oder schwarzer Springer wird entfernt
