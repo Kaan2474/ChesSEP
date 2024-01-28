@@ -16,6 +16,7 @@ public class ChessOperation {
         this.specialEvent = specialEvent == null? "" : specialEvent;
     }
 
+    //alte koordinate, von wo aus bewegt wurde (für pgn)
     private String oldKoord(int y, int x){
         String oldKoord="";
         switch (y) {
@@ -73,6 +74,8 @@ public class ChessOperation {
         return oldKoord;
     }
 
+
+    //ziel koordinate (für pgn)
     private String convKoord(int newY, int newX){
         String convKoord ="";
 
@@ -111,6 +114,8 @@ public class ChessOperation {
         return convKoord;
     }
 
+
+    //ein ganz normaler zug, ohne besonderheit (für pgn)
     private String normalMove() {
         String zug ="";
         switch (movingPiece.getType()) {
@@ -137,12 +142,16 @@ public class ChessOperation {
         return zug + oldKoord(y,x) + convKoord(newY, newX);
     }
 
+
+    //wenn ein bauer eine figur geschlagen hat und dadurch transformiert weden kann (für pgn)
     private String schlagMoveBauerTransform() {
         String bauerSchlag = oldKoord(y,x)+"x";
         return bauerSchlag + convKoord(newY, newX);
 
     }
 
+
+    //eine figur wird geschlagen (für pgn)
     private String schlagMove() {
         String bauerSchlag = "";
         String zug ="";
@@ -176,6 +185,16 @@ public class ChessOperation {
         }
     }
 
+
+
+    /*
+        Flag String für transformationen
+        alle möglichen ereignisse, die passieren wenn ein bauer transformiert wird
+        - gegner wird schach gesetzt
+        - gegner wird schachmatt gesetzt
+        - gegner figur wird geschlagen, dann mit transformierter figur schach gesetzt
+        - gegner figur wird geschlagen, dann mit transformierter figur schachmatt gesetzt
+     */
     private String bauerTransformPossibilities() {
         if (deletedPiece != null) {
             if (specialEvent.contains("=") && specialEvent.contains("#")) {
@@ -201,34 +220,35 @@ public class ChessOperation {
     }
 
 
+    /*
+        Flag String kleine rochade, große rochade, check, checkmate und transformationen
+        transform möglichkeiten und andere besonderheiten wie rochade, check und checkmate werden abgearbeitet
+
+        signalisiert was, wie übersetzt werden muss
+     */
     public String eventHandler(){
-        switch (specialEvent) {
-            case "O-O":
-                return "kleineRochade";
-            case "O-O-O":
-                return "großeRochade";
-            case "+":
-                return "check";
-            case "#":
-                return "checkMate";
-            }
-        switch (bauerTransformPossibilities()) {
-            case "transformCaptureAndCheckmate":
-                return "transformCaptureAndCheckmate";
-            case "transformCaptureAndCheck":
-                return "transformCaptureAndCheck";
-            case "transformAndCapture":
-                return "transformAndCapture";
-            case "transformAndCheckmate":
-                return "transformAndCheckmate";
-            case "transformAndCheck":
-                return "transformAndCheck";
-            case "transform":
-                return "transform";
-        }
-        return "";
+        return switch (specialEvent) {
+            case "O-O" -> "kleineRochade";
+            case "O-O-O" -> "großeRochade";
+            case "+" -> "check";
+            case "#" -> "checkMate";
+            default -> switch (bauerTransformPossibilities()) {
+                case "transformCaptureAndCheckmate" -> "transformCaptureAndCheckmate";
+                case "transformCaptureAndCheck" -> "transformCaptureAndCheck";
+                case "transformAndCapture" -> "transformAndCapture";
+                case "transformAndCheckmate" -> "transformAndCheckmate";
+                case "transformAndCheck" -> "transformAndCheck";
+                case "transform" -> "transform";
+                default -> "";
+            };
+        };
     }
 
+
+    /*
+        die eigentliche toString()-Methode
+        Wie eine ChessOperation ausgegeben werden soll
+     */
     public String toStringKomprimiert(){
         String output ="";
         switch (eventHandler()) {
@@ -328,35 +348,3 @@ public class ChessOperation {
         return output;
     }
 }
-
-
-
-
-    /*private String eventHandler2() {
-
-        if (specialEvent.equals("O-O")) {
-            return "kleineRochade";
-        } else if (specialEvent.equals("O-O-O")) {
-            return "großeRochade";
-        } else if (bauerTransformPossibilities().equals("transformCaptureAndCheckmate")) {
-            return "transformCaptureAndCheckmate";
-        }else if(bauerTransformPossibilities().equals("transformCaptureAndCheck")){
-            return "transformCaptureAndCheck";
-        }else if(bauerTransformPossibilities().equals("transformAndCapture")) {
-            return "transformAndCapture";
-        }else if(bauerTransformPossibilities().equals("transformAndCheckmate")) {
-            return "transformAndCheckmate";
-        }else if(bauerTransformPossibilities().equals("transformAndCheck")) {
-            return "transformAndCheck";
-        }else if(bauerTransformPossibilities().equals("transform")){
-            return "transform";
-        } else if (specialEvent.equals("+")) {
-            return "check";
-        } else if (specialEvent.equals("#")) {
-            return "checkMate";
-        } else {
-            return "";
-        }
-    }
-
-     */
