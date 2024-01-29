@@ -895,6 +895,13 @@ public class ChessBoard {
             zuege.get(zuege.size()-1).specialEvent +="#";
         }
 
+        if(getBauerToTransform()!=null){
+            letzterZug=zuege.get(zuege.size()-1);
+            zuege.remove(letzterZug);
+
+            bauerTransform(5);
+        }
+
         return true;
     }
 
