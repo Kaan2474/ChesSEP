@@ -342,8 +342,8 @@ public class MatchmakingService {
                 User winner=userRepository.findUserById(game.getPlayerWhiteID());
                 User loser=userRepository.findUserById(game.getPlayerBlackID());
 
-                winner.setElo(winner.getElo()+10);
-                loser.setElo(loser.getElo()-10);
+                winner.setElo(winner.getElo()+10-board.getManagedBoard().AssistanceCounter[0]);
+                loser.setElo(loser.getElo()-10-board.getManagedBoard().AssistanceCounter[1]);
 
                 userRepository.save(winner);
                 userRepository.save(loser);
@@ -357,8 +357,8 @@ public class MatchmakingService {
                 winner=userRepository.findUserById(game.getPlayerBlackID());
                 loser=userRepository.findUserById(game.getPlayerWhiteID());
 
-                winner.setElo(winner.getElo()+10);
-                loser.setElo(loser.getElo()-10);
+                winner.setElo(winner.getElo()+10-board.getManagedBoard().AssistanceCounter[1]);
+                loser.setElo(loser.getElo()-10-board.getManagedBoard().AssistanceCounter[0]);
 
                 userRepository.save(winner);
                 userRepository.save(loser);
