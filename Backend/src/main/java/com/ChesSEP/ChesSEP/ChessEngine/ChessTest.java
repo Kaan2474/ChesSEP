@@ -21,7 +21,7 @@ public class ChessTest {
 
         if(mode.equals("1")){
             boardManager=new BoardManager();
-            boardManager.startNewPVEMatch(0,boardManager.getDefaultStartConfig());
+            boardManager.startNewPVEMatch(2,boardManager.getDefaultStartConfig());
             playInConsole();
 
         }else if (mode.equals("2")) {

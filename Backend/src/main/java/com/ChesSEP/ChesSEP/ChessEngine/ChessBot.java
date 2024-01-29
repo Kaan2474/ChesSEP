@@ -1,5 +1,8 @@
 package com.ChesSEP.ChesSEP.ChessEngine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChessBot {
 
     private final double bauerValue=100;
@@ -7,7 +10,7 @@ public class ChessBot {
     private final double laeuferValue=300;
     private final double turmValue=500;
     private final double koeniginValue=900;
-    private final double koenigValue=300;
+    private final double koenigValue=1200;
 
     private final double[][] springermulti=new double[][]{
         {-50,-40,-30,-30,-30,-30,-40,-50},
@@ -88,14 +91,14 @@ public class ChessBot {
     }
 
     private int[] generateNextBestMove(ChessPiece[][] initialBoard,Color playerColor,int depth){
-
-        if(depth==0)
-            return boardScorer(initialBoard);
             
-
         ChessPiece[][] moveBoard=moveGen.getAllCoords(initialBoard, playerColor);
 
-        int[] score=null;
+        List<int[]> scoreList=new ArrayList<>();
+
+        int[] score=new int[]{Integer.MAX_VALUE*-1};
+
+        scoreList.add(score);
 
         for (int i = 0; i < moveBoard.length; i++) {
             for (int j = 0; j < moveBoard[i].length; j++) {
@@ -103,22 +106,52 @@ public class ChessBot {
                     continue;
 
                 for (int j2 = 0; j2 < moveBoard[i][j].validMoves.size(); j2++) {
-                    int[] scoreOfMove=generateNextBestMove(moveGen.createNextBoard(i, j, moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1], initialBoard), 
+                    int scoreOfMove=checkDecendingMoves(moveGen.createNextBoard(i, j, moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1], initialBoard), 
                         playerColor==Color.WHITE?Color.BLACK:Color.WHITE, 
-                        depth-1);
+                        depth-1,
+                        scoreList.get(0)[0]*-1)*-1;
 
-                    int localDiference;
-
-                    if(playerColor==Color.WHITE){
-                        localDiference=scoreOfMove[0]-scoreOfMove[1];
-                    }else{
-                        localDiference=scoreOfMove[1]-scoreOfMove[0];
+                    if(scoreList.get(0)[0]<scoreOfMove){
+                        scoreList.clear();
+                        scoreList.add(new int[]{scoreOfMove,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]});
+                    }else if(scoreList.get(0)[0]==scoreOfMove){
+                        scoreList.add(new int[]{scoreOfMove,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]});
                     }
 
-                    if(score==null){
-                        score=new int[]{localDiference,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]};
-                    }else if(score[0]-localDiference>0){
-                        score=new int[]{localDiference,i,j,moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1]};
+                }
+            }
+        }
+
+        return scoreList.get((int)(Math.random()*(scoreList.size()-1)));
+    }
+
+    private int checkDecendingMoves(ChessPiece[][] initialBoard,Color playerColor,int depth,int alpha){
+
+        if(depth==0)
+            return boardScorer(initialBoard, playerColor);
+            
+
+        ChessPiece[][] moveBoard=moveGen.getAllCoords(initialBoard, playerColor);
+
+        int score=Integer.MAX_VALUE*-1;
+
+        for (int i = 0; i < moveBoard.length; i++) {
+            for (int j = 0; j < moveBoard[i].length; j++) {
+                if(moveBoard[i][j]==null)
+                    continue;
+
+                for (int j2 = 0; j2 < moveBoard[i][j].validMoves.size(); j2++) {
+
+                    if(boardScorer(initialBoard, playerColor)>alpha&&alpha!=(Integer.MAX_VALUE*-1))
+                        return alpha;
+
+                    int scoreOfMove=checkDecendingMoves(moveGen.createNextBoard(i, j, moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1], initialBoard), 
+                        playerColor==Color.WHITE?Color.BLACK:Color.WHITE, 
+                        depth-1,
+                        alpha*-1)*-1;
+
+                    if(score<scoreOfMove){
+                        score=scoreOfMove;
                     }   
                 }
             }
@@ -127,7 +160,7 @@ public class ChessBot {
         return score;
     }
 
-    private int[] boardScorer(ChessPiece[][] testBoard){
+    private int boardScorer(ChessPiece[][] testBoard,Color context){
         double scoreW=0;
         double scoreB=0;
 
@@ -139,9 +172,9 @@ public class ChessBot {
                 switch (testBoard[i][j].getType()) {
                     case BAUER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=bauerValue+bauermulti[i][j];
+                            scoreW+=bauerValue+bauermulti[7-i][7-j];
                         }else{
-                            scoreB+=bauerValue+bauermulti[7-i][7-j];
+                            scoreB+=bauerValue+bauermulti[i][j];
                         }
                         break;
                     case SPRINGER:
@@ -185,10 +218,6 @@ public class ChessBot {
             }
         }
 
-        return new int[]{(int)scoreW,(int)scoreB};
+        return (int)(context==Color.WHITE?scoreW-scoreB:scoreB-scoreW);
     }
-
-
-
-
 }
