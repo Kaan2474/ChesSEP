@@ -10,7 +10,8 @@ public class ChessBot {
     private final double laeuferValue=300;
     private final double turmValue=500;
     private final double koeniginValue=900;
-    private final double koenigValue=1200;
+
+    private final double multi=1.5;
 
     private final double[][] springermulti=new double[][]{
         {-50,-40,-30,-30,-30,-30,-40,-50},
@@ -75,7 +76,7 @@ public class ChessBot {
         {-5,  0,  0,  0,  0,  0,  0, -5},
         {-5,  0,  0,  0,  0,  0,  0, -5},
         {-5,  0,  0,  0,  0,  0,  0, -5},
-        { 0,  0,  0,  5,  5,  0,  0,  0}
+        { 0,  -5,  0,  5,  5,  0,  -5,  0}
     };
 
     ChessBoard moveGen;
@@ -142,8 +143,10 @@ public class ChessBot {
 
                 for (int j2 = 0; j2 < moveBoard[i][j].validMoves.size(); j2++) {
 
-                    if(boardScorer(initialBoard, playerColor)>alpha&&alpha!=(Integer.MAX_VALUE*-1))
-                        return alpha;
+                    int boardscore=boardScorer(initialBoard, playerColor);
+
+                    if(boardscore>alpha&&alpha!=(Integer.MAX_VALUE*-1))
+                        return boardscore;
 
                     int scoreOfMove=checkDecendingMoves(moveGen.createNextBoard(i, j, moveBoard[i][j].validMoves.get(j2)[0], moveBoard[i][j].validMoves.get(j2)[1], initialBoard), 
                         playerColor==Color.WHITE?Color.BLACK:Color.WHITE, 
@@ -172,44 +175,37 @@ public class ChessBot {
                 switch (testBoard[i][j].getType()) {
                     case BAUER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=bauerValue+bauermulti[7-i][7-j];
+                            scoreW+=bauerValue*multi+bauermulti[i][j];
                         }else{
-                            scoreB+=bauerValue+bauermulti[i][j];
+                            scoreB+=bauerValue*multi+bauermulti[7-i][7-j];
                         }
                         break;
                     case SPRINGER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=springerValue+springermulti[i][j];
+                            scoreW+=springerValue*multi+springermulti[i][j];
                         }else{
-                            scoreB+=springerValue+springermulti[7-i][7-j];
+                            scoreB+=springerValue*multi+springermulti[7-i][7-j];
                         }
                         break;
                     case LAUFER:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=laeuferValue+laeufermulti[i][j];
+                            scoreW+=laeuferValue*multi+laeufermulti[i][j];
                         }else{
-                            scoreB+=laeuferValue+laeufermulti[7-i][7-j];
+                            scoreB+=laeuferValue*multi+laeufermulti[7-i][7-j];
                         }
                         break;
                     case TURM:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=turmValue+turmmulti[i][j];
+                            scoreW+=turmValue*multi+turmmulti[i][j];
                         }else{
-                            scoreB+=turmValue+turmmulti[7-i][7-j];
+                            scoreB+=turmValue*multi+turmmulti[7-i][7-j];
                         }
                         break;
                     case KOENIGIN:
                         if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=koeniginValue+damemulti[i][j];
+                            scoreW+=koeniginValue*multi+damemulti[i][j];
                         }else{
-                            scoreB+=koeniginValue+damemulti[7-i][7-j];
-                        }
-                        break;
-                    case KOENIG:
-                        if(testBoard[i][j].getColor()==Color.WHITE){
-                            scoreW+=koenigValue+koenigmulti[i][j];
-                        }else{
-                            scoreB+=koenigValue+koenigmulti[7-i][7-j];
+                            scoreB+=koeniginValue*multi+damemulti[7-i][7-j];
                         }
                         break;
                     default:
