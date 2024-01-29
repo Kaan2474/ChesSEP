@@ -224,9 +224,12 @@ public class MatchmakingService {
             game.setBlackLastFrameSeen(true);
         }else{
             game.setWhiteLastFrameSeen(true);
-        }    
+        }  
+        
+        if(game.getType()==ChessGameType.PVE)
+            endMatchPVE();
 
-        if(game.getPlayerBlackID()==-1L||game.getPlayerWhiteID()==-1L)
+        if(game.getType()==ChessGameType.PUZZLE)
             endPuzzle();
 
         if(game.isBlackLastFrameSeen()&&game.isWhiteLastFrameSeen())

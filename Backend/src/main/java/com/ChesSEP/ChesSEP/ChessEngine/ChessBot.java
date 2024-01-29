@@ -10,6 +10,7 @@ public class ChessBot {
     private final double laeuferValue=300;
     private final double turmValue=500;
     private final double koeniginValue=900;
+    private final double koenigValue=0;
 
     private final double multi=1.5;
 
@@ -206,6 +207,13 @@ public class ChessBot {
                             scoreW+=koeniginValue*multi+damemulti[i][j];
                         }else{
                             scoreB+=koeniginValue*multi+damemulti[7-i][7-j];
+                        }
+                        break;
+                    case KOENIG:
+                        if(testBoard[i][j].getColor()==Color.WHITE){
+                            scoreW+=koenigValue*multi+koenigmulti[i][j];
+                        }else{
+                            scoreB+=koenigValue*multi+koenigmulti[7-i][7-j];
                         }
                         break;
                     default:
