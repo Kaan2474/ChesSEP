@@ -25,7 +25,7 @@ export class ReplayMovesComponent {
   }
 
 
-  x() {
+  startProcess() {
     this.allMoves = this.PGN.split(/\d+\. |\s/);
     this.removeBlanks();
     console.log(this.allMoves);
@@ -58,7 +58,7 @@ export class ReplayMovesComponent {
         }
         this.PGN = updatedPgn;
         console.log(this.PGN);
-        this.x();
+        this.startProcess();
       };
       fileReader.readAsText(file);
     }
@@ -429,19 +429,134 @@ export class ReplayMovesComponent {
     if(move.includes("+")) {
       move = move.replace("+", "");
     }
-    //Figur wird geschlagen
-    if(move.includes("x")) {
-      this.figureBeaten(move);
+    //Entferne das # --> irrelevant
+    if(move.includes("#")) {
+      move = move.replace("#", "");
     }
     //Rochade
-    else if(move.includes("O")) {
+    if(move.includes("O")) {
       this.castling(move);
     }
-    //Normaler Zug
+    //Maximale PGN-Notation
+    else if(this.isMaximalNotation(move) === true) {
+      console.log("Maximale Notation");
+      this.handleMaximalNotation(move);
+    }
+    //Minimale PGN-Notation
     else {
-      this.standardMove(move);
+      console.log("Minimale Notation");
+      //Figur wird geschlagen
+      if(move.includes("x")) {
+        this.figureBeaten(move);
+      }
+      //Normaler Zug
+      else {
+        this.standardMove(move);
+      }
     }
   }
+
+  /*Prüfe ob eine maximale PGN-Notation verwendet wurde --> z.B e6e8, Na6a7
+  Bedingung: Mindestens zwei Zahlen im Zug
+   */
+  isMaximalNotation(move: string) {
+    let counter = 0;
+    let numbers = ["1", "2", "3", "4", "5", "6", "7", "8"];
+    for(let i = 0; i<move.length; i++) {
+      for(let j = 0; j<numbers.length; j++) {
+        if(move[i] === numbers[j]) {
+          counter++;
+        }
+      }
+    }
+    if(counter === 2) {
+      return true;
+    }
+    return false;
+  }
+
+  //Zug ist in Form einer maximalen Notation
+  handleMaximalNotation(move: string) {
+    let removePosition: number[];
+    let addPosition: number[];
+    let turn = this.getTurn();
+    //Entferne das x --> für maximale PGN-Notation irrelevant
+    if(move.includes("x")) {
+      move = move.replace("x", "");
+    }
+    //König
+    if(move[0] === "K") {
+      move = move.replace("K", "");
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      if(turn === "weiß") {
+        this.updateMaximalNotation(removePosition, addPosition, "k");
+      }
+      else {
+        this.updateMaximalNotation(removePosition, addPosition, "K");
+      }
+    }
+    //Dame
+    else if(move[0] === "Q") {
+      move = move.replace("Q", "");
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      if(turn === "weiß") {
+        this.updateMaximalNotation(removePosition, addPosition, "q");
+      }
+      else {
+        this.updateMaximalNotation(removePosition, addPosition, "Q");
+      }
+    }
+    //Turm wird bewegt
+    else if(move[0] === "R") {
+      move = move.replace("R", "");
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      if(turn === "weiß") {
+        this.updateMaximalNotation(removePosition, addPosition, "r");
+      }
+      else {
+        this.updateMaximalNotation(removePosition, addPosition, "R");
+      }
+    }
+    //Läufer wird bewegt
+    else if(move[0] === "B") {
+      move = move.replace("B", "");
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      if(turn === "weiß") {
+        this.updateMaximalNotation(removePosition, addPosition, "b");
+      }
+      else {
+        this.updateMaximalNotation(removePosition, addPosition, "B");
+      }
+    }
+    //Springer wird bewegt
+    else if(move[0] === "N") {
+      move = move.replace("N", "");
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      if(turn === "weiß") {
+        this.updateMaximalNotation(removePosition, addPosition, "n");
+      }
+      else {
+        this.updateMaximalNotation(removePosition, addPosition, "N");
+      }
+    }
+    //Bauer
+    else {
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      if(turn === "weiß") {
+        this.updateMaximalNotation(removePosition, addPosition, "p");
+      }
+      else {
+        this.updateMaximalNotation(removePosition, addPosition, "P");
+      }
+    }
+  }
+
 
 
   //Prüfe den letzten Zug
@@ -461,16 +576,6 @@ export class ReplayMovesComponent {
     }
   }
 
-  //Spiel vorbei: Entweder weiß oder schwarz hat gewonnen
-  gameFinished(move: string) {
-    let turn = this.getTurn();
-    if(turn === "weiß") {
-
-    }
-    else {
-
-    }
-  }
 
 
   //Kurze und Lange Rochade
@@ -591,25 +696,6 @@ export class ReplayMovesComponent {
       }
     }
   }
-
-
-  //Ändert eine geschlagene Figur
-  updateFigureBeaten(parameter: string, figure: string) {
-    /*Entferne die entsprechende Figur in dem aktuellen Schachfeld
-      z.B parameter = d4 --> Figur auf d4 wird geschlagen
-     */
-    let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
-    this.removeFigureBeaten(chessBoard1, parameter, figure);
-    let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
-    let positions = this.getPositions(parameter);
-    //Füge die entfernte Schachfigur an eine andere Position ein
-    chessBoard2[positions[0]][positions[1]] = figure;
-    //Füge das fertige Schachfeld allen Schachfeldern hinzu und gehe zum nächsten Schachfeld
-    this.chessBoards.push(chessBoard2);
-    //Gehe zum nächsten Schachfeld
-    this.currentChessBoard++;
-  }
-
 
 
   //Entfernt eine geschlagene Figur
@@ -739,11 +825,11 @@ export class ReplayMovesComponent {
       if(!this.isInBounds(position1+this.springer[i][0],position2+this.springer[i][1]))
         continue;
 
-      if(chessBoard[position1+this.springer[i][0]][position1+this.springer[i][1]]===undefined)
+      if(chessBoard[position1+this.springer[i][0]][position2+this.springer[i][1]]===undefined)
         continue;
 
-      if(chessBoard[position1+this.springer[i][0]][position1+this.springer[i][1]]===figure)
-        chessBoard[position1+this.springer[i][0]][position1+this.springer[i][1]];
+      if(chessBoard[position1+this.springer[i][0]][position2+this.springer[i][1]]===figure)
+        chessBoard[position1+this.springer[i][0]][position2+this.springer[i][1]] = " ";
     }
   }
 
@@ -953,7 +1039,20 @@ export class ReplayMovesComponent {
   }
 
 
-  //Normaler Zug: Figur entfernen und an andere Position einfügen
+  //Maximale Notation: Figur entfernen und an andere Position einfügen
+  updateMaximalNotation(removePosition: number[], addPosition: number[], figure: string) {
+    //Entferne die Figur und füge diese an die neue Stelle ein
+    let newChessBoard = this.copyChessBoard(this.currentChessBoard);
+    newChessBoard[removePosition[0]][removePosition[1]] = " ";
+    newChessBoard[addPosition[0]][addPosition[1]] = figure;
+    //Füge das fertige Schachfeld allen Schachfeldern hinzu
+    this.chessBoards.push(newChessBoard);
+    //Gehe zum nächsten Schachfeld
+    this.currentChessBoard++;
+  }
+
+
+  //Minimale Notation: Figur entfernen und an neue Position einfügen
   updateChessBoard(position1: number, position2: number, figure: string) {
     //Entferne die entsprechende Figur in dem aktuellen Schachfeld
     let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
@@ -968,9 +1067,25 @@ export class ReplayMovesComponent {
   }
 
 
-  /*Spezielle Änderung des Schachfeldes: Wenn zwei gleiche Figuren auf das selbe Feld platziert werden kann
-  --> z.B Nge2
-   */
+  //Minimale Notation: Geschlagene Figur entfernen und schlagende Figur an neue Position einfügen
+  updateFigureBeaten(parameter: string, figure: string) {
+    /*Entferne die entsprechende Figur in dem aktuellen Schachfeld
+      z.B parameter = d4 --> Figur auf d4 wird geschlagen
+     */
+    let chessBoard1 = this.copyChessBoard(this.currentChessBoard);
+    this.removeFigureBeaten(chessBoard1, parameter, figure);
+    let chessBoard2 = this.copyTwoDimensionalArray(chessBoard1);
+    let positions = this.getPositions(parameter);
+    //Füge die entfernte Schachfigur an eine andere Position ein
+    chessBoard2[positions[0]][positions[1]] = figure;
+    //Füge das fertige Schachfeld allen Schachfeldern hinzu und gehe zum nächsten Schachfeld
+    this.chessBoards.push(chessBoard2);
+    //Gehe zum nächsten Schachfeld
+    this.currentChessBoard++;
+  }
+
+
+  //Minimale Notation: Wenn zwei gleiche Figuren sich auf das selbe Feld bewegen können --> z.B Nge2
   specialUpdate(move: string, turn: string, figure: string) {
     if(turn === "weiß") {
       figure = figure.toLowerCase();
