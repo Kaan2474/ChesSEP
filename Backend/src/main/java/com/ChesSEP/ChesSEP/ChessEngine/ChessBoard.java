@@ -917,7 +917,9 @@ public class ChessBoard {
             AssistanceCounter[0]++;
         }
 
-        return generateBotMove(currentPlayer, difficulty.HARD);
+        int[] botMove=generateBotMove(currentPlayer, difficulty.HARD);
+
+        return currentPlayer==Color.WHITE?botMove:(new int[]{botMove[0],7-botMove[1],7-botMove[2],7-botMove[3],7-botMove[4]});
     }
 
     public int[] generateBotMove(Color color,difficulty difficulty){
