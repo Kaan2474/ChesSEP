@@ -32,7 +32,7 @@ export class ReplayMovesComponent implements OnInit{
 
 
   startProcess() {
-    this.allMoves = this.PGN.split(/\d+\. |\s/);
+    this.allMoves = this.PGN.split(/\d+\.[\s|/n]+|\s/);
     this.removeBlanks();
     console.log(this.allMoves);
     this.evaluateMoves();
