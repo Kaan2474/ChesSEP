@@ -887,19 +887,19 @@ public class ChessBoard {
             return false;
         }
 
-        toggleCurrentPlayer();
-
-        //usavable Situation
-        if(isKingCheckmate(currentPlayer)) {
-            endGameFlag(currentPlayer);
-            zuege.get(zuege.size()-1).specialEvent +="#";
-        }
-
         if(getBauerToTransform()!=null){
             letzterZug=zuege.get(zuege.size()-1);
             zuege.remove(letzterZug);
 
             bauerTransform(5);
+        }else{
+            toggleCurrentPlayer();
+        }
+
+        //usavable Situation
+        if(isKingCheckmate(currentPlayer)) {
+            endGameFlag(currentPlayer);
+            zuege.get(zuege.size()-1).specialEvent +="#";
         }
 
         return true;
