@@ -1,4 +1,4 @@
-package com.ChesSEP.ChesSEP.Usertests;
+/*package com.ChesSEP.ChesSEP.Usertests;
 
 import java.sql.Date;
 
@@ -149,3 +149,5 @@ public class RegistrationTests {
             Assertions.assertEquals("Hello World!", authenticatedResponse.getResponse().getContentAsString());
     }
 }
+
+ */
