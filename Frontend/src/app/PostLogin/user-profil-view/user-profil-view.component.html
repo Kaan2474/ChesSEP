@@ -74,6 +74,7 @@
     <th>Punkte</th>
     <th>Spielergebnis</th>
     <th>Export</th>
+    <th>Pgn-Analyse</th>
   </tr>
 
   <tr *ngFor="let game of lastThreeGames">
@@ -81,6 +82,7 @@
     <td>{{ game.whiteElo }} vs {{ game.blackElo }}</td>
     <td>{{ game.result }}</td>
     <td><button id="pgnExportButton" type="button" (click)="exportPgn(game.pgnId)">PGN</button></td>
+    <td><button id="replay" type="button" (click)="matchReplay(game.pgnId)">Spiel wiederholen</button></td>
   </tr>
 </table>
 <form>

@@ -39,6 +39,16 @@ export class UserProfilViewComponent implements OnInit {
     this.getLastThreeGames();
   }
 
+
+  matchReplay(pgnId:any){
+    this.matchmakingService.pgn(pgnId).subscribe(data => {
+      this.pgnString = data;
+      localStorage.setItem("pgn", this.pgnString)
+      location.href ="/replay-moves"
+
+    })
+  }
+
   getLastThreeGames() {
     this.userService.getPlayHistory().subscribe(data => {
       this.lastThreeGames = data;

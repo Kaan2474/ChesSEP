@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
 import { of } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { of } from 'rxjs';
   templateUrl: './replay-moves.component.html',
   styleUrls: ['./replay-moves.component.css']
 })
-export class ReplayMovesComponent {
+export class ReplayMovesComponent implements OnInit{
 
   PGN: any;
   allMoves: string[] = [];
@@ -19,6 +19,12 @@ export class ReplayMovesComponent {
   constructor() {
     this.createFirstChessBoard();
   }
+
+
+  ngOnInit() {
+    this.matchReplay();
+  }
+
 
   ngAfterViewInit() {
     this.placeFigures(this.currentChessMove);
@@ -38,7 +44,7 @@ export class ReplayMovesComponent {
 
     if (fileList.length > 0) {
       const file = fileList[0];
-      // Hier können Sie den Code platzieren, der auf die hochgeladene Datei reagiert
+
       console.log(file);
       const fileReader = new FileReader();
       fileReader.onload =  (e: any) => {
@@ -437,8 +443,12 @@ export class ReplayMovesComponent {
     if(move.includes("O")) {
       this.castling(move);
     }
+    //Bauerumwandlung
+    else if(move.includes("=")) {
+      this.transformPawn(move);
+    }
     //Maximale PGN-Notation
-    else if(this.isMaximalNotation(move) === true) {
+    else if(this.isMaximalNotation(move)) {
       console.log("Maximale Notation");
       this.handleMaximalNotation(move);
     }
@@ -456,6 +466,25 @@ export class ReplayMovesComponent {
     }
   }
 
+
+  //Prüfe den letzten Zug
+  checkLastMove() {
+    let lastMove = this.allMoves[this.allMoves.length - 1];
+    if(lastMove === "1-0") {
+      alert("Der weiße Spieler hat gewonnen!");
+    }
+    else if(lastMove === "0-1") {
+      alert("Der schwarze Spieler hat gewonnen!");
+    }
+    else if(lastMove === "1/2-1/2") {
+      alert("Unentschieden!");
+    }
+    else if(lastMove === "*") {
+      alert("Partie ist noch nicht beendet!!");
+    }
+  }
+
+
   /*Prüfe ob eine maximale PGN-Notation verwendet wurde --> z.B e6e8, Na6a7
   Bedingung: Mindestens zwei Zahlen im Zug
    */
@@ -469,10 +498,8 @@ export class ReplayMovesComponent {
         }
       }
     }
-    if(counter === 2) {
-      return true;
-    }
-    return false;
+    return counter === 2;
+
   }
 
   //Zug ist in Form einer maximalen Notation
@@ -558,24 +585,166 @@ export class ReplayMovesComponent {
   }
 
 
-
-  //Prüfe den letzten Zug
-  checkLastMove() {
-    let lastMove = this.allMoves[this.allMoves.length - 1];
-    if(lastMove === "1-0") {
-      alert("Der weiße Spieler hat gewonnen!");
+  //Bauern umwandeln in Springer, Läufer, Turm oder Dame
+  transformPawn(move: string) {
+    let chessBoard: string[][] = this.copyChessBoard(this.currentChessBoard);
+    let replacementFigure = move[move.length-1];
+    let turn = this.getTurn();
+    let removePosition: number[];
+    let addPosition: number[];
+    move = move.replace("=", "");
+    //Bauerumwandlung bei maximaler PGN-Notation
+    if(this.isMaximalNotation(move)) {
+      move = move.replace("x", "");
+      removePosition = this.getPositions(move[0] + move[1]);
+      addPosition = this.getPositions(move[2] + move[3]);
+      // Bauer --> Dame
+      if(replacementFigure === "Q") {
+        if(turn === "weiß") {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "q";
+        }
+        else {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "Q";
+        }
+      }
+      //Bauer --> Läufer
+      else if(replacementFigure === "B") {
+        if(turn === "weiß") {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "b";
+        }
+        else {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "B";
+        }
+      }
+      //Bauer --> Springer
+      else if(replacementFigure === "N") {
+        if(turn === "weiß") {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "n";
+        }
+        else {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "N";
+        }
+      }
+      //Bauer --> Turm
+      else if(replacementFigure === "R") {
+        if(turn === "weiß") {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "r";
+        }
+        else {
+          chessBoard[removePosition[0]][removePosition[1]] = " ";
+          chessBoard[addPosition[0]][addPosition[1]] = "R";
+        }
+      }
     }
-    else if(lastMove === "0-1") {
-      alert("Der schwarze Spieler hat gewonnen!");
+    //Bauerumwandlung bei minimaler PGN-Notation
+    else {
+      //Figur wird geschlagen --> Bauerumwandlung
+      if(move.includes("x")) {
+        move = move.replace("x", "");
+        removePosition = this.getPositions(move[0] + 1);
+        addPosition = this.getPositions(move[1] + move[2]);
+        //Bauer --> Dame
+        if(replacementFigure === "Q") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "q";
+          }
+          else {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "Q";
+          }
+        }
+        //Bauer --> Läufer
+        else if(replacementFigure === "B") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "b";
+          }
+          else {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "B";
+          }
+        }
+        //Bauer --> Springer
+        else if(replacementFigure === "N") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "n";
+          }
+          else {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "N";
+          }
+        }
+        //Bauer --> Turm
+        else if(replacementFigure === "R") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "r";
+          }
+          else {
+            this.removeVertical(chessBoard, removePosition[0], removePosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "R";
+          }
+        }
+      }
+      //Normaler Zug --> Bauerumwandlung
+      else {
+        addPosition = this.getPositions(move[0] + move[1]);
+        if(replacementFigure === "Q") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "q";
+          }
+          else {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "Q";
+          }
+        }
+        else if(replacementFigure === "B") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "b";
+          }
+          else {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "B";
+          }
+        }
+        else if(replacementFigure === "N") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "n";
+          }
+          else {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "N";
+          }
+        }
+        else if(replacementFigure === "R") {
+          if(turn === "weiß") {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "p");
+            chessBoard[addPosition[0]][addPosition[1]] = "r";
+          }
+          else {
+            this.removeVertical(chessBoard, addPosition[0], addPosition[1], "P");
+            chessBoard[addPosition[0]][addPosition[1]] = "R";
+          }
+        }
+      }
     }
-    else if(lastMove === "1/2-1/2") {
-      alert("Unentschieden!");
-    }
-    else if(lastMove === "*") {
-      alert("Partie ist noch nicht beendet!!");
-    }
+    //Füge das überarbeitete Schachbrett hinzu
+    this.chessBoards.push(chessBoard);
+    //Gehe zum nächsten Schachbrett
+    this.currentChessBoard++;
   }
-
 
 
   //Kurze und Lange Rochade
@@ -973,12 +1142,18 @@ export class ReplayMovesComponent {
     //Dame wird bewegt
     else if(move[0] === "Q") {
       move = move.replace("Q", "");
-      let positions = this.getPositions(move);
-      if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "q");
+      //Bei mehredeutigen Zügen --> z.B move = ge2
+      if(move.length === 3) {
+        this.specialUpdate(move, turn, "Q");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "Q");
+        let positions = this.getPositions(move);
+        if(turn === "weiß") {
+          this.updateChessBoard(positions[0], positions[1], "q");
+        }
+        else {
+          this.updateChessBoard(positions[0], positions[1], "Q");
+        }
       }
     }
     //Turm wird bewegt
@@ -1000,22 +1175,25 @@ export class ReplayMovesComponent {
     //Läufer wird bewegt
     else if(move[0] === "B") {
       move = move.replace("B", "");
-      let positions = this.getPositions(move);
-      if(turn === "weiß") {
-        this.updateChessBoard(positions[0], positions[1], "b");
+      if(move.length === 3) {
+        this.specialUpdate(move, turn, "B");
       }
       else {
-        this.updateChessBoard(positions[0], positions[1], "B");
+        let positions = this.getPositions(move);
+        if(turn === "weiß") {
+          this.updateChessBoard(positions[0], positions[1], "b");
+        }
+        else {
+          this.updateChessBoard(positions[0], positions[1], "B");
+        }
       }
     }
     //Springer wird bewegt
     else if(move[0] === "N") {
       move = move.replace("N", "");
-      //z.B move = ge2
       if(move.length === 3) {
         this.specialUpdate(move, turn, "N");
       }
-      //z.B move = g2
       else {
         let positions = this.getPositions(move);
         if(turn === "weiß") {
@@ -1106,6 +1284,29 @@ export class ReplayMovesComponent {
     this.chessBoards.push(chessBoard2);
     //Gehe zum nächsten Schachfeld
     this.currentChessBoard++;
+  }
+
+
+  matchReplay(){
+    let moveList = "";
+    if(localStorage.getItem("pgn")!= null) {
+      let matchPgn = localStorage.getItem("pgn")!;
+      let index = 0;
+      for(let i = 0; i<matchPgn.length; i++) {
+        if(matchPgn[i] === "1" && matchPgn[i+1] === "." && matchPgn[i+2] === " ") {
+          break;
+        }
+        else {
+          index++;
+        }
+      }
+      for(let i = index; i<matchPgn.length; i++) {
+        moveList += matchPgn[i];
+      }
+      this.PGN = moveList;
+      this.startProcess()
+      localStorage.removeItem("pgn");
+    }
   }
 
 
