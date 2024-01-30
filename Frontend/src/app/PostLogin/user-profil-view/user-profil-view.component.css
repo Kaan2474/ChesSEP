@@ -52,8 +52,20 @@ h2{
   font-size: 250%;
 }
 
-
-
-
-
+.Stream {
+  margin-top: 9px;
+  text-align: right;
+  margin-right: 23%;
+}
+.Streamm{
+  margin-top: 9px;
+  text-align: right;
+  margin-right: 23%;
+  color: #FFFFFF;
+  background-color: #0D99FF;
+  cursor: pointer;
+  border: #1E1E1E solid 1px;
+}
+.Stream:hover {
+}
 

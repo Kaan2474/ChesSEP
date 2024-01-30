@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-
+<div>
 <table class="table table-striped" *ngIf="user">
   <a><img *ngIf="user && user.profilbild" [src]="user.profilbild" alt="Profilbild">
     <img *ngIf="!user || !user.profilbild" [src]="url" alt ="Standardprofilbild">
@@ -66,7 +66,9 @@
     </tbody>
   </table>
 </table>
-
+<form class="Stream">
+  <input class = "Streamm" id="private" name="privacy" type="button" value="Streamingprivacy ändern" (click) = changePrivacy()>
+</form>
 <h2>Spielhistorie</h2>
 <table class="Spielhistorie" id="history">
   <tr>
@@ -85,6 +87,5 @@
     <td><button id="replay" type="button" (click)="matchReplay(game.pgnId)">Spiel wiederholen</button></td>
   </tr>
 </table>
-<form>
-  <input id="private" name="privacy" type="button" value="Privatsphäre ändern" (click) = changePrivacy()>
-</form>
+
+</div>
